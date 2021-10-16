@@ -27,7 +27,8 @@ public class Aviso {
     public String imagen;
     public String uidCreador;
 
-    public Aviso() {}
+    public Aviso() {
+    }
 
     public Aviso(String titulo, String descripcion, Fecha fechaInicio, Fecha fechaFin, boolean todoElDia, String imagen, String uidCreador) {
         this.titulo = titulo;
@@ -48,7 +49,7 @@ public class Aviso {
         this.uidCreador = uidCreador;
     }
 
-    public void asignarImagen(Context context, ImageView imageView){
+    public void asignarImagen(Context context, ImageView imageView) {
         if (imagen.equals("imagenPredeterminada")) {
             FirebaseDatabase.getInstance().getReference().child("infoGeneral").child(imagen).get()
                     .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

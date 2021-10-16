@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -103,6 +104,9 @@ public class FragmentPerfil extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                Toast.makeText(context,"Se ha cerrado sesion",Toast.LENGTH_SHORT).show();
+                context.startActivity(new Intent(context, ActivityNavigation.class));
+                activity.finish();
             }
         });
 

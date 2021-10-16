@@ -18,7 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.parroquiasanleandro.fecha.Fecha;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 public class Usuario {
@@ -71,7 +73,7 @@ public class Usuario {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
                 Set<String> categorias = new ArraySet<>();
-                if (usuario != null) {
+                if (usuario != null && usuario.suscripciones != null) {
                     categorias.addAll(usuario.suscripciones.values());
                 }
 
@@ -99,17 +101,32 @@ public class Usuario {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static Usuario recuperarUsuarioLocal(Context context){
+    public static Usuario recuperarUsuarioLocal(Context context) {
         Usuario usuario = new Usuario();
         SharedPreferences sharedPreferences = context.getSharedPreferences(Usuario.USUARIO, Context.MODE_PRIVATE);
-        usuario.uid = sharedPreferences.getString(Usuario.UID,null);
-        usuario.nombre = sharedPreferences.getString(Usuario.NOMBRE,null);
-        usuario.email = sharedPreferences.getString(Usuario.EMAIL,null);
-        usuario.numeroTelefono = sharedPreferences.getString(Usuario.NUMERO_TELEFONO,null);
+        usuario.uid = sharedPreferences.getString(Usuario.UID, null);
+        usuario.nombre = sharedPreferences.getString(Usuario.NOMBRE, null);
+        usuario.email = sharedPreferences.getString(Usuario.EMAIL, null);
+        usuario.numeroTelefono = sharedPreferences.getString(Usuario.NUMERO_TELEFONO, null);
         Set<String> categorias = new ArraySet<>();
-        usuario.categorias = sharedPreferences.getStringSet(Usuario.CATEGORIAS,categorias).toArray(new String[0]);
+        usuario.categorias = sharedPreferences.getStringSet(Usuario.CATEGORIAS, categorias).toArray(new String[0]);
         usuario.emailVerified = sharedPreferences.getBoolean(Usuario.EMAIL_VERIFIED, false);
 
         return usuario;
+    }
+
+    public void getCategoriasReales() {
+        List<String> categoriasAvisos = new ArrayList<>();
+        for (String categoria : categorias) {
+            for (int i = 1; i <= categoria.length(); i++) {
+                if (!categoriasAvisos.contains(categoria.substring(0, i))) {
+                    categoriasAvisos.add(categoria.substring(0, i));
+                }
+            }
+        }
+        if (categoriasAvisos.size() == 0) {
+            categoriasAvisos.add("0");
+        }
+        categorias = categoriasAvisos.toArray(new String[0]);
     }
 }
