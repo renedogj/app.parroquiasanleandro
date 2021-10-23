@@ -2,6 +2,7 @@ package com.parroquiasanleandro;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,9 +45,12 @@ public class ActivityAviso extends AppCompatActivity {
         actionBar.setCustomView(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         //actionBar.hide();
         */
+        String avisoKey = getIntent().getStringExtra("avisoKey");
+        String avisoCategoria = getIntent().getStringExtra("avisoCategoria");
 
-        String keyPlato = getIntent().getStringExtra("avisoKey");
-        FirebaseDatabase.getInstance().getReference().child("Avisos").child(keyPlato).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+        Log.d("TAG", avisoCategoria + " " + avisoKey);
+
+        FirebaseDatabase.getInstance().getReference().child("Avisos").child(avisoCategoria).child(avisoKey).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 Aviso aviso = dataSnapshot.getValue(Aviso.class);

@@ -98,7 +98,6 @@ public class Usuario {
         usuario.email = sharedPreferences.getString(EMAIL, null);
         usuario.numeroTelefono = sharedPreferences.getString(NUMERO_TELEFONO, null);
         usuario.categorias = Categoria.recuperarCategoriasLocal(context);
-        //Log.d("USUARIO_CATEGORIAS",usuario.categorias.length + "");
         usuario.emailVerified = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);
         return usuario;
     }

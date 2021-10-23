@@ -79,6 +79,7 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ActivityAviso.class);
                     intent.putExtra("avisoKey",aviso.key);
+                    intent.putExtra("avisoCategoria",aviso.categoria);
                     context.startActivity(intent);
                 }
             });

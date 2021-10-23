@@ -65,7 +65,7 @@ public class FragmentAvisosParroquiales extends Fragment {
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                         Aviso aviso = postSnapshot.getValue(Aviso.class);
                         if (aviso != null) {
-                            aviso.key = dataSnapshot.getKey();
+                            aviso.key = postSnapshot.getKey();
                             avisos.add(aviso);
                             AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
                             rvAvisos.setAdapter(avisoAdaptador);
@@ -79,43 +79,6 @@ public class FragmentAvisosParroquiales extends Fragment {
                 }
             });
         }
-        /*FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(@NotNull DataSnapshot dataSnapshot, String prevChildKey) {
-                Aviso aviso = dataSnapshot.getValue(Aviso.class);
-                if (aviso != null) {
-                    aviso.key = dataSnapshot.getKey();
-
-                    //if (Arrays.asList(usuario.categorias).contains(aviso.categoria)) {
-                        avisos.add(aviso);
-
-                        AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
-                        rvAvisos.setAdapter(avisoAdaptador);
-                    //}
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NotNull DataSnapshot dataSnapshot, String prevChildKey) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NotNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NotNull DataSnapshot dataSnapshot, String prevChildKey) {
-
-            }
-
-            @Override
-            public void onCancelled(@NotNull DatabaseError databaseError) {
-                Log.d("DATABASE ERROR", databaseError.getMessage());
-            }
-        });*/
 
         bttnNuevoAviso.setOnClickListener(v -> startActivity(new Intent(context, ActivityNuevoAviso.class)));
 
