@@ -17,7 +17,6 @@ public class ActivityAviso extends AppCompatActivity {
     Context context = ActivityAviso.this;
 
     private ImageView ivImagenAviso;
-    //private FragmentContainerView fragment_aviso;
 
     private TextView tvTituloAviso;
     private TextView tvFechaInicio;
@@ -30,7 +29,6 @@ public class ActivityAviso extends AppCompatActivity {
         setContentView(R.layout.activity_aviso);
 
         ivImagenAviso = findViewById(R.id.ivImagenAviso);
-        //fragment_aviso = findViewById(R.id.fragment_aviso);
         tvTituloAviso = findViewById(R.id.tvTituloAviso);
         tvFechaInicio = findViewById(R.id.tvFechaInicio);
         tvFechaFinal = findViewById(R.id.tvFechaFinal);
@@ -46,12 +44,6 @@ public class ActivityAviso extends AppCompatActivity {
         actionBar.setCustomView(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         //actionBar.hide();
         */
-
-
-        /*getSupportFragmentManager().beginTransaction()
-                .setReorderingAllowed(true)
-                .add(R.id.fragment_aviso, FragmentAviso.class, null)
-                .commit();*/
 
         String keyPlato = getIntent().getStringExtra("avisoKey");
         FirebaseDatabase.getInstance().getReference().child("Avisos").child(keyPlato).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {

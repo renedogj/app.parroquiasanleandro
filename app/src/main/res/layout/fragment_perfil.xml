@@ -117,6 +117,14 @@
             </LinearLayout>
 
         </LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategorias"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="1dp"
+            android:paddingTop="1dp"
+            android:paddingRight="1dp"
+            android:paddingBottom="5dp"/>
 
         <Button
             android:id="@+id/bttnCerrarSesion"
@@ -124,6 +132,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Cerrar sesión"
-            android:translationY="200dp" />
+            android:translationY="100dp" />
     </LinearLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

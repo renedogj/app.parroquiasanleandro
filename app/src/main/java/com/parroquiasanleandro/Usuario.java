@@ -1,12 +1,9 @@
 package com.parroquiasanleandro;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
-import android.util.ArraySet;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -18,17 +15,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.parroquiasanleandro.fecha.Fecha;
 
-import java.util.ArrayList;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 public class Usuario {
+    public static final String USUARIOS = "Usuarios";
     public static final String USUARIO = "usuario";
     public static final String UID = "uid";
     public static final String NOMBRE = "nombre";
     public static final String EMAIL = "email";
-    public static final String CATEGORIAS = "categorias";
     public static final String NUMERO_TELEFONO = "numeroTelefono";
     public static final String EMAIL_VERIFIED = "emailVerified";
 
@@ -36,15 +32,13 @@ public class Usuario {
     public String nombre;
     public String email;
     public HashMap<String, String> suscripciones;
-    public String[] categorias;
+    Categoria[] categorias;
     public Fecha fechaNacimiento;
     public Uri fotoPerfil;
     public String numeroTelefono;
     public boolean emailVerified;
 
-    public Usuario() {
-
-    }
+    public Usuario() {}
 
     public Usuario(String uid, String nombre, String email, Fecha fechaNacimiento, Uri fotoPerfil, String numeroTelefono) {
         this.uid = uid;
@@ -66,15 +60,15 @@ public class Usuario {
         this.numeroTelefono = numeroTelefono;
     }
 
-    public static void guardarUsuarioEnLocal(Context context, Activity activity, FirebaseUser user) {
-        FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+    public static void actualizarUsuarioLocal(Context context, FirebaseUser user) {
+        FirebaseDatabase.getInstance().getReference(USUARIOS).child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
-                Set<String> categorias = new ArraySet<>();
                 if (usuario != null && usuario.suscripciones != null) {
-                    categorias.addAll(usuario.suscripciones.values());
+                    usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]),usuario.suscripciones.values().toArray(new String[0]));
+                    Categoria.guardarCategoriasLocal(context,usuario.categorias);
                 }
 
                 SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
@@ -85,16 +79,11 @@ public class Usuario {
                 //editor.putString("fotoPerfil",user.getPhotoUrl());
                 editor.putString(NUMERO_TELEFONO, user.getPhoneNumber());
                 editor.putBoolean(EMAIL_VERIFIED, user.isEmailVerified());
-                editor.putStringSet(CATEGORIAS, categorias);
                 editor.apply();
-
-
-                context.startActivity(new Intent(context, ActivityNavigation.class));
-                activity.finish();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NotNull DatabaseError databaseError) {
                 Log.w("DatabaseError", "loadPost:onCancelled", databaseError.toException());
             }
         });
@@ -103,30 +92,14 @@ public class Usuario {
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static Usuario recuperarUsuarioLocal(Context context) {
         Usuario usuario = new Usuario();
-        SharedPreferences sharedPreferences = context.getSharedPreferences(Usuario.USUARIO, Context.MODE_PRIVATE);
-        usuario.uid = sharedPreferences.getString(Usuario.UID, null);
-        usuario.nombre = sharedPreferences.getString(Usuario.NOMBRE, null);
-        usuario.email = sharedPreferences.getString(Usuario.EMAIL, null);
-        usuario.numeroTelefono = sharedPreferences.getString(Usuario.NUMERO_TELEFONO, null);
-        Set<String> categorias = new ArraySet<>();
-        usuario.categorias = sharedPreferences.getStringSet(Usuario.CATEGORIAS, categorias).toArray(new String[0]);
-        usuario.emailVerified = sharedPreferences.getBoolean(Usuario.EMAIL_VERIFIED, false);
-
+        SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
+        usuario.uid = sharedPreferences.getString(UID, null);
+        usuario.nombre = sharedPreferences.getString(NOMBRE, null);
+        usuario.email = sharedPreferences.getString(EMAIL, null);
+        usuario.numeroTelefono = sharedPreferences.getString(NUMERO_TELEFONO, null);
+        usuario.categorias = Categoria.recuperarCategoriasLocal(context);
+        //Log.d("USUARIO_CATEGORIAS",usuario.categorias.length + "");
+        usuario.emailVerified = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);
         return usuario;
-    }
-
-    public void getCategoriasReales() {
-        List<String> categoriasAvisos = new ArrayList<>();
-        for (String categoria : categorias) {
-            for (int i = 1; i <= categoria.length(); i++) {
-                if (!categoriasAvisos.contains(categoria.substring(0, i))) {
-                    categoriasAvisos.add(categoria.substring(0, i));
-                }
-            }
-        }
-        if (categoriasAvisos.size() == 0) {
-            categoriasAvisos.add("0");
-        }
-        categorias = categoriasAvisos.toArray(new String[0]);
     }
 }

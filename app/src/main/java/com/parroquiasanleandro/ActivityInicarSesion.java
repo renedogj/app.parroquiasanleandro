@@ -117,7 +117,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
                             if (user != null) {
                                 //Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
                                 //FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
-                                Usuario.guardarUsuarioEnLocal(context,activity,user);
+                                Usuario.actualizarUsuarioLocal(context,user);
+                                context.startActivity(new Intent(context, ActivityNavigation.class));
+                                activity.finish();
                             }
                         } else {
                             Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
@@ -139,7 +141,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
                                 //Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
                                 //FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
 
-                                Usuario.guardarUsuarioEnLocal(context,activity,user);
+                                Usuario.actualizarUsuarioLocal(context,user);
+                                context.startActivity(new Intent(context, ActivityNavigation.class));
+                                activity.finish();
                             }
                             //Fcm.guardarToken(user,context);
                             //startActivity(new Intent(context, ActivityEnviarMensajes.class));

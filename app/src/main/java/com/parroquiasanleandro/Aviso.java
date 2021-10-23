@@ -17,6 +17,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.parroquiasanleandro.fecha.Fecha;
 
 public class Aviso {
+    public static final String AVISOS = "Avisos";
+
     public String key;
     public String titulo;
     public String descripcion;

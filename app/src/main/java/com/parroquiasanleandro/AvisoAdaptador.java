@@ -20,8 +20,8 @@ import java.util.List;
 
 public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHolder> {
 
-    Context context;
-    List<Aviso> avisos;
+    private Context context;
+    private List<Aviso> avisos;
 
     public AvisoAdaptador(Context context, List<Aviso> avisos) {
         this.context = context;
@@ -39,7 +39,7 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         Aviso aviso = avisos.get(position);
-        holder.AsignarValoresAviso(aviso);
+        holder.asignarValoresAviso(aviso);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
             //flInfoAvisos = itemView.findViewById(R.id.flInfoAvisos);
         }
 
-        public void AsignarValoresAviso(Aviso aviso) {
+        public void asignarValoresAviso(Aviso aviso) {
             tvTitulo.setText(aviso.titulo);
             tvFecha.setText(aviso.fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             aviso.asignarImagen(context,ivAviso);

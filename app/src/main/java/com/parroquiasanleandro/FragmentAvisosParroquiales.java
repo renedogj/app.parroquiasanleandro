@@ -15,15 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FragmentAvisosParroquiales extends Fragment {
@@ -58,21 +57,42 @@ public class FragmentAvisosParroquiales extends Fragment {
 
         avisos = new ArrayList<>();
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-        usuario.getCategoriasReales();
 
-        FirebaseDatabase.getInstance().getReference().child("Avisos").addChildEventListener(new ChildEventListener() {
+        for (Categoria categoria : usuario.categorias) {
+            FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(categoria.key).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        Aviso aviso = postSnapshot.getValue(Aviso.class);
+                        if (aviso != null) {
+                            aviso.key = dataSnapshot.getKey();
+                            avisos.add(aviso);
+                            AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
+                            rvAvisos.setAdapter(avisoAdaptador);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NotNull DatabaseError databaseError) {
+                    Log.e(databaseError.getMessage(),databaseError.getDetails());
+                }
+            });
+        }
+        /*FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NotNull DataSnapshot dataSnapshot, String prevChildKey) {
                 Aviso aviso = dataSnapshot.getValue(Aviso.class);
                 if (aviso != null) {
                     aviso.key = dataSnapshot.getKey();
-                    if (Arrays.asList(usuario.categorias).contains(aviso.categoria)) {
+
+                    //if (Arrays.asList(usuario.categorias).contains(aviso.categoria)) {
                         avisos.add(aviso);
 
                         AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
                         rvAvisos.setAdapter(avisoAdaptador);
-                    }
+                    //}
                 }
             }
 
@@ -95,14 +115,9 @@ public class FragmentAvisosParroquiales extends Fragment {
             public void onCancelled(@NotNull DatabaseError databaseError) {
                 Log.d("DATABASE ERROR", databaseError.getMessage());
             }
-        });
+        });*/
 
-        bttnNuevoAviso.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context, ActivityNuevoAviso.class));
-            }
-        });
+        bttnNuevoAviso.setOnClickListener(v -> startActivity(new Intent(context, ActivityNuevoAviso.class)));
 
         return view;
     }
