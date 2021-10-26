@@ -32,9 +32,10 @@ public class Aviso {
     public Aviso() {
     }
 
-    public Aviso(String titulo, String descripcion, Fecha fechaInicio, Fecha fechaFin, boolean todoElDia, String imagen, String uidCreador) {
+    public Aviso(String titulo, String descripcion, String categoria, Fecha fechaInicio, Fecha fechaFin, boolean todoElDia, String imagen, String uidCreador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
+        this.categoria = categoria;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.todoElDia = todoElDia;
@@ -42,9 +43,10 @@ public class Aviso {
         this.uidCreador = uidCreador;
     }
 
-    public Aviso(String titulo, String descripcion, Fecha fechaInicio, boolean todoElDia, String imagen, String uidCreador) {
+    public Aviso(String titulo, String descripcion, String categoria, Fecha fechaInicio, boolean todoElDia, String imagen, String uidCreador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
+        this.categoria = categoria;
         this.fechaInicio = fechaInicio;
         this.todoElDia = todoElDia;
         this.imagen = imagen;

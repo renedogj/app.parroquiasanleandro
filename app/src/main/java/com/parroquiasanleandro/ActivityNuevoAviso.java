@@ -9,21 +9,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -47,6 +45,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
     private LinearLayout lnlytAñadirFechaFinal;
     private TextView tvSimboloAñadirFechaFinal;
     private TextView tvAñadirFechaFinal;
+    private Spinner spinnerCategoria;
 
     private Button bttnNuevoAviso;
     private Button bttnCancelar;
@@ -57,6 +56,8 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
     private Fecha fechaInicio;
     private Fecha fechaFin;
+
+    private Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,43 +78,40 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         lnlytAñadirFechaFinal = findViewById(R.id.lnlytAñadirFechaFinal);
         tvSimboloAñadirFechaFinal = findViewById(R.id.tvSimboloAñadirFechaFinal);
         tvAñadirFechaFinal = findViewById(R.id.tvAñadirFechaFinal);
+        spinnerCategoria = findViewById(R.id.spinnerCategoria);
         bttnNuevoAviso = findViewById(R.id.bttnNuevoAviso);
         bttnCancelar = findViewById(R.id.bttnCancelar);
 
-        lnlytAñadirImagen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ActivitySeleccionarImagen.class);
-                startActivityForResult(intent, 1);
+        usuario = Usuario.recuperarUsuarioLocal(context);
+        String[] nombresCategoriasAdministradas = Categoria.getNombreCategorias(usuario.categoriasAdministradas);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_categoria_item, nombresCategoriasAdministradas);
+        spinnerCategoria.setAdapter(adapter);
+
+        lnlytAñadirImagen.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivitySeleccionarImagen.class);
+            startActivityForResult(intent, 1);
+        });
+
+        switchTodoElDia.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            todoElDia = isChecked;
+            if (todoElDia) {
+                tvHoraInicio.setVisibility(View.GONE);
+                tvHoraFinal.setVisibility(View.GONE);
+            } else {
+                tvHoraInicio.setVisibility(View.VISIBLE);
+                tvHoraFinal.setVisibility(View.VISIBLE);
             }
         });
 
-        switchTodoElDia.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                todoElDia = isChecked;
-                if (todoElDia) {
-                    tvHoraInicio.setVisibility(View.GONE);
-                    tvHoraFinal.setVisibility(View.GONE);
-                } else {
-                    tvHoraInicio.setVisibility(View.VISIBLE);
-                    tvHoraFinal.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-
-        lnlytAñadirFechaFinal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (lnlytFechaFinal.getVisibility() == View.GONE) {
-                    lnlytFechaFinal.setVisibility(View.VISIBLE);
-                    tvSimboloAñadirFechaFinal.setText("-");
-                    tvAñadirFechaFinal.setText("Quitar fecha de fin");
-                } else if (lnlytFechaFinal.getVisibility() == View.VISIBLE) {
-                    lnlytFechaFinal.setVisibility(View.GONE);
-                    tvSimboloAñadirFechaFinal.setText("+");
-                    tvAñadirFechaFinal.setText("Añade fecha de fin");
-                }
+        lnlytAñadirFechaFinal.setOnClickListener(v -> {
+            if (lnlytFechaFinal.getVisibility() == View.GONE) {
+                lnlytFechaFinal.setVisibility(View.VISIBLE);
+                tvSimboloAñadirFechaFinal.setText("-");
+                tvAñadirFechaFinal.setText("Quitar fecha de fin");
+            } else if (lnlytFechaFinal.getVisibility() == View.VISIBLE) {
+                lnlytFechaFinal.setVisibility(View.GONE);
+                tvSimboloAñadirFechaFinal.setText("+");
+                tvAñadirFechaFinal.setText("Añade fecha de fin");
             }
         });
 
@@ -126,81 +124,48 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         tvFechaFinal.setText(fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
         tvHoraFinal.setText(fechaFin.toString(Fecha.FormatosFecha.HH_mm));
 
-        tvFechaInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        fechaInicio.dia = dayOfMonth;
-                        fechaInicio.mes = Meses.values()[month];
-                        fechaInicio.año = year;
-                        tvFechaInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
-                    }
-                }, fechaInicio.año, fechaInicio.mes.getNumeroMes() - 1, fechaInicio.dia);
-                datePickerDialog.show();
-            }
+        tvFechaInicio.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
+                fechaInicio.dia = dayOfMonth;
+                fechaInicio.mes = Meses.values()[month];
+                fechaInicio.año = year;
+                tvFechaInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
+            }, fechaInicio.año, fechaInicio.mes.getNumeroMes() - 1, fechaInicio.dia);
+            datePickerDialog.show();
         });
 
-        tvHoraInicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        fechaInicio.hora = hourOfDay;
-                        fechaInicio.minuto = minute;
-                        tvHoraInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
-                    }
-                }, fechaInicio.hora, fechaInicio.minuto, true);
-                timePickerDialog.show();
-            }
+        tvHoraInicio.setOnClickListener(v -> {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
+                fechaInicio.hora = hourOfDay;
+                fechaInicio.minuto = minute;
+                tvHoraInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
+            }, fechaInicio.hora, fechaInicio.minuto, true);
+            timePickerDialog.show();
         });
 
-        tvFechaFinal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        fechaFin.dia = dayOfMonth;
-                        fechaFin.mes = Meses.values()[month];
-                        fechaFin.año = year;
-                        tvFechaFinal.setText(fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
-                    }
-                }, fechaFin.año, fechaFin.mes.getNumeroMes() - 1, fechaFin.dia);
-                datePickerDialog.show();
-            }
+        tvFechaFinal.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
+                fechaFin.dia = dayOfMonth;
+                fechaFin.mes = Meses.values()[month];
+                fechaFin.año = year;
+                tvFechaFinal.setText(fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
+            }, fechaFin.año, fechaFin.mes.getNumeroMes() - 1, fechaFin.dia);
+            datePickerDialog.show();
         });
 
-        tvHoraFinal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        fechaFin.hora = hourOfDay;
-                        fechaFin.minuto = minute;
-                        tvHoraFinal.setText(fechaFin.toString(Fecha.FormatosFecha.HH_mm));
-                    }
-                }, fechaFin.hora, fechaFin.minuto, true);
-                timePickerDialog.show();
-            }
+        tvHoraFinal.setOnClickListener(v -> {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
+                fechaFin.hora = hourOfDay;
+                fechaFin.minuto = minute;
+                tvHoraFinal.setText(fechaFin.toString(Fecha.FormatosFecha.HH_mm));
+            }, fechaFin.hora, fechaFin.minuto, true);
+            timePickerDialog.show();
         });
 
-        bttnNuevoAviso.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                crearNuevoAviso();
-            }
-        });
 
-        bttnCancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        bttnNuevoAviso.setOnClickListener(v -> crearNuevoAviso());
+
+        bttnCancelar.setOnClickListener(v -> finish());
     }
 
     @Override
@@ -224,47 +189,52 @@ public class ActivityNuevoAviso extends AppCompatActivity {
     }
 
     private void crearNuevoAviso() {
-        if (etTitulo.getText().toString().trim().length() > 0) {
-            if (etDescripcion.getText().toString().trim().length() > 0) {
-                if (uriImagen == null) {
-                    FirebaseDatabase.getInstance().getReference().child("Avisos").push().setValue(nuevoAviso("imagenPredeterminada"));
+        Aviso aviso = nuevoAviso();
+        if(aviso != null){
+            if (etTitulo.getText().toString().trim().length() > 0) {
+                if (etDescripcion.getText().toString().trim().length() > 0) {
+                    FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push().setValue(aviso);
+                    Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
+                    finish();
                 } else {
-                    if (nombreImagen == null) {
-                        FirebaseDatabase.getInstance().getReference().child("Avisos").push().setValue(nuevoAviso(subirImagen()));
-                    } else {
-                        FirebaseDatabase.getInstance().getReference().child("Avisos").push().setValue(nuevoAviso(nombreImagen));
-                    }
+                    Toast.makeText(context, "El campo de descripción no puede estar vacio", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
-                finish();
             } else {
-                Toast.makeText(context, "El campo de descripción no puede estar vacio", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "El campo de titulo no puede estar vacio", Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(context, "El campo de titulo no puede estar vacio", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private Aviso nuevoAviso(String imagen) {
+    private Aviso nuevoAviso() {
+        String imagen;
         String userUid = FirebaseAuth.getInstance().getUid();
         String titulo = etTitulo.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
-        if (fechaInicio.esIgualA(fechaFin)) {
-            return new Aviso(titulo, descripcion, fechaInicio, todoElDia, imagen, userUid);
-        } else {
-            return new Aviso(titulo, descripcion, fechaInicio, fechaFin, todoElDia, imagen, userUid);
+        String nombreCategoria = spinnerCategoria.getSelectedItem().toString();
+        String categoriaKey = Categoria.getKey(usuario.categoriasAdministradas, nombreCategoria);
+        if (categoriaKey != null){
+            if (uriImagen == null) {
+                imagen ="imagenPredeterminada";
+            } else {
+                if (nombreImagen == null) {
+                    imagen = subirImagen();
+                } else {
+                    imagen = nombreImagen;
+                }
+            }
+            if (fechaInicio.esIgualA(fechaFin)) {
+                return new Aviso(titulo, descripcion, categoriaKey, fechaInicio, todoElDia, imagen, userUid);
+            } else {
+                return new Aviso(titulo, descripcion, categoriaKey, fechaInicio, fechaFin, todoElDia, imagen, userUid);
+            }
         }
+        return null;
     }
 
     private String subirImagen() {
         String nombreImagen = System.currentTimeMillis() + "." + getFileExtension(uriImagen);
         FirebaseStorage.getInstance().getReference("ImagenesAvisos").child(nombreImagen).putFile(uriImagen)
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
         return nombreImagen;
     }
 }
