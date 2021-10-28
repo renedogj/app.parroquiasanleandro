@@ -46,14 +46,14 @@ public class Categoria {
         return nombres.toArray(new String[0]);
     }
 
-    public static String getKey(Categoria[] categorias,String nombre){
+    /*public static String getKey(Categoria[] categorias,String nombre){
         for (Categoria categoria: categorias){
             if(categoria.nombre.equals(nombre)){
                 return categoria.key;
             }
         }
         return null;
-    }
+    }*/
 
     public void guardarCategoria(Context context, String uid) {
         guardarCategoriaLocal(context);

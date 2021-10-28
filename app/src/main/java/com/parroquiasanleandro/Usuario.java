@@ -37,16 +37,31 @@ public class Usuario {
     public Fecha fechaNacimiento;
     public Uri fotoPerfil;
     public String numeroTelefono;
-    public boolean emailVerified;
+    //public boolean emailVerified;
     public boolean esAdministrador;
     public HashMap<String, String> administraciones ;
     Categoria[] categoriasAdministradas;
 
     public Usuario() {}
 
+    public Usuario(String uid, String nombre, String email, Fecha fechaNacimiento, Uri fotoPerfil, String numeroTelefono) {
+        this.uid = uid;
+        this.nombre = nombre;
+        this.email = email;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fotoPerfil = fotoPerfil;
+        this.numeroTelefono = numeroTelefono;
+    }
+
     public Usuario(String nombre, String email) {
         this.nombre = nombre;
         this.email = email;
+    }
+
+    public Usuario(String nombre, String email, String numeroTelefono) {
+        this.nombre = nombre;
+        this.email = email;
+        this.numeroTelefono = numeroTelefono;
     }
 
     public static void actualizarUsuarioLocal(Context context, FirebaseUser user) {
@@ -58,12 +73,15 @@ public class Usuario {
                 SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
-                if (usuario != null && usuario.suscripciones != null) {
-                    usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]),usuario.suscripciones.values().toArray(new String[0]));
-                    Categoria.guardarCategoriasLocal(context,usuario.categorias);
-                    usuario.categoriasAdministradas = Categoria.convertirCategoria(usuario.administraciones.keySet().toArray(new String[0]),usuario.administraciones.values().toArray(new String[0]));
-                    Categoria.guardarCategoriasAdministradasLocal(context,usuario.categoriasAdministradas);
-
+                if (usuario != null) {
+                    if(usuario.suscripciones != null){
+                        usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]),usuario.suscripciones.values().toArray(new String[0]));
+                        Categoria.guardarCategoriasLocal(context,usuario.categorias);
+                    }
+                    if(usuario.categoriasAdministradas != null){
+                        usuario.categoriasAdministradas = Categoria.convertirCategoria(usuario.administraciones.keySet().toArray(new String[0]),usuario.administraciones.values().toArray(new String[0]));
+                        Categoria.guardarCategoriasAdministradasLocal(context,usuario.categoriasAdministradas);
+                    }
                     editor.putBoolean(ES_ADMINISTRADOR, usuario.esAdministrador);
                 }
 
@@ -72,7 +90,7 @@ public class Usuario {
                 editor.putString(EMAIL, user.getEmail());
                 //editor.putString("fotoPerfil",user.getPhotoUrl());
                 editor.putString(NUMERO_TELEFONO, user.getPhoneNumber());
-                editor.putBoolean(EMAIL_VERIFIED, user.isEmailVerified());
+                //editor.putBoolean(EMAIL_VERIFIED, user.isEmailVerified());
                 editor.apply();
             }
 
@@ -91,7 +109,7 @@ public class Usuario {
         usuario.email = sharedPreferences.getString(EMAIL, null);
         usuario.numeroTelefono = sharedPreferences.getString(NUMERO_TELEFONO, null);
         usuario.categorias = Categoria.recuperarCategoriasLocal(context);
-        usuario.emailVerified = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);
+        //usuario.emailVerified = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);
         usuario.esAdministrador = sharedPreferences.getBoolean(ES_ADMINISTRADOR, false);
         if(usuario.esAdministrador) {
             usuario.categoriasAdministradas = Categoria.recuperarCategoriasAdministradasLocal(context);

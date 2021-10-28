@@ -83,8 +83,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         bttnCancelar = findViewById(R.id.bttnCancelar);
 
         usuario = Usuario.recuperarUsuarioLocal(context);
-        String[] nombresCategoriasAdministradas = Categoria.getNombreCategorias(usuario.categoriasAdministradas);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_categoria_item, nombresCategoriasAdministradas);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_categoria_item, Categoria.getNombreCategorias(usuario.categoriasAdministradas));
         spinnerCategoria.setAdapter(adapter);
 
         lnlytAñadirImagen.setOnClickListener(v -> {
@@ -163,7 +162,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         });
 
 
-        bttnNuevoAviso.setOnClickListener(v -> crearNuevoAviso());
+        bttnNuevoAviso.setOnClickListener(v -> guardarNuevoAviso(nuevoAviso()));
 
         bttnCancelar.setOnClickListener(v -> finish());
     }
@@ -188,20 +187,17 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
-    private void crearNuevoAviso() {
-        Aviso aviso = nuevoAviso();
-        if(aviso != null){
-            if (etTitulo.getText().toString().trim().length() > 0) {
-                if (etDescripcion.getText().toString().trim().length() > 0) {
-                    FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push().setValue(aviso);
-                    Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
-                    finish();
-                } else {
-                    Toast.makeText(context, "El campo de descripción no puede estar vacio", Toast.LENGTH_SHORT).show();
-                }
+    private void guardarNuevoAviso(Aviso aviso) {
+        if (aviso.titulo.length() > 0) {
+            if (aviso.descripcion.length() > 0) {
+                FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push().setValue(aviso);
+                Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
+                finish();
             } else {
-                Toast.makeText(context, "El campo de titulo no puede estar vacio", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "El campo de descripción no puede estar vacio", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            Toast.makeText(context, "El campo de titulo no puede estar vacio", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -210,25 +206,21 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         String userUid = FirebaseAuth.getInstance().getUid();
         String titulo = etTitulo.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
-        String nombreCategoria = spinnerCategoria.getSelectedItem().toString();
-        String categoriaKey = Categoria.getKey(usuario.categoriasAdministradas, nombreCategoria);
-        if (categoriaKey != null){
-            if (uriImagen == null) {
-                imagen ="imagenPredeterminada";
+        String categoriaKey = usuario.categoriasAdministradas[spinnerCategoria.getSelectedItemPosition()].key;
+        if (uriImagen == null) {
+            imagen = "imagenPredeterminada";
+        } else {
+            if (nombreImagen == null) {
+                imagen = subirImagen();
             } else {
-                if (nombreImagen == null) {
-                    imagen = subirImagen();
-                } else {
-                    imagen = nombreImagen;
-                }
-            }
-            if (fechaInicio.esIgualA(fechaFin)) {
-                return new Aviso(titulo, descripcion, categoriaKey, fechaInicio, todoElDia, imagen, userUid);
-            } else {
-                return new Aviso(titulo, descripcion, categoriaKey, fechaInicio, fechaFin, todoElDia, imagen, userUid);
+                imagen = nombreImagen;
             }
         }
-        return null;
+        if (fechaInicio.esIgualA(fechaFin)) {
+            return new Aviso(titulo, descripcion, categoriaKey, fechaInicio, todoElDia, imagen, userUid);
+        } else {
+            return new Aviso(titulo, descripcion, categoriaKey, fechaInicio, fechaFin, todoElDia, imagen, userUid);
+        }
     }
 
     private String subirImagen() {

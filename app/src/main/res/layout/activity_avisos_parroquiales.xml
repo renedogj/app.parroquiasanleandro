@@ -7,7 +7,7 @@
     android:background="#CFD8F7"
     tools:context=".ActivityAvisosParroquiales">
 
-    <LinearLayout
+    <!--<LinearLayout
         android:id="@+id/linearLayoutAvisos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,19 +27,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+    </LinearLayout>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAvisos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:paddingLeft="1dp"
         android:paddingTop="1dp"
         android:paddingRight="1dp"
         android:paddingBottom="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutAvisos"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

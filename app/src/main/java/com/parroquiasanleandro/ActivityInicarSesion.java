@@ -25,6 +25,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Objects;
 
@@ -115,8 +116,8 @@ public class ActivityInicarSesion extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                //Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
-                                //FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
+                                Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
+                                FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
                                 Usuario.actualizarUsuarioLocal(context,user);
                                 context.startActivity(new Intent(context, ActivityNavigation.class));
                                 activity.finish();
@@ -140,7 +141,6 @@ public class ActivityInicarSesion extends AppCompatActivity {
                             if (user != null) {
                                 //Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
                                 //FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
-
                                 Usuario.actualizarUsuarioLocal(context,user);
                                 context.startActivity(new Intent(context, ActivityNavigation.class));
                                 activity.finish();

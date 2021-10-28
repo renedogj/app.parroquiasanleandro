@@ -1,50 +1,174 @@
 package com.parroquiasanleandro;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentContainerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.parroquiasanleandro.databinding.ActivityNavigationBinding;
 
-public class ActivityNavigation extends AppCompatActivity {
+import org.jetbrains.annotations.NotNull;
+
+public class ActivityNavigation extends AppCompatActivity{
     private final Activity activity = ActivityNavigation.this;
     private final Context context = ActivityNavigation.this;
 
-    private ActivityNavigationBinding binding;
-    private BottomNavigationView navView;
-    private NavController navController;
+    private FragmentContainerView fragment_container_view;
+    private LinearLayout linearLayoutInicio;
+    private LinearLayout linearLayoutAvisos;
+    private LinearLayout linearLayoutInformacion;
+    private LinearLayout linearLayoutPerfil;
+
+    private DrawerLayout drawerLayout;
+    private NavigationView navView;
+
+    private ActionBar actionBar;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_navigation);
 
-        binding = ActivityNavigationBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        fragment_container_view = findViewById(R.id.fragment_container);
+        linearLayoutInicio = findViewById(R.id.linearLayoutInicio);
+        linearLayoutAvisos = findViewById(R.id.linearLayoutAvisos);
+        linearLayoutInformacion = findViewById(R.id.linearLayoutInformacion);
+        linearLayoutPerfil = findViewById(R.id.linearLayoutPerfil);
+        navView = findViewById(R.id.navView);
+        drawerLayout = findViewById(R.id.drawerLayout);
 
-        navView = findViewById(R.id.bottomNavigationView);
 
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_fragment_inicio, R.id.navigation_fragment_avisos, R.id.navigation_fragment_menu,
-                R.id.navigation_fragment_informacion, R.id.navigation_fragment_perfil)
-                .build();
+        toggle = new ActionBarDrawerToggle(activity, drawerLayout, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
-        navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_navigation);
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Parroquia San Leandro");
+        }
 
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @SuppressLint("NonConstantResourceId")
+            @Override
+            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_fragment_inicio:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new FragmentInicio())
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case R.id.nav_fragment_avisos:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container,new FragmentAvisosParroquiales())
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case R.id.nav_fragment_informacion:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new FragmentInformacion())
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                    case R.id.nav_fragment_perfil:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new FragmentPerfil())
+                                .addToBackStack(null)
+                                .commit();
+                        break;
+                }
+                drawerLayout.closeDrawer(GravityCompat.START);
+                return true;
+            }
+        });
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.fragment_container, FragmentInicio.class, null)
+                    .commit();
+        }
+
+        linearLayoutInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragment_container, FragmentInicio.class, null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        linearLayoutAvisos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragment_container, FragmentAvisosParroquiales.class, null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        linearLayoutInformacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragment_container, FragmentInformacion.class, null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        linearLayoutPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getSupportFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .replace(R.id.fragment_container, FragmentPerfil.class, null)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Usuario.actualizarUsuarioLocal(context, user);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(toggle.onOptionsItemSelected(item))
+            return true;
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
     }
 }
