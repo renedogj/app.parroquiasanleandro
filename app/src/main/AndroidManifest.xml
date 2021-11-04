@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.parroquiasanleandro" >
+    package="com.parroquiasanleandro">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParroquiaSanLeandro"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m" >
+        tools:targetApi="m">
+        <activity android:name=".ActivityCategorias"></activity>
         <activity
             android:name=".ActivityNavigation"
             android:screenOrientation="portrait">
@@ -35,7 +36,7 @@
 
         <service
             android:name=".Fcm"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

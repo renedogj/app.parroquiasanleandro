@@ -39,10 +39,11 @@ public class Usuario {
     public String numeroTelefono;
     //public boolean emailVerified;
     public boolean esAdministrador;
-    public HashMap<String, String> administraciones ;
+    public HashMap<String, String> administraciones;
     Categoria[] categoriasAdministradas;
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
     public Usuario(String uid, String nombre, String email, Fecha fechaNacimiento, Uri fotoPerfil, String numeroTelefono) {
         this.uid = uid;
@@ -74,13 +75,13 @@ public class Usuario {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                 if (usuario != null) {
-                    if(usuario.suscripciones != null){
-                        usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]),usuario.suscripciones.values().toArray(new String[0]));
-                        Categoria.guardarCategoriasLocal(context,usuario.categorias);
+                    if (usuario.suscripciones != null) {
+                        usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]), usuario.suscripciones.values().toArray(new String[0]));
+                        Categoria.guardarCategoriasLocal(context, usuario.categorias);
                     }
-                    if(usuario.categoriasAdministradas != null){
-                        usuario.categoriasAdministradas = Categoria.convertirCategoria(usuario.administraciones.keySet().toArray(new String[0]),usuario.administraciones.values().toArray(new String[0]));
-                        Categoria.guardarCategoriasAdministradasLocal(context,usuario.categoriasAdministradas);
+                    if (usuario.categoriasAdministradas != null) {
+                        usuario.categoriasAdministradas = Categoria.convertirCategoria(usuario.administraciones.keySet().toArray(new String[0]), usuario.administraciones.values().toArray(new String[0]));
+                        Categoria.guardarCategoriasAdministradasLocal(context, usuario.categoriasAdministradas);
                     }
                     editor.putBoolean(ES_ADMINISTRADOR, usuario.esAdministrador);
                 }
@@ -111,9 +112,21 @@ public class Usuario {
         usuario.categorias = Categoria.recuperarCategoriasLocal(context);
         //usuario.emailVerified = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);
         usuario.esAdministrador = sharedPreferences.getBoolean(ES_ADMINISTRADOR, false);
-        if(usuario.esAdministrador) {
+        if (usuario.esAdministrador) {
             usuario.categoriasAdministradas = Categoria.recuperarCategoriasAdministradasLocal(context);
         }
         return usuario;
+    }
+
+    public static void borrarUsuarioLocal(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Categoria.vaciarTablasCategorias(context);
+        editor.remove(ES_ADMINISTRADOR);
+        editor.putString(UID, null);
+        editor.putString(NOMBRE, null);
+        editor.putString(EMAIL, null);
+        editor.putString(NUMERO_TELEFONO, null);
+        editor.apply();
     }
 }

@@ -9,30 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FragmentPerfil extends Fragment {
-
     private Activity activity;
     private Context context;
 
@@ -40,7 +27,9 @@ public class FragmentPerfil extends Fragment {
     private TextView tvNombreUsuario;
     private TextView tvEmail;
     private Button bttnCerrarSesion;
-    private RecyclerView rvCategorias;
+    //private RecyclerView rvCategorias;
+    private LinearLayout linearLayoutEmail;
+    private LinearLayout linearLayoutCategorias;
 
     public FragmentPerfil() {
     }
@@ -58,22 +47,32 @@ public class FragmentPerfil extends Fragment {
         ivFotoPerfil = view.findViewById(R.id.ivFotoPerfil);
         tvNombreUsuario = view.findViewById(R.id.tvNombreUsuario);
         tvEmail = view.findViewById(R.id.tvEmail);
-        rvCategorias = view.findViewById(R.id.rvCategorias);
+        //rvCategorias = view.findViewById(R.id.rvCategorias);
         bttnCerrarSesion = view.findViewById(R.id.bttnCerrarSesion);
+        linearLayoutEmail = view.findViewById(R.id.linearLayoutEmail);
+        linearLayoutCategorias = view.findViewById(R.id.linearLayoutCategorias);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            startActivity(new Intent(context, ActivityInicarSesion.class));
-            activity.finish();
-        } else {
-            Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-            tvNombreUsuario.setText(usuario.nombre);
-            tvEmail.setText(usuario.email);
-            if (usuario.fotoPerfil != null) {
-                Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
-            }
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //if (user == null) {
+        //startActivity(new Intent(context, ActivityInicarSesion.class));
+        //activity.finish();
+        //} else {
+        Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+        tvNombreUsuario.setText(usuario.nombre);
+        tvEmail.setText(usuario.email);
+        if (usuario.fotoPerfil != null) {
+            Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
+        }
 
-            rvCategorias.setHasFixedSize(true);
+        linearLayoutEmail.setOnClickListener(v -> {
+            //startActivity(new Intent(context,ActivityCategorias.class));
+        });
+
+        linearLayoutCategorias.setOnClickListener(v -> {
+            startActivity(new Intent(context,ActivityCategorias.class));
+        });
+
+            /*rvCategorias.setHasFixedSize(true);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
             rvCategorias.setLayoutManager(linearLayoutManager);
 
@@ -109,8 +108,8 @@ public class FragmentPerfil extends Fragment {
                 public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
                 }
-            });
-        }
+            });*/
+        //}
 
         bttnCerrarSesion.setOnClickListener(v -> {
             FirebaseAuth.getInstance().signOut();

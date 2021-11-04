@@ -3,35 +3,35 @@ package com.parroquiasanleandro;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentContainerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ActivityNavigation extends AppCompatActivity {
-    private final Activity activity = ActivityNavigation.this;
-    private final Context context = ActivityNavigation.this;
+import java.util.ArrayList;
+import java.util.List;
 
-    private FragmentContainerView fragment_container_view;
-    private LinearLayout linearLayoutInicio;
-    private LinearLayout linearLayoutAvisos;
-    private LinearLayout linearLayoutInformacion;
-    private LinearLayout linearLayoutPerfil;
+public class ActivityCategorias extends AppCompatActivity {
+    private final Activity activity = ActivityCategorias.this;
+    private final Context context = ActivityCategorias.this;
+
+    private RecyclerView rvCategorias;
 
     private DrawerLayout drawerLayout;
     private NavigationView navView;
@@ -41,13 +41,9 @@ public class ActivityNavigation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        setContentView(R.layout.activity_categorias);
 
-        fragment_container_view = findViewById(R.id.fragment_container);
-        linearLayoutInicio = findViewById(R.id.linearLayoutInicio);
-        linearLayoutAvisos = findViewById(R.id.linearLayoutAvisos);
-        linearLayoutInformacion = findViewById(R.id.linearLayoutInformacion);
-        linearLayoutPerfil = findViewById(R.id.linearLayoutPerfil);
+        rvCategorias = findViewById(R.id.rvCategorias);
 
         navView = findViewById(R.id.navView);
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -61,73 +57,52 @@ public class ActivityNavigation extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Parroquia San Leandro");
         }
+        MenuItem item = navView.getMenu().add(0, 1, 0, "Cerrar Sesion");
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            MenuItem item = navView.getMenu().add(0, 1, 0, "Cerrar Sesion");
+        Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
-            Usuario.actualizarUsuarioLocal(context, user);
-        }
+        rvCategorias.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        rvCategorias.setLayoutManager(linearLayoutManager);
 
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .add(R.id.fragment_container, FragmentInicio.class, null)
-                    .commit();
-        }
+        List<Categoria> categorias = new ArrayList<>();
 
-        linearLayoutInicio.setOnClickListener(v -> {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container, FragmentInicio.class, null)
-                    .addToBackStack(null)
-                    .commit();
+        FirebaseDatabase.getInstance().getReference().child(Categoria.CATEGORIAS).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                String nombreCategoria = snapshot.getValue(String.class);
+                String key = snapshot.getKey();
+                categorias.add(new Categoria(key, nombreCategoria));
 
-            actionBar.setTitle("Parroquia San Leandro");
-        });
+                CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, usuario);
+                rvCategorias.setAdapter(categoriaAdaptador);
+            }
 
-        linearLayoutAvisos.setOnClickListener(v -> {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container, FragmentAvisosParroquiales.class, null)
-                    .addToBackStack(null)
-                    .commit();
+            @Override
+            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
 
-            actionBar.setTitle("Avisos");
+            }
 
-        });
+            @Override
+            public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
 
-        linearLayoutInformacion.setOnClickListener(v -> {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container, FragmentInformacion.class, null)
-                    .addToBackStack(null)
-                    .commit();
+            }
 
-            actionBar.setTitle("Información");
-        });
+            @Override
+            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
 
-        linearLayoutPerfil.setOnClickListener(v -> {
-            if (user != null) {
-                getSupportFragmentManager().beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(R.id.fragment_container, FragmentPerfil.class, null)
-                        .addToBackStack(null)
-                        .commit();
+            }
 
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                actionBar.setTitle("Perfil");
-            } else {
-                startActivity(new Intent(context, ActivityInicarSesion.class));
-                activity.finish();
             }
         });
-
         navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                switch (item.getItemId()) {
+                /*switch (item.getItemId()) {
                     case R.id.nav_fragment_inicio:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new FragmentInicio())
@@ -158,7 +133,7 @@ public class ActivityNavigation extends AppCompatActivity {
                         Usuario.borrarUsuarioLocal(context);
                         Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
                         break;
-                }
+                }*/
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }

@@ -175,4 +175,12 @@ public class Categoria {
         db.close();
         return categorias.toArray(new Categoria[0]);
     }
+
+    public static void vaciarTablasCategorias(Context context){
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        dbHelper.truncateTable(db, FeedReaderContract.TablaCategoriasAdministradas.TABLE_NAME);
+        dbHelper.truncateTable(db, FeedReaderContract.TablaCategorias.TABLE_NAME);
+        db.close();
+    }
 }
