@@ -43,6 +43,23 @@ public class ActivityNavigation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
+        /*final View content = findViewById(android.R.id.content);
+        content.getViewTreeObserver().addOnPreDrawListener(
+                new ViewTreeObserver.OnPreDrawListener() {
+                    @Override
+                    public boolean onPreDraw() {
+                        // Check if the initial data is ready.
+                        if (mViewModel.isReady()) {
+                            // The content is ready; start drawing.
+                            content.getViewTreeObserver().removeOnPreDrawListener(this);
+                            return true;
+                        } else {
+                            // The content is not ready; suspend.
+                            return false;
+                        }
+                    }
+                });*/
+
         fragment_container_view = findViewById(R.id.fragment_container);
         linearLayoutInicio = findViewById(R.id.linearLayoutInicio);
         linearLayoutAvisos = findViewById(R.id.linearLayoutAvisos);

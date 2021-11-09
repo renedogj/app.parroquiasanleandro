@@ -57,6 +57,7 @@ public class ActivityCategorias extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Parroquia San Leandro");
         }
+
         MenuItem item = navView.getMenu().add(0, 1, 0, "Cerrar Sesion");
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
@@ -69,7 +70,7 @@ public class ActivityCategorias extends AppCompatActivity {
 
         FirebaseDatabase.getInstance().getReference().child(Categoria.CATEGORIAS).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String nombreCategoria = snapshot.getValue(String.class);
                 String key = snapshot.getKey();
                 categorias.add(new Categoria(key, nombreCategoria));
@@ -79,7 +80,7 @@ public class ActivityCategorias extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
@@ -89,7 +90,7 @@ public class ActivityCategorias extends AppCompatActivity {
             }
 
             @Override
-            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
@@ -102,6 +103,7 @@ public class ActivityCategorias extends AppCompatActivity {
             @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
+                Menu.selecionarItemMenu(item,context,getSupportFragmentManager());
                 /*switch (item.getItemId()) {
                     case R.id.nav_fragment_inicio:
                         getSupportFragmentManager().beginTransaction()
