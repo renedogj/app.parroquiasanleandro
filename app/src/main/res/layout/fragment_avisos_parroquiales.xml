@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#CFD8F7"
-    tools:context=".FragmentAvisosParroquiales">
+    tools:context=".fragments.FragmentAvisosParroquiales">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAvisos"

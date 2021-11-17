@@ -15,7 +15,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".ActivityNavigation"
+            android:name=".activitys.ActivityNavigation"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,14 +24,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ActivityAviso"
+            android:name=".activitys.ActivityAviso"
             android:screenOrientation="portrait" />
-        <activity android:name=".ActivitySeleccionarImagen" />
-        <activity android:name=".ActivityNuevoAviso" />
-        <activity android:name=".ActivityAvisosParroquiales" />
-        <activity android:name=".ActivityMenu" />
-        <activity android:name=".ActivityRegistro" />
-        <activity android:name=".ActivityInicarSesion" />
+        <activity android:name=".activitys.ActivitySeleccionarImagen" />
+        <activity android:name=".activitys.ActivityNuevoAviso" />
+        <activity android:name=".activitys.ActivityRegistro" />
+        <activity android:name=".activitys.ActivityInicarSesion" />
 
         <service
             android:name=".Fcm"

@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.activitys;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Usuario;
 
 import java.util.Objects;
 

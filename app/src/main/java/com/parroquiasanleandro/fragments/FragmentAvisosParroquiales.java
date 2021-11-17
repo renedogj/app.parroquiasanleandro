@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.parroquiasanleandro.Aviso;
+import com.parroquiasanleandro.adaptadores.AvisoAdaptador;
+import com.parroquiasanleandro.Categoria;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Usuario;
+import com.parroquiasanleandro.activitys.ActivityNuevoAviso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -64,7 +70,7 @@ public class FragmentAvisosParroquiales extends Fragment {
                 bttnNuevoAviso.setVisibility(View.INVISIBLE);
             }
 
-            for (Categoria categoria : usuario.categorias) {
+            for (Categoria categoria : usuario.getCategorias()) {
                 FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(categoria.key).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NotNull DataSnapshot dataSnapshot) {

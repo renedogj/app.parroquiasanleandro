@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,6 +16,10 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.parroquiasanleandro.Categoria;
+import com.parroquiasanleandro.adaptadores.CategoriaAdaptador;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Usuario;
 
 import org.jetbrains.annotations.NotNull;
 

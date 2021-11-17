@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.fragments;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +20,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.parroquiasanleandro.ItemViewModel;
+import com.parroquiasanleandro.Menu;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Usuario;
+import com.parroquiasanleandro.activitys.ActivityNavigation;
 
 public class FragmentPerfil extends Fragment {
     private Activity activity;
@@ -69,7 +74,7 @@ public class FragmentPerfil extends Fragment {
 
         linearLayoutCategorias.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
-            viewModel.idFragmentActual = Menu.iniciarFragmentCategorias(fragmentManager);
+            viewModel.setIdFragmentActual(Menu.iniciarFragmentCategorias(fragmentManager));
             viewModel.addIdFragmentActual();
         });
 

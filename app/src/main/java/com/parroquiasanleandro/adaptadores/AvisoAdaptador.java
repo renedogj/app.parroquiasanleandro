@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.parroquiasanleandro.Aviso;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.activitys.ActivityAviso;
 import com.parroquiasanleandro.fecha.Fecha;
 
 import org.jetbrains.annotations.NotNull;

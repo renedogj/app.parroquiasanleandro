@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.activitys;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,6 +17,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
+import com.parroquiasanleandro.adaptadores.ImagenesAvisoAdaptador;
+import com.parroquiasanleandro.R;
 
 import java.util.ArrayList;
 import java.util.List;

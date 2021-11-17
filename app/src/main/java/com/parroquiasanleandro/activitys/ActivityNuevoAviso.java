@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.activitys;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -25,6 +25,10 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.parroquiasanleandro.Aviso;
+import com.parroquiasanleandro.Categoria;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Usuario;
 import com.parroquiasanleandro.fecha.Fecha;
 import com.parroquiasanleandro.fecha.Meses;
 
@@ -83,7 +87,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         bttnCancelar = findViewById(R.id.bttnCancelar);
 
         usuario = Usuario.recuperarUsuarioLocal(context);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_categoria_item, Categoria.getNombreCategorias(usuario.categoriasAdministradas));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_categoria_item, Categoria.getNombreCategorias(usuario.getCategoriasAdministradas()));
         spinnerCategoria.setAdapter(adapter);
 
         lnlytAñadirImagen.setOnClickListener(v -> {
@@ -206,7 +210,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         String userUid = FirebaseAuth.getInstance().getUid();
         String titulo = etTitulo.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
-        String categoriaKey = usuario.categoriasAdministradas[spinnerCategoria.getSelectedItemPosition()].key;
+        String categoriaKey = usuario.getCategoriasAdministradas()[spinnerCategoria.getSelectedItemPosition()].key;
         if (uriImagen == null) {
             imagen = "imagenPredeterminada";
         } else {

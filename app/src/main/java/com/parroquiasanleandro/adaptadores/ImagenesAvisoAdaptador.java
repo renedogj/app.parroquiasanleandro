@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.adaptadores;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
+import com.parroquiasanleandro.R;
 
 import org.jetbrains.annotations.NotNull;
 

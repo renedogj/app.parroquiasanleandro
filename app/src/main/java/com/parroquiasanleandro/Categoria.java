@@ -28,6 +28,30 @@ public class Categoria {
         this.nombre = nombre;
     }
 
+    public String getKey() {
+        return key;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
+    }
+
     public static Categoria[] convertirCategoria(String[] categoriasKey, String[] categoriasNombre) {
         List<Categoria> categorias = new ArrayList<>();
         if (categoriasKey.length == categoriasNombre.length) {

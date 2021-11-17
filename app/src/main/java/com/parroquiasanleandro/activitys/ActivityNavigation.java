@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.activitys;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -19,6 +19,11 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.parroquiasanleandro.fragments.FragmentInicio;
+import com.parroquiasanleandro.ItemViewModel;
+import com.parroquiasanleandro.Menu;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Usuario;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +49,6 @@ public class ActivityNavigation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        //fragment_container_view = findViewById(R.id.fragment_container);
         linearLayoutInicio = findViewById(R.id.linearLayoutInicio);
         linearLayoutAvisos = findViewById(R.id.linearLayoutAvisos);
         linearLayoutInformacion = findViewById(R.id.linearLayoutInformacion);
@@ -59,6 +63,7 @@ public class ActivityNavigation extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {
+
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Parroquia San Leandro");
         }
@@ -80,34 +85,34 @@ public class ActivityNavigation extends AppCompatActivity {
                     .add(R.id.fragment_container, FragmentInicio.class, null)
                     .commit();
 
-            vmIds.idFragmentActual = Menu.FRAGMENT_INICIO;
+            vmIds.setIdFragmentActual(Menu.FRAGMENT_INICIO);
             vmIds.addIdFragmentActual();
         }
 
         linearLayoutInicio.setOnClickListener(v -> {
-            if(vmIds.idFragmentActual != Menu.FRAGMENT_INICIO){
-                vmIds.idFragmentActual = Menu.iniciarFragmentInicio(fragmentManager,actionBar);
+            if(vmIds.getIdFragmentActual() != Menu.FRAGMENT_INICIO){
+                vmIds.setIdFragmentActual(Menu.iniciarFragmentInicio(fragmentManager,actionBar));
                 vmIds.addIdFragmentActual();
             }
         });
 
         linearLayoutAvisos.setOnClickListener(v -> {
-            if(vmIds.idFragmentActual != Menu.FRAGMENT_AVISOS) {
-                vmIds.idFragmentActual = Menu.iniciarFragmentAvisos(fragmentManager, actionBar);
+            if(vmIds.getIdFragmentActual() != Menu.FRAGMENT_AVISOS) {
+                vmIds.setIdFragmentActual(Menu.iniciarFragmentAvisos(fragmentManager, actionBar));
                 vmIds.addIdFragmentActual();
             }
         });
 
         linearLayoutInformacion.setOnClickListener(v -> {
-            if(vmIds.idFragmentActual != Menu.FRAGMENT_INFORMACION){
-                vmIds.idFragmentActual = Menu.iniciarFragmentInformacion(fragmentManager,actionBar);
+            if(vmIds.getIdFragmentActual() != Menu.FRAGMENT_INFORMACION){
+                vmIds.setIdFragmentActual(Menu.iniciarFragmentInformacion(fragmentManager,actionBar));
                 vmIds.addIdFragmentActual();
             }
         });
 
         linearLayoutPerfil.setOnClickListener(v -> {
-            if (vmIds.idFragmentActual != Menu.FRAGMENT_PERFIL) {
-                vmIds.idFragmentActual = Menu.iniciarFragmentPerfil(user, activity, context, fragmentManager, actionBar);
+            if (vmIds.getIdFragmentActual() != Menu.FRAGMENT_PERFIL) {
+                vmIds.setIdFragmentActual(Menu.iniciarFragmentPerfil(user, activity, context, fragmentManager, actionBar));
                 vmIds.addIdFragmentActual();
             }
         });
@@ -116,7 +121,7 @@ public class ActivityNavigation extends AppCompatActivity {
             @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                vmIds.idFragmentActual = Menu.selecionarItemMenu(item, vmIds.idFragmentActual,user,activity,context,fragmentManager,actionBar);
+                vmIds.setIdFragmentActual(Menu.selecionarItemMenu(item, vmIds.getIdFragmentActual(),user,activity,context,fragmentManager,actionBar));
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -139,11 +144,11 @@ public class ActivityNavigation extends AppCompatActivity {
             super.onBackPressed();
         }
 
-        int ultimoFragment = vmIds.idsFragment.size()-1;
-        vmIds.idsFragment.remove(ultimoFragment);
-        if(!vmIds.idsFragment.isEmpty()) {
-            vmIds.idFragmentActual = vmIds.idsFragment.get(ultimoFragment - 1);
-            if(vmIds.idFragmentActual == Menu.FRAGMENT_CATEGORIAS){
+        int ultimoFragment = vmIds.getIdsFragment().size()-1;
+        vmIds.getIdsFragment().remove(ultimoFragment);
+        if(!vmIds.getIdsFragment().isEmpty()) {
+            vmIds.setIdFragmentActual(vmIds.getIdsFragment().get(ultimoFragment - 1));
+            if(vmIds.getIdFragmentActual() == Menu.FRAGMENT_CATEGORIAS){
                 onBackPressed();
             }
         }

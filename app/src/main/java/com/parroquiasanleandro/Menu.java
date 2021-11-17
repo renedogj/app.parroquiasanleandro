@@ -13,6 +13,12 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.parroquiasanleandro.activitys.ActivityInicarSesion;
+import com.parroquiasanleandro.fragments.FragmentAvisosParroquiales;
+import com.parroquiasanleandro.fragments.FragmentCategorias;
+import com.parroquiasanleandro.fragments.FragmentInformacion;
+import com.parroquiasanleandro.fragments.FragmentInicio;
+import com.parroquiasanleandro.fragments.FragmentPerfil;
 
 public class Menu {
     public static final int FRAGMENT_INICIO = R.id.nav_fragment_inicio;

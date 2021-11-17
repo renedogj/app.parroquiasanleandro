@@ -1,14 +1,17 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.parroquiasanleandro.Categoria;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Usuario;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +43,7 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        categorias.get(position).posicion = position;
+        categorias.get(position).setPosicion(position);
         Categoria categoria = categorias.get(position);
         holder.asignarValoresCategoria(categoria);
     }
@@ -63,26 +66,19 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
             switchCategoria.setText(categoria.nombre);
 
             switchCategoria.setChecked(comprobarSiCategoriaGuardada(categoria));
-            /*if (categoria.key.equals("0")){
-                switchCategoria.setClickable(false);
-                switchCategoria.setChecked(true);
-                categoria.guardarCategoria(context, usuario.uid);
-            }*/
-            switchCategoria.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        categoria.guardarCategoria(context, usuario.uid);
-                        chekCategoriasPadre(categoria);
-                    } else {
-                        categoria.eliminarCategoria(context, usuario.uid);
-                    }
+
+            switchCategoria.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (isChecked) {
+                    categoria.guardarCategoria(context, usuario.uid);
+                    chekCategoriasPadre(categoria);
+                } else {
+                    categoria.eliminarCategoria(context, usuario.uid);
                 }
             });
         }
 
         public boolean comprobarSiCategoriaGuardada(Categoria categoria){
-            for (Categoria categoriaAux : usuario.categorias){
+            for (Categoria categoriaAux : usuario.getCategorias()){
                 if(categoriaAux.key.equals(categoria.key) && categoriaAux.nombre.equals(categoria.nombre)){
                     return true;
                 }
@@ -105,7 +101,7 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
         }
         for(Categoria categoria1: categorias){
             if(categoriasKey.contains(categoria1.key)){
-                viewHolders.get(categoria1.posicion).checkCategoria(true);
+                viewHolders.get(categoria1.getPosicion()).checkCategoria(true);
                 categoria.guardarCategoria(context, usuario.uid);
             }
         }

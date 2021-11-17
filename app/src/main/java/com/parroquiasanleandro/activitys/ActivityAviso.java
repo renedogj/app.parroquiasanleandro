@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.activitys;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
+import com.parroquiasanleandro.Aviso;
+import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.fecha.Fecha;
 
 public class ActivityAviso extends AppCompatActivity {
@@ -35,16 +37,6 @@ public class ActivityAviso extends AppCompatActivity {
         tvFechaFinal = findViewById(R.id.tvFechaFinal);
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
-        /*
-        View decorView = getWindow().getDecorView();
-        // Hide the status bar.
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
-        // Remember that you should never show the action bar if the
-        // status bar is hidden, so hide that too if necessary.
-        ActionBar actionBar = getActionBar();
-        actionBar.setCustomView(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-        //actionBar.hide();
-        */
         String avisoKey = getIntent().getStringExtra("avisoKey");
         String avisoCategoria = getIntent().getStringExtra("avisoCategoria");
 

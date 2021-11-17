@@ -1,4 +1,4 @@
-package com.parroquiasanleandro;
+package com.parroquiasanleandro.activitys;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.FirebaseDatabase;
+import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Usuario;
 
 import java.util.Objects;
 
@@ -74,7 +76,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         if(mAuth.getCurrentUser() != null){
-            startActivity(new Intent(context, ActivityMenu.class));
+            startActivity(new Intent(context, ActivityNavigation.class));
         }
 
         bttnIniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +89,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
         tvRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context, ActivityMenu.class));
+                startActivity(new Intent(context, ActivityNavigation.class));
             }
         });
     }

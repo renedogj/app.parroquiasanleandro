@@ -42,8 +42,7 @@ public class Usuario {
     public HashMap<String, String> administraciones;
     Categoria[] categoriasAdministradas;
 
-    public Usuario() {
-    }
+    public Usuario() {}
 
     public Usuario(String uid, String nombre, String email, Fecha fechaNacimiento, Uri fotoPerfil, String numeroTelefono) {
         this.uid = uid;
@@ -63,6 +62,14 @@ public class Usuario {
         this.nombre = nombre;
         this.email = email;
         this.numeroTelefono = numeroTelefono;
+    }
+
+    public Categoria[] getCategorias() {
+        return categorias;
+    }
+
+    public Categoria[] getCategoriasAdministradas() {
+        return categoriasAdministradas;
     }
 
     public static void actualizarUsuarioLocal(Context context, FirebaseUser user) {
