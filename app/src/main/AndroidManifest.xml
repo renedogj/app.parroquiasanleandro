@@ -14,7 +14,6 @@
         android:theme="@style/Theme.ParroquiaSanLeandro"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ActivityCategorias"></activity>
         <activity
             android:name=".ActivityNavigation"
             android:screenOrientation="portrait">

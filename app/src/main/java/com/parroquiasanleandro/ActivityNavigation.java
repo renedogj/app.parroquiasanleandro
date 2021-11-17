@@ -3,11 +3,9 @@ package com.parroquiasanleandro;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -15,7 +13,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentContainerView;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +26,7 @@ public class ActivityNavigation extends AppCompatActivity {
     private final Activity activity = ActivityNavigation.this;
     private final Context context = ActivityNavigation.this;
 
-    private FragmentContainerView fragment_container_view;
+    //private FragmentContainerView fragment_container_view;
     private LinearLayout linearLayoutInicio;
     private LinearLayout linearLayoutAvisos;
     private LinearLayout linearLayoutInformacion;
@@ -38,29 +37,14 @@ public class ActivityNavigation extends AppCompatActivity {
     private ActionBar actionBar;
     private ActionBarDrawerToggle toggle;
 
+    private ItemViewModel vmIds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        /*final View content = findViewById(android.R.id.content);
-        content.getViewTreeObserver().addOnPreDrawListener(
-                new ViewTreeObserver.OnPreDrawListener() {
-                    @Override
-                    public boolean onPreDraw() {
-                        // Check if the initial data is ready.
-                        if (mViewModel.isReady()) {
-                            // The content is ready; start drawing.
-                            content.getViewTreeObserver().removeOnPreDrawListener(this);
-                            return true;
-                        } else {
-                            // The content is not ready; suspend.
-                            return false;
-                        }
-                    }
-                });*/
-
-        fragment_container_view = findViewById(R.id.fragment_container);
+        //fragment_container_view = findViewById(R.id.fragment_container);
         linearLayoutInicio = findViewById(R.id.linearLayoutInicio);
         linearLayoutAvisos = findViewById(R.id.linearLayoutAvisos);
         linearLayoutInformacion = findViewById(R.id.linearLayoutInformacion);
@@ -79,64 +63,52 @@ public class ActivityNavigation extends AppCompatActivity {
             actionBar.setTitle("Parroquia San Leandro");
         }
 
+        vmIds = new ViewModelProvider(this).get(ItemViewModel.class);
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            MenuItem item = navView.getMenu().add(0, 1, 0, "Cerrar Sesion");
+            MenuItem item = Menu.addCerrarSesion(navView);
 
             Usuario.actualizarUsuarioLocal(context, user);
         }
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
+            fragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
                     .add(R.id.fragment_container, FragmentInicio.class, null)
                     .commit();
+
+            vmIds.idFragmentActual = Menu.FRAGMENT_INICIO;
+            vmIds.addIdFragmentActual();
         }
 
         linearLayoutInicio.setOnClickListener(v -> {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container, FragmentInicio.class, null)
-                    .addToBackStack(null)
-                    .commit();
-
-            actionBar.setTitle("Parroquia San Leandro");
+            if(vmIds.idFragmentActual != Menu.FRAGMENT_INICIO){
+                vmIds.idFragmentActual = Menu.iniciarFragmentInicio(fragmentManager,actionBar);
+                vmIds.addIdFragmentActual();
+            }
         });
 
         linearLayoutAvisos.setOnClickListener(v -> {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container, FragmentAvisosParroquiales.class, null)
-                    .addToBackStack(null)
-                    .commit();
-
-            actionBar.setTitle("Avisos");
-
+            if(vmIds.idFragmentActual != Menu.FRAGMENT_AVISOS) {
+                vmIds.idFragmentActual = Menu.iniciarFragmentAvisos(fragmentManager, actionBar);
+                vmIds.addIdFragmentActual();
+            }
         });
 
         linearLayoutInformacion.setOnClickListener(v -> {
-            getSupportFragmentManager().beginTransaction()
-                    .setReorderingAllowed(true)
-                    .replace(R.id.fragment_container, FragmentInformacion.class, null)
-                    .addToBackStack(null)
-                    .commit();
-
-            actionBar.setTitle("Información");
+            if(vmIds.idFragmentActual != Menu.FRAGMENT_INFORMACION){
+                vmIds.idFragmentActual = Menu.iniciarFragmentInformacion(fragmentManager,actionBar);
+                vmIds.addIdFragmentActual();
+            }
         });
 
         linearLayoutPerfil.setOnClickListener(v -> {
-            if (user != null) {
-                getSupportFragmentManager().beginTransaction()
-                        .setReorderingAllowed(true)
-                        .replace(R.id.fragment_container, FragmentPerfil.class, null)
-                        .addToBackStack(null)
-                        .commit();
-
-
-                actionBar.setTitle("Perfil");
-            } else {
-                startActivity(new Intent(context, ActivityInicarSesion.class));
-                activity.finish();
+            if (vmIds.idFragmentActual != Menu.FRAGMENT_PERFIL) {
+                vmIds.idFragmentActual = Menu.iniciarFragmentPerfil(user, activity, context, fragmentManager, actionBar);
+                vmIds.addIdFragmentActual();
             }
         });
 
@@ -144,38 +116,7 @@ public class ActivityNavigation extends AppCompatActivity {
             @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_fragment_inicio:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new FragmentInicio())
-                                .addToBackStack(null)
-                                .commit();
-                        break;
-                    case R.id.nav_fragment_avisos:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new FragmentAvisosParroquiales())
-                                .addToBackStack(null)
-                                .commit();
-                        break;
-                    case R.id.nav_fragment_informacion:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new FragmentInformacion())
-                                .addToBackStack(null)
-                                .commit();
-                        break;
-                    case R.id.nav_fragment_perfil:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new FragmentPerfil())
-                                .addToBackStack(null)
-                                .commit();
-                        break;
-                    case 1:
-                        FirebaseAuth.getInstance().signOut();
-                        item.setVisible(false);
-                        Usuario.borrarUsuarioLocal(context);
-                        Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
-                        break;
-                }
+                vmIds.idFragmentActual = Menu.selecionarItemMenu(item, vmIds.idFragmentActual,user,activity,context,fragmentManager,actionBar);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 return true;
             }
@@ -196,6 +137,15 @@ public class ActivityNavigation extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+
+        int ultimoFragment = vmIds.idsFragment.size()-1;
+        vmIds.idsFragment.remove(ultimoFragment);
+        if(!vmIds.idsFragment.isEmpty()) {
+            vmIds.idFragmentActual = vmIds.idsFragment.get(ultimoFragment - 1);
+            if(vmIds.idFragmentActual == Menu.FRAGMENT_CATEGORIAS){
+                onBackPressed();
+            }
         }
     }
 }
