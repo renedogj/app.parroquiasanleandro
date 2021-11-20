@@ -37,7 +37,7 @@ public class FragmentPerfil extends Fragment {
     private LinearLayout linearLayoutEmail;
     private LinearLayout linearLayoutCategorias;
 
-    private ItemViewModel viewModel;
+    private ItemViewModel vmIds;
 
     public FragmentPerfil() {}
 
@@ -47,6 +47,10 @@ public class FragmentPerfil extends Fragment {
 
         context = getContext();
         activity = getActivity();
+
+        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+        vmIds.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
+        vmIds.addIdFragmentActual();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ public class FragmentPerfil extends Fragment {
         linearLayoutEmail = view.findViewById(R.id.linearLayoutEmail);
         linearLayoutCategorias = view.findViewById(R.id.linearLayoutCategorias);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
         tvNombreUsuario.setText(usuario.nombre);
@@ -74,8 +78,8 @@ public class FragmentPerfil extends Fragment {
 
         linearLayoutCategorias.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
-            viewModel.setIdFragmentActual(Menu.iniciarFragmentCategorias(fragmentManager));
-            viewModel.addIdFragmentActual();
+            vmIds.setIdFragmentActual(Menu.iniciarFragmentCategorias(fragmentManager));
+            vmIds.addIdFragmentActual();
         });
 
         bttnCerrarSesion.setOnClickListener(v -> {

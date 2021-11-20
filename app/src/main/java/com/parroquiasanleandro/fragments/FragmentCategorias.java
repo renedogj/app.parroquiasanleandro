@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.parroquiasanleandro.Categoria;
+import com.parroquiasanleandro.ItemViewModel;
+import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.adaptadores.CategoriaAdaptador;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
@@ -31,11 +34,17 @@ public class FragmentCategorias extends Fragment {
 
     private RecyclerView rvCategorias;
 
+    private ItemViewModel vmIds;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         context = getContext();
+
+        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+        vmIds.setIdFragmentActual(Menu.FRAGMENT_CATEGORIAS);
+        vmIds.addIdFragmentActual();
     }
 
     @Override

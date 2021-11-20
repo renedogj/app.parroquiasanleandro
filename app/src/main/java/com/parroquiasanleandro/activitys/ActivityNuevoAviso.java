@@ -30,7 +30,7 @@ import com.parroquiasanleandro.Categoria;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
 import com.parroquiasanleandro.fecha.Fecha;
-import com.parroquiasanleandro.fecha.Meses;
+import com.parroquiasanleandro.fecha.Mes;
 
 public class ActivityNuevoAviso extends AppCompatActivity {
     Context context = ActivityNuevoAviso.this;
@@ -130,7 +130,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         tvFechaInicio.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
                 fechaInicio.dia = dayOfMonth;
-                fechaInicio.mes = Meses.values()[month];
+                fechaInicio.mes = Mes.values()[month];
                 fechaInicio.año = year;
                 tvFechaInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             }, fechaInicio.año, fechaInicio.mes.getNumeroMes() - 1, fechaInicio.dia);
@@ -149,7 +149,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         tvFechaFinal.setOnClickListener(v -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
                 fechaFin.dia = dayOfMonth;
-                fechaFin.mes = Meses.values()[month];
+                fechaFin.mes = Mes.values()[month];
                 fechaFin.año = year;
                 tvFechaFinal.setText(fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             }, fechaFin.año, fechaFin.mes.getNumeroMes() - 1, fechaFin.dia);
@@ -195,6 +195,12 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         if (aviso.titulo.length() > 0) {
             if (aviso.descripcion.length() > 0) {
                 FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push().setValue(aviso);
+
+                aviso.key = FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).getKey();
+                String añoMes = aviso.fechaInicio.año + Fecha.formatearNumero(aviso.fechaInicio.mes.getNumeroMes());
+                FirebaseDatabase.getInstance().getReference().child("Calendario").child(añoMes)
+                        .child(aviso.fechaInicio.dia+"").child(aviso.key).setValue(aviso.categoria);
+
                 Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
                 finish();
             } else {

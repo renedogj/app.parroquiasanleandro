@@ -4,7 +4,7 @@ package com.parroquiasanleandro.fecha;
  * Clase enum para la utilización de los meses con nombres y no con numeros
  * Cada mes tiene asignado un numero (Según el mes del año que sean)
  */
-public enum Meses {
+public enum Mes {
     Enero(1),
     Febrero(2),
     Marzo(3),
@@ -35,7 +35,7 @@ public enum Meses {
     };
     private final int[] diasMeses = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    Meses(int numeroMes) {
+    Mes(int numeroMes) {
         this.numeroMes = numeroMes;
     }
 

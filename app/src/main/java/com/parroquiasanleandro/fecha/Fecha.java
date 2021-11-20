@@ -10,7 +10,7 @@ public class Fecha {
 
     //ATRIBUTOS
     public int dia;
-    public Meses mes;
+    public Mes mes;
     public int año;
     public int hora;
     public int minuto;
@@ -29,7 +29,7 @@ public class Fecha {
      * @param mes
      * @param año
      */
-    public Fecha(int dia, Meses mes, int año) {
+    public Fecha(int dia, Mes mes, int año) {
         this.dia = dia;
         this.mes = mes;
         this.año = año;
@@ -71,7 +71,7 @@ public class Fecha {
      * @param minuto
      * @param segundo
      */
-    public Fecha(int dia, Meses mes, int año, int hora, int minuto, int segundo) {
+    public Fecha(int dia, Mes mes, int año, int hora, int minuto, int segundo) {
         this.dia = dia;
         this.mes = mes;
         this.año = año;
@@ -89,7 +89,7 @@ public class Fecha {
     public void convertirAFechaActual() {
         Calendar hoy = Calendar.getInstance();
         this.dia = hoy.get(Calendar.DAY_OF_MONTH);
-        this.mes = Meses.values()[hoy.get(Calendar.MONTH)];
+        this.mes = Mes.values()[hoy.get(Calendar.MONTH)];
         this.año = hoy.get(Calendar.YEAR);
         this.diaSemana = DiasSemana.values()[hoy.get(Calendar.DAY_OF_WEEK) - 2];
     }
@@ -101,7 +101,7 @@ public class Fecha {
      */
     public static Fecha FechaActual() {
         Calendar hoy = Calendar.getInstance();
-        Fecha fecha = new Fecha(hoy.get(Calendar.DAY_OF_MONTH), Meses.values()[hoy.get(Calendar.MONTH)], hoy.get(Calendar.YEAR), hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), hoy.get(Calendar.SECOND));
+        Fecha fecha = new Fecha(hoy.get(Calendar.DAY_OF_MONTH), Mes.values()[hoy.get(Calendar.MONTH)], hoy.get(Calendar.YEAR), hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), hoy.get(Calendar.SECOND));
         //fecha.diaSemana = DiasSemana.values()[hoy.get(Calendar.DAY_OF_WEEK)-2];
         return fecha;
     }
@@ -168,9 +168,9 @@ public class Fecha {
         int sumaMeses = mes.getNumeroMes() + meses;
         if (sumaMeses > 12) {
             sumAños(sumaMeses / 12);
-            mes = Meses.values()[(sumaMeses % 12) + 1];
+            mes = Mes.values()[(sumaMeses % 12) + 1];
         } else {
-            mes = Meses.values()[sumaMeses];
+            mes = Mes.values()[sumaMeses];
         }
     }
 
@@ -256,7 +256,7 @@ public class Fecha {
     /**
      * Metodo booleano para comprobar si el dia es posible en el mes
      * Se da por sentado que los valores del dia y el mes son posibles
-     * Se pasa el numero que la variable mes de la clase Meses tiene asignada
+     * Se pasa el numero que la variable mes de la clase Mes tiene asignada
      * para así poder trabajar con el numero del mes y no con el nombre del mismo
      * El dia es posible si:
      * Si el mes es 4,6,9 u 11 y el dia es menor que 31
@@ -511,7 +511,7 @@ public class Fecha {
         return fecha.dia == dia && fecha.mes == mes && fecha.año == año && fecha.hora == hora && fecha.minuto == minuto;
     }
 
-    public String formatearNumero(int numero) {
+    public static String formatearNumero(int numero) {
         if (String.valueOf(numero).length() != 2) {
             return "0" + String.valueOf(numero);
         } else {

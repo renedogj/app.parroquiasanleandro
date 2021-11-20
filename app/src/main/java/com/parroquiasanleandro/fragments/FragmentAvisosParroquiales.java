@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,11 +21,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.parroquiasanleandro.Aviso;
-import com.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import com.parroquiasanleandro.Categoria;
+import com.parroquiasanleandro.ItemViewModel;
+import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
 import com.parroquiasanleandro.activitys.ActivityNuevoAviso;
+import com.parroquiasanleandro.adaptadores.AvisoAdaptador;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +42,8 @@ public class FragmentAvisosParroquiales extends Fragment {
 
     List<Aviso> avisos;
 
+    private ItemViewModel vmIds;
+
     public FragmentAvisosParroquiales() {
     }
 
@@ -47,6 +52,10 @@ public class FragmentAvisosParroquiales extends Fragment {
         super.onCreate(savedInstanceState);
 
         context = getContext();
+
+        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+        vmIds.setIdFragmentActual(Menu.FRAGMENT_AVISOS);
+        vmIds.addIdFragmentActual();
     }
 
     @Override
@@ -79,6 +88,7 @@ public class FragmentAvisosParroquiales extends Fragment {
                             if (aviso != null) {
                                 aviso.key = postSnapshot.getKey();
                                 avisos.add(aviso);
+
                                 AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
                                 rvAvisos.setAdapter(avisoAdaptador);
                             }
