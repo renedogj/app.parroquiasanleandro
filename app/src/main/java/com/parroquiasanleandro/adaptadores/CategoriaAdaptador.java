@@ -1,15 +1,20 @@
 package com.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SwitchCompat;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parroquiasanleandro.Categoria;
+import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
 
@@ -20,15 +25,23 @@ import java.util.List;
 
 public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.ViewHolder> {
 
-    private Context context;
-    private List<Categoria> categorias;
-    private Usuario usuario;
-    private List<CategoriaAdaptador.ViewHolder> viewHolders = new ArrayList<>();
+    private final Context context;
+    private final List<Categoria> categorias;
+    private final Usuario usuario;
+    public String categoriaPadre;
+    public List<Categoria> categoriasNivel = new ArrayList<>();
+    public RecyclerView rvCategorias;
 
-    public CategoriaAdaptador(Context context, List<Categoria> categorias, Usuario usuario) {
+    private final ItemViewModel vmIds;
+
+    public CategoriaAdaptador(Context context, List<Categoria> categorias, @NotNull String categoriaPadre, RecyclerView rvCategorias,ItemViewModel vmIds) {
         this.context = context;
         this.categorias = categorias;
-        this.usuario = usuario;
+        this.categoriaPadre = categoriaPadre;
+        this.rvCategorias = rvCategorias;
+        usuario = Usuario.recuperarUsuarioLocal(context);
+        obtenerCategoriasNivel();
+        this.vmIds = vmIds;
     }
 
     @NonNull
@@ -36,43 +49,71 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.categoria_item, parent, false);
-        CategoriaAdaptador.ViewHolder viewHolder = new CategoriaAdaptador.ViewHolder(view);
-        viewHolders.add(viewHolder);
-        return viewHolder;
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        categorias.get(position).setPosicion(position);
-        Categoria categoria = categorias.get(position);
-        holder.asignarValoresCategoria(categoria);
+        categoriasNivel.get(position).setPosicion(position);
+        Categoria categoria = categoriasNivel.get(position);
+
+        holder.asignarValores(categoria);
     }
 
     @Override
     public int getItemCount() {
-        return categorias.size();
+        return categoriasNivel.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private SwitchCompat switchCategoria;
+        ///private Switch switchCategoria;
+        private final LinearLayout linearLayoutCategoria;
+        private final TextView tvNombreCategoria;
+        private final CardView cardCategoriaBoton;
+        private final TextView tvBotonSeguir;
+        private final ImageView imgCategoria;
+
+        public Categoria categoria;
+        public boolean categoriaGuardada;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            switchCategoria = itemView.findViewById(R.id.switchCategoria);
+            //switchCategoria = itemView.findViewById(R.id.switchCategoria);
+            linearLayoutCategoria = itemView.findViewById(R.id.linearLayoutCategoria);
+            tvNombreCategoria = itemView.findViewById(R.id.tvNombreCategoria);
+            cardCategoriaBoton = itemView.findViewById(R.id.cardCategoriaBoton);
+            tvBotonSeguir = itemView.findViewById(R.id.tvBotonSeguir);
+            imgCategoria = itemView.findViewById(R.id.imgCategoria);
         }
 
-        public void asignarValoresCategoria(Categoria categoria) {
-            switchCategoria.setText(categoria.nombre);
+        public void asignarValores(Categoria categoria) {
+            this.categoria = categoria;
+            linearLayoutCategoria.setBackgroundColor(Color.parseColor(categoria.color));
+            tvNombreCategoria.setText(categoria.nombre);
 
-            switchCategoria.setChecked(comprobarSiCategoriaGuardada(categoria));
+            checkCategoria(comprobarSiCategoriaGuardada(categoria));
 
-            switchCategoria.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (isChecked) {
-                    categoria.guardarCategoria(context, usuario.uid);
-                    chekCategoriasPadre(categoria);
-                } else {
+            cardCategoriaBoton.setOnClickListener(v -> {
+                if (categoriaGuardada){
                     categoria.eliminarCategoria(context, usuario.uid);
+                    categoriaGuardada = false;
+                    usuario.removeCategoria(categoria);
+                }else{
+                    categoria.guardarCategoria(context, usuario.uid);
+                    categoriaGuardada = true;
+                    usuario.addCategoria(categoria);
+                    chekCategoriasPadre(categoria);
+                }
+                checkCategoria(categoriaGuardada);
+            });
+
+            linearLayoutCategoria.setOnClickListener(v -> {
+                if(existenSubniveles(categoria)) {
+                    vmIds.setCategoriaActual(categoria.key);
+                    vmIds.addIdCategoria();
+                    CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, categoria.key, rvCategorias,vmIds);
+                    rvCategorias.setAdapter(categoriaAdaptador);
                 }
             });
         }
@@ -87,7 +128,14 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
         }
 
         public void checkCategoria(Boolean chek){
-            switchCategoria.setChecked(chek);
+            categoriaGuardada = chek;
+            if(categoriaGuardada){
+                cardCategoriaBoton.setCardBackgroundColor(Color.parseColor("#aa00dd"));
+                tvBotonSeguir.setTextColor(Color.parseColor("#FFFDF1F1"));
+            }else{
+                cardCategoriaBoton.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                tvBotonSeguir.setTextColor(Color.parseColor("#FF5A5046"));
+            }
         }
     }
 
@@ -101,9 +149,30 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
         }
         for(Categoria categoria1: categorias){
             if(categoriasKey.contains(categoria1.key)){
-                viewHolders.get(categoria1.getPosicion()).checkCategoria(true);
-                categoria.guardarCategoria(context, usuario.uid);
+                categoria1.guardarCategoria(context, usuario.uid);
+                usuario.addCategoria(categoria1);
             }
         }
+    }
+
+    public void obtenerCategoriasNivel(){
+        for(Categoria categoria: categorias){
+            if(categoria.key.length() == categoriaPadre.length()+1){
+                if(categoria.key.startsWith(categoriaPadre)) {
+                    categoriasNivel.add(categoria);
+                }
+            }
+        }
+    }
+
+    public boolean existenSubniveles(Categoria categoriaPadre){
+        for(Categoria categoria: categorias){
+            if(categoria.key.length() == categoriaPadre.key.length()+1){
+                if(categoria.key.startsWith(categoriaPadre.key)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

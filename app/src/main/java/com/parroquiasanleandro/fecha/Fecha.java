@@ -110,7 +110,7 @@ public class Fecha {
     public void actualizarDiaSemana() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(año, mes.getNumeroMes() - 1, dia);
-        this.diaSemana = DiasSemana.values()[calendar.get(Calendar.DAY_OF_WEEK) - 2];
+        this.diaSemana = DiasSemana.values()[calendar.get(Calendar.DAY_OF_WEEK) - 1];
     }
 
     /*public static String getFechaActual() {
@@ -523,6 +523,7 @@ public class Fecha {
         public final static String HH_mm = "HH:mm";
         public final static String dd_MM_aaaa = "dd-MM-aaaa";
         public final static String EE_d_MMM_aaaa = "EE, d MMM aaaa";
+        public final static String aaaaMM = "aaaaMM";
     }
 
     @NotNull
@@ -540,6 +541,8 @@ public class Fecha {
                 return formatearNumero(dia) + "-" + formatearNumero(mes.getNumeroMes()) + "-" + año;
             case FormatosFecha.EE_d_MMM_aaaa:
                 return diaSemana.getAbrebiatura() + ", " + dia + " " + mes.getAbrebiatura() + " " + año;
+            case FormatosFecha.aaaaMM:
+                return  año + Fecha.formatearNumero(mes.getNumeroMes());
             default:
                 return diaSemana.toString() + ", " + dia + " de " + mes.toString() + " de " + año;
         }

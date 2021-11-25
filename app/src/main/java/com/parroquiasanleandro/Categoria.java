@@ -18,6 +18,7 @@ public class Categoria {
 
     public String key;
     public String nombre;
+    public String color;
     int posicion;
 
     public Categoria() {
@@ -68,6 +69,14 @@ public class Categoria {
             nombres.add(categoria.nombre);
         }
         return nombres.toArray(new String[0]);
+    }
+
+    public static String[] getKeysCategorias(Categoria[] categorias){
+        List<String> keys = new ArrayList<>();
+        for (Categoria categoria: categorias){
+            keys.add(categoria.key);
+        }
+        return keys.toArray(new String[0]);
     }
 
     /*public static String getKey(Categoria[] categorias,String nombre){

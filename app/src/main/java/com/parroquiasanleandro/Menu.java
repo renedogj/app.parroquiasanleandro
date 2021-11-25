@@ -154,8 +154,7 @@ public class Menu {
                 {FRAGMENT_AVISOS,R.drawable.ic_bell,R.drawable.ic_bell_black},
                 {FRAGMENT_INFORMACION,R.drawable.ic_app,R.drawable.ic_app_black},
                 {FRAGMENT_PERFIL,R.drawable.ic_user,R.drawable.ic_user_black},
-                {FRAGMENT_CALENDARIO,R.drawable.ic_calendar,R.drawable.ic_calendar_black},
-                {CERRAR_SESION,R.drawable.ic_logout,R.drawable.ic_login}
+                {FRAGMENT_CALENDARIO,R.drawable.ic_calendar,R.drawable.ic_calendar_black}
         };
 
         switch (itemId){

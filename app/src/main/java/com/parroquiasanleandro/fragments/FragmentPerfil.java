@@ -78,8 +78,7 @@ public class FragmentPerfil extends Fragment {
 
         linearLayoutCategorias.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
-            vmIds.setIdFragmentActual(Menu.iniciarFragmentCategorias(fragmentManager));
-            vmIds.addIdFragmentActual();
+            Menu.iniciarFragmentCategorias(fragmentManager);
         });
 
         bttnCerrarSesion.setOnClickListener(v -> {

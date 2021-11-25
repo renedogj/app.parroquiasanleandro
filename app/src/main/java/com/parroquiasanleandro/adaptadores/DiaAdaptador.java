@@ -1,30 +1,36 @@
 package com.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.parroquiasanleandro.Aviso;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.fecha.Mes;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder>{
 
     private Context context;
     private List<Integer> dias;
+    private List<Aviso> avisos;
     private Mes mesActual;
 
-    public DiaAdaptador(Context context,List<Integer> dias){
+    public DiaAdaptador(Context context,List<Integer> dias,List<Aviso> avisos){
         this.context = context;
         this.dias = dias;
+        this.avisos = avisos;
     }
 
     @NonNull
@@ -38,7 +44,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         int dia = dias.get(position);
-        holder.asignarValoresAviso(dia);
+        holder.asignarValores(dia);
     }
 
     @Override
@@ -48,27 +54,34 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView tvNumDia;
+        private RecyclerView rvAvisosDia;
+
+        List<Aviso> avisosDia = new ArrayList<>();
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             tvNumDia = itemView.findViewById(R.id.tvNumDia);
+            rvAvisosDia = itemView.findViewById(R.id.rvAvisosDia);
         }
 
-        public void asignarValoresAviso(int dia) {
-            tvNumDia.setText(dia+"");
-            /*tvTitulo.setText(aviso.titulo);
-            tvFecha.setText(aviso.fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
-            aviso.asignarImagen(context,ivAviso);
+        public void asignarValores(int dia) {
+            tvNumDia.setText(String.valueOf(dia));
 
-            cardAviso.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, ActivityAviso.class);
-                    intent.putExtra("avisoKey",aviso.key);
-                    intent.putExtra("avisoCategoria",aviso.categoria);
-                    context.startActivity(intent);
+            rvAvisosDia.setHasFixedSize(true);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            rvAvisosDia.setLayoutManager(linearLayoutManager);
+
+            for (Aviso aviso: avisos){
+                Log.d("AVISO",aviso.titulo);
+                if(aviso.fechaInicio.dia == dia){
+                    avisosDia.add(aviso);
+                }else {
+                    Log.d("AVISO",aviso.titulo);
                 }
-            });*/
+            }
+
+            AvisoTituloAdaptador avisoTituloAdaptador = new AvisoTituloAdaptador(context,avisos);
+            rvAvisosDia.setAdapter(avisoTituloAdaptador);
         }
     }
 }

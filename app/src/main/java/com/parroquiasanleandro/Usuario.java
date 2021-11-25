@@ -3,10 +3,7 @@ package com.parroquiasanleandro;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +14,10 @@ import com.parroquiasanleandro.fecha.Fecha;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class Usuario {
     public static final String USUARIOS = "Usuarios";
@@ -72,9 +72,22 @@ public class Usuario {
         return categoriasAdministradas;
     }
 
+    public void addCategoria(Categoria categoria){
+        List<Categoria> list = Arrays.asList(categorias.clone());
+        List<Categoria> listCategorias = new ArrayList<>(list);
+        listCategorias.add(categoria);
+        categorias = listCategorias.toArray(new Categoria[0]);
+    }
+
+    public void removeCategoria(Categoria categoria){
+        List<Categoria> list = Arrays.asList(categorias.clone());
+        List<Categoria> listCategorias = new ArrayList<>(list);
+        listCategorias.remove(categoria);
+        categorias = listCategorias.toArray(new Categoria[0]);
+    }
+
     public static void actualizarUsuarioLocal(Context context, FirebaseUser user) {
         FirebaseDatabase.getInstance().getReference(USUARIOS).child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);

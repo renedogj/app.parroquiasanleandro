@@ -20,9 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.parroquiasanleandro.Categoria;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
-import com.parroquiasanleandro.adaptadores.CategoriaAdaptador;
 import com.parroquiasanleandro.R;
-import com.parroquiasanleandro.Usuario;
+import com.parroquiasanleandro.adaptadores.CategoriaAdaptador;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +31,7 @@ import java.util.List;
 public class FragmentCategorias extends Fragment {
     private Context context;
 
-    private RecyclerView rvCategorias;
+    public static RecyclerView rvCategorias;
 
     private ItemViewModel vmIds;
 
@@ -45,6 +44,8 @@ public class FragmentCategorias extends Fragment {
         vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
         vmIds.setIdFragmentActual(Menu.FRAGMENT_CATEGORIAS);
         vmIds.addIdFragmentActual();
+        vmIds.setCategoriaActual("A");
+        vmIds.addIdCategoria();
     }
 
     @Override
@@ -52,8 +53,6 @@ public class FragmentCategorias extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_categorias, container, false);
 
         rvCategorias = view.findViewById(R.id.rvCategorias);
-
-        Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
         rvCategorias.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -64,11 +63,14 @@ public class FragmentCategorias extends Fragment {
         FirebaseDatabase.getInstance().getReference().child(Categoria.CATEGORIAS).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String nombreCategoria = snapshot.getValue(String.class);
+                Categoria categoria = snapshot.getValue(Categoria.class);
                 String key = snapshot.getKey();
-                categorias.add(new Categoria(key, nombreCategoria));
+                if (categoria != null) {
+                    categoria.key = key;
+                    categorias.add(categoria);
+                }
 
-                CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, usuario);
+                CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias,"A",rvCategorias,vmIds);
                 rvCategorias.setAdapter(categoriaAdaptador);
             }
 

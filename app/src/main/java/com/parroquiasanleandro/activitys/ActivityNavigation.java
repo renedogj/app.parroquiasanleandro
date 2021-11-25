@@ -1,6 +1,5 @@
 package com.parroquiasanleandro.activitys;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -9,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,12 +20,22 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.parroquiasanleandro.Categoria;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
+import com.parroquiasanleandro.adaptadores.CategoriaAdaptador;
+import com.parroquiasanleandro.fragments.FragmentCategorias;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityNavigation extends AppCompatActivity {
     private final Activity activity = ActivityNavigation.this;
@@ -76,7 +86,6 @@ public class ActivityNavigation extends AppCompatActivity {
             actionBar.setTitle("Parroquia San Leandro");
         }
 
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             MenuItem item = Menu.addCerrarSesion(navView);
@@ -118,14 +127,10 @@ public class ActivityNavigation extends AppCompatActivity {
             }
         });
 
-        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-                vmIds.setIdFragmentActual(Menu.selecionarItemMenu(item, vmIds.getIdFragmentActual(), user, activity, context, fragmentManager, actionBar, navView));
-                drawerLayout.closeDrawer(GravityCompat.START);
-                return true;
-            }
+        navView.setNavigationItemSelectedListener(item -> {
+            vmIds.setIdFragmentActual(Menu.selecionarItemMenu(item, vmIds.getIdFragmentActual(), user, activity, context, fragmentManager, actionBar, navView));
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         });
     }
 
@@ -142,16 +147,67 @@ public class ActivityNavigation extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
-        }
+            int posUltimoFragment = vmIds.getIdsFragment().size() - 1;
+            int ultimoFragment = vmIds.getIdsFragment().get(posUltimoFragment);
+            if(ultimoFragment == Menu.FRAGMENT_CATEGORIAS) {
+                if(!vmIds.getIdsCategorias().isEmpty()) {
+                    if (vmIds.getCategoriaActual().equals("A")) {
+                        super.onBackPressed();
+                    } else {
+                        int posUltimaCategoria = vmIds.getIdsCategorias().size() - 1;
+                        vmIds.getIdsCategorias().remove(posUltimaCategoria);
+                        vmIds.setCategoriaActual(vmIds.getIdsCategorias().get(posUltimaCategoria - 1));
 
-        int ultimoFragment = vmIds.getIdsFragment().size() - 1;
-        vmIds.getIdsFragment().remove(ultimoFragment);
-        if (!vmIds.getIdsFragment().isEmpty()) {
-            vmIds.setIdFragmentActual(vmIds.getIdsFragment().get(ultimoFragment - 1));
-            Menu.asignarIconosMenu(navView,vmIds.getIdFragmentActual());
-            if (vmIds.getIdFragmentActual() == Menu.FRAGMENT_CATEGORIAS) {
-                onBackPressed();
+                        List<Categoria> categorias = new ArrayList<>();
+                        FirebaseDatabase.getInstance().getReference().child(Categoria.CATEGORIAS).addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                                Categoria categoria = snapshot.getValue(Categoria.class);
+                                String key = snapshot.getKey();
+                                if (categoria != null) {
+                                    categoria.key = key;
+                                    categorias.add(categoria);
+                                }
+
+                                CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, vmIds.getCategoriaActual(), FragmentCategorias.rvCategorias, vmIds);
+                                FragmentCategorias.rvCategorias.setAdapter(categoriaAdaptador);
+                            }
+
+                            @Override
+                            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }else{
+                    super.onBackPressed();
+                }
+            }else{
+                super.onBackPressed();
+                vmIds.getIdsFragment().remove(posUltimoFragment);
+                if (!vmIds.getIdsFragment().isEmpty()) {
+                    vmIds.setIdFragmentActual(vmIds.getIdsFragment().get(posUltimoFragment - 1));
+                    Menu.asignarIconosMenu(navView, vmIds.getIdFragmentActual());
+                    if (vmIds.getIdFragmentActual() == Menu.FRAGMENT_CATEGORIAS) {
+                        vmIds.getIdsCategorias().clear();
+                        onBackPressed();
+                    }
+                }
             }
         }
     }
