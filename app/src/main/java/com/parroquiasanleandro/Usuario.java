@@ -62,6 +62,7 @@ public class Usuario {
         this.nombre = nombre;
         this.email = email;
         this.numeroTelefono = numeroTelefono;
+        this.suscripciones = new HashMap<>();
     }
 
     public Categoria[] getCategorias() {
@@ -99,7 +100,7 @@ public class Usuario {
                         usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]), usuario.suscripciones.values().toArray(new String[0]));
                         Categoria.guardarCategoriasLocal(context, usuario.categorias);
                     }
-                    if (usuario.categoriasAdministradas != null) {
+                    if (usuario.administraciones != null) {
                         usuario.categoriasAdministradas = Categoria.convertirCategoria(usuario.administraciones.keySet().toArray(new String[0]), usuario.administraciones.values().toArray(new String[0]));
                         Categoria.guardarCategoriasAdministradasLocal(context, usuario.categoriasAdministradas);
                     }

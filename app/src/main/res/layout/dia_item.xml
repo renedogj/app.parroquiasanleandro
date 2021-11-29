@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardAviso"
     android:layout_width="match_parent"
-    android:layout_height="65dp"
+    android:layout_height="75dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
-    android:layout_marginStart="6dp"
-    android:layout_marginEnd="6dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
     android:padding="8dp"
     app:cardCornerRadius="10dp">
 
@@ -23,12 +23,13 @@
             android:layout_height="wrap_content"
             android:padding="1dp"
             android:gravity="center"
-            android:textSize="14sp"
+            android:textSize="13sp"
             android:text="" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAvisosDia"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:padding="1dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

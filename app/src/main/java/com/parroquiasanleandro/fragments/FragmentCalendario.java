@@ -2,13 +2,11 @@ package com.parroquiasanleandro.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -16,12 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.parroquiasanleandro.Aviso;
-import com.parroquiasanleandro.Categoria;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
@@ -29,10 +22,7 @@ import com.parroquiasanleandro.Usuario;
 import com.parroquiasanleandro.adaptadores.DiaAdaptador;
 import com.parroquiasanleandro.fecha.Fecha;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class FragmentCalendario extends Fragment {
@@ -83,14 +73,16 @@ public class FragmentCalendario extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-            FirebaseDatabase.getInstance().getReference().child("CALENDARIO")
-                    .child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).addListenerForSingleValueEvent(new ValueEventListener() {
+            DiaAdaptador diaAdaptador = new DiaAdaptador(context, dias,fechaReferencia,usuario);
+            rvCalendario.setAdapter(diaAdaptador);
+            /*FirebaseDatabase.getInstance().getReference().child("Calendario")
+                    .child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).addChildEventListener(new ChildEventListener() {
                 @Override
-                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    for (DataSnapshot postSnapshot : snapshot.getChildren()) {
                         String key = postSnapshot.getKey();
                         String categoria = postSnapshot.getValue(String.class);
-                        Log.d("AVISO","titulo");
+                        //Log.d("FRAGMENTCALENDARIO","titulo");
                         if (key != null && categoria != null && Arrays.asList(Categoria.getKeysCategorias(usuario.getCategorias())).contains(categoria)) {
                             FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS)
                                     .child(categoria).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -100,7 +92,68 @@ public class FragmentCalendario extends Fragment {
                                     if (aviso != null) {
                                         aviso.key = key;
                                         avisos.add(aviso);
-                                        Log.d("AVISO",aviso.titulo);
+                                        Log.d("FRAGMENTCALENDARIO",aviso.titulo);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+                                    Log.e(databaseError.getMessage(), databaseError.getDetails());
+                                }
+                            });
+                        }
+                    }
+                    DiaAdaptador diaAdaptador = new DiaAdaptador(context, dias, avisos);
+                    rvCalendario.setAdapter(diaAdaptador);
+                }
+
+                @Override
+                public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                }
+            });*/
+
+            /*FirebaseDatabase.getInstance().getReference().child("Calendario")
+                    .child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
+                    //Bucle que recorre los días del mes que tienen avisos
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        HashMap avisosDia= postSnapshot.getValue(HashMap.class);
+                        if (avisosDia != null) {
+                            for (Categoria categoria :avisosDia){
+
+                            }
+                            String key = postSnapshot.getKey();
+                        }
+                        //String categoria = "";
+
+
+                        /*if (key != null && categoria != null && Arrays.asList(Categoria.getKeysCategorias(usuario.getCategorias())).contains(categoria)) {
+                            FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS)
+                                    .child(categoria).child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                    Aviso aviso = snapshot.getValue(Aviso.class);
+                                    if (aviso != null) {
+                                        aviso.key = key;
+                                        avisos.add(aviso);
+                                        Log.d("FRAGMENTCALENDARIO",aviso.titulo);
                                     }
                                 }
 
@@ -119,9 +172,9 @@ public class FragmentCalendario extends Fragment {
                 public void onCancelled(@NotNull DatabaseError databaseError) {
                     Log.e(databaseError.getMessage(), databaseError.getDetails());
                 }
-            });
+            });*/
         } else {
-            FirebaseDatabase.getInstance().getReference().child("CALENDARIO")
+            /*FirebaseDatabase.getInstance().getReference().child("Calendario")
                     .child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
@@ -147,7 +200,7 @@ public class FragmentCalendario extends Fragment {
                             });
                         }
                     }
-                    DiaAdaptador diaAdaptador = new DiaAdaptador(context, dias, avisos);
+                    DiaAdaptador diaAdaptador = new DiaAdaptador(context, dias,fechaReferencia);
                     rvCalendario.setAdapter(diaAdaptador);
                 }
 
@@ -155,7 +208,7 @@ public class FragmentCalendario extends Fragment {
                 public void onCancelled(@NotNull DatabaseError databaseError) {
                     Log.e(databaseError.getMessage(), databaseError.getDetails());
                 }
-            });
+            });*/
         }
         return view;
     }

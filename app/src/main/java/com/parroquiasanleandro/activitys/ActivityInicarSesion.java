@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -18,10 +17,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -75,7 +72,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
         });
 
         mAuth = FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(context, ActivityNavigation.class));
         }
 
@@ -104,7 +101,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                Toast.makeText(context,e.getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -112,46 +109,42 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
-                                FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
-                                Usuario.actualizarUsuarioLocal(context,user);
-                                context.startActivity(new Intent(context, ActivityNavigation.class));
-                                activity.finish();
-                            }
-                        } else {
-                            Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(),Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
+                            usuarioActual.suscripciones.put("A", "General");
+                            FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
+                            Usuario.actualizarUsuarioLocal(context, user);
+                            context.startActivity(new Intent(context, ActivityNavigation.class));
+                            activity.finish();
                         }
+                    } else {
+                        Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void iniciarSesion(){
+    private void iniciarSesion() {
         String email = etCorreoElectronico.getText().toString().trim();
         String password = etContraseña.getText().toString().trim();
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            if (user != null) {
-                                //Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
-                                //FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
-                                Usuario.actualizarUsuarioLocal(context,user);
-                                context.startActivity(new Intent(context, ActivityNavigation.class));
-                                activity.finish();
-                            }
-                            //Fcm.guardarToken(user,context);
-                            //startActivity(new Intent(context, ActivityEnviarMensajes.class));
-                        } else {
-                            Toast.makeText(context, "Correo o contraseña incorrecta",Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
+                            usuarioActual.suscripciones.put("A", "General");
+                            FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
+                            Usuario.actualizarUsuarioLocal(context, user);
+                            context.startActivity(new Intent(context, ActivityNavigation.class));
+                            activity.finish();
                         }
+                        //Fcm.guardarToken(user,context);
+                        //startActivity(new Intent(context, ActivityEnviarMensajes.class));
+                    } else {
+                        Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -159,6 +152,6 @@ public class ActivityInicarSesion extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(context,ActivityNavigation.class));
+        startActivity(new Intent(context, ActivityNavigation.class));
     }
 }

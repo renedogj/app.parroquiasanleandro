@@ -91,6 +91,7 @@ public class ActivityNavigation extends AppCompatActivity {
             MenuItem item = Menu.addCerrarSesion(navView);
 
             Usuario.actualizarUsuarioLocal(context, user);
+            Usuario usuario = Usuario.recuperarUsuarioLocal(context);
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();

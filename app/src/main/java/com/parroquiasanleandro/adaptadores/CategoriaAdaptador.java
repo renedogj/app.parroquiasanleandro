@@ -2,6 +2,7 @@ package com.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.parroquiasanleandro.Categoria;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.R;
@@ -67,10 +71,10 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ///private Switch switchCategoria;
         private final LinearLayout linearLayoutCategoria;
         private final TextView tvNombreCategoria;
         private final CardView cardCategoriaBoton;
+        private final CardView cardImgCategoria;
         private final TextView tvBotonSeguir;
         private final ImageView imgCategoria;
 
@@ -79,11 +83,11 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
 
         public ViewHolder(View itemView) {
             super(itemView);
-            //switchCategoria = itemView.findViewById(R.id.switchCategoria);
             linearLayoutCategoria = itemView.findViewById(R.id.linearLayoutCategoria);
             tvNombreCategoria = itemView.findViewById(R.id.tvNombreCategoria);
             cardCategoriaBoton = itemView.findViewById(R.id.cardCategoriaBoton);
             tvBotonSeguir = itemView.findViewById(R.id.tvBotonSeguir);
+            cardImgCategoria = itemView.findViewById(R.id.cardImgCategoria);
             imgCategoria = itemView.findViewById(R.id.imgCategoria);
         }
 
@@ -91,6 +95,17 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
             this.categoria = categoria;
             linearLayoutCategoria.setBackgroundColor(Color.parseColor(categoria.color));
             tvNombreCategoria.setText(categoria.nombre);
+
+            cardImgCategoria.setBackgroundColor(Color.parseColor(categoria.color));
+            imgCategoria.setBackgroundColor(Color.parseColor(categoria.color));
+
+            FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria.key).child("imagenPredeterminada.jpg").getDownloadUrl()
+                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(context).load(uri).into(imgCategoria);
+                        }
+                    });
 
             checkCategoria(comprobarSiCategoriaGuardada(categoria));
 

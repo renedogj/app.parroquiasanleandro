@@ -22,7 +22,7 @@
                 android:textStyle="bold"
                 android:gravity="center"
                 android:textSize="24sp"
-                android:padding="18dp"/>
+                android:padding="17dp"/>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.parroquiasanleandro.Aviso;
@@ -87,7 +88,8 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		bttnCancelar = findViewById(R.id.bttnCancelar);
 
 		usuario = Usuario.recuperarUsuarioLocal(context);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_categoria_item, Categoria.getNombreCategorias(usuario.getCategoriasAdministradas()));
+		String[] nombreCategoriasAdministradas = Categoria.getNombreCategorias(usuario.getCategoriasAdministradas());
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_categoria_item, nombreCategoriasAdministradas);
 		spinnerCategoria.setAdapter(adapter);
 
 		lnlytAñadirImagen.setOnClickListener(v -> {
@@ -194,9 +196,9 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 	private void guardarNuevoAviso(Aviso aviso) {
 		if (aviso.titulo.length() > 0) {
 			if (aviso.descripcion.length() > 0) {
-				FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push().setValue(aviso);
-
-				aviso.key = FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).getKey();
+				DatabaseReference refAviso = FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push();
+				refAviso.setValue(aviso);
+				aviso.key = refAviso.getKey();
 				FirebaseDatabase.getInstance().getReference().child("Calendario").child(fechaInicio.toString(Fecha.FormatosFecha.aaaaMM))
 						.child(aviso.fechaInicio.dia+"").child(aviso.key).setValue(aviso.categoria);
 
