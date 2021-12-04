@@ -89,7 +89,6 @@ public class ActivityNavigation extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             MenuItem item = Menu.addCerrarSesion(navView);
-
             Usuario.actualizarUsuarioLocal(context, user);
             Usuario usuario = Usuario.recuperarUsuarioLocal(context);
         }

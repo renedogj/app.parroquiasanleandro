@@ -1,9 +1,9 @@
 package com.parroquiasanleandro.activitys;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,10 +29,8 @@ import com.parroquiasanleandro.Usuario;
 import java.util.Objects;
 
 public class ActivityInicarSesion extends AppCompatActivity {
-
     private static final int RC_SIGN_IN = 9001;
 
-    private final Activity activity = ActivityInicarSesion.this;
     private final Context context = ActivityInicarSesion.this;
 
     private Button bttnIniciarSesionGoogle;
@@ -108,45 +106,45 @@ public class ActivityInicarSesion extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
-                            usuarioActual.suscripciones.put("A", "General");
-                            FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
-                            Usuario.actualizarUsuarioLocal(context, user);
-                            context.startActivity(new Intent(context, ActivityNavigation.class));
-                            activity.finish();
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            Log.d("TASK SUCCESSFUL", task1.getResult().toString());
+                            if (task1.getResult().getValue() == null) {
+                                Log.d("TASK NULL", task1.getResult().toString());
+                                Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
+                                FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
+                            } else {
+                                Log.d("TASK NOT NULL", task1.getResult().toString());
+                            }
+                        } else {
+                            Log.d("TASK UNSUCCESSFUL", task1.getResult().toString());
                         }
-                    } else {
-                        Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+
+                    startActivity(new Intent(context, ActivityNavigation.class));
+                    finish();
+                }
+            } else {
+                Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void iniciarSesion() {
         String email = etCorreoElectronico.getText().toString().trim();
         String password = etContraseña.getText().toString().trim();
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            Usuario usuarioActual = new Usuario(user.getDisplayName(), user.getEmail(), user.getPhoneNumber());
-                            usuarioActual.suscripciones.put("A", "General");
-                            FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuarioActual);
-                            Usuario.actualizarUsuarioLocal(context, user);
-                            context.startActivity(new Intent(context, ActivityNavigation.class));
-                            activity.finish();
-                        }
-                        //Fcm.guardarToken(user,context);
-                        //startActivity(new Intent(context, ActivityEnviarMensajes.class));
-                    } else {
-                        Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                startActivity(new Intent(context, ActivityNavigation.class));
+                finish();
+            } else {
+                Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

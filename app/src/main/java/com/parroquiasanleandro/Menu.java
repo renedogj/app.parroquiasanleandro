@@ -55,6 +55,8 @@ public class Menu {
                     item.setVisible(false);
                     Usuario.borrarUsuarioLocal(context);
                     Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
+                    context.startActivity(new Intent(context, ActivityNavigation.class));
+                    activity.finish();
                     break;
                 case FRAGMENT_CALENDARIO:
                     iniciarFragmentCalendario(fragmentManager,actionBar);

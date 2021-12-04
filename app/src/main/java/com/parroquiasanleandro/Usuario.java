@@ -42,7 +42,8 @@ public class Usuario {
     public HashMap<String, String> administraciones;
     Categoria[] categoriasAdministradas;
 
-    public Usuario() {}
+    public Usuario() {
+    }
 
     public Usuario(String uid, String nombre, String email, Fecha fechaNacimiento, Uri fotoPerfil, String numeroTelefono) {
         this.uid = uid;
@@ -56,6 +57,7 @@ public class Usuario {
     public Usuario(String nombre, String email) {
         this.nombre = nombre;
         this.email = email;
+        this.suscripciones = new HashMap<>();
     }
 
     public Usuario(String nombre, String email, String numeroTelefono) {
@@ -73,22 +75,30 @@ public class Usuario {
         return categoriasAdministradas;
     }
 
-    public void addCategoria(Categoria categoria){
-        List<Categoria> list = Arrays.asList(categorias.clone());
+    public void setCategorias(Categoria[] categorias) {
+        this.categorias = categorias;
+    }
+
+    public void setCategoriasAdministradas(Categoria[] categoriasAdministradas) {
+        this.categoriasAdministradas = categoriasAdministradas;
+    }
+
+    public void addCategoria(Categoria categoria) {
+        List<Categoria> list = Arrays.asList(categorias);
         List<Categoria> listCategorias = new ArrayList<>(list);
         listCategorias.add(categoria);
         categorias = listCategorias.toArray(new Categoria[0]);
     }
 
-    public void removeCategoria(Categoria categoria){
-        List<Categoria> list = Arrays.asList(categorias.clone());
+    public void removeCategoria(Categoria categoria) {
+        List<Categoria> list = Arrays.asList(categorias);
         List<Categoria> listCategorias = new ArrayList<>(list);
         listCategorias.remove(categoria);
         categorias = listCategorias.toArray(new Categoria[0]);
     }
 
     public static void actualizarUsuarioLocal(Context context, FirebaseUser user) {
-        FirebaseDatabase.getInstance().getReference(USUARIOS).child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference(USUARIOS).child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
@@ -99,6 +109,10 @@ public class Usuario {
                     if (usuario.suscripciones != null) {
                         usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]), usuario.suscripciones.values().toArray(new String[0]));
                         Categoria.guardarCategoriasLocal(context, usuario.categorias);
+                    } else {
+                        Categoria categoria = new Categoria("A", "General");
+                        FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).child("suscripciones").child("A").setValue("General");
+                        categoria.guardarCategoriaLocal(context);
                     }
                     if (usuario.administraciones != null) {
                         usuario.categoriasAdministradas = Categoria.convertirCategoria(usuario.administraciones.keySet().toArray(new String[0]), usuario.administraciones.values().toArray(new String[0]));

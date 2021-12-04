@@ -2,7 +2,6 @@ package com.parroquiasanleandro.activitys;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -102,37 +101,26 @@ public class ActivityRegistro extends AppCompatActivity {
     private void registrarUsuario() {
         String email = etCorreoElectronico.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            Usuario usuario = new Usuario(etNombre.getText().toString().trim(), email);
-                            FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuario);
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser user = mAuth.getCurrentUser();
+                if (user != null) {
+                    String nombre = etNombre.getText().toString().trim();
+                    Usuario usuario = new Usuario(nombre, email);
+                    FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuario);
+                    FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).child("suscripciones").child("A").setValue("General");
 
-                            user.updateProfile(new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(etNombre.getText().toString().trim())
-                                    .build()).addOnCompleteListener(task1 -> {
-                                if (task1.isSuccessful()) {
-                                    SharedPreferences sharedPreferences = context.getSharedPreferences("usuario", Context.MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString(Usuario.UID, user.getUid());
-                                    editor.putString(Usuario.NOMBRE, user.getDisplayName());
-                                    editor.putString(Usuario.EMAIL, user.getEmail());
-                                    //editor.putString("fotoPerfil",user.getPhotoUrl());
-                                    editor.putString(Usuario.NUMERO_TELEFONO, user.getPhoneNumber());
-                                    editor.putBoolean(Usuario.EMAIL_VERIFIED, user.isEmailVerified());
-                                    editor.apply();
-
-                                    //startActivity(new Intent(context,ActivityNavigation.class));
-                                    //finish();
-                                }
-                            });
-                            //Fcm.guardarToken(user,context);
+                    user.updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(nombre).build()).addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            startActivity(new Intent(context, ActivityNavigation.class));
+                            finish();
                         }
-                    } else {
-                        Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    });
+                    //Fcm.guardarToken(user,context);
+                }
+            } else {
+                Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
