@@ -24,7 +24,7 @@
             android:layout_gravity="center">
             <ImageView
                 android:id="@+id/ivAviso"
-                android:layout_width="75dp"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@color/transparente" />

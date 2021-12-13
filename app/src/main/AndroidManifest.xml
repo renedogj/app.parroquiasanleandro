@@ -16,6 +16,7 @@
         tools:targetApi="m">
         <activity
             android:name=".activitys.ActivityNavigation"
+            android:theme="@style/SplashTheme"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,5 +40,4 @@
             </intent-filter>
         </service>
     </application>
-
 </manifest>

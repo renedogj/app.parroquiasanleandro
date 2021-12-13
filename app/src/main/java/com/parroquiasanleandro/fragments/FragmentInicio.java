@@ -9,15 +9,25 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.parroquiasanleandro.Aviso;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FragmentInicio extends Fragment {
     private Context context;
 
+    private RecyclerView rvAvisos;
+
     private ItemViewModel vmIds;
+
+    List<Aviso> avisos;
 
     public FragmentInicio() {
     }
@@ -34,6 +44,16 @@ public class FragmentInicio extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_inicio,container,false);
+        View view = inflater.inflate(R.layout.fragment_inicio,container,false);
+
+        rvAvisos = view.findViewById(R.id.rvAvisos);
+        rvAvisos.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        rvAvisos.setLayoutManager(linearLayoutManager);
+
+        avisos = new ArrayList<>();
+
+
+        return view;
     }
 }

@@ -47,41 +47,26 @@ public class Aviso {
     }
 
     public void asignarImagen(Context context, ImageView imageView) {
-        if (imagen.equals("imagenPredeterminada")) {
-            /*FirebaseDatabase.getInstance().getReference().child("infoGeneral").child(imagen).get()
-                    .addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
-                            if (!task.isSuccessful()) {
-                                //Log.e("firebase", "Error getting data", task.getException());
-                            } else {
-                                //Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                                FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(String.valueOf(task.getResult().getValue())).getDownloadUrl()
-                                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                            @Override
-                                            public void onSuccess(Uri uri) {
-                                                Glide.with(context).load(uri).into(imageView);
-                                            }
-                                        });
+        if(categoria.equals("A")){
+            Glide.with(context).load(R.drawable.fondo_parroquia).into(imageView);
+        }else{
+            if (imagen.equals("imagenPredeterminada")) {
+                FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).child("imagenPredeterminada.jpg").getDownloadUrl()
+                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(context).load(uri).into(imageView);
                             }
-                        }
-                    });*/
-
-            FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).child("imagenPredeterminada.png").getDownloadUrl()
-                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Glide.with(context).load(uri).into(imageView);
-                        }
-                    });
-        } else {
-            FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).child(imagen).getDownloadUrl()
-                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Glide.with(context).load(uri).into(imageView);
-                        }
-                    });
+                        });
+            } else {
+                FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).child(imagen).getDownloadUrl()
+                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Glide.with(context).load(uri).into(imageView);
+                            }
+                        });
+            }
         }
     }
 }

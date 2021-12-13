@@ -15,7 +15,7 @@
         android:id="@+id/linearLayoutCategoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#CC3C54EC"
+        android:background="#00ff92"
         android:orientation="horizontal"
         android:padding="10dp">
 
