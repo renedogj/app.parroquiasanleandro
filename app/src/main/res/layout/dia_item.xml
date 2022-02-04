@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardAviso"
+    android:id="@+id/cardDia"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="4dp"
-    android:padding="8dp"
+    android:layout_height="70dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="3dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    android:padding="6dp"
+    app:cardBackgroundColor="@color/transparente"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
+        android:id="@+id/linearLayoutDiaCalendario"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#A463E865"
-        android:orientation="vertical">
+        android:background="#E61C68FF"
+        android:orientation="vertical"
+        android:padding="0dp">
 
         <TextView
             android:id="@+id/tvNumDia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="1dp"
+            android:padding="1.5dp"
             android:gravity="center"
             android:textSize="13sp"
             android:text="" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAvisosDia"
             android:layout_width="match_parent"

@@ -100,6 +100,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
                 Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("ERROR", e.getMessage());
+                Log.e("ERROR", e.toString());
+                Log.e("ERROR", e.getStatus().toString());
             }
         }
     }

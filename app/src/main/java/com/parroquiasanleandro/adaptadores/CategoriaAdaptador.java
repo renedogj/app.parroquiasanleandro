@@ -1,6 +1,5 @@
 package com.parroquiasanleandro.adaptadores;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -92,7 +91,6 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
             imgCategoria = itemView.findViewById(R.id.imgCategoria);
         }
 
-        @SuppressLint("Range")
         public void asignarValores(Categoria categoria) {
             this.categoria = categoria;
 
@@ -100,12 +98,6 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
             linearLayoutCategoria.setBackgroundColor(Color.parseColor(categoria.color));
             cardImgCategoria.setBackgroundColor(Color.parseColor(categoria.color));
             imgCategoria.setBackgroundColor(Color.parseColor(categoria.color));
-
-            //Float alpha = 0.8f;
-            //linearLayoutCategoria.setAlpha(alpha);
-            //linearLayoutCategoria.setBackgroundColor(Color.parseColor("#00ff92"));
-            //cardImgCategoria.setBackgroundColor(Color.parseColor("#00ff92"));
-            //imgCategoria.setBackgroundColor(Color.parseColor("#00ff92"));
 
             FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria.key).child("imagenPredeterminada.jpg").getDownloadUrl()
                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
