@@ -101,9 +101,7 @@ public class Fecha {
 	 */
 	public static Fecha FechaActual() {
 		Calendar hoy = Calendar.getInstance();
-		Fecha fecha = new Fecha(hoy.get(Calendar.DAY_OF_MONTH), Mes.values()[hoy.get(Calendar.MONTH)], hoy.get(Calendar.YEAR), hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), hoy.get(Calendar.SECOND));
-		//fecha.diaSemana = DiasSemana.values()[hoy.get(Calendar.DAY_OF_WEEK) - 2];
-		return fecha;
+		return new Fecha(hoy.get(Calendar.DAY_OF_MONTH), Mes.values()[hoy.get(Calendar.MONTH)], hoy.get(Calendar.YEAR), hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), hoy.get(Calendar.SECOND));
 	}
 
 
@@ -121,7 +119,6 @@ public class Fecha {
 			this.diaSemana = DiasSemana.values()[calendar.get(Calendar.DAY_OF_WEEK)-2];
 		}
 	}
-
 
 	/**
 	 * Metodo que asigna el valor 1 al día convirtiendolo en el primer día de ese mes

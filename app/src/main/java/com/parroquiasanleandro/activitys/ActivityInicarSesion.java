@@ -64,8 +64,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
         bttnIniciarSesionGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+                //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                //startActivityForResult(signInIntent, RC_SIGN_IN);
+                Toast.makeText(context,"Inicio de sesion con google desactivado",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -84,7 +85,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
         tvRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(context, ActivityNavigation.class));
+                startActivity(new Intent(context, ActivityRegistro.class));
             }
         });
     }

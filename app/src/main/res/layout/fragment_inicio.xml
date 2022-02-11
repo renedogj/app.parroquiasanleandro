@@ -10,36 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp">
-
-        <TextView
-            android:id="@+id/tvTituloCita"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/title"
-            android:textStyle="bold|italic"
-            android:text="Cita Biblica de la semana:" />
-
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp">
         <TextView
             android:id="@+id/tvCitaBiblica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/body_text"
-            android:text="“Y he aquí que yo estoy con vosotros todos los días hasta el fin del mundo”" />
-
-        <TextView
-            android:id="@+id/tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/smallest_text"
-            android:text="(Mt 28, 20)" />
+            android:textSize="@dimen/subtitle"
+            android:fontFamily="@font/nanum_gothic_bold"
+            android:text="“Y he aquí que yo estoy con vosotros todos los días hasta el fin del mundo”(Mt 28, 20)" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAvisos"
+        android:id="@+id/rvAvisosSemana"
         android:layout_width="match_parent"
         android:layout_height="170dp"
         android:paddingLeft="1dp"
