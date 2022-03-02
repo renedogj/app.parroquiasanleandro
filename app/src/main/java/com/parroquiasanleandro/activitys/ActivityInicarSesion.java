@@ -141,14 +141,18 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private void iniciarSesion() {
         String email = etCorreoElectronico.getText().toString().trim();
         String password = etContraseña.getText().toString().trim();
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                startActivity(new Intent(context, ActivityNavigation.class));
-                finish();
-            } else {
-                Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(!email.equals("") && !password.equals("")){
+            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    startActivity(new Intent(context, ActivityNavigation.class));
+                    finish();
+                } else {
+                    Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            Toast.makeText(context, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

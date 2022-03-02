@@ -2,7 +2,6 @@ package com.parroquiasanleandro.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,9 +23,7 @@ import com.parroquiasanleandro.Aviso;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.parroquiasanleandro.Url;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,25 +66,16 @@ public class FragmentInicio extends Fragment {
 
 		avisos = new ArrayList<>();
 
-		buscar("http://192.168.1.2/administracion.parroquiaSanLeandro/obtenerCitaBiblicaActual.php");
+		obtenerCitaBiblica(Url.obtenerCitaBliblica);
 
 		return view;
 	}
 
-	public void buscar(String url) {
+	public void obtenerCitaBiblica(String url) {
 		StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
-			try {
-				JSONObject respuesta = new JSONObject(response);
-				Log.d("JSONArray", respuesta.toString());
-
-				tvCitaBiblica.setText(respuesta.getString("cita"));
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
+			tvCitaBiblica.setText(response);
 		}, error -> {
-			Toast.makeText(context, "ERROR DE CONEXION", Toast.LENGTH_SHORT).show();
-			Log.e("ERROR DE CONEXION", error.toString());
-			Log.e("ERROR DE CONEXION", error.getMessage());
+			Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
 		}) {
 			@Override
 			protected Map<String, String> getParams() throws AuthFailureError {
