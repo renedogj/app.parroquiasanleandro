@@ -22,10 +22,9 @@
 				android:layout_height="match_parent"
 				android:layout_weight="1"
 				android:gravity="left|center_vertical"
-				android:text="Noviembre"
 				android:textSize="24sp"
 				android:textStyle="bold"
-				android:paddingLeft="15dp"/>
+				android:paddingStart="15dp"/>
 
 			<TextView
 				android:id="@+id/tvMesAnterior"

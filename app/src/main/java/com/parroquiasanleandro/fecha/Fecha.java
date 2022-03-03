@@ -532,6 +532,7 @@ public class Fecha {
 		public final static String dd_MM_aaaa = "dd-MM-aaaa";
 		public final static String EE_d_MMM_aaaa = "EE, d MMM aaaa";
 		public final static String aaaaMM = "aaaaMM";
+		public final static String MMMM_aaaa = "MMMM_aaaa";
 	}
 
 	@NotNull
@@ -551,6 +552,8 @@ public class Fecha {
 				return diaSemana.getAbrebiatura() + ", " + dia + " " + mes.getAbrebiatura() + " " + año;
 			case FormatosFecha.aaaaMM:
 				return año + Fecha.formatearNumero(mes.getNumeroMes());
+			case FormatosFecha.MMMM_aaaa:
+				return mes.name() + " " + año;
 			default:
 				return diaSemana.toString() + ", " + dia + " de " + mes.toString() + " de " + año;
 		}

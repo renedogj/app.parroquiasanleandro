@@ -95,7 +95,7 @@ public class FragmentCalendario extends Fragment {
     }
 
     public void setCalendario(FirebaseUser user){
-        tvMes.setText(fechaReferencia.mes.name() + " " + fechaReferencia.año);
+        tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
 
         dias.clear();
         for(int i = 1; i <= fechaReferencia.diaSemana.getNumeroDia()-1; i++){

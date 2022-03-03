@@ -88,10 +88,11 @@ public class FragmentAvisosParroquiales extends Fragment {
                             if (aviso != null) {
                                 aviso.key = postSnapshot.getKey();
                                 avisos.add(aviso);
-
-                                AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
-                                rvAvisos.setAdapter(avisoAdaptador);
                             }
+                        }
+                        if(!avisos.isEmpty()) {
+                            AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
+                            rvAvisos.setAdapter(avisoAdaptador);
                         }
                     }
 
@@ -112,9 +113,11 @@ public class FragmentAvisosParroquiales extends Fragment {
                         if (aviso != null) {
                             aviso.key = postSnapshot.getKey();
                             avisos.add(aviso);
-                            AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
-                            rvAvisos.setAdapter(avisoAdaptador);
                         }
+                    }
+                    if(!avisos.isEmpty()) {
+                        AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
+                        rvAvisos.setAdapter(avisoAdaptador);
                     }
                 }
 

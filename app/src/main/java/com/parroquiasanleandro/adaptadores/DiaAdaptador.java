@@ -118,7 +118,6 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 								}
 							});
 						}
-
 					}
 
 					@Override
@@ -168,7 +167,6 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 								}
 							});
 						}
-
 					}
 
 					@Override
@@ -196,7 +194,6 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 
 		public void asignarValoresInvisibles(){
 			cardDia.setVisibility(View.INVISIBLE);
-			//linearLayoutDiaCalendario.setBackgroundColor(Color.argb(0,0,0,0));
 		}
 	}
 }

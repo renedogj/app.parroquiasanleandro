@@ -29,6 +29,12 @@ public class Categoria {
         this.nombre = nombre;
     }
 
+    public Categoria(String key, String nombre, String color) {
+        this.key = key;
+        this.nombre = nombre;
+        this.color = color;
+    }
+
     public String getKey() {
         return key;
     }

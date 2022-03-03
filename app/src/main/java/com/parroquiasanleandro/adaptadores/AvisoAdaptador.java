@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,47 +54,34 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardAviso;
+        private LinearLayout linearLayoutAviso;
         private TextView tvTitulo;
         private TextView tvFecha;
-        //private TextView tvDescripcion;
         private ImageView ivAviso;
-        //private CardView cvInfoAvisos;
-        //private FrameLayout flInfoAvisos;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             cardAviso = itemView.findViewById(R.id.cardAviso);
+            linearLayoutAviso = itemView.findViewById(R.id.linearLayoutAviso);
             tvTitulo = itemView.findViewById(R.id.tvTitulo);
             tvFecha = itemView.findViewById(R.id.tvFecha);
-            //tvDescripcion = itemView.findViewById(R.id.tvDescripcion);
             ivAviso = itemView.findViewById(R.id.ivAviso);
-            //cvInfoAvisos = itemView.findViewById(R.id.cvInfoAvisos);
-            //flInfoAvisos = itemView.findViewById(R.id.flInfoAvisos);
         }
 
         public void asignarValoresAviso(Aviso aviso) {
             tvTitulo.setText(aviso.titulo);
             tvFecha.setText(aviso.fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             aviso.asignarImagen(context,ivAviso);
+            aviso.asignarColor(context,linearLayoutAviso);
+            ivAviso.setContentDescription(aviso.categoria);
 
-            cardAviso.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, ActivityAviso.class);
-                    intent.putExtra("avisoKey",aviso.key);
-                    intent.putExtra("avisoCategoria",aviso.categoria);
-                    context.startActivity(intent);
-                }
+            cardAviso.setOnClickListener(v -> {
+                Intent intent = new Intent(context, ActivityAviso.class);
+                intent.putExtra("avisoKey",aviso.key);
+                intent.putExtra("avisoCategoria",aviso.categoria);
+                context.startActivity(intent);
             });
-            //tvDescripcion.setText(aviso.descripcion);
-            //flInfoAvisos.setPadding(0, 50, 0, 0);
-            /*if (aviso.imagen.equals("imagenPredeterminada")) {
-                flInfoAvisos.setPadding(0, 0,0, 0);
-            } else {
-                flInfoAvisos.setPadding(0, 50, 0, 0);
-            }*/
         }
-
     }
 }

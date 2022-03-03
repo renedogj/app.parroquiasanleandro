@@ -5,14 +5,20 @@
       <map>
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/background_aviso_item.xml" value="0.3545" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/fondo_parroquia.xml" value="0.356" />
+        <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/fondo_parroquia_dark.xml" value="0.3675" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/ic_launcher_background.xml" value="0.356" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/ic_logoparroquia.xml" value="0.356" />
+        <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/ic_logoparroquia_dark.xml" value="0.3675" />
+        <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/ic_logout.xml" value="0.3675" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/ic_menu_camera.xml" value="0.2755" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.2755" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.2755" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/drawable/side_nav_bar.xml" value="0.2755" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/font/osw.xml" value="0.21875" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/layout/activity_navigation.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/layout/aviso_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/layout/aviso_titulo_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/layout/categoria_item.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/layout/dia_item.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/layout/fragment_calendario.xml" value="0.36666666666666664" />
         <entry key="..\:/AndroidStudioProjects/ParroquiaSanLeandro/app/src/main/res/layout/fragment_informacion.xml" value="0.36666666666666664" />

@@ -5,33 +5,41 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.parroquiasanleandro.Categoria;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Url;
 import com.parroquiasanleandro.adaptadores.CategoriaAdaptador;
 
-import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class FragmentCategorias extends Fragment {
     private Context context;
 
     public static RecyclerView rvCategorias;
+
+    List<Categoria> categorias;
+
+    RequestQueue requestQueue;
 
     private ItemViewModel vmIds;
 
@@ -58,42 +66,37 @@ public class FragmentCategorias extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         rvCategorias.setLayoutManager(linearLayoutManager);
 
-        List<Categoria> categorias = new ArrayList<>();
+        categorias = new ArrayList<>();
 
-        FirebaseDatabase.getInstance().getReference().child(Categoria.CATEGORIAS).addChildEventListener(new ChildEventListener() {
+        //Obtener JSON de las categorias del servidor
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Url.obtenerCategorias, new Response.Listener<JSONArray>(){
             @Override
-            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Categoria categoria = snapshot.getValue(Categoria.class);
-                String key = snapshot.getKey();
-                if (categoria != null) {
-                    categoria.key = key;
-                    categorias.add(categoria);
+            public void onResponse(JSONArray response) {
+                JSONObject jsonObject;
+                categorias.clear();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        Categoria categoria = new Categoria(jsonObject.getString("id"),jsonObject.getString("nombre"),jsonObject.getString("color"));
+                        categorias.add(categoria);
+                    } catch (JSONException e) {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-
                 CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias,"A",rvCategorias,vmIds);
                 rvCategorias.setAdapter(categoriaAdaptador);
             }
-
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }) {
             @Override
-            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
             }
+        };
 
-            @Override
-            public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
+        requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonArrayRequest);
 
         return view;
     }

@@ -6,9 +6,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,25 +16,28 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.parroquiasanleandro.Categoria;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.Url;
 import com.parroquiasanleandro.Usuario;
 import com.parroquiasanleandro.adaptadores.CategoriaAdaptador;
 import com.parroquiasanleandro.fragments.FragmentCategorias;
 
-import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ActivityNavigation extends AppCompatActivity {
     private final Activity activity = ActivityNavigation.this;
@@ -54,6 +56,8 @@ public class ActivityNavigation extends AppCompatActivity {
     private NavigationView navView;
     private ActionBar actionBar;
     private ActionBarDrawerToggle toggle;
+
+    RequestQueue requestQueue;
 
     private ItemViewModel vmIds;
 
@@ -159,45 +163,39 @@ public class ActivityNavigation extends AppCompatActivity {
                         vmIds.setCategoriaActual(vmIds.getIdsCategorias().get(posUltimaCategoria - 1));
 
                         List<Categoria> categorias = new ArrayList<>();
-                        FirebaseDatabase.getInstance().getReference().child(Categoria.CATEGORIAS).addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                                Categoria categoria = snapshot.getValue(Categoria.class);
-                                String key = snapshot.getKey();
-                                if (categoria != null) {
-                                    categoria.key = key;
+
+                        //Obtener categorias del servidor y asignarselas a rvCategorias de FragmentCategorias
+                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Url.obtenerCategorias, response -> {
+                            JSONObject jsonObject;
+                            categorias.clear();
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    jsonObject = response.getJSONObject(i);
+                                    Categoria categoria = new Categoria(jsonObject.getString("id"),jsonObject.getString("nombre"),jsonObject.getString("color"));
                                     categorias.add(categoria);
+                                } catch (JSONException e) {
+                                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
-
-                                CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, vmIds.getCategoriaActual(), FragmentCategorias.rvCategorias, vmIds);
-                                FragmentCategorias.rvCategorias.setAdapter(categoriaAdaptador);
                             }
-
+                            CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, vmIds.getCategoriaActual(), FragmentCategorias.rvCategorias, vmIds);
+                            FragmentCategorias.rvCategorias.setAdapter(categoriaAdaptador);
+                        }, error -> {
+                            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                        }) {
                             @Override
-                            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                            protected Map<String, String> getParams() throws AuthFailureError {
+                                return super.getParams();
                             }
+                        };
 
-                            @Override
-                            public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                            }
-                        });
+                        requestQueue = Volley.newRequestQueue(context);
+                        requestQueue.add(jsonArrayRequest);
                     }
                 }else{
                     super.onBackPressed();
                 }
             }else{
+                //Controlar pila de fragmentos y de categorias
                 super.onBackPressed();
                 vmIds.getIdsFragment().remove(posUltimoFragment);
                 if (!vmIds.getIdsFragment().isEmpty()) {
