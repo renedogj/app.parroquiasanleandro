@@ -32,17 +32,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> {
+	public static final int TAMAÑO_GRANDE = 184;
+	public static final int TAMAÑO_PEQUEÑO = 158;
 
 	private Context context;
 	private List<Integer> dias;
 	private Usuario usuario;
 	private Fecha fechaReferencia;
+	private final int tamaño;
 
-	public DiaAdaptador(Context context, List<Integer> dias, Fecha fechaReferencia, Usuario usuario) {
+	public DiaAdaptador(Context context, List<Integer> dias, Fecha fechaReferencia, Usuario usuario, int tamaño) {
 		this.context = context;
 		this.dias = dias;
 		this.fechaReferencia = fechaReferencia;
 		this.usuario = usuario;
+		this.tamaño = tamaño;
 	}
 
 	@NonNull
@@ -58,7 +62,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 		int dia = dias.get(position);
 		if (dia != 0) {
 			holder.asignarValores(dia);
-		}else{
+		} else {
 			holder.asignarValoresInvisibles();
 		}
 	}
@@ -87,12 +91,14 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 		public void asignarValores(int dia) {
 			tvNumDia.setText(String.valueOf(dia));
 
+			cardDia.getLayoutParams().height = tamaño;
+
 			rvAvisosDia.setHasFixedSize(true);
 			LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 			rvAvisosDia.setLayoutManager(linearLayoutManager);
 
 			if (usuario != null) {
-				FirebaseDatabase.getInstance().getReference().child("Calendario")
+				FirebaseDatabase.getInstance().getReference().child(Fecha.CALENDARIO)
 						.child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).child(dia + "").addChildEventListener(new ChildEventListener() {
 					@Override
 					public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -141,13 +147,13 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 					}
 				});
 			} else {
-				FirebaseDatabase.getInstance().getReference().child("Calendario")
+				FirebaseDatabase.getInstance().getReference().child(Fecha.CALENDARIO)
 						.child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).child(dia + "").addChildEventListener(new ChildEventListener() {
 					@Override
 					public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
 						String key = snapshot.getKey();
 						String categoria = snapshot.getValue(String.class);
-						if (key != null && categoria != null && categoria.equals("A")) {
+						if (key != null && categoria != null && categoria.equals(Categoria.ID_PADRE)) {
 							FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS)
 									.child(categoria).child(key).addValueEventListener(new ValueEventListener() {
 								@Override
@@ -192,7 +198,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 			}
 		}
 
-		public void asignarValoresInvisibles(){
+		public void asignarValoresInvisibles() {
 			cardDia.setVisibility(View.INVISIBLE);
 		}
 	}

@@ -1,5 +1,6 @@
 package com.parroquiasanleandro;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
@@ -10,6 +11,15 @@ public class ItemViewModel extends ViewModel {
     List<Integer> idsFragment = new ArrayList<>();
     String categoriaActual;
     List<String> idsCategorias = new ArrayList<>();
+    ActionBar actionBar;
+
+    public ActionBar getActionBar() {
+        return actionBar;
+    }
+
+    public void setActionBar(ActionBar actionBar) {
+        this.actionBar = actionBar;
+    }
 
     public int getIdFragmentActual() {
         return idFragmentActual;

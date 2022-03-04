@@ -105,7 +105,7 @@ public class FragmentAvisosParroquiales extends Fragment {
         }else{
             bttnNuevoAviso.setVisibility(View.INVISIBLE);
 
-            FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child("A").addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(Categoria.ID_PADRE).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {

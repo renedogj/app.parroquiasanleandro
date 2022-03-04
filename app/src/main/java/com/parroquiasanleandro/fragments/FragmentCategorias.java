@@ -52,7 +52,7 @@ public class FragmentCategorias extends Fragment {
         vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
         vmIds.setIdFragmentActual(Menu.FRAGMENT_CATEGORIAS);
         vmIds.addIdFragmentActual();
-        vmIds.setCategoriaActual("A");
+        vmIds.setCategoriaActual(Categoria.ID_PADRE);
         vmIds.addIdCategoria();
     }
 
@@ -77,13 +77,17 @@ public class FragmentCategorias extends Fragment {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         jsonObject = response.getJSONObject(i);
-                        Categoria categoria = new Categoria(jsonObject.getString("id"),jsonObject.getString("nombre"),jsonObject.getString("color"));
+                        Categoria categoria = new Categoria(
+                                jsonObject.getString(Categoria.ID),
+                                jsonObject.getString(Categoria.NOMBRE),
+                                jsonObject.getString(Categoria.COLOR)
+                        );
                         categorias.add(categoria);
                     } catch (JSONException e) {
                         Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
-                CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias,"A",rvCategorias,vmIds);
+                CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias,Categoria.ID_PADRE,rvCategorias,vmIds);
                 rvCategorias.setAdapter(categoriaAdaptador);
             }
         }, error -> {

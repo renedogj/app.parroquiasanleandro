@@ -25,92 +25,88 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FragmentCalendario extends Fragment {
-    private Context context;
 
-    private RecyclerView rvCalendario;
-    private TextView tvMes;
-    private TextView tvMesAnterior;
-    private TextView tvMesSiguiente;
+	private Context context;
 
-    private Fecha fechaReferencia;
-    private List<Integer> dias;
+	private RecyclerView rvCalendario;
+	private TextView tvMes;
+	private TextView tvMesAnterior;
+	private TextView tvMesSiguiente;
 
-    private ItemViewModel vmIds;
+	private Fecha fechaReferencia;
+	private List<Integer> dias;
 
-    public FragmentCalendario() {}
+	private ItemViewModel vmIds;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	public FragmentCalendario() {
+	}
 
-        context = getContext();
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_CALENDARIO);
-        vmIds.addIdFragmentActual();
+		context = getContext();
 
-        fechaReferencia = Fecha.FechaActual();
-        fechaReferencia.convertirAPrimerDiaMes();
-    }
+		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+		vmIds.setIdFragmentActual(Menu.FRAGMENT_CALENDARIO);
+		vmIds.addIdFragmentActual();
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendario, container, false);
+		fechaReferencia = Fecha.FechaActual();
+		fechaReferencia.convertirAPrimerDiaMes();
+	}
 
-        rvCalendario = view.findViewById(R.id.rvCalendario);
-        tvMes = view.findViewById(R.id.tvMes);
-        tvMesAnterior = view.findViewById(R.id.tvMesAnterior);
-        tvMesSiguiente = view.findViewById(R.id.tvMesSiguiente);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_calendario, container, false);
 
-        rvCalendario.setHasFixedSize(false);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
-        rvCalendario.setLayoutManager(gridLayoutManager);
+		rvCalendario = view.findViewById(R.id.rvCalendario);
+		tvMes = view.findViewById(R.id.tvMes);
+		tvMesAnterior = view.findViewById(R.id.tvMesAnterior);
+		tvMesSiguiente = view.findViewById(R.id.tvMesSiguiente);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		rvCalendario.setHasFixedSize(false);
+		GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
+		rvCalendario.setLayoutManager(gridLayoutManager);
 
-        dias = new ArrayList<>();
+		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        setCalendario(user);
+		dias = new ArrayList<>();
+
+		setCalendario(user);
 
 
-        tvMesAnterior.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fechaReferencia.sumMeses(-1);
-                fechaReferencia.actualizarDiaSemana();
-                setCalendario(user);
-            }
-        });
+		tvMesAnterior.setOnClickListener(view1 -> {
+			fechaReferencia.sumMeses(-1);
+			fechaReferencia.actualizarDiaSemana();
+			setCalendario(user);
+		});
 
-        tvMesSiguiente.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fechaReferencia.sumMeses(1);
-                fechaReferencia.actualizarDiaSemana();
-                setCalendario(user);
-            }
-        });
+		tvMesSiguiente.setOnClickListener(view12 -> {
+			fechaReferencia.sumMeses(1);
+			fechaReferencia.actualizarDiaSemana();
+			setCalendario(user);
+		});
 
-        return view;
-    }
+		return view;
+	}
 
-    public void setCalendario(FirebaseUser user){
-        tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
+	public void setCalendario(FirebaseUser user) {
+		tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
 
-        dias.clear();
-        for(int i = 1; i <= fechaReferencia.diaSemana.getNumeroDia()-1; i++){
-            dias.add(0);
-        }
+		dias.clear();
+		for (int i = 1; i <= fechaReferencia.diaSemana.getNumeroDia() - 1; i++) {
+			dias.add(0);
+		}
 
-        int numDiasMes = fechaReferencia.mes.getNumDiasMes();
-        for (int i = 1; i <= numDiasMes; i++) {
-            dias.add(i);
-        }
+		int numDiasMes = fechaReferencia.mes.getNumDiasMes();
+		for (int i = 1; i <= numDiasMes; i++) {
+			dias.add(i);
+		}
 
-        if (user != null) {
-            rvCalendario.setAdapter(new DiaAdaptador(context, dias,fechaReferencia,Usuario.recuperarUsuarioLocal(context)));
-        }else{
-            rvCalendario.setAdapter(new DiaAdaptador(context, dias,fechaReferencia,null));
-        }
-    }
+		if (user != null) {
+			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, Usuario.recuperarUsuarioLocal(context), DiaAdaptador.TAMAÑO_GRANDE));
+		} else {
+			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, null, DiaAdaptador.TAMAÑO_GRANDE));
+		}
+	}
 }

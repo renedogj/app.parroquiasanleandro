@@ -5,20 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
-import com.parroquiasanleandro.adaptadores.ImagenesAvisoAdaptador;
 import com.parroquiasanleandro.R;
+import com.parroquiasanleandro.adaptadores.ImagenesAvisoAdaptador;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,30 +44,14 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
         imagenes = new ArrayList<>();
 
         FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").listAll()
-                .addOnSuccessListener(new OnSuccessListener<ListResult>() {
-                    @Override
-                    public void onSuccess(ListResult listResult) {
-                        for (StorageReference item : listResult.getItems()) {
-                            imagenes.add(item);
-                        }
-
-                        ImagenesAvisoAdaptador imagenesAvisoAdaptador = new ImagenesAvisoAdaptador(context, (Activity) context,imagenes);
-                        recyclerView.setAdapter(imagenesAvisoAdaptador);
-                    }
+                .addOnSuccessListener(listResult -> {
+                    imagenes.addAll(listResult.getItems());
+                    ImagenesAvisoAdaptador imagenesAvisoAdaptador = new ImagenesAvisoAdaptador(context, (Activity) context,imagenes);
+                    recyclerView.setAdapter(imagenesAvisoAdaptador);
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        Log.e("STORAGE ERROR", e.getMessage());
-                    }
-                });
+                .addOnFailureListener(e -> Log.e("STORAGE ERROR", e.getMessage()));
 
-        bttnSelecionarImagenGaleria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selecionarImagenGaleria();
-            }
-        });
+        bttnSelecionarImagenGaleria.setOnClickListener(v -> selecionarImagenGaleria());
     }
 
     public void selecionarImagenGaleria() {

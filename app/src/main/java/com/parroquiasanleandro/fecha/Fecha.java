@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Calendar;
 
 public class Fecha {
+	public final static String CALENDARIO = "Calendario";
 
 	//ATRIBUTOS
 	public int dia;

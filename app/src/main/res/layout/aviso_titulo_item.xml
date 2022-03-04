@@ -4,8 +4,10 @@
 	android:id="@+id/cardTituloAviso"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
+	android:layout_marginStart="1dp"
+	android:layout_marginEnd="1dp"
 	app:cardBackgroundColor="@color/transparente"
-	app:cardCornerRadius="10dp">
+	app:cardCornerRadius="8dp">
 
 	<LinearLayout
 		android:id="@+id/linearLayoutTituloAviso"
@@ -13,11 +15,13 @@
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
 		android:padding="2dp">
+
 		<TextView
 			android:id="@+id/tvTituloAviso"
 			android:layout_width="match_parent"
 			android:layout_height="12dp"
 			android:layout_marginStart="2dp"
+			android:textColor="@color/white"
 			android:textSize="10sp" />
 	</LinearLayout>
 </androidx.cardview.widget.CardView>

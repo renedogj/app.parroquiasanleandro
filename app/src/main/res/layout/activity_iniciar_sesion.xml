@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/white"
+	tools:context=".activitys.ActivityInicarSesion">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingLeft="20dp"
+		android:paddingRight="20dp">
+
+		<ImageView
+			android:id="@+id/imageView"
+			android:layout_width="200dp"
+			android:layout_height="200dp"
+			android:layout_gravity="center"
+			android:layout_marginTop="10dp"
+			android:layout_marginBottom="10dp"
+			app:srcCompat="@drawable/fondo_parroquia_dark"
+			android:contentDescription="Logo parroquia San Leandro" />
+
+		<View
+			android:id="@+id/divider"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_marginTop="5dp"
+			android:layout_marginBottom="5dp"
+			android:background="?android:attr/listDivider" />
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<EditText
+				android:id="@+id/etCorreoElectronico"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="1dp"
+				android:layout_marginBottom="1dp"
+				android:ems="10"
+				android:hint="Correo electronico"
+				android:inputType="textPersonName" />
+
+			<EditText
+				android:id="@+id/etContraseña"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="1dp"
+				android:layout_marginBottom="1dp"
+				android:ems="10"
+				android:hint="Contraseña"
+				android:inputType="textPassword" />
+
+			<Button
+				android:id="@+id/bttnIniciarSesion"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="1dp"
+				android:layout_marginBottom="1dp"
+				android:paddingTop="2dp"
+				android:paddingBottom="2dp"
+				android:text="Iniciar Sesion" />
+
+			<TextView
+				android:id="@+id/tvContraseñaOlvidada"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:ems="10"
+				android:paddingTop="1dp"
+				android:paddingBottom="1dp"
+				android:text="¿Has olvidado tu contraseña?"
+				android:textAlignment="center" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/linearLayoutRegistrarse"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:paddingTop="1dp"
+			android:paddingBottom="1dp">
+
+			<TextView
+				android:id="@+id/tvNoTengoCuenta"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="right"
+				android:text="¿Aun no tienes cuenta? " />
+
+			<TextView
+				android:id="@+id/tvRegistrarse"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"
+				android:gravity="left"
+				android:text="Registrarse" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="6dp"
+			android:layout_marginBottom="6dp"
+			android:orientation="horizontal">
+
+			<View
+				android:layout_width="0dp"
+				android:layout_height="1dp"
+				android:layout_gravity="center"
+				android:layout_marginTop="1dp"
+				android:layout_weight="1"
+				android:background="?android:attr/listDivider" />
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="7dp"
+				android:layout_marginEnd="7dp"
+				android:text="o"
+				android:textSize="16sp" />
+
+			<View
+				android:layout_width="0dp"
+				android:layout_height="1dp"
+				android:layout_gravity="center"
+				android:layout_marginTop="1dp"
+				android:layout_weight="1"
+				android:background="?android:attr/listDivider" />
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<Button
+				android:id="@+id/bttnIniciarSesionGoogle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="Iniciar Sesión con Google" />
+		</LinearLayout>
+	</LinearLayout>
+</ScrollView>

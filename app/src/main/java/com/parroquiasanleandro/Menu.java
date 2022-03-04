@@ -3,7 +3,6 @@ package com.parroquiasanleandro;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -29,7 +28,6 @@ public class Menu {
     public static final int FRAGMENT_PERFIL = R.id.nav_fragment_perfil;
     public static final int FRAGMENT_CALENDARIO = R.id.nav_fragment_calendario;
     public static final int FRAGMENT_CATEGORIAS = 2;
-    //Añadirlo automaticamente
     public static final int CERRAR_SESION = 1;
 
     public static int selecionarItemMenu(MenuItem item, int idFragmentActual, FirebaseUser user, Activity activity,
@@ -42,7 +40,6 @@ public class Menu {
                     break;
                 case FRAGMENT_AVISOS:
                     iniciarFragmentAvisos(fragmentManager,actionBar);
-                    Log.d("AVISOS","AAAAAAAAA");
                     break;
                 case FRAGMENT_INFORMACION:
                     iniciarFragmentInformacion(fragmentManager,actionBar);

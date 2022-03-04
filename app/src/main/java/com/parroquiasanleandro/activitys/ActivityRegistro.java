@@ -5,9 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,107 +21,117 @@ import com.parroquiasanleandro.Usuario;
 import java.util.Objects;
 
 public class ActivityRegistro extends AppCompatActivity {
+	private final Context context = ActivityRegistro.this;
 
-    private final Context context = ActivityRegistro.this;
+	private EditText etNombre;
+	private EditText etCorreoElectronico;
+	private EditText etPassword;
+	private EditText etComprobarPassword;
+	private Button bttnRegistrarse;
+	private LinearLayout linearLayoutIniciarSesion;
 
-    private EditText etNombre;
-    private EditText etCorreoElectronico;
-    private EditText etPassword;
-    private EditText etComprobarPassword;
-    private Button bttnRegistrarse;
-    private TextView tvIniciarSesion;
+	private ActionBar actionBar;
 
-    private FirebaseAuth mAuth;
+	private FirebaseAuth mAuth;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_registro);
 
-        etNombre = findViewById(R.id.etNombre);
-        etCorreoElectronico = findViewById(R.id.etCorreoElectronico);
-        etPassword = findViewById(R.id.etContraseña);
-        etComprobarPassword = findViewById(R.id.etComprobarContraseña);
-        bttnRegistrarse = findViewById(R.id.bttnRegistrarse);
-        tvIniciarSesion = findViewById(R.id.tvIniciarSesion);
+		etNombre = findViewById(R.id.etNombre);
+		etCorreoElectronico = findViewById(R.id.etCorreoElectronico);
+		etPassword = findViewById(R.id.etContraseña);
+		etComprobarPassword = findViewById(R.id.etComprobarContraseña);
+		bttnRegistrarse = findViewById(R.id.bttnRegistrarse);
+		linearLayoutIniciarSesion = findViewById(R.id.linearLayoutIniciarSesion);
 
-        mAuth = FirebaseAuth.getInstance();
+		actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setTitle("Registrarse");
+		}
 
 
-        bttnRegistrarse.setOnClickListener(v -> {
-            if (comprobarNombre() && comprobarCorreo() && comprobarPassword()) {
-                registrarUsuario();
-            }
-        });
+		mAuth = FirebaseAuth.getInstance();
 
-        tvIniciarSesion.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), ActivityInicarSesion.class)));
-    }
+		bttnRegistrarse.setOnClickListener(v -> {
+			if (comprobarNombre() && comprobarCorreo() && comprobarPassword()) {
+				registrarUsuario();
+			}
+		});
 
-    public boolean comprobarNombre() {
-        if (!etNombre.getText().toString().trim().equals("")) {
-            return true;
-        }
-        Toast.makeText(context, "El nombre no puede estar vacio", Toast.LENGTH_SHORT).show();
-        return false;
-    }
+		linearLayoutIniciarSesion.setOnClickListener(v -> {
+			startActivity(new Intent(getApplicationContext(), ActivityInicarSesion.class));
+			finish();
+		});
+	}
 
-    public boolean comprobarCorreo() {
-        String correo = etCorreoElectronico.getText().toString().trim();
-        if (!correo.equals("")) {
-            if (correo.length() >= 5) {
-                if (correo.contains("@") && correo.contains(".")) {
-                    if (correo.indexOf("@") == correo.lastIndexOf("@")
-                            && correo.indexOf("@") < correo.lastIndexOf(".")
-                            && correo.lastIndexOf(".") < correo.length()) {
-                        return true;
-                    }
-                    Toast.makeText(this, "Es necesario introducir un correo electronico valido", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                Toast.makeText(this, "Es necesario introducir un correo electronico valido", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            Toast.makeText(context, "El correo electronico debe contener al menos 5 caracteres", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        Toast.makeText(context, "Es necesario introducir un correo electronico", Toast.LENGTH_SHORT).show();
-        return false;
-    }
+	public boolean comprobarNombre() {
+		if (!etNombre.getText().toString().trim().equals("")) {
+			return true;
+		}
+		Toast.makeText(context, "El nombre no puede estar vacio", Toast.LENGTH_SHORT).show();
+		return false;
+	}
 
-    private boolean comprobarPassword() {
-        String password = etPassword.getText().toString().trim();
-        String comprobacion = etComprobarPassword.getText().toString().trim();
-        if (!password.equals("") && password.equals(comprobacion)) {
-            return true;
-        } else {
-            Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-    }
+	public boolean comprobarCorreo() {
+		String correo = etCorreoElectronico.getText().toString().trim();
+		if (!correo.equals("")) {
+			if (correo.length() >= 5) {
+				if (correo.contains("@") && correo.contains(".")) {
+					if (correo.indexOf("@") == correo.lastIndexOf("@")
+							&& correo.indexOf("@") < correo.lastIndexOf(".")
+							&& correo.lastIndexOf(".") < correo.length()) {
+						return true;
+					}
+					Toast.makeText(this, "Es necesario introducir un correo electronico valido", Toast.LENGTH_SHORT).show();
+					return false;
+				}
+				Toast.makeText(this, "Es necesario introducir un correo electronico valido", Toast.LENGTH_SHORT).show();
+				return false;
+			}
+			Toast.makeText(context, "El correo electronico debe contener al menos 5 caracteres", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		Toast.makeText(context, "Es necesario introducir un correo electronico", Toast.LENGTH_SHORT).show();
+		return false;
+	}
 
-    private void registrarUsuario() {
-        String email = etCorreoElectronico.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                if (user != null) {
-                    String nombre = etNombre.getText().toString().trim();
-                    Usuario usuario = new Usuario(nombre, email);
-                    FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuario);
-                    FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).child("suscripciones").child("A").setValue("General");
+	private boolean comprobarPassword() {
+		String password = etPassword.getText().toString().trim();
+		String comprobacion = etComprobarPassword.getText().toString().trim();
+		if (!password.equals("") && password.equals(comprobacion)) {
+			return true;
+		} else {
+			Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+	}
 
-                    user.updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(nombre).build()).addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            startActivity(new Intent(context, ActivityNavigation.class));
-                            finish();
-                        }
-                    });
-                    //Fcm.guardarToken(user,context);
-                }
-            } else {
-                Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+	private void registrarUsuario() {
+		String email = etCorreoElectronico.getText().toString().trim();
+		String password = etPassword.getText().toString().trim();
+		mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+			if (task.isSuccessful()) {
+				FirebaseUser user = mAuth.getCurrentUser();
+				if (user != null) {
+					String nombre = etNombre.getText().toString().trim();
+					Usuario usuario = new Usuario(nombre, email);
+					FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).setValue(usuario);
+					FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).child("suscripciones").child("A").setValue("General");
+
+					user.updateProfile(new UserProfileChangeRequest.Builder().setDisplayName(nombre).build()).addOnCompleteListener(task1 -> {
+						if (task1.isSuccessful()) {
+							startActivity(new Intent(context, ActivityNavigation.class));
+							finish();
+						}
+					});
+					//Fcm.guardarToken(user,context);
+				}
+			} else {
+				Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
 }

@@ -3,6 +3,7 @@ package com.parroquiasanleandro.activitys;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,29 +80,28 @@ public class ActivityNavigation extends AppCompatActivity {
         navView = findViewById(R.id.navView);
         drawerLayout = findViewById(R.id.drawerLayout);
 
+        vmIds = new ViewModelProvider(this).get(ItemViewModel.class);
+        vmIds.setIdFragmentActual(Menu.FRAGMENT_INICIO);
+        vmIds.addIdFragmentActual();
+
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Parroquia San Leandro");
+            vmIds.setActionBar(actionBar);
+        }
+
         toggle = new ActionBarDrawerToggle(activity, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        actionBar = getSupportActionBar();
-        if (actionBar != null) {
-
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Parroquia San Leandro");
-        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            MenuItem item = Menu.addCerrarSesion(navView);
+            Menu.addCerrarSesion(navView);
             Usuario.actualizarUsuarioLocal(context, user);
-            Usuario usuario = Usuario.recuperarUsuarioLocal(context);
         }
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-
-        vmIds = new ViewModelProvider(this).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_INICIO);
-        vmIds.addIdFragmentActual();
 
         linearLayoutInicio.setOnClickListener(v -> {
             if (vmIds.getIdFragmentActual() != Menu.FRAGMENT_INICIO) {
@@ -155,13 +155,12 @@ public class ActivityNavigation extends AppCompatActivity {
             int ultimoFragment = vmIds.getIdsFragment().get(posUltimoFragment);
             if(ultimoFragment == Menu.FRAGMENT_CATEGORIAS) {
                 if(!vmIds.getIdsCategorias().isEmpty()) {
-                    if (vmIds.getCategoriaActual().equals("A")) {
+                    if (vmIds.getCategoriaActual().equals(Categoria.ID_PADRE)) {
                         super.onBackPressed();
                     } else {
                         int posUltimaCategoria = vmIds.getIdsCategorias().size() - 1;
                         vmIds.getIdsCategorias().remove(posUltimaCategoria);
                         vmIds.setCategoriaActual(vmIds.getIdsCategorias().get(posUltimaCategoria - 1));
-
                         List<Categoria> categorias = new ArrayList<>();
 
                         //Obtener categorias del servidor y asignarselas a rvCategorias de FragmentCategorias
@@ -171,7 +170,11 @@ public class ActivityNavigation extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     jsonObject = response.getJSONObject(i);
-                                    Categoria categoria = new Categoria(jsonObject.getString("id"),jsonObject.getString("nombre"),jsonObject.getString("color"));
+                                    Categoria categoria = new Categoria(
+                                            jsonObject.getString(Categoria.ID),
+                                            jsonObject.getString(Categoria.NOMBRE),
+                                            jsonObject.getString(Categoria.COLOR)
+                                    );
                                     categorias.add(categoria);
                                 } catch (JSONException e) {
                                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();

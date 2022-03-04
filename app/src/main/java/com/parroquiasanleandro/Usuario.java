@@ -110,8 +110,8 @@ public class Usuario {
                         usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]), usuario.suscripciones.values().toArray(new String[0]));
                         Categoria.guardarCategoriasLocal(context, usuario.categorias);
                     } else {
-                        Categoria categoria = new Categoria("A", "General");
-                        FirebaseDatabase.getInstance().getReference("Usuarios").child(user.getUid()).child("suscripciones").child("A").setValue("General");
+                        Categoria categoria = new Categoria(Categoria.ID_PADRE, Categoria.NOMBRE_PADRE);
+                        FirebaseDatabase.getInstance().getReference(USUARIOS).child(user.getUid()).child(Categoria.SUSCRIPCIONES).child(Categoria.ID_PADRE).setValue(Categoria.NOMBRE_PADRE);
                         categoria.guardarCategoriaLocal(context);
                     }
                     if (usuario.administraciones != null) {

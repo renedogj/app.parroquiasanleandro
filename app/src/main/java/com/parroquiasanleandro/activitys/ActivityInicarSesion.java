@@ -7,9 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,7 +38,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private EditText etCorreoElectronico;
     private EditText etContraseña;
     private Button bttnIniciarSesion;
-    private TextView tvRegistrarse;
+    private LinearLayout linearLayoutRegistrarse;
+
+    private ActionBar actionBar;
 
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
@@ -45,13 +48,20 @@ public class ActivityInicarSesion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_iniciar_sesion);
 
         bttnIniciarSesionGoogle = findViewById(R.id.bttnIniciarSesionGoogle);
         etCorreoElectronico = findViewById(R.id.etCorreoElectronico);
         etContraseña = findViewById(R.id.etContraseña);
         bttnIniciarSesion = findViewById(R.id.bttnIniciarSesion);
-        tvRegistrarse = findViewById(R.id.tvRegistrarse);
+        linearLayoutRegistrarse = findViewById(R.id.linearLayoutRegistrarse);
+
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Iniciar sesión");
+        }
+
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -73,6 +83,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(context, ActivityNavigation.class));
+            finish();
         }
 
         bttnIniciarSesion.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +93,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
             }
         });
 
-        tvRegistrarse.setOnClickListener(new View.OnClickListener() {
+        linearLayoutRegistrarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(context, ActivityRegistro.class));
@@ -100,10 +111,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("ERROR", e.getMessage());
-                Log.e("ERROR", e.toString());
-                Log.e("ERROR", e.getStatus().toString());
+                //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }

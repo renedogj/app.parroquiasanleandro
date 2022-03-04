@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".activitys.ActivityInicarSesion">
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,18 +16,13 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="24sp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:text="Registrarse" />
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="Logo parroquia San Leandro"
+            app:srcCompat="@drawable/fondo_parroquia_dark" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,7 +34,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Nombre"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:hint="Nombre y Apellidos"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -46,14 +44,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Correo electronico"
-                android:inputType="textPersonName" />
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/etContraseña"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:hint="Contraseña"
                 android:inputType="textPassword" />
 
@@ -62,17 +64,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Contraseña"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:hint="Vuelve a escribir la contraseña"
                 android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/bttnRegistrarse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
                 android:text="Registrarse" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayoutIniciarSesion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

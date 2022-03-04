@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,7 @@ public class ActivityAviso extends AppCompatActivity {
     Context context = ActivityAviso.this;
 
     private ImageView ivImagenAviso;
-
+    private LinearLayout linearLayoutContenedorAviso;
     private TextView tvTituloAviso;
     private TextView tvFechaInicio;
     private TextView tvFechaFinal;
@@ -32,6 +33,7 @@ public class ActivityAviso extends AppCompatActivity {
         setContentView(R.layout.activity_aviso);
 
         ivImagenAviso = findViewById(R.id.ivImagenAviso);
+        linearLayoutContenedorAviso = findViewById(R.id.linearLayoutContenedorAviso);
         tvTituloAviso = findViewById(R.id.tvTituloAviso);
         tvFechaInicio = findViewById(R.id.tvFechaInicio);
         tvFechaFinal = findViewById(R.id.tvFechaFinal);
@@ -63,6 +65,7 @@ public class ActivityAviso extends AppCompatActivity {
                         tvFechaFinal.setText(aviso.fechaFin.toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.fechaFin.toString(Fecha.FormatosFecha.HH_mm));
                     }
                     tvDescripcion.setText(aviso.descripcion);
+                    aviso.asignarColor(context,linearLayoutContenedorAviso);
                 }
             }
         });

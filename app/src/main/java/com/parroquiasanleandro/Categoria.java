@@ -13,8 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Categoria {
-    public static final String CATEGORIAS = "Categorias";
     public static final String SUSCRIPCIONES = "suscripciones";
+    public static final String ID_PADRE = "A";
+    public static final String NOMBRE_PADRE = "General";
+    public static final String ID = "id";
+    public static final String NOMBRE = "nombre";
+    public static final String COLOR = "color";
 
     public String key;
     public String nombre;

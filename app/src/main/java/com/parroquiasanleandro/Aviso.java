@@ -2,8 +2,6 @@ package com.parroquiasanleandro;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -13,7 +11,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.parroquiasanleandro.fecha.Fecha;
 
@@ -59,7 +56,6 @@ public class Aviso {
 
 
     public void asignarColor(Context context, LinearLayout linearLayout){
-        Log.d("KEY",key);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, Url.obtenerColorCategoria, response -> {
             linearLayout.setBackgroundColor(Color.parseColor(response));
         }, error -> {
@@ -80,24 +76,18 @@ public class Aviso {
     //Funcion para asignar la imagen del aviso obteniendolo de la bbdd al imageView
     public void asignarImagen(Context context, ImageView imageView) {
         if(categoria.equals("A")){
-            Glide.with(context).load(R.drawable.fondo_parroquia).into(imageView);
+            //Glide.with(context).load(R.drawable.fondo_parroquia).into(imageView);
             Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imageView);
         }else{
             if (imagen.equals("imagenPredeterminada")) {
                 FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).child("imagenPredeterminada.jpg").getDownloadUrl()
-                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Glide.with(context).load(uri).into(imageView);
-                            }
+                        .addOnSuccessListener(uri -> {
+                            Glide.with(context).load(uri).into(imageView);
                         });
             } else {
                 FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).child(imagen).getDownloadUrl()
-                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                Glide.with(context).load(uri).into(imageView);
-                            }
+                        .addOnSuccessListener(uri -> {
+                            Glide.with(context).load(uri).into(imageView);
                         });
             }
         }
