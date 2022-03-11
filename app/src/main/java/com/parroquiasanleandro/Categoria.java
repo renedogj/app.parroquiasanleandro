@@ -4,13 +4,24 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.FirebaseDatabase;
 import com.parroquiasanleandro.bbdd_SQLite.FeedReaderContract;
 import com.parroquiasanleandro.bbdd_SQLite.FeedReaderDbHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Categoria {
     public static final String SUSCRIPCIONES = "suscripciones";
@@ -98,64 +109,73 @@ public class Categoria {
         return null;
     }*/
 
-    public void guardarCategoria(Context context, String uid) {
-        guardarCategoriaLocal(context);
+    /**
+     * Suscribe al usuario a la categoria en la BBDD
+     */
+    public void suscribirCategoria(Context context, String uid) {
+        guardarSuscripcionLocal(context);
         FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(uid).child(SUSCRIPCIONES).child(key).setValue(nombre);
     }
 
-    public void eliminarCategoria(Context context, String uid) {
-        eliminarCategoriaLocal(context);
+    /**
+     * Elimina la suscripcion al usuario a la categoria en la BBDD
+     */
+    public void dessuscribirCategoria(Context context, String uid) {
+        eliminarSuscripcionLocal(context);
         FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(uid).child(SUSCRIPCIONES).child(key).setValue(null);
     }
 
-    public void guardarCategoriaLocal(Context context) {
-        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    public static void actualizarCategoriasServidorToLocal(Context context){
 
-        String consulta = "DELETE FROM " + FeedReaderContract.TablaCategorias.TABLE_NAME +
-                " WHERE " + FeedReaderContract.TablaCategorias.COLUMN_NAME_ID + " = '" + key + "'" +
-                " AND " + FeedReaderContract.TablaCategorias.COLUMN_NAME_Nombre + " = '" + nombre + "'";
-        db.execSQL(consulta);
 
-        ContentValues registro = new ContentValues();
-        registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_ID, key + "");
-        registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_Nombre, nombre + "");
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(new JsonArrayRequest(Url.obtenerCategorias, new Response.Listener<JSONArray>(){
+            @Override
+            public void onResponse(JSONArray response) {
+                FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                dbHelper.truncateTable(db, FeedReaderContract.TablaCategorias.TABLE_NAME);
 
-        db.insert(FeedReaderContract.TablaCategorias.TABLE_NAME, null, registro);
-        db.close();
+                JSONObject jsonObject;
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        jsonObject = response.getJSONObject(i);
+                        Categoria categoria = new Categoria(
+                                jsonObject.getString(Categoria.ID),
+                                jsonObject.getString(Categoria.NOMBRE),
+                                jsonObject.getString(Categoria.COLOR)
+                        );
+
+                        ContentValues registro = new ContentValues();
+                        registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_ID, categoria.key);
+                        registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_NOMBRE, categoria.nombre);
+                        registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_COLOR, categoria.color);
+
+                        db.insert(FeedReaderContract.TablaCategorias.TABLE_NAME, null, registro);
+
+                    } catch (JSONException e) {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+                db.close();
+            }
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+        });
     }
 
-    public void eliminarCategoriaLocal(Context context) {
-        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        String consulta = "DELETE FROM " + FeedReaderContract.TablaCategorias.TABLE_NAME +
-                " WHERE " + FeedReaderContract.TablaCategorias.COLUMN_NAME_ID + " = '" + key + "'" +
-                " AND " + FeedReaderContract.TablaCategorias.COLUMN_NAME_Nombre + " = '" + nombre + "'";
-        db.execSQL(consulta);
-        db.close();
-    }
-
-    public static void guardarCategoriasLocal(Context context, Categoria[] categorias) {
-        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        dbHelper.truncateTable(db, FeedReaderContract.TablaCategorias.TABLE_NAME);
-
-        for (Categoria categoria : categorias) {
-            ContentValues registro = new ContentValues();
-            registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_ID, categoria.key + "");
-            registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_Nombre, categoria.nombre + "");
-
-            db.insert(FeedReaderContract.TablaCategorias.TABLE_NAME, null, registro);
-        }
-        db.close();
-    }
-
-    public static Categoria[] recuperarCategoriasLocal(Context context) {
+    public static List<Categoria> recuperarCategoriasLocal(Context context) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columnasARetornar = {
                 FeedReaderContract.TablaCategorias.COLUMN_NAME_ID,
-                FeedReaderContract.TablaCategorias.COLUMN_NAME_Nombre
+                FeedReaderContract.TablaCategorias.COLUMN_NAME_NOMBRE,
+                FeedReaderContract.TablaCategorias.COLUMN_NAME_COLOR
         };
         Cursor cursorConsulta = db.query(
                 FeedReaderContract.TablaCategorias.TABLE_NAME,
@@ -169,7 +189,101 @@ public class Categoria {
         List<Categoria> categorias = new ArrayList<>();
         while (cursorConsulta.moveToNext()) {
             String key = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_ID));
-            String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_Nombre));
+            String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_NOMBRE));
+            String color = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_COLOR));
+            categorias.add(new Categoria(key, nombre,color));
+        }
+        cursorConsulta.close();
+        db.close();
+        return categorias;
+    }
+
+    public static String obtenerColorCategoria(Context context, String id){
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] columnasARetornar = {
+                FeedReaderContract.TablaCategorias.COLUMN_NAME_COLOR
+        };
+        Cursor cursorConsulta = db.query(
+                FeedReaderContract.TablaCategorias.TABLE_NAME,
+                columnasARetornar,
+                FeedReaderContract.TablaCategorias.COLUMN_NAME_ID + " = ?",
+                new String[]{id},
+                null,
+                null,
+                null
+        );
+        String color = null;
+        while (cursorConsulta.moveToNext()) {
+            color = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_COLOR));
+        }
+        cursorConsulta.close();
+        db.close();
+        return color;
+    }
+
+    public void guardarSuscripcionLocal(Context context) {
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        String consulta = "DELETE FROM " + FeedReaderContract.TablaCategoriasSuscritas.TABLE_NAME +
+                " WHERE " + FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID + " = '" + key + "'" +
+                " AND " + FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_NOMBRE + " = '" + nombre + "'";
+        db.execSQL(consulta);
+
+        ContentValues registro = new ContentValues();
+        registro.put(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID, key + "");
+        registro.put(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_NOMBRE, nombre + "");
+
+        db.insert(FeedReaderContract.TablaCategoriasSuscritas.TABLE_NAME, null, registro);
+        db.close();
+    }
+
+    public void eliminarSuscripcionLocal(Context context) {
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String consulta = "DELETE FROM " + FeedReaderContract.TablaCategoriasSuscritas.TABLE_NAME +
+                " WHERE " + FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID + " = '" + key + "'" +
+                " AND " + FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_NOMBRE + " = '" + nombre + "'";
+        db.execSQL(consulta);
+        db.close();
+    }
+
+    public static void guardarCategoriasSuscritasLocal(Context context, Categoria[] categorias) {
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        dbHelper.truncateTable(db, FeedReaderContract.TablaCategoriasSuscritas.TABLE_NAME);
+
+        for (Categoria categoria : categorias) {
+            ContentValues registro = new ContentValues();
+            registro.put(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID, categoria.key);
+            registro.put(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_NOMBRE, categoria.nombre);
+
+            db.insert(FeedReaderContract.TablaCategoriasSuscritas.TABLE_NAME, null, registro);
+        }
+        db.close();
+    }
+
+    public static Categoria[] recuperarCategoriasSuscritasLocal(Context context) {
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] columnasARetornar = {
+                FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID,
+                FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_NOMBRE
+        };
+        Cursor cursorConsulta = db.query(
+                FeedReaderContract.TablaCategoriasSuscritas.TABLE_NAME,
+                columnasARetornar,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+        List<Categoria> categorias = new ArrayList<>();
+        while (cursorConsulta.moveToNext()) {
+            String key = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID));
+            String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_NOMBRE));
             categorias.add(new Categoria(key, nombre));
         }
         cursorConsulta.close();
@@ -184,8 +298,8 @@ public class Categoria {
 
         for (Categoria categoria : categorias) {
             ContentValues registro = new ContentValues();
-            registro.put(FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_ID, categoria.key + "");
-            registro.put(FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_Nombre, categoria.nombre + "");
+            registro.put(FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_ID, categoria.key);
+            registro.put(FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_NOMBRE, categoria.nombre);
 
             db.insert(FeedReaderContract.TablaCategoriasAdministradas.TABLE_NAME, null, registro);
         }
@@ -197,7 +311,7 @@ public class Categoria {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columnasARetornar = {
                 FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_ID,
-                FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_Nombre
+                FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_NOMBRE
         };
         Cursor cursorConsulta = db.query(
                 FeedReaderContract.TablaCategoriasAdministradas.TABLE_NAME,
@@ -211,7 +325,7 @@ public class Categoria {
         List<Categoria> categorias = new ArrayList<>();
         while (cursorConsulta.moveToNext()) {
             String key = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_ID));
-            String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_Nombre));
+            String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasAdministradas.COLUMN_NAME_NOMBRE));
             categorias.add(new Categoria(key, nombre));
         }
         cursorConsulta.close();
@@ -223,7 +337,7 @@ public class Categoria {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         dbHelper.truncateTable(db, FeedReaderContract.TablaCategoriasAdministradas.TABLE_NAME);
-        dbHelper.truncateTable(db, FeedReaderContract.TablaCategorias.TABLE_NAME);
+        dbHelper.truncateTable(db, FeedReaderContract.TablaCategoriasSuscritas.TABLE_NAME);
         db.close();
     }
 }

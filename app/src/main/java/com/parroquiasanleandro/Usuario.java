@@ -108,11 +108,11 @@ public class Usuario {
                 if (usuario != null) {
                     if (usuario.suscripciones != null) {
                         usuario.categorias = Categoria.convertirCategoria(usuario.suscripciones.keySet().toArray(new String[0]), usuario.suscripciones.values().toArray(new String[0]));
-                        Categoria.guardarCategoriasLocal(context, usuario.categorias);
+                        Categoria.guardarCategoriasSuscritasLocal(context, usuario.categorias);
                     } else {
                         Categoria categoria = new Categoria(Categoria.ID_PADRE, Categoria.NOMBRE_PADRE);
                         FirebaseDatabase.getInstance().getReference(USUARIOS).child(user.getUid()).child(Categoria.SUSCRIPCIONES).child(Categoria.ID_PADRE).setValue(Categoria.NOMBRE_PADRE);
-                        categoria.guardarCategoriaLocal(context);
+                        categoria.guardarSuscripcionLocal(context);
                     }
                     if (usuario.administraciones != null) {
                         usuario.categoriasAdministradas = Categoria.convertirCategoria(usuario.administraciones.keySet().toArray(new String[0]), usuario.administraciones.values().toArray(new String[0]));
@@ -144,7 +144,7 @@ public class Usuario {
         usuario.nombre = sharedPreferences.getString(NOMBRE, null);
         usuario.email = sharedPreferences.getString(EMAIL, null);
         usuario.numeroTelefono = sharedPreferences.getString(NUMERO_TELEFONO, null);
-        usuario.categorias = Categoria.recuperarCategoriasLocal(context);
+        usuario.categorias = Categoria.recuperarCategoriasSuscritasLocal(context);
         //usuario.emailVerified = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);
         usuario.esAdministrador = sharedPreferences.getBoolean(ES_ADMINISTRADOR, false);
         if (usuario.esAdministrador) {

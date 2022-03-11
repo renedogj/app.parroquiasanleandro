@@ -138,6 +138,8 @@ public class FragmentInicio extends Fragment {
 						if (!avisos.isEmpty()) {
 							AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
 							rvAvisosSemana.setAdapter(avisoAdaptador);
+						}else{
+							rvAvisosSemana.setVisibility(View.GONE);
 						}
 					}
 

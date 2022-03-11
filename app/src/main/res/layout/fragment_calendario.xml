@@ -18,8 +18,7 @@
 
 			<TextView
 				android:id="@+id/tvMes"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				style="@style/texto_1_1_Oscuro"
 				android:layout_weight="1"
 				android:gravity="left|center_vertical"
 				android:textSize="24sp"
@@ -28,8 +27,7 @@
 
 			<TextView
 				android:id="@+id/tvMesAnterior"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				style="@style/texto_1_1_Oscuro"
 				android:layout_weight="3"
 				android:fontFamily="@font/nanum_gothic_extra_bold"
 				android:gravity="center"
@@ -39,8 +37,7 @@
 
 			<TextView
 				android:id="@+id/tvMesSiguiente"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				style="@style/texto_1_1_Oscuro"
 				android:layout_weight="3"
 				android:fontFamily="@font/nanum_gothic_extra_bold"
 				android:gravity="center"
@@ -61,44 +58,30 @@
 				android:layout_height="wrap_content"
 				android:orientation="horizontal">
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
 					style="@style/tvDiasSemanaCalendario"
 					android:text="L"/>
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
 					style="@style/tvDiasSemanaCalendario"
 					android:text="M"/>
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
 					style="@style/tvDiasSemanaCalendario"
 					android:text="X"/>
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
 					style="@style/tvDiasSemanaCalendario"
 					android:text="J"/>
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
 					style="@style/tvDiasSemanaCalendario"
 					android:text="V"/>
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
 					style="@style/tvDiasSemanaCalendario"
 					android:text="S"/>
 
 				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
 					style="@style/tvDiasSemanaCalendario"
 					android:text="D"/>
 			</LinearLayout>

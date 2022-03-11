@@ -16,8 +16,57 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!- Customize your theme here. -->
     </style>
-    
+
+    <!-- Style splash -->
     <style name="SplashTheme" parent="Theme.ParroquiaSanLeandro">
         <item name="android:windowBackground">@drawable/fondo_parroquia</item>
+    </style>
+
+    <!-- Styles tamaño  1=match_parent, 2=wrap_content -->
+    <style name="size_1_1" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="size_1_2" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="size_2_1" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="size_2_2" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Styles colores de texto -->
+    <style name="texto_1_2_Claro" parent="size_1_2">
+        <item name="color">@color/white</item>
+    </style>
+
+    <style name="texto_1_1_Oscuro" parent="size_1_1">
+        <item name="color">@color/black</item>
+    </style>
+
+    <style name="texto_1_2_Oscuro" parent="size_1_2">
+        <item name="color">@color/black</item>
+    </style>
+
+    <style name="texto_2_2_Oscuro" parent="size_2_2">
+        <item name="color">@color/black</item>
+    </style>
+
+
+
+    <style name="tvDiasSemanaCalendario" parent="size_2_2">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="color">@color/black</item>
     </style>
 </resources>
