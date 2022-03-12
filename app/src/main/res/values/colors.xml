@@ -5,7 +5,8 @@
     <color name="red">#FF0000</color>
     <color name="green">#21AA21</color>
     <color name="black">#FF141415</color>
-    <color name="logo">#FF9E9E9E</color>
+    <color name="logo">#E6BDBDBD</color>
     <color name="logo_dark">#FF212121</color>
-    <color name="white">#FFFAFBFB</color>
+    <color name="white">#FFF3F3F2</color>
+    <color name="white_transparente">#40F3F3F2</color>
 </resources>

@@ -402,12 +402,22 @@ public class Fecha {
 		int dia1, dia2, mes1, mes2, año1, año2;
 		int[] diasMeses = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 		int diferencia = 0;
-		dia1 = fecha1.dia;
-		mes1 = fecha1.mes.getNumeroMes();
-		año1 = fecha1.año;
-		dia2 = fecha2.dia;
-		mes2 = fecha2.mes.getNumeroMes();
-		año2 = fecha2.año;
+
+		if(isFecha1MayorQueFecha2(fecha1,fecha2)){
+			dia1 = fecha2.dia;
+			mes1 = fecha2.mes.getNumeroMes();
+			año1 = fecha2.año;
+			dia2 = fecha1.dia;
+			mes2 = fecha1.mes.getNumeroMes();
+			año2 = fecha1.año;
+		}else{
+			dia1 = fecha1.dia;
+			mes1 = fecha1.mes.getNumeroMes();
+			año1 = fecha1.año;
+			dia2 = fecha2.dia;
+			mes2 = fecha2.mes.getNumeroMes();
+			año2 = fecha2.año;
+		}
 		if (año1 == año2) {
 			if (mes1 == mes2) {
 				if (dia1 == dia2) {
@@ -417,52 +427,56 @@ public class Fecha {
 				}
 			} else {
 				for (int i = (mes2 - 1); i > mes1; i--) {
-					diferencia = diferencia + diasMeses[i];
+					diferencia += diasMeses[i];
 					if (i == 2) {
 						if (bisiesto(año2)) {
-							diferencia = diferencia + 1;
+							diferencia++;
 						}
 					}
 				}
 				if (mes1 == 2) {
 					if (bisiesto(año2)) {
-						diferencia = diferencia + 1;
+						diferencia++;
 					}
 				}
-				diferencia = diferencia + (diasMeses[mes1] - dia1) + dia2;
+				diferencia += (diasMeses[mes1] - dia1) + dia2;
 			}
 		} else {
 			for (int i = (año2 - 1); i > (año1 + 1); i--) {
-				diferencia = diferencia + 365;
+				diferencia += 365;
 				if (bisiesto(i)) {
-					diferencia = diferencia + 1;
+					diferencia++;
 				}
 			}
 			for (int i = 12; i > mes1; i--) {
-				diferencia = diferencia + diasMeses[i];
+				diferencia += diasMeses[i];
 				if (i == 2) {
 					if (bisiesto(año1)) {
-						diferencia = diferencia + 1;
+						diferencia++;
 					}
 				}
 			}
-			diferencia = diferencia + (diasMeses[mes1] - dia1);
+			diferencia += (diasMeses[mes1] - dia1);
 			if (mes1 == 2) {
 				if (bisiesto(año1)) {
-					diferencia = diferencia + 1;
+					diferencia++;
 				}
 			}
 			for (int i = (mes2 - 1); i >= 1; i--) {
-				diferencia = diferencia + diasMeses[i];
+				diferencia += diasMeses[i];
 				if (i == 2) {
 					if (bisiesto(año2)) {
-						diferencia = diferencia + 1;
+						diferencia++;
 					}
 				}
 			}
-			diferencia = diferencia + dia2;
+			diferencia += dia2;
 		}
-		return diferencia;
+		if(isFecha1MayorQueFecha2(fecha1,fecha2)){
+			return -diferencia;
+		}else{
+			return diferencia;
+		}
 	}
 
 	/**
@@ -483,11 +497,7 @@ public class Fecha {
 					return false;
 				} else {
 					if (fecha2.mes.getNumeroMes() == fecha1.mes.getNumeroMes()) {
-						if (fecha2.dia < fecha1.dia) {
-							return false;
-						} else {
-							return true;
-						}
+						return fecha2.dia >= fecha1.dia;
 					} else {
 						return true;
 					}
@@ -496,6 +506,19 @@ public class Fecha {
 				return false;
 			}
 		}
+	}
+
+	public static boolean isFecha1MayorQueFecha2(Fecha fecha1, Fecha fecha2){
+		if(fecha1.año > fecha2.año){
+			return true;
+		}else if(fecha1.año == fecha2.año){
+			if (fecha1.mes.getNumeroMes() > fecha2.mes.getNumeroMes()){
+				return true;
+			}else if (fecha1.mes.getNumeroMes() == fecha2.mes.getNumeroMes()){
+				return fecha1.dia > fecha2.dia;
+			}
+		}
+		return false;
 	}
 
 	public boolean isFechaEntreDosfechas(Fecha fecha1, Fecha fecha2) {

@@ -33,7 +33,7 @@ import java.util.List;
 
 public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> {
 	public static final int TAMAÑO_GRANDE = 184;
-	public static final int TAMAÑO_PEQUEÑO = 158;
+	public static final int TAMAÑO_PEQUEÑO = 160;
 
 	private Context context;
 	private List<Integer> dias;

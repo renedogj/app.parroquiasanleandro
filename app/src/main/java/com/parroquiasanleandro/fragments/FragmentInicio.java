@@ -21,7 +21,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,14 +51,13 @@ public class FragmentInicio extends Fragment {
 
 	private TextView tvCitaBiblica;
 	private RecyclerView rvAvisosSemana;
+	private TextView tvAvisosSemanales;
 	private TextView tvMes;
 	private LinearLayout linearLayoutCalendario;
 	private RecyclerView rvCalendario;
 
 	private ItemViewModel vmIds;
 	private ActionBar actionBar;
-
-	RequestQueue requestQueue;
 
 	private Fecha fechaReferencia;
 	private List<Integer> dias;
@@ -88,6 +86,7 @@ public class FragmentInicio extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
 		tvCitaBiblica = view.findViewById(R.id.tvCitaBiblica);
+		tvAvisosSemanales = view.findViewById(R.id.tvAvisosSemanales);
 		rvAvisosSemana = view.findViewById(R.id.rvAvisosSemana);
 		tvMes = view.findViewById(R.id.tvMes);
 		linearLayoutCalendario = view.findViewById(R.id.linearLayoutCalendario);
@@ -125,22 +124,8 @@ public class FragmentInicio extends Fragment {
 				FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(categoria.key).addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-						for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-							Aviso aviso = postSnapshot.getValue(Aviso.class);
-							if (aviso != null) {
-								if (Fecha.difereciaFecha(fechaActual, aviso.fechaInicio) <= 7) {
-									aviso.key = postSnapshot.getKey();
-									avisos.add(aviso);
-								}
-
-							}
-						}
-						if (!avisos.isEmpty()) {
-							AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
-							rvAvisosSemana.setAdapter(avisoAdaptador);
-						}else{
-							rvAvisosSemana.setVisibility(View.GONE);
-						}
+						guardarListAvisos(dataSnapshot);
+						asignarAvisos();
 					}
 
 					@Override
@@ -149,24 +134,14 @@ public class FragmentInicio extends Fragment {
 					}
 				});
 			}
+
 			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, Usuario.recuperarUsuarioLocal(context), DiaAdaptador.TAMAÑO_PEQUEÑO));
 		} else {
 			FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(Categoria.ID_PADRE).addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-					for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-						Aviso aviso = postSnapshot.getValue(Aviso.class);
-						if (aviso != null) {
-							if (Fecha.difereciaFecha(fechaActual, aviso.fechaInicio) <= 7) {
-								aviso.key = postSnapshot.getKey();
-								avisos.add(aviso);
-							}
-						}
-					}
-					if (!avisos.isEmpty()) {
-						AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
-						rvAvisosSemana.setAdapter(avisoAdaptador);
-					}
+					guardarListAvisos(dataSnapshot);
+					asignarAvisos();
 				}
 
 				@Override
@@ -180,13 +155,13 @@ public class FragmentInicio extends Fragment {
 		actionBar = vmIds.getActionBar();
 		linearLayoutCalendario.setOnClickListener(view1 -> {
 			FragmentManager fragmentManager = getParentFragmentManager();
-			Menu.iniciarFragmentCalendario(fragmentManager,actionBar);
+			Menu.iniciarFragmentCalendario(fragmentManager, actionBar);
 		});
 		return view;
 	}
 
 	public void obtenerCitaBiblica(String url) {
-		StringRequest stringRequest = new StringRequest(Request.Method.POST, url, response -> {
+		Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, url, response -> {
 			tvCitaBiblica.setText(response);
 		}, error -> {
 			Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
@@ -195,9 +170,39 @@ public class FragmentInicio extends Fragment {
 			protected Map<String, String> getParams() throws AuthFailureError {
 				return super.getParams();
 			}
-		};
+		});
+	}
 
-		requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(stringRequest);
+	public void guardarListAvisos(DataSnapshot dataSnapshot) {
+		for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+			Aviso aviso = postSnapshot.getValue(Aviso.class);
+			if (aviso != null) {
+				int difFechas = Fecha.difereciaFecha(fechaActual, aviso.fechaInicio);
+				if (difFechas >= 0 && difFechas <= 7) {
+					Log.e(aviso.titulo, difFechas+"");
+					aviso.key = postSnapshot.getKey();
+					avisos.add(aviso);
+				}
+			}
+		}
+	}
+
+	public void asignarAvisos() {
+		if (!avisos.isEmpty()) {
+			rvAvisosSemana.setVisibility(View.VISIBLE);
+			tvAvisosSemanales.setText("Avisos Semanales");
+			tvAvisosSemanales.getLayoutParams().height = -2;
+			if (avisos.size() == 1) {
+				rvAvisosSemana.getLayoutParams().height = -2;
+			} else {
+				rvAvisosSemana.getLayoutParams().height = 440;
+			}
+			AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
+			rvAvisosSemana.setAdapter(avisoAdaptador);
+		} else {
+			rvAvisosSemana.setVisibility(View.GONE);
+			tvAvisosSemanales.setText("No hay ningún aviso esta semana");
+			tvAvisosSemanales.getLayoutParams().height = 220;
+		}
 	}
 }
