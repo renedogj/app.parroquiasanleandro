@@ -1,146 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activitys.ActivityNavigation">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/drawerLayout"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context=".activitys.ActivityNavigation">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="55dp"
-            app:layout_constraintBottom_toTopOf="@id/linearLayoutNavitgation"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
-            android:name="com.parroquiasanleandro.fragments.FragmentInicio" />
+		<androidx.fragment.app.FragmentContainerView
+			android:id="@+id/fragment_container"
+			android:name="com.parroquiasanleandro.fragments.FragmentInicio"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_marginTop="0dp"
+			android:layout_marginBottom="55dp"
+			app:layout_constraintBottom_toTopOf="@id/linearLayoutNavitgation"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />
 
-        <LinearLayout
-            android:id="@+id/linearLayoutNavitgation"
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="-55dp"
-            android:background="@color/blue"
-            android:orientation="horizontal">
+		<LinearLayout
+			android:id="@+id/linearLayoutNavitgation"
+			android:layout_width="match_parent"
+			android:layout_height="55dp"
+			android:layout_gravity="bottom"
+			android:layout_marginTop="-55dp"
+			android:background="@color/blue"
+			android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/linearLayoutInicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+			<LinearLayout
+				android:id="@+id/linearLayoutInicio"
+				style="@style/linearLayautItemmenuNavigation">
 
-                <ImageView
-                    android:id="@+id/imgInicio"
-                    android:layout_width="@dimen/img_menu"
-                    android:layout_height="@dimen/img_menu"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_home_black" />
+				<ImageView
+					android:id="@+id/imgInicio"
+					style="@style/imgMenuNavigation"
+					app:srcCompat="@drawable/ic_home_black" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Inicio"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+				<TextView
+					style="@style/tvMenuNavigation"
+					android:text="Inicio" />
+			</LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayoutAvisos"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+			<LinearLayout
+				android:id="@+id/linearLayoutAvisos"
+				style="@style/linearLayautItemmenuNavigation">
 
-                <ImageView
-                    android:id="@+id/imgAvisos"
-                    android:layout_width="@dimen/img_menu"
-                    android:layout_height="@dimen/img_menu"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_bell" />
+				<ImageView
+					android:id="@+id/imgAvisos"
+					style="@style/imgMenuNavigation"
+					app:srcCompat="@drawable/ic_bell" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Avisos"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+				<TextView
+					style="@style/tvMenuNavigation"
+					android:text="Avisos" />
+			</LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayoutInformacion"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+			<LinearLayout
+				android:id="@+id/linearLayoutInformacion"
+				style="@style/linearLayautItemmenuNavigation">
 
-                <ImageView
-                    android:id="@+id/imgInformacion"
-                    android:layout_width="@dimen/img_menu"
-                    android:layout_height="@dimen/img_menu"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_app" />
+				<ImageView
+					android:id="@+id/imgInformacion"
+					style="@style/imgMenuNavigation"
+					app:srcCompat="@drawable/ic_app" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Información"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+				<TextView
+					style="@style/tvMenuNavigation"
+					android:text="Información" />
+			</LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/linearLayoutPerfil"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp">
+			<LinearLayout
+				android:id="@+id/linearLayoutPerfil"
+				style="@style/linearLayautItemmenuNavigation">
 
-                <ImageView
-                    android:id="@+id/imgPerfil"
-                    android:layout_width="@dimen/img_menu"
-                    android:layout_height="@dimen/img_menu"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/ic_user" />
+				<ImageView
+					android:id="@+id/imgPerfil"
+					style="@style/imgMenuNavigation"
+					app:srcCompat="@drawable/ic_user" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:text="Perfil"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-        </LinearLayout>
-    </LinearLayout>
+				<TextView
+					style="@style/tvMenuNavigation"
+					android:text="Perfil" />
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/nav_menu" />
-
+	<com.google.android.material.navigation.NavigationView
+		android:id="@+id/navView"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_gravity="start"
+		android:fitsSystemWindows="true"
+		app:menu="@menu/nav_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

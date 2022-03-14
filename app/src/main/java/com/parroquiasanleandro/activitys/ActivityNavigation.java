@@ -57,9 +57,11 @@ public class ActivityNavigation extends AppCompatActivity {
     private ActionBar actionBar;
     private ActionBarDrawerToggle toggle;
 
+    FragmentManager fragmentManager;
+
     RequestQueue requestQueue;
 
-    private ItemViewModel vmIds;
+    private ItemViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,22 +81,23 @@ public class ActivityNavigation extends AppCompatActivity {
         navView = findViewById(R.id.navView);
         drawerLayout = findViewById(R.id.drawerLayout);
 
-        vmIds = new ViewModelProvider(this).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_INICIO);
-        vmIds.addIdFragmentActual();
+        viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
+        viewModel.addIdFragmentActual();
+        viewModel.setNavView(navView);
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Parroquia San Leandro");
-            vmIds.setActionBar(actionBar);
+            viewModel.setActionBar(actionBar);
         }
 
         toggle = new ActionBarDrawerToggle(activity, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
@@ -105,38 +108,56 @@ public class ActivityNavigation extends AppCompatActivity {
         Categoria.actualizarCategoriasServidorToLocal(context);
 
         linearLayoutInicio.setOnClickListener(v -> {
-            if (vmIds.getIdFragmentActual() != Menu.FRAGMENT_INICIO) {
+            if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_INICIO) {
                 Menu.iniciarFragmentInicio(fragmentManager, actionBar);
                 Menu.asignarIconosMenu(navView,Menu.FRAGMENT_INICIO);
             }
         });
 
         linearLayoutAvisos.setOnClickListener(v -> {
-            if (vmIds.getIdFragmentActual() != Menu.FRAGMENT_AVISOS) {
+            if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_AVISOS) {
                 Menu.iniciarFragmentAvisos(fragmentManager, actionBar);
                 Menu.asignarIconosMenu(navView,Menu.FRAGMENT_AVISOS);
             }
         });
 
         linearLayoutInformacion.setOnClickListener(v -> {
-            if (vmIds.getIdFragmentActual() != Menu.FRAGMENT_INFORMACION) {
+            if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_INFORMACION) {
                 Menu.iniciarFragmentInformacion(fragmentManager, actionBar);
                 Menu.asignarIconosMenu(navView,Menu.FRAGMENT_INFORMACION);
             }
         });
 
         linearLayoutPerfil.setOnClickListener(v -> {
-            if (vmIds.getIdFragmentActual() != Menu.FRAGMENT_PERFIL) {
+            if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_PERFIL) {
                 Menu.iniciarFragmentPerfil(user, activity, context, fragmentManager, actionBar);
                 Menu.asignarIconosMenu(navView,Menu.FRAGMENT_PERFIL);
             }
         });
 
         navView.setNavigationItemSelectedListener(item -> {
-            vmIds.setIdFragmentActual(Menu.selecionarItemMenu(item, vmIds.getIdFragmentActual(), user, activity, context, fragmentManager, actionBar, navView));
+            viewModel.setIdFragmentActual(Menu.selecionarItemMenu(item, viewModel.getIdFragmentActual(), user, activity, context, fragmentManager, actionBar, navView));
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
     }
 
     @Override
@@ -152,16 +173,16 @@ public class ActivityNavigation extends AppCompatActivity {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            int posUltimoFragment = vmIds.getIdsFragment().size() - 1;
-            int ultimoFragment = vmIds.getIdsFragment().get(posUltimoFragment);
+            int posUltimoFragment = viewModel.getIdsFragment().size() - 1;
+            int ultimoFragment = viewModel.getIdsFragment().get(posUltimoFragment);
             if(ultimoFragment == Menu.FRAGMENT_CATEGORIAS) {
-                if(!vmIds.getIdsCategorias().isEmpty()) {
-                    if (vmIds.getCategoriaActual().equals(Categoria.ID_PADRE)) {
+                if(!viewModel.getIdsCategorias().isEmpty()) {
+                    if (viewModel.getCategoriaActual().equals(Categoria.ID_PADRE)) {
                         super.onBackPressed();
                     } else {
-                        int posUltimaCategoria = vmIds.getIdsCategorias().size() - 1;
-                        vmIds.getIdsCategorias().remove(posUltimaCategoria);
-                        vmIds.setCategoriaActual(vmIds.getIdsCategorias().get(posUltimaCategoria - 1));
+                        int posUltimaCategoria = viewModel.getIdsCategorias().size() - 1;
+                        viewModel.getIdsCategorias().remove(posUltimaCategoria);
+                        viewModel.setCategoriaActual(viewModel.getIdsCategorias().get(posUltimaCategoria - 1));
                         List<Categoria> categorias = new ArrayList<>();
 
                         //Obtener categorias del servidor y asignarselas a rvCategorias de FragmentCategorias
@@ -181,7 +202,7 @@ public class ActivityNavigation extends AppCompatActivity {
                                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, vmIds.getCategoriaActual(), FragmentCategorias.rvCategorias, vmIds);
+                            CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, viewModel.getCategoriaActual(), FragmentCategorias.rvCategorias, viewModel);
                             FragmentCategorias.rvCategorias.setAdapter(categoriaAdaptador);
                         }, error -> {
                             Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
@@ -201,12 +222,12 @@ public class ActivityNavigation extends AppCompatActivity {
             }else{
                 //Controlar pila de fragmentos y de categorias
                 super.onBackPressed();
-                vmIds.getIdsFragment().remove(posUltimoFragment);
-                if (!vmIds.getIdsFragment().isEmpty()) {
-                    vmIds.setIdFragmentActual(vmIds.getIdsFragment().get(posUltimoFragment - 1));
-                    Menu.asignarIconosMenu(navView, vmIds.getIdFragmentActual());
-                    if (vmIds.getIdFragmentActual() == Menu.FRAGMENT_CATEGORIAS) {
-                        vmIds.getIdsCategorias().clear();
+                viewModel.getIdsFragment().remove(posUltimoFragment);
+                if (!viewModel.getIdsFragment().isEmpty()) {
+                    viewModel.setIdFragmentActual(viewModel.getIdsFragment().get(posUltimoFragment - 1));
+                    Menu.asignarIconosMenu(navView, viewModel.getIdFragmentActual());
+                    if (viewModel.getIdFragmentActual() == Menu.FRAGMENT_CATEGORIAS) {
+                        viewModel.getIdsCategorias().clear();
                         onBackPressed();
                     }
                 }

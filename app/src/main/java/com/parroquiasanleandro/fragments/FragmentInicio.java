@@ -23,6 +23,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -56,8 +57,9 @@ public class FragmentInicio extends Fragment {
 	private LinearLayout linearLayoutCalendario;
 	private RecyclerView rvCalendario;
 
-	private ItemViewModel vmIds;
+	private ItemViewModel viewModel;
 	private ActionBar actionBar;
+	private NavigationView navView;
 
 	private Fecha fechaReferencia;
 	private List<Integer> dias;
@@ -74,9 +76,9 @@ public class FragmentInicio extends Fragment {
 
 		context = getContext();
 
-		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-		vmIds.setIdFragmentActual(Menu.FRAGMENT_INICIO);
-		vmIds.addIdFragmentActual();
+		viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+		viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
+		viewModel.addIdFragmentActual();
 
 		fechaReferencia = Fecha.FechaActual();
 		fechaReferencia.convertirAPrimerDiaMes();
@@ -152,10 +154,20 @@ public class FragmentInicio extends Fragment {
 			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, null, DiaAdaptador.TAMAÑO_PEQUEÑO));
 		}
 
-		actionBar = vmIds.getActionBar();
 		linearLayoutCalendario.setOnClickListener(view1 -> {
 			FragmentManager fragmentManager = getParentFragmentManager();
+			actionBar = viewModel.getActionBar();
 			Menu.iniciarFragmentCalendario(fragmentManager, actionBar);
+			navView = viewModel.getNavView();
+			Menu.asignarIconosMenu(navView,Menu.FRAGMENT_CALENDARIO);
+		});
+
+		rvCalendario.setOnClickListener(view1 -> {
+			FragmentManager fragmentManager = getParentFragmentManager();
+			actionBar = viewModel.getActionBar();
+			Menu.iniciarFragmentCalendario(fragmentManager, actionBar);
+			navView = viewModel.getNavView();
+			Menu.asignarIconosMenu(navView,Menu.FRAGMENT_CALENDARIO);
 		});
 		return view;
 	}
@@ -179,7 +191,6 @@ public class FragmentInicio extends Fragment {
 			if (aviso != null) {
 				int difFechas = Fecha.difereciaFecha(fechaActual, aviso.fechaInicio);
 				if (difFechas >= 0 && difFechas <= 7) {
-					Log.e(aviso.titulo, difFechas+"");
 					aviso.key = postSnapshot.getKey();
 					avisos.add(aviso);
 				}
@@ -195,7 +206,7 @@ public class FragmentInicio extends Fragment {
 			if (avisos.size() == 1) {
 				rvAvisosSemana.getLayoutParams().height = -2;
 			} else {
-				rvAvisosSemana.getLayoutParams().height = 440;
+				rvAvisosSemana.getLayoutParams().height = 450;
 			}
 			AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
 			rvAvisosSemana.setAdapter(avisoAdaptador);

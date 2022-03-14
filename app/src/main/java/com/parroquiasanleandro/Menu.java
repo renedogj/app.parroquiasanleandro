@@ -65,7 +65,7 @@ public class Menu {
         return itemId;
     }
 
-    public static int iniciarFragmentInicio(FragmentManager fragmentManager, ActionBar actionBar){
+    public static void iniciarFragmentInicio(FragmentManager fragmentManager, ActionBar actionBar){
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentInicio.class, null)
@@ -73,10 +73,9 @@ public class Menu {
                 .commit();
 
         actionBar.setTitle("Parroquia San Leandro");
-        return FRAGMENT_INICIO;
     }
 
-    public static int iniciarFragmentAvisos(FragmentManager fragmentManager, ActionBar actionBar){
+    public static void iniciarFragmentAvisos(FragmentManager fragmentManager, ActionBar actionBar){
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentAvisosParroquiales.class, null)
@@ -84,10 +83,9 @@ public class Menu {
                 .commit();
 
         actionBar.setTitle("Avisos");
-        return FRAGMENT_AVISOS;
     }
 
-    public static int iniciarFragmentInformacion(FragmentManager fragmentManager, ActionBar actionBar){
+    public static void iniciarFragmentInformacion(FragmentManager fragmentManager, ActionBar actionBar){
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentInformacion.class, null)
@@ -95,10 +93,9 @@ public class Menu {
                 .commit();
 
         actionBar.setTitle("Información");
-        return FRAGMENT_INFORMACION;
     }
 
-    public static int iniciarFragmentPerfil(FirebaseUser user, Activity activity, Context context, FragmentManager fragmentManager, ActionBar actionBar){
+    public static void iniciarFragmentPerfil(FirebaseUser user, Activity activity, Context context, FragmentManager fragmentManager, ActionBar actionBar){
         if (user != null) {
             fragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
@@ -111,10 +108,9 @@ public class Menu {
             activity.startActivity(new Intent(context, ActivityInicarSesion.class));
             activity.finish();
         }
-        return FRAGMENT_PERFIL;
     }
 
-    public static int iniciarFragmentCategorias(FragmentManager fragmentManager){
+    public static void iniciarFragmentCategorias(FragmentManager fragmentManager){
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentCategorias.class, null)
@@ -122,10 +118,9 @@ public class Menu {
                 .commit();
 
         //actionBar.setTitle("Categorias");
-        return FRAGMENT_CATEGORIAS;
     }
 
-    public static int iniciarFragmentCalendario(FragmentManager fragmentManager, ActionBar actionBar){
+    public static void iniciarFragmentCalendario(FragmentManager fragmentManager, ActionBar actionBar){
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentCalendario.class, null)
@@ -133,7 +128,6 @@ public class Menu {
                 .commit();
 
         actionBar.setTitle("Calendario");
-        return FRAGMENT_CALENDARIO;
     }
 
     public static MenuItem addCerrarSesion(NavigationView navView){
@@ -171,6 +165,7 @@ public class Menu {
                 break;
         }
 
+        //Modificamos los iconos del menu lateral
         for (int[] item:items) {
             if(item[0] == itemId){
                 navView.getMenu().findItem(item[0]).setIcon(item[2]);

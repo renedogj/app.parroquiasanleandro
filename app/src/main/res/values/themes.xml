@@ -60,7 +60,25 @@
         <item name="color">@color/black</item>
     </style>
 
+    <style name="linearLayautItemmenuNavigation" parent="size_1_2">
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
 
+    <style name="imgMenuNavigation">
+        <item name="android:layout_width">@dimen/img_menu</item>
+        <item name="android:layout_height">@dimen/img_menu</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="tvMenuNavigation" parent="size_2_2">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
     <style name="tvDiasSemanaCalendario" parent="size_2_2">
         <item name="android:layout_weight">1</item>

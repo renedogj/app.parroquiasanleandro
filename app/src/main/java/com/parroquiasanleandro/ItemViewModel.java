@@ -3,6 +3,8 @@ package com.parroquiasanleandro;
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.material.navigation.NavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,15 @@ public class ItemViewModel extends ViewModel {
     String categoriaActual;
     List<String> idsCategorias = new ArrayList<>();
     ActionBar actionBar;
+    NavigationView navView;
+
+    public NavigationView getNavView() {
+        return navView;
+    }
+
+    public void setNavView(NavigationView navView) {
+        this.navView = navView;
+    }
 
     public ActionBar getActionBar() {
         return actionBar;
