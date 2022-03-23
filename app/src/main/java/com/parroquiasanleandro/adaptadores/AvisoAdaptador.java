@@ -71,7 +71,7 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
 
         public void asignarValoresAviso(Aviso aviso) {
             tvTitulo.setText(aviso.titulo);
-            tvFecha.setText(aviso.fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
+            tvFecha.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             aviso.asignarImagen(context,ivAviso);
             aviso.asignarColor(context,linearLayoutAviso);
             ivAviso.setContentDescription(aviso.categoria);

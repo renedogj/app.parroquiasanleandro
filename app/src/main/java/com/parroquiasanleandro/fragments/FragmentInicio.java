@@ -189,7 +189,7 @@ public class FragmentInicio extends Fragment {
 		for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 			Aviso aviso = postSnapshot.getValue(Aviso.class);
 			if (aviso != null) {
-				int difFechas = Fecha.difereciaFecha(fechaActual, aviso.fechaInicio);
+				int difFechas = Fecha.difereciaFecha(fechaActual, aviso.getFechaInicio());
 				if (difFechas >= 0 && difFechas <= 7) {
 					aviso.key = postSnapshot.getKey();
 					avisos.add(aviso);

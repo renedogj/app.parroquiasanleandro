@@ -17,14 +17,14 @@ import com.parroquiasanleandro.activitys.ActivityNavigation;
 import com.parroquiasanleandro.fragments.FragmentAvisosParroquiales;
 import com.parroquiasanleandro.fragments.FragmentCalendario;
 import com.parroquiasanleandro.fragments.FragmentCategorias;
-import com.parroquiasanleandro.fragments.FragmentInformacion;
+import com.parroquiasanleandro.fragments.FragmentHorario;
 import com.parroquiasanleandro.fragments.FragmentInicio;
 import com.parroquiasanleandro.fragments.FragmentPerfil;
 
 public class Menu {
     public static final int FRAGMENT_INICIO = R.id.nav_fragment_inicio;
     public static final int FRAGMENT_AVISOS = R.id.nav_fragment_avisos;
-    public static final int FRAGMENT_INFORMACION = R.id.nav_fragment_informacion;
+    public static final int FRAGMENT_HORARIO = R.id.nav_fragment_horario;
     public static final int FRAGMENT_PERFIL = R.id.nav_fragment_perfil;
     public static final int FRAGMENT_CALENDARIO = R.id.nav_fragment_calendario;
     public static final int FRAGMENT_CATEGORIAS = 2;
@@ -41,8 +41,8 @@ public class Menu {
                 case FRAGMENT_AVISOS:
                     iniciarFragmentAvisos(fragmentManager,actionBar);
                     break;
-                case FRAGMENT_INFORMACION:
-                    iniciarFragmentInformacion(fragmentManager,actionBar);
+                case FRAGMENT_HORARIO:
+                    iniciarFragmentHorario(fragmentManager,actionBar);
                     break;
                 case FRAGMENT_PERFIL:
                     iniciarFragmentPerfil(user,activity,context,fragmentManager,actionBar);
@@ -85,10 +85,10 @@ public class Menu {
         actionBar.setTitle("Avisos");
     }
 
-    public static void iniciarFragmentInformacion(FragmentManager fragmentManager, ActionBar actionBar){
+    public static void iniciarFragmentHorario(FragmentManager fragmentManager, ActionBar actionBar){
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, FragmentInformacion.class, null)
+                .replace(R.id.fragment_container, FragmentHorario.class, null)
                 .addToBackStack(null)
                 .commit();
 
@@ -139,13 +139,13 @@ public class Menu {
     public static void asignarIconosMenu(NavigationView navView,int itemId){
         ActivityNavigation.imgInicio.setImageResource(R.drawable.ic_home);
         ActivityNavigation.imgAvisos.setImageResource(R.drawable.ic_bell);
-        ActivityNavigation.imgInformacion.setImageResource(R.drawable.ic_app);
+        ActivityNavigation.imgHorario.setImageResource(R.drawable.ic_app);
         ActivityNavigation.imgPerfil.setImageResource(R.drawable.ic_user);
 
         int[][] items = {
                 {FRAGMENT_INICIO, R.drawable.ic_home, R.drawable.ic_home_black},
                 {FRAGMENT_AVISOS,R.drawable.ic_bell,R.drawable.ic_bell_black},
-                {FRAGMENT_INFORMACION,R.drawable.ic_app,R.drawable.ic_app_black},
+                {FRAGMENT_HORARIO,R.drawable.ic_app,R.drawable.ic_app_black},
                 {FRAGMENT_PERFIL,R.drawable.ic_user,R.drawable.ic_user_black},
                 {FRAGMENT_CALENDARIO,R.drawable.ic_calendar,R.drawable.ic_calendar_black}
         };
@@ -157,8 +157,8 @@ public class Menu {
             case FRAGMENT_AVISOS:
                 ActivityNavigation.imgAvisos.setImageResource(R.drawable.ic_bell_black);
                 break;
-            case FRAGMENT_INFORMACION:
-                ActivityNavigation.imgInformacion.setImageResource(R.drawable.ic_app_black);
+            case FRAGMENT_HORARIO:
+                ActivityNavigation.imgHorario.setImageResource(R.drawable.ic_app_black);
                 break;
             case FRAGMENT_PERFIL:
                 ActivityNavigation.imgPerfil.setImageResource(R.drawable.ic_user_black);

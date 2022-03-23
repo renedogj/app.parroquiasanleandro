@@ -14,12 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
+import com.parroquiasanleandro.adaptadores.CategoriaSencillaAdaptador;
+
+import java.util.Arrays;
 
 public class FragmentPerfil extends Fragment {
     private Activity activity;
@@ -30,6 +35,7 @@ public class FragmentPerfil extends Fragment {
     private TextView tvEmail;
     private LinearLayout linearLayoutEmail;
     private LinearLayout linearLayoutCategorias;
+    private RecyclerView rvCategoriasUsuario;
 
     private ItemViewModel vmIds;
 
@@ -55,6 +61,7 @@ public class FragmentPerfil extends Fragment {
         tvEmail = view.findViewById(R.id.tvEmail);
         linearLayoutEmail = view.findViewById(R.id.linearLayoutEmail);
         linearLayoutCategorias = view.findViewById(R.id.linearLayoutCategorias);
+        rvCategoriasUsuario = view.findViewById(R.id.rvCategoriasUsuario);
 
         vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 
@@ -73,6 +80,14 @@ public class FragmentPerfil extends Fragment {
             FragmentManager fragmentManager = getParentFragmentManager();
             Menu.iniciarFragmentCategorias(fragmentManager);
         });
+
+        rvCategoriasUsuario.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        rvCategoriasUsuario.setLayoutManager(linearLayoutManager);
+
+        CategoriaSencillaAdaptador categoriaSencillaAdaptador = new CategoriaSencillaAdaptador(context, Arrays.asList(usuario.getCategorias()));
+        rvCategoriasUsuario.setAdapter(categoriaSencillaAdaptador);
 
         return view;
     }

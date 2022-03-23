@@ -1,7 +1,5 @@
 package com.parroquiasanleandro.fecha;
 
-import androidx.annotation.NonNull;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Calendar;
@@ -102,9 +100,16 @@ public class Fecha {
 	 */
 	public static Fecha FechaActual() {
 		Calendar hoy = Calendar.getInstance();
-		return new Fecha(hoy.get(Calendar.DAY_OF_MONTH), Mes.values()[hoy.get(Calendar.MONTH)], hoy.get(Calendar.YEAR), hoy.get(Calendar.HOUR_OF_DAY), hoy.get(Calendar.MINUTE), hoy.get(Calendar.SECOND));
+		return calendarToFecha(hoy);
 	}
 
+	/**
+	 * Metodo que devuelve los millisegungos actuales
+	 */
+	public static long getActualMillis() {
+		Calendar hoy = Calendar.getInstance();
+		return hoy.getTimeInMillis();
+	}
 
 	/**
 	 * Metodo para actualizar el día de la semana de la fecha actual
@@ -114,10 +119,10 @@ public class Fecha {
 	public void actualizarDiaSemana() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(año, mes.getNumeroMes() - 1, dia);
-		if(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+		if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 			this.diaSemana = DiasSemana.Domingo;
-		}else{
-			this.diaSemana = DiasSemana.values()[calendar.get(Calendar.DAY_OF_WEEK)-2];
+		} else {
+			this.diaSemana = DiasSemana.values()[calendar.get(Calendar.DAY_OF_WEEK) - 2];
 		}
 	}
 
@@ -370,6 +375,17 @@ public class Fecha {
 	 * (Enero esta en la posición 1 del array)
 	 * variable int diferencia que servirá para ir acumulando la diferencia de días entre las dos fechas
 	 * <p>
+	 * Antes de iniciar el algoritmo para comprobar la diferencia de fechas, comproprobamos, mediante el metodo
+	 * isFecha1MayorQueFecha2, si la fecha1 es mayor que la fecha2 y en ese caso intercambiaremos las variables
+	 * de tal forma que dia1, mes1 y año1 corresponderan a fecha2 y dia2, mes2 y año2 corresponderan a fecha1,
+	 * de esta forma no aseguraremos de que calculamos correctamente los días de diferencia.
+	 * Al terminar el algorirmo, si la fecha1 es mayor a la fecha2, devolveremos la diferencia de días entre las
+	 * dos fechas como un número negativo
+	 * <p>
+	 * fecha1 < fecha2 = diferencia
+	 * fecha1 > fecha2 = -diferencia
+	 * </p>
+	 * <p>
 	 * Algoritmo del método:
 	 * Primero comprobamos si las dos fechas están en el mismo anno. En caso de que las fechas
 	 * estén en el mismo anno comprobamos si está en el mismo mes. Si la fechas están en el mismo mes
@@ -379,7 +395,7 @@ public class Fecha {
 	 * entre las dos fechas. Si el mes es febrero(2) y el anno es bisiesto sumamos uno a la diferencia.
 	 * Si el mes de la fecha1 (mes1) es febrero sumamos 1. Después sumamos los días que quedan
 	 * para completa el mes1 y los días (día2) que llevan transcurridos del mes de la fecha2 (mes2)
-	 * <p>
+	 * </p>
 	 * En caso de que los annos sean diferentes, con un bucle for sumamos 365 días a la diferencia
 	 * por cada anno de diferencia entre el anno1 y el anno2 y vamos comprobando si alguno de esos
 	 * annos es bisiesto en cuyo caso sumamos un día más por cada anno bisiesto. A continuación
@@ -393,7 +409,7 @@ public class Fecha {
 	 *               se quiere conocer la diferencia de fecha.
 	 * @param fecha2 parámetro tipo fecha que hace referencia a la segunda fecha de entre las cuales
 	 *               se quiere conocer la diferencia de fecha. Se recomienda que la segunda fecha sea
-	 *               posterior que la primera fecha
+	 *               posterior que la primera fecha, en caso de que esto no ocurra se retornará un valor negativo
 	 * @return diferencia
 	 * variable local de tipo int que irá acumulando a lo largo del método la diferencia
 	 * días que hay entre las dos fechas, en caso de que fecha1>fecha2 tendrá valor negativo
@@ -403,14 +419,14 @@ public class Fecha {
 		int[] diasMeses = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 		int diferencia = 0;
 
-		if(isFecha1MayorQueFecha2(fecha1,fecha2)){
+		if (isFecha1MayorQueFecha2(fecha1, fecha2)) {
 			dia1 = fecha2.dia;
 			mes1 = fecha2.mes.getNumeroMes();
 			año1 = fecha2.año;
 			dia2 = fecha1.dia;
 			mes2 = fecha1.mes.getNumeroMes();
 			año2 = fecha1.año;
-		}else{
+		} else {
 			dia1 = fecha1.dia;
 			mes1 = fecha1.mes.getNumeroMes();
 			año1 = fecha1.año;
@@ -472,9 +488,9 @@ public class Fecha {
 			}
 			diferencia += dia2;
 		}
-		if(isFecha1MayorQueFecha2(fecha1,fecha2)){
+		if (isFecha1MayorQueFecha2(fecha1, fecha2)) {
 			return -diferencia;
-		}else{
+		} else {
 			return diferencia;
 		}
 	}
@@ -508,20 +524,20 @@ public class Fecha {
 		}
 	}
 
-	public static boolean isFecha1MayorQueFecha2(Fecha fecha1, Fecha fecha2){
-		if(fecha1.año > fecha2.año){
+	public static boolean isFecha1MayorQueFecha2(Fecha fecha1, Fecha fecha2) {
+		if (fecha1.año > fecha2.año) {
 			return true;
-		}else if(fecha1.año == fecha2.año){
-			if (fecha1.mes.getNumeroMes() > fecha2.mes.getNumeroMes()){
+		} else if (fecha1.año == fecha2.año) {
+			if (fecha1.mes.getNumeroMes() > fecha2.mes.getNumeroMes()) {
 				return true;
-			}else if (fecha1.mes.getNumeroMes() == fecha2.mes.getNumeroMes()){
+			} else if (fecha1.mes.getNumeroMes() == fecha2.mes.getNumeroMes()) {
 				return fecha1.dia > fecha2.dia;
 			}
 		}
 		return false;
 	}
 
-	public boolean isFechaEntreDosfechas(Fecha fecha1, Fecha fecha2) {
+	public boolean isHoraEntreDosHoras(Fecha fecha1, Fecha fecha2) {
 		if (this.hora < fecha1.hora) {
 			return false;
 		} else if (this.hora == fecha1.hora) {
@@ -545,18 +561,34 @@ public class Fecha {
 
 	public static String formatearNumero(int numero) {
 		if (String.valueOf(numero).length() != 2) {
-			return "0" + String.valueOf(numero);
+			return "0" + numero;
 		} else {
 			return String.valueOf(numero);
 		}
 	}
 
 	public static class FormatosFecha {
-		public final static String HH_mm = "HH:mm";
-		public final static String dd_MM_aaaa = "dd-MM-aaaa";
-		public final static String EE_d_MMM_aaaa = "EE, d MMM aaaa";
-		public final static String aaaaMM = "aaaaMM";
-		public final static String MMMM_aaaa = "MMMM_aaaa";
+		public static final String HH_mm = "HH:mm";
+		public static final String dd_MM_aaaa = "dd-MM-aaaa";
+		public static final String dd_MM_aaaa_HH_MM = "dd-MM-aaaa HH:mm";
+		public static final String EE_d_MMM_aaaa = "EE, d MMM aaaa";
+		public static final String aaaaMM = "aaaaMM";
+		public static final String MMMM_aaaa = "MMMM_aaaa";
+	}
+
+	public static Fecha toFecha(long millis){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(millis);
+		return calendarToFecha(calendar);
+	}
+
+	public static Fecha calendarToFecha(Calendar calendar){
+		return new Fecha(calendar.get(Calendar.DAY_OF_MONTH),
+				Mes.values()[calendar.get(Calendar.MONTH)],
+				calendar.get(Calendar.YEAR),
+				calendar.get(Calendar.HOUR_OF_DAY),
+				calendar.get(Calendar.MINUTE),
+				calendar.get(Calendar.SECOND));
 	}
 
 	@NotNull
@@ -565,13 +597,14 @@ public class Fecha {
 		return (toString(""));
 	}
 
-	@NonNull
 	public String toString(String formato) {
 		switch (formato) {
 			case FormatosFecha.HH_mm:
 				return formatearNumero(hora) + ":" + formatearNumero(minuto);
 			case FormatosFecha.dd_MM_aaaa:
 				return formatearNumero(dia) + "-" + formatearNumero(mes.getNumeroMes()) + "-" + año;
+			case FormatosFecha.dd_MM_aaaa_HH_MM:
+				return formatearNumero(dia) + "-" + formatearNumero(mes.getNumeroMes()) + "-" + año + " " + formatearNumero(hora) + ":" + formatearNumero(minuto);
 			case FormatosFecha.EE_d_MMM_aaaa:
 				return diaSemana.getAbrebiatura() + ", " + dia + " " + mes.getAbrebiatura() + " " + año;
 			case FormatosFecha.aaaaMM:

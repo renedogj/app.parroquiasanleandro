@@ -200,7 +200,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 				refAviso.setValue(aviso);
 				aviso.key = refAviso.getKey();
 				FirebaseDatabase.getInstance().getReference().child("Calendario").child(fechaInicio.toString(Fecha.FormatosFecha.aaaaMM))
-						.child(aviso.fechaInicio.dia+"").child(aviso.key).setValue(aviso.categoria);
+						.child(aviso.getFechaInicio().dia+"").child(aviso.key).setValue(aviso.categoria);
 
 				Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
 				finish();

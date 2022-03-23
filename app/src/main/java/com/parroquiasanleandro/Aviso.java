@@ -16,6 +16,8 @@ public class Aviso {
     public String titulo;
     public String descripcion;
     public String categoria;
+    public long longInicio;
+    public long longFin;
     public Fecha fechaInicio;
     public Fecha fechaFin;
     public boolean todoElDia;
@@ -46,6 +48,21 @@ public class Aviso {
         this.uidCreador = uidCreador;
     }
 
+    public Fecha getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(Fecha fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public Fecha getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Fecha fechaFin) {
+        this.fechaFin = fechaFin;
+    }
 
     public void asignarColor(Context context, LinearLayout linearLayout){
         linearLayout.setBackgroundColor(Color.parseColor(Categoria.obtenerColorCategoria(context,categoria)));

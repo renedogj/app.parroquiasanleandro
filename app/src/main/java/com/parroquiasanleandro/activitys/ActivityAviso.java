@@ -59,10 +59,10 @@ public class ActivityAviso extends AppCompatActivity {
 
                     tvTituloAviso.setText(aviso.titulo);
                     //tvFechaInicio.setText(aviso.fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa) + "  " + aviso.fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
-                    tvFechaInicio.setText(aviso.fechaInicio.toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
-                    if (aviso.fechaFin != null){
+                    tvFechaInicio.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
+                    if (aviso.getFechaFin() != null){
                         //tvFechaFinal.setText(aviso.fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa) + "  " + aviso.fechaFin.toString(Fecha.FormatosFecha.HH_mm));
-                        tvFechaFinal.setText(aviso.fechaFin.toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.fechaFin.toString(Fecha.FormatosFecha.HH_mm));
+                        tvFechaFinal.setText(aviso.getFechaFin().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaFin().toString(Fecha.FormatosFecha.HH_mm));
                     }
                     tvDescripcion.setText(aviso.descripcion);
                     aviso.asignarColor(context,linearLayoutContenedorAviso);

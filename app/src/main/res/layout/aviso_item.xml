@@ -17,7 +17,6 @@
         android:id="@+id/linearLayoutAviso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#CC9900FF"
         android:orientation="horizontal">
 
         <LinearLayout

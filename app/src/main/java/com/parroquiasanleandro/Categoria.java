@@ -2,6 +2,7 @@ package com.parroquiasanleandro;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
@@ -24,12 +25,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Categoria {
+    public static final String CATEGORIAS = "CATEGORIAS";
     public static final String SUSCRIPCIONES = "suscripciones";
     public static final String ID_PADRE = "A";
     public static final String NOMBRE_PADRE = "General";
     public static final String ID = "id";
     public static final String NOMBRE = "nombre";
     public static final String COLOR = "color";
+    public static final String MILLIS_ACTUALIZACION = "millis_actualizacion";
 
     public String key;
     public String nombre;
@@ -109,6 +112,18 @@ public class Categoria {
         return null;
     }*/
 
+    public static long getMillisUltimaActualizacion(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CATEGORIAS, Context.MODE_PRIVATE);
+        return sharedPreferences.getLong(MILLIS_ACTUALIZACION, 0);
+    }
+
+    public static void setMillisUltimaActualizacion(Context context, long timestamp ){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CATEGORIAS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putLong(MILLIS_ACTUALIZACION, timestamp );
+        editor.apply();
+    }
+
     /**
      * Suscribe al usuario a la categoria en la BBDD
      */
@@ -126,8 +141,6 @@ public class Categoria {
     }
 
     public static void actualizarCategoriasServidorToLocal(Context context){
-
-
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new JsonArrayRequest(Url.obtenerCategorias, new Response.Listener<JSONArray>(){
             @Override
@@ -284,7 +297,7 @@ public class Categoria {
         while (cursorConsulta.moveToNext()) {
             String key = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID));
             String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_NOMBRE));
-            categorias.add(new Categoria(key, nombre));
+            categorias.add(new Categoria(key, nombre,obtenerColorCategoria(context, key)));
         }
         cursorConsulta.close();
         db.close();

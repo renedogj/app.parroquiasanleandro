@@ -33,14 +33,14 @@ public class Usuario {
     public String nombre;
     public String email;
     public HashMap<String, String> suscripciones;
-    Categoria[] categorias;
+    private Categoria[] categorias;
     public Fecha fechaNacimiento;
     public Uri fotoPerfil;
     public String numeroTelefono;
     //public boolean emailVerified;
     public boolean esAdministrador;
     public HashMap<String, String> administraciones;
-    Categoria[] categoriasAdministradas;
+    private Categoria[] categoriasAdministradas;
 
     public Usuario() {
     }

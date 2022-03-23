@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.parroquiasanleandro.Categoria;
 import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
@@ -49,7 +50,7 @@ public class ActivityNavigation extends AppCompatActivity {
     private LinearLayout linearLayoutPerfil;
     public static ImageView imgInicio;
     public static ImageView imgAvisos;
-    public static ImageView imgInformacion;
+    public static ImageView imgHorario;
     public static ImageView imgPerfil;
 
     private DrawerLayout drawerLayout;
@@ -70,12 +71,12 @@ public class ActivityNavigation extends AppCompatActivity {
 
         linearLayoutInicio = findViewById(R.id.linearLayoutInicio);
         linearLayoutAvisos = findViewById(R.id.linearLayoutAvisos);
-        linearLayoutInformacion = findViewById(R.id.linearLayoutInformacion);
+        linearLayoutInformacion = findViewById(R.id.linearLayoutHorario);
         linearLayoutPerfil = findViewById(R.id.linearLayoutPerfil);
 
         imgInicio = findViewById(R.id.imgInicio);
         imgAvisos = findViewById(R.id.imgAvisos);
-        imgInformacion = findViewById(R.id.imgInformacion);
+        imgHorario = findViewById(R.id.imgHorario);
         imgPerfil = findViewById(R.id.imgPerfil);
 
         navView = findViewById(R.id.navView);
@@ -105,7 +106,15 @@ public class ActivityNavigation extends AppCompatActivity {
             Usuario.actualizarUsuarioLocal(context, user);
         }
 
-        Categoria.actualizarCategoriasServidorToLocal(context);
+        FirebaseDatabase.getInstance().getReference().child("infoGeneral").child("fechaModCategorias").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult().getValue() != null) {
+                long fechaModCategorias = task.getResult().getValue(long.class);
+                if(fechaModCategorias > Categoria.getMillisUltimaActualizacion(context)){
+                    Categoria.actualizarCategoriasServidorToLocal(context);
+                    Categoria.setMillisUltimaActualizacion(context,fechaModCategorias);
+                }
+            }
+        });
 
         linearLayoutInicio.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_INICIO) {
@@ -122,9 +131,9 @@ public class ActivityNavigation extends AppCompatActivity {
         });
 
         linearLayoutInformacion.setOnClickListener(v -> {
-            if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_INFORMACION) {
-                Menu.iniciarFragmentInformacion(fragmentManager, actionBar);
-                Menu.asignarIconosMenu(navView,Menu.FRAGMENT_INFORMACION);
+            if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_HORARIO) {
+                Menu.iniciarFragmentHorario(fragmentManager, actionBar);
+                Menu.asignarIconosMenu(navView,Menu.FRAGMENT_HORARIO);
             }
         });
 
@@ -142,7 +151,7 @@ public class ActivityNavigation extends AppCompatActivity {
         });
     }
 
-    @Override
+    /*@Override
     protected void onRestart() {
         super.onRestart();
         Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
@@ -152,13 +161,7 @@ public class ActivityNavigation extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
