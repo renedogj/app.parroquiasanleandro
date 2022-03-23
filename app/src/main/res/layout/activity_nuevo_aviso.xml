@@ -19,8 +19,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/texto_2_2_Oscuro"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
@@ -30,8 +29,7 @@
 
             <EditText
                 android:id="@+id/etTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/texto_1_2_Oscuro"
                 android:background="@color/transparente"
                 android:hint="Añade un título"
                 android:inputType="text"
@@ -76,8 +74,7 @@
 
                     <TextView
                         android:id="@+id/tvAñadirImagen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/texto_2_2_Oscuro"
                         android:padding="5dp"
                         android:text="Añade una imagen"
                         android:textSize="16.5sp" />
@@ -92,8 +89,7 @@
 
             <EditText
                 android:id="@+id/etDescripcion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/texto_1_2_Oscuro"
                 android:background="@color/transparente"
                 android:ems="10"
                 android:gravity="start|top"
@@ -151,8 +147,7 @@
 
                         <TextView
                             android:id="@+id/tvFechaInicio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/texto_2_2_Oscuro"
                             android:padding="5dp"
                             android:paddingStart="10dp"
                             android:paddingEnd="60dp"
@@ -161,8 +156,7 @@
 
                         <TextView
                             android:id="@+id/tvHoraInicio"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/texto_1_2_Oscuro"
                             android:padding="5dp"
                             android:paddingStart="50dp"
                             android:paddingEnd="0dp"
@@ -179,8 +173,7 @@
 
                         <TextView
                             android:id="@+id/tvFechaFinal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/texto_2_2_Oscuro"
                             android:padding="5dp"
                             android:paddingStart="10dp"
                             android:paddingEnd="60dp"
@@ -189,8 +182,7 @@
 
                         <TextView
                             android:id="@+id/tvHoraFinal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/texto_1_2_Oscuro"
                             android:padding="5dp"
                             android:paddingStart="50dp"
                             android:paddingEnd="0dp"
@@ -206,16 +198,14 @@
 
                         <TextView
                             android:id="@+id/tvSimboloAñadirFechaFinal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/texto_2_2_Oscuro"
                             android:paddingStart="10dp"
                             android:text="+"
                             android:textSize="21sp" />
 
                         <TextView
                             android:id="@+id/tvAñadirFechaFinal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            style="@style/texto_1_2_Oscuro"
                             android:padding="5dp"
                             android:paddingStart="10dp"
                             android:paddingEnd="0dp"

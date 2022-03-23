@@ -69,11 +69,10 @@
 
 			<TextView
 				android:id="@+id/tvContraseñaOlvidada"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				style="@style/texto_1_2_Oscuro"
 				android:ems="10"
-				android:paddingTop="1dp"
-				android:paddingBottom="1dp"
+				android:layout_marginTop="2dp"
+				android:layout_marginBottom="2dp"
 				android:text="¿Has olvidado tu contraseña?"
 				android:textAlignment="center" />
 		</LinearLayout>
@@ -83,21 +82,19 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:orientation="horizontal"
-			android:paddingTop="1dp"
-			android:paddingBottom="1dp">
+			android:layout_marginTop="2dp"
+			android:layout_marginBottom="2dp">
 
 			<TextView
 				android:id="@+id/tvNoTengoCuenta"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				style="@style/texto_2_2_Oscuro"
 				android:layout_weight="1"
 				android:gravity="right"
 				android:text="¿Aun no tienes cuenta? " />
 
 			<TextView
 				android:id="@+id/tvRegistrarse"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				style="@style/texto_2_2_Oscuro"
 				android:layout_weight="1"
 				android:gravity="left"
 				android:text="Registrarse" />
@@ -119,8 +116,7 @@
 				android:background="?android:attr/listDivider" />
 
 			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				style="@style/texto_2_2_Oscuro"
 				android:layout_marginStart="7dp"
 				android:layout_marginEnd="7dp"
 				android:text="o"

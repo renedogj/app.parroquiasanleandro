@@ -92,11 +92,6 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_categoria_item, nombreCategoriasAdministradas);
 		spinnerCategoria.setAdapter(adapter);
 
-		lnlytAñadirImagen.setOnClickListener(v -> {
-			Intent intent = new Intent(context, ActivitySeleccionarImagen.class);
-			startActivityForResult(intent, 1);
-		});
-
 		switchTodoElDia.setOnCheckedChangeListener((buttonView, isChecked) -> {
 			todoElDia = isChecked;
 			if (todoElDia) {
@@ -171,6 +166,12 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		bttnNuevoAviso.setOnClickListener(v -> guardarNuevoAviso(nuevoAviso()));
 
 		bttnCancelar.setOnClickListener(v -> finish());
+
+		lnlytAñadirImagen.setOnClickListener(v -> {
+			Intent intent = new Intent(context, ActivitySeleccionarImagen.class);
+			intent.putExtra("categoria", usuario.getCategoriasAdministradas()[spinnerCategoria.getSelectedItemPosition()].key);
+			startActivityForResult(intent, 1);
+		});
 	}
 
 	@Override
@@ -199,6 +200,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 				DatabaseReference refAviso = FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push();
 				refAviso.setValue(aviso);
 				aviso.key = refAviso.getKey();
+				aviso.setFechaInicio(Fecha.toFecha(aviso.longInicio));;
 				FirebaseDatabase.getInstance().getReference().child("Calendario").child(fechaInicio.toString(Fecha.FormatosFecha.aaaaMM))
 						.child(aviso.getFechaInicio().dia+"").child(aviso.key).setValue(aviso.categoria);
 
@@ -222,7 +224,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 			imagen = "imagenPredeterminada";
 		} else {
 			if (nombreImagen == null) {
-				imagen = subirImagen();
+				imagen = subirImagen(categoriaKey);
 			} else {
 				imagen = nombreImagen;
 			}
@@ -234,9 +236,9 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		}
 	}
 
-	private String subirImagen() {
+	private String subirImagen(String categoriaKey) {
 		String nombreImagen = System.currentTimeMillis() + "." + getFileExtension(uriImagen);
-		FirebaseStorage.getInstance().getReference("ImagenesAvisos").child(nombreImagen).putFile(uriImagen)
+		FirebaseStorage.getInstance().getReference("ImagenesAvisos").child(categoriaKey).child(nombreImagen).putFile(uriImagen)
 				.addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
 		return nombreImagen;
 	}

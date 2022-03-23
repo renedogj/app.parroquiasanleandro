@@ -10,7 +10,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.parroquiasanleandro.fecha.Fecha;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +24,7 @@ public class Usuario {
     public static final String UID = "uid";
     public static final String NOMBRE = "nombre";
     public static final String EMAIL = "email";
+    public static final String MILLIS_FECHA_NACIMIENTO = "millisfechaNacimiento";
     public static final String NUMERO_TELEFONO = "numeroTelefono";
     public static final String EMAIL_VERIFIED = "emailVerified";
     public static final String ES_ADMINISTRADOR = "esAdministrador";
@@ -34,7 +34,7 @@ public class Usuario {
     public String email;
     public HashMap<String, String> suscripciones;
     private Categoria[] categorias;
-    public Fecha fechaNacimiento;
+    public long fechaNacimiento;
     public Uri fotoPerfil;
     public String numeroTelefono;
     //public boolean emailVerified;
@@ -43,16 +43,17 @@ public class Usuario {
     private Categoria[] categoriasAdministradas;
 
     public Usuario() {
+        //setFechaNacimiento(Fecha.toFecha(millisfechaNacimiento));
     }
 
-    public Usuario(String uid, String nombre, String email, Fecha fechaNacimiento, Uri fotoPerfil, String numeroTelefono) {
+    /*public Usuario(String uid, String nombre, String email, Fecha fechaNacimiento, Uri fotoPerfil, String numeroTelefono) {
         this.uid = uid;
         this.nombre = nombre;
         this.email = email;
         this.fechaNacimiento = fechaNacimiento;
         this.fotoPerfil = fotoPerfil;
         this.numeroTelefono = numeroTelefono;
-    }
+    }*/
 
     public Usuario(String nombre, String email) {
         this.nombre = nombre;
@@ -67,6 +68,10 @@ public class Usuario {
         this.suscripciones = new HashMap<>();
     }
 
+    /*public Fecha getFechaNacimiento() {
+        return fechaNacimiento;
+    }*/
+
     public Categoria[] getCategorias() {
         return categorias;
     }
@@ -74,6 +79,10 @@ public class Usuario {
     public Categoria[] getCategoriasAdministradas() {
         return categoriasAdministradas;
     }
+
+    /*public void setFechaNacimiento(Fecha fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }*/
 
     public void setCategorias(Categoria[] categorias) {
         this.categorias = categorias;
@@ -124,6 +133,8 @@ public class Usuario {
                 editor.putString(UID, user.getUid());
                 editor.putString(NOMBRE, user.getDisplayName());
                 editor.putString(EMAIL, user.getEmail());
+                assert usuario != null;
+                editor.putLong(MILLIS_FECHA_NACIMIENTO, usuario.fechaNacimiento);
                 //editor.putString("fotoPerfil",user.getPhotoUrl());
                 editor.putString(NUMERO_TELEFONO, user.getPhoneNumber());
                 //editor.putBoolean(EMAIL_VERIFIED, user.isEmailVerified());
@@ -143,6 +154,7 @@ public class Usuario {
         usuario.uid = sharedPreferences.getString(UID, null);
         usuario.nombre = sharedPreferences.getString(NOMBRE, null);
         usuario.email = sharedPreferences.getString(EMAIL, null);
+        usuario.fechaNacimiento = sharedPreferences.getLong(MILLIS_FECHA_NACIMIENTO, 0);
         usuario.numeroTelefono = sharedPreferences.getString(NUMERO_TELEFONO, null);
         usuario.categorias = Categoria.recuperarCategoriasSuscritasLocal(context);
         //usuario.emailVerified = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);

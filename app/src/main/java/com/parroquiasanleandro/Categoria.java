@@ -197,7 +197,7 @@ public class Categoria {
                 null,
                 null,
                 null,
-                null
+                FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID
         );
         List<Categoria> categorias = new ArrayList<>();
         while (cursorConsulta.moveToNext()) {
@@ -291,7 +291,7 @@ public class Categoria {
                 null,
                 null,
                 null,
-                null
+                FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID
         );
         List<Categoria> categorias = new ArrayList<>();
         while (cursorConsulta.moveToNext()) {
@@ -333,7 +333,7 @@ public class Categoria {
                 null,
                 null,
                 null,
-                null
+                FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID
         );
         List<Categoria> categorias = new ArrayList<>();
         while (cursorConsulta.moveToNext()) {

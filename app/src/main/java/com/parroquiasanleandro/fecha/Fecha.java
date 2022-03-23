@@ -567,6 +567,27 @@ public class Fecha {
 		}
 	}
 
+	public static Fecha toFecha(long millis) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(millis);
+		return calendarToFecha(calendar);
+	}
+
+	public static long toMillis(Fecha fecha) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(fecha.año, fecha.mes.getNumeroMes() - 1, fecha.dia, fecha.hora, fecha.minuto, fecha.segundo);
+		return calendar.getTimeInMillis();
+	}
+
+	public static Fecha calendarToFecha(Calendar calendar) {
+		return new Fecha(calendar.get(Calendar.DAY_OF_MONTH),
+				Mes.values()[calendar.get(Calendar.MONTH)],
+				calendar.get(Calendar.YEAR),
+				calendar.get(Calendar.HOUR_OF_DAY),
+				calendar.get(Calendar.MINUTE),
+				calendar.get(Calendar.SECOND));
+	}
+
 	public static class FormatosFecha {
 		public static final String HH_mm = "HH:mm";
 		public static final String dd_MM_aaaa = "dd-MM-aaaa";
@@ -574,21 +595,7 @@ public class Fecha {
 		public static final String EE_d_MMM_aaaa = "EE, d MMM aaaa";
 		public static final String aaaaMM = "aaaaMM";
 		public static final String MMMM_aaaa = "MMMM_aaaa";
-	}
-
-	public static Fecha toFecha(long millis){
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTimeInMillis(millis);
-		return calendarToFecha(calendar);
-	}
-
-	public static Fecha calendarToFecha(Calendar calendar){
-		return new Fecha(calendar.get(Calendar.DAY_OF_MONTH),
-				Mes.values()[calendar.get(Calendar.MONTH)],
-				calendar.get(Calendar.YEAR),
-				calendar.get(Calendar.HOUR_OF_DAY),
-				calendar.get(Calendar.MINUTE),
-				calendar.get(Calendar.SECOND));
+		public static final String dd_MMMM_aaaa = "dd_MMMM_aaaa";
 	}
 
 	@NotNull
@@ -611,6 +618,8 @@ public class Fecha {
 				return año + Fecha.formatearNumero(mes.getNumeroMes());
 			case FormatosFecha.MMMM_aaaa:
 				return mes.name() + " " + año;
+			case FormatosFecha.dd_MMMM_aaaa:
+				return formatearNumero(dia) + " de " + mes.name() + " de " + año;
 			default:
 				return diaSemana.toString() + ", " + dia + " de " + mes.toString() + " de " + año;
 		}

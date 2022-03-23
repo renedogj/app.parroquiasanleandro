@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,6 +24,7 @@ import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
 import com.parroquiasanleandro.adaptadores.CategoriaSencillaAdaptador;
+import com.parroquiasanleandro.fecha.Fecha;
 
 import java.util.Arrays;
 
@@ -31,11 +33,14 @@ public class FragmentPerfil extends Fragment {
     private Context context;
 
     private ImageView ivFotoPerfil;
+    private LinearLayout linearLayoutNombre;
     private TextView tvNombreUsuario;
     private TextView tvEmail;
     private LinearLayout linearLayoutEmail;
     private LinearLayout linearLayoutCategorias;
     private RecyclerView rvCategoriasUsuario;
+    private LinearLayout linearLayoutFechaNacimiento;
+    private TextView tvFechaNacimiento;
 
     private ItemViewModel vmIds;
 
@@ -57,28 +62,46 @@ public class FragmentPerfil extends Fragment {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
         ivFotoPerfil = view.findViewById(R.id.ivFotoPerfil);
+        linearLayoutNombre = view.findViewById(R.id.linearLayoutNombre);
         tvNombreUsuario = view.findViewById(R.id.tvNombreUsuario);
         tvEmail = view.findViewById(R.id.tvEmail);
         linearLayoutEmail = view.findViewById(R.id.linearLayoutEmail);
         linearLayoutCategorias = view.findViewById(R.id.linearLayoutCategorias);
+        linearLayoutFechaNacimiento = view.findViewById(R.id.linearLayoutFechaNacimiento);
         rvCategoriasUsuario = view.findViewById(R.id.rvCategoriasUsuario);
+        tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
 
         vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
         tvNombreUsuario.setText(usuario.nombre);
         tvEmail.setText(usuario.email);
+        if (usuario.fechaNacimiento != 0) {
+            Fecha fechaNacimiento = Fecha.toFecha(usuario.fechaNacimiento);
+            tvFechaNacimiento.setText(fechaNacimiento.toString(Fecha.FormatosFecha.dd_MMMM_aaaa));
+        } else {
+            tvFechaNacimiento.setText("No tienes guardada una fecha de nacimiento");
+        }
+
         if (usuario.fotoPerfil != null) {
             Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
         }
 
+        linearLayoutNombre.setOnClickListener(v -> {
+            Toast.makeText(context,"Modificar nombre",Toast.LENGTH_SHORT).show();
+        });
+
         linearLayoutEmail.setOnClickListener(v -> {
-            //startActivity(new Intent(context,ActivityCategorias.class));
+            Toast.makeText(context,"Modificar email",Toast.LENGTH_SHORT).show();
         });
 
         linearLayoutCategorias.setOnClickListener(v -> {
             FragmentManager fragmentManager = getParentFragmentManager();
             Menu.iniciarFragmentCategorias(fragmentManager);
+        });
+
+        linearLayoutFechaNacimiento.setOnClickListener(v -> {
+            Toast.makeText(context,"Modificar fecha de nacimineto",Toast.LENGTH_SHORT).show();
         });
 
         rvCategoriasUsuario.setHasFixedSize(true);

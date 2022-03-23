@@ -82,13 +82,13 @@
 	</style>
 
 	<style name="cardContenedoraHorario" parent="size_1_2">
-		<item name="android:layout_marginStart">10dp</item>
-		<item name="android:layout_marginTop">6dp</item>
-		<item name="android:layout_marginEnd">10dp</item>
-		<item name="android:layout_marginBottom">6dp</item>
+		<item name="android:layout_marginStart">15dp</item>
+		<item name="android:layout_marginTop">8dp</item>
+		<item name="android:layout_marginEnd">15dp</item>
+		<item name="android:layout_marginBottom">8dp</item>
 		<item name="cardBackgroundColor">@color/white</item>
 		<item name="cardCornerRadius">10dp</item>
-		<item name="cardElevation">4dp</item>
+		<item name="cardElevation">10dp</item>
 	</style>
 
 	<style name="cardTituloHorario" parent="size_1_2">
@@ -138,6 +138,8 @@
 		<item name="android:layout_weight">1</item>
 		<item name="android:gravity">center_vertical</item>
 		<item name="android:textSize">18sp</item>
+		<item name="android:layout_marginStart">10dp</item>
+		<item name="android:layout_marginEnd">10dp</item>
 	</style>
 
 	<style name="cardHorario_Despacho_Caritas" parent="cardHorario">
@@ -145,12 +147,39 @@
 	</style>
 
 	<style name="cardContenedoraPerfil" parent="size_1_2">
-		<item name="android:layout_marginStart">10dp</item>
+		<item name="android:layout_marginStart">6dp</item>
 		<item name="android:layout_marginTop">6dp</item>
-		<item name="android:layout_marginEnd">10dp</item>
+		<item name="android:layout_marginEnd">6dp</item>
 		<item name="android:layout_marginBottom">6dp</item>
 		<item name="cardBackgroundColor">@color/white</item>
 		<item name="cardCornerRadius">10dp</item>
 		<item name="cardElevation">4dp</item>
+	</style>
+
+	<style name="lnlytCardPerfil" parent="size_1_2">
+		<item name="android:layout_marginStart">18dp</item>
+		<item name="android:layout_marginTop">7dp</item>
+		<item name="android:layout_marginEnd">18dp</item>
+		<item name="android:layout_marginBottom">7dp</item>
+		<item name="android:orientation">vertical</item>
+	</style>
+
+	<style name="tvTituloPerfil" parent="texto_1_2_Oscuro">
+		<item name="android:layout_gravity">center</item>
+		<item name="android:textSize">18sp</item>
+		<item name="android:textStyle">bold</item>
+	</style>
+
+	<style name="tvModificar" parent="texto_2_2_Oscuro">
+		<item name="android:text">modificar</item>
+		<item name="android:textSize">15sp</item>
+	</style>
+
+	<style name="tvFlecha" parent="texto_2_2_Oscuro">
+		<item name="android:textSize">22sp</item>
+		<item name="android:textStyle">bold</item>
+		<item name="android:layout_marginTop">4dp</item>
+		<item name="android:layout_marginBottom">-4dp</item>
+		<item name="android:fontFamily">@font/oswald_bold</item>
 	</style>
 </resources>
