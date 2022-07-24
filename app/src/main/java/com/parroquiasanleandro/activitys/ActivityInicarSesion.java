@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -33,10 +34,13 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
 
     private final Context context = ActivityInicarSesion.this;
+    private final int  INPUTTYPE_TEXT = 0x00000091;
+    private final int  INPUTTYPE_PWD = 0x00000081;
 
     private Button bttnIniciarSesionGoogle;
     private EditText etCorreoElectronico;
     private EditText etContraseña;
+    private ImageButton imgButtonShowPassword;
     private Button bttnIniciarSesion;
     private LinearLayout linearLayoutRegistrarse;
 
@@ -53,6 +57,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
         bttnIniciarSesionGoogle = findViewById(R.id.bttnIniciarSesionGoogle);
         etCorreoElectronico = findViewById(R.id.etCorreoElectronico);
         etContraseña = findViewById(R.id.etContraseña);
+        imgButtonShowPassword = findViewById(R.id.imgButtonShowPassword);
         bttnIniciarSesion = findViewById(R.id.bttnIniciarSesion);
         linearLayoutRegistrarse = findViewById(R.id.linearLayoutRegistrarse);
 
@@ -71,13 +76,20 @@ public class ActivityInicarSesion extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        bttnIniciarSesionGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-                //startActivityForResult(signInIntent, RC_SIGN_IN);
-                Toast.makeText(context,"Inicio de sesion con google desactivado",Toast.LENGTH_SHORT).show();
+        imgButtonShowPassword.setOnClickListener(view -> {
+            if(etContraseña.getInputType() == INPUTTYPE_PWD){
+                etContraseña.setInputType(INPUTTYPE_TEXT);
+                imgButtonShowPassword.setImageResource(R.drawable.eye_24);
+            }else{
+                etContraseña.setInputType(INPUTTYPE_PWD);
+                imgButtonShowPassword.setImageResource(R.drawable.eye_crossed_24);
             }
+        });
+
+        bttnIniciarSesionGoogle.setOnClickListener(v -> {
+            //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            //startActivityForResult(signInIntent, RC_SIGN_IN);
+            Toast.makeText(context,"Inicio de sesion con google desactivado",Toast.LENGTH_SHORT).show();
         });
 
         mAuth = FirebaseAuth.getInstance();
@@ -111,7 +123,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                //Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -159,7 +171,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
                 }
             });
         }else{
-            Toast.makeText(context, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Es necesario completar todos los campos", Toast.LENGTH_SHORT).show();
         }
     }
 
