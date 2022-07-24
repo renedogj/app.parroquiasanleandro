@@ -1,6 +1,5 @@
 package com.parroquiasanleandro.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,99 +18,99 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.parroquiasanleandro.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
 import com.parroquiasanleandro.adaptadores.CategoriaSencillaAdaptador;
 import com.parroquiasanleandro.fecha.Fecha;
+import com.parroquiasanleandro.utils.ItemViewModel;
 
 import java.util.Arrays;
 
 public class FragmentPerfil extends Fragment {
-    private Activity activity;
-    private Context context;
+	private Context context;
 
-    private ImageView ivFotoPerfil;
-    private LinearLayout linearLayoutNombre;
-    private TextView tvNombreUsuario;
-    private TextView tvEmail;
-    private LinearLayout linearLayoutEmail;
-    private LinearLayout linearLayoutCategorias;
-    private RecyclerView rvCategoriasUsuario;
-    private LinearLayout linearLayoutFechaNacimiento;
-    private TextView tvFechaNacimiento;
+	private ImageView ivFotoPerfil;
+	private LinearLayout linearLayoutNombre;
+	private TextView tvNombreUsuario;
+	private TextView tvEmail;
+	private LinearLayout linearLayoutEmail;
+	private LinearLayout linearLayoutCategorias;
+	private RecyclerView rvCategoriasUsuario;
+	private LinearLayout linearLayoutFechaNacimiento;
+	private TextView tvFechaNacimiento;
 
-    private ItemViewModel vmIds;
+	private FragmentManager fragmentManager;
+	private ItemViewModel vmIds;
 
-    public FragmentPerfil() {}
+	public FragmentPerfil() {
+	}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        context = getContext();
-        activity = getActivity();
+		context = getContext();
 
-        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
-        vmIds.addIdFragmentActual();
-    }
+		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+		vmIds.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
+		vmIds.addIdFragmentActual();
+	}
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-        ivFotoPerfil = view.findViewById(R.id.ivFotoPerfil);
-        linearLayoutNombre = view.findViewById(R.id.linearLayoutNombre);
-        tvNombreUsuario = view.findViewById(R.id.tvNombreUsuario);
-        tvEmail = view.findViewById(R.id.tvEmail);
-        linearLayoutEmail = view.findViewById(R.id.linearLayoutEmail);
-        linearLayoutCategorias = view.findViewById(R.id.linearLayoutCategorias);
-        linearLayoutFechaNacimiento = view.findViewById(R.id.linearLayoutFechaNacimiento);
-        rvCategoriasUsuario = view.findViewById(R.id.rvCategoriasUsuario);
-        tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
+		ivFotoPerfil = view.findViewById(R.id.ivFotoPerfil);
+		linearLayoutNombre = view.findViewById(R.id.linearLayoutNombre);
+		tvNombreUsuario = view.findViewById(R.id.tvNombreUsuario);
+		tvEmail = view.findViewById(R.id.tvEmail);
+		linearLayoutEmail = view.findViewById(R.id.linearLayoutEmail);
+		linearLayoutCategorias = view.findViewById(R.id.linearLayoutCategorias);
+		linearLayoutFechaNacimiento = view.findViewById(R.id.linearLayoutFechaNacimiento);
+		rvCategoriasUsuario = view.findViewById(R.id.rvCategoriasUsuario);
+		tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
 
-        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 
-        Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-        tvNombreUsuario.setText(usuario.nombre);
-        tvEmail.setText(usuario.email);
-        if (usuario.fechaNacimiento != 0) {
-            Fecha fechaNacimiento = Fecha.toFecha(usuario.fechaNacimiento);
-            tvFechaNacimiento.setText(fechaNacimiento.toString(Fecha.FormatosFecha.dd_MMMM_aaaa));
-        } else {
-            tvFechaNacimiento.setText("No tienes guardada una fecha de nacimiento");
-        }
+		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+		tvNombreUsuario.setText(usuario.nombre);
+		tvEmail.setText(usuario.email);
 
-        if (usuario.fotoPerfil != null) {
-            Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
-        }
+		if (usuario.fechaNacimiento != 0) {
+			Fecha fechaNacimiento = Fecha.toFecha(usuario.fechaNacimiento);
+			tvFechaNacimiento.setText(fechaNacimiento.toString(Fecha.FormatosFecha.dd_MMMM_aaaa));
+		} else {
+			tvFechaNacimiento.setText("No tienes guardada una fecha de nacimiento");
+		}
 
-        linearLayoutNombre.setOnClickListener(v -> {
-            Toast.makeText(context,"Modificar nombre",Toast.LENGTH_SHORT).show();
-        });
+		if (usuario.fotoPerfil != null) {
+			Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
+		}
+		fragmentManager = getParentFragmentManager();
+		linearLayoutNombre.setOnClickListener(v -> {
+			Toast.makeText(context, "Modificar nombre", Toast.LENGTH_SHORT).show();
+		});
 
-        linearLayoutEmail.setOnClickListener(v -> {
-            Toast.makeText(context,"Modificar email",Toast.LENGTH_SHORT).show();
-        });
+		linearLayoutEmail.setOnClickListener(v -> {
+			Menu.inicarFragmentCambiarCorreo(fragmentManager);
+		});
 
-        linearLayoutCategorias.setOnClickListener(v -> {
-            FragmentManager fragmentManager = getParentFragmentManager();
-            Menu.iniciarFragmentCategorias(fragmentManager);
-        });
+		linearLayoutCategorias.setOnClickListener(v -> {
+			Menu.iniciarFragmentCategorias(fragmentManager);
+		});
 
-        linearLayoutFechaNacimiento.setOnClickListener(v -> {
-            Toast.makeText(context,"Modificar fecha de nacimineto",Toast.LENGTH_SHORT).show();
-        });
+		linearLayoutFechaNacimiento.setOnClickListener(v -> {
+			Toast.makeText(context, "Modificar fecha de nacimineto", Toast.LENGTH_SHORT).show();
+		});
 
-        rvCategoriasUsuario.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        rvCategoriasUsuario.setLayoutManager(linearLayoutManager);
+		rvCategoriasUsuario.setHasFixedSize(true);
+		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+		linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+		rvCategoriasUsuario.setLayoutManager(linearLayoutManager);
 
-        CategoriaSencillaAdaptador categoriaSencillaAdaptador = new CategoriaSencillaAdaptador(context, Arrays.asList(usuario.getCategorias()));
-        rvCategoriasUsuario.setAdapter(categoriaSencillaAdaptador);
+		CategoriaSencillaAdaptador categoriaSencillaAdaptador = new CategoriaSencillaAdaptador(context, Arrays.asList(usuario.getCategorias()));
+		rvCategoriasUsuario.setAdapter(categoriaSencillaAdaptador);
 
-        return view;
-    }
+		return view;
+	}
 }

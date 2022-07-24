@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.parroquiasanleandro.Categoria;
-import com.parroquiasanleandro.ItemViewModel;
+import com.parroquiasanleandro.utils.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.adaptadores.CategoriaAdaptador;

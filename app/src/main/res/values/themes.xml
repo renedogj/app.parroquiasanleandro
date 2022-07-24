@@ -53,20 +53,7 @@
 		<item name="android:textColor">@color/black</item>
 	</style>
 
-	<style name="linearLayautItemmenuNavigation" parent="size_1_2">
-		<item name="android:layout_weight">1</item>
-		<item name="android:orientation">vertical</item>
-		<item name="android:paddingTop">5dp</item>
-		<item name="android:paddingBottom">5dp</item>
-	</style>
-
-	<style name="imgMenuNavigation">
-		<item name="android:layout_width">@dimen/img_menu</item>
-		<item name="android:layout_height">@dimen/img_menu</item>
-		<item name="android:layout_weight">1</item>
-		<item name="android:layout_gravity">center</item>
-	</style>
-
+	<!--Styles texviews-->
 	<style name="tvMenuNavigation" parent="size_2_2">
 		<item name="android:layout_weight">1</item>
 		<item name="android:layout_gravity">center</item>
@@ -81,38 +68,11 @@
 		<item name="color">@color/black</item>
 	</style>
 
-	<style name="cardContenedoraHorario" parent="size_1_2">
-		<item name="android:layout_marginStart">15dp</item>
-		<item name="android:layout_marginTop">8dp</item>
-		<item name="android:layout_marginEnd">15dp</item>
-		<item name="android:layout_marginBottom">8dp</item>
-		<item name="cardBackgroundColor">@color/white</item>
-		<item name="cardCornerRadius">10dp</item>
-		<item name="cardElevation">10dp</item>
-	</style>
-
-	<style name="cardTituloHorario" parent="size_1_2">
-		<item name="android:layout_marginBottom">5dp</item>
-		<item name="cardBackgroundColor">@color/white</item>
-		<item name="cardElevation">8dp</item>
-	</style>
-
 	<style name="tvTituloHorario" parent="texto_1_2_Oscuro">
 		<item name="android:layout_margin">8dp</item>
 		<item name="android:gravity">center</item>
 		<item name="android:textSize">24sp</item>
 		<item name="android:textStyle">bold</item>
-	</style>
-
-	<style name="cardHorario" parent="size_1_2">
-		<item name="android:layout_weight">1</item>
-		<item name="android:layout_marginStart">4dp</item>
-		<item name="android:layout_marginTop">8dp</item>
-		<item name="android:layout_marginEnd">4dp</item>
-		<item name="android:layout_marginBottom">8dp</item>
-		<item name="cardBackgroundColor">@color/blue</item>
-		<item name="cardCornerRadius">10dp</item>
-		<item name="cardElevation">5dp</item>
 	</style>
 
 	<style name="tvHorario" parent="texto_1_2_Claro">
@@ -121,47 +81,12 @@
 		<item name="android:textSize">16sp</item>
 	</style>
 
-	<style name="lnlytDiaHorarioContenedora" parent="size_1_2">
-		<item name="android:layout_marginStart">8dp</item>
-		<item name="android:layout_marginEnd">8dp</item>
-	</style>
-
-	<style name="lnlytDiaSemanaHorario_Despacho_Caritas" parent="lnlytDiaHorarioContenedora">
-		<item name="android:orientation">horizontal</item>
-	</style>
-
-	<style name="lnlytDiaSemanaHorario_Misas" parent="lnlytDiaHorarioContenedora">
-		<item name="android:orientation">vertical</item>
-	</style>
-
 	<style name="tvDiaSemanaHorario_Despacho_Caritas" parent="texto_1_1_Oscuro">
 		<item name="android:layout_weight">1</item>
 		<item name="android:gravity">center_vertical</item>
 		<item name="android:textSize">18sp</item>
 		<item name="android:layout_marginStart">10dp</item>
 		<item name="android:layout_marginEnd">10dp</item>
-	</style>
-
-	<style name="cardHorario_Despacho_Caritas" parent="cardHorario">
-		<item name="android:layout_marginEnd">10dp</item>
-	</style>
-
-	<style name="cardContenedoraPerfil" parent="size_1_2">
-		<item name="android:layout_marginStart">6dp</item>
-		<item name="android:layout_marginTop">6dp</item>
-		<item name="android:layout_marginEnd">6dp</item>
-		<item name="android:layout_marginBottom">6dp</item>
-		<item name="cardBackgroundColor">@color/white</item>
-		<item name="cardCornerRadius">10dp</item>
-		<item name="cardElevation">4dp</item>
-	</style>
-
-	<style name="lnlytCardPerfil" parent="size_1_2">
-		<item name="android:layout_marginStart">18dp</item>
-		<item name="android:layout_marginTop">7dp</item>
-		<item name="android:layout_marginEnd">18dp</item>
-		<item name="android:layout_marginBottom">7dp</item>
-		<item name="android:orientation">vertical</item>
 	</style>
 
 	<style name="tvTituloPerfil" parent="texto_1_2_Oscuro">
@@ -181,5 +106,87 @@
 		<item name="android:layout_marginTop">4dp</item>
 		<item name="android:layout_marginBottom">-4dp</item>
 		<item name="android:fontFamily">@font/oswald_bold</item>
+	</style>
+
+	<!--Styles cards-->
+	<style name="basicCard_1_2" parent="size_1_2">
+		<item name="cardBackgroundColor">@color/white</item>
+		<item name="cardCornerRadius">10dp</item>
+		<item name="cardElevation">10dp</item>
+	</style>
+
+	<style name="cardContenedoraHorario" parent="basicCard_1_2">
+		<item name="android:layout_marginStart">15dp</item>
+		<item name="android:layout_marginTop">8dp</item>
+		<item name="android:layout_marginEnd">15dp</item>
+		<item name="android:layout_marginBottom">8dp</item>
+	</style>
+
+	<style name="cardTituloHorario" parent="basicCard_1_2">
+		<item name="android:layout_marginBottom">5dp</item>
+		<item name="cardCornerRadius">0dp</item>
+	</style>
+
+	<style name="cardHorario" parent="basicCard_1_2">
+		<item name="android:layout_weight">1</item>
+		<item name="android:layout_marginStart">4dp</item>
+		<item name="android:layout_marginTop">8dp</item>
+		<item name="android:layout_marginEnd">4dp</item>
+		<item name="android:layout_marginBottom">8dp</item>
+		<item name="cardBackgroundColor">@color/blue</item>
+	</style>
+
+	<style name="cardHorario_Despacho_Caritas" parent="cardHorario">
+		<item name="android:layout_marginEnd">10dp</item>
+	</style>
+
+	<style name="cardContenedoraPerfil" parent="basicCard_1_2">
+		<!--<item name="android:layout_marginStart">6dp</item>
+		<item name="android:layout_marginTop">6dp</item>
+		<item name="android:layout_marginEnd">6dp</item>
+		<item name="android:layout_marginBottom">6dp</item>-->
+		<item name="android:layout_margin">6dp</item>
+		<item name="cardElevation">5dp</item>
+	</style>
+
+	<style name="CardNewEmail" parent="basicCard_1_2">
+		<item name="android:layout_margin">10dp</item>
+	</style>
+
+	<!--Styles linearLayout-->
+	<style name="lnlytItemMenuNavigation" parent="size_1_2">
+		<item name="android:layout_weight">1</item>
+		<item name="android:orientation">vertical</item>
+		<item name="android:paddingTop">5dp</item>
+		<item name="android:paddingBottom">5dp</item>
+	</style>
+
+	<style name="lnlytDiaHorarioContenedora" parent="size_1_2">
+		<item name="android:layout_marginStart">8dp</item>
+		<item name="android:layout_marginEnd">8dp</item>
+	</style>
+
+	<style name="lnlytDiaSemanaHorario_Despacho_Caritas" parent="lnlytDiaHorarioContenedora">
+		<item name="android:orientation">horizontal</item>
+	</style>
+
+	<style name="lnlytDiaSemanaHorario_Misas" parent="lnlytDiaHorarioContenedora">
+		<item name="android:orientation">vertical</item>
+	</style>
+
+	<style name="lnlytCardPerfil" parent="size_1_2">
+		<item name="android:layout_marginStart">18dp</item>
+		<item name="android:layout_marginTop">7dp</item>
+		<item name="android:layout_marginEnd">18dp</item>
+		<item name="android:layout_marginBottom">7dp</item>
+		<item name="android:orientation">vertical</item>
+	</style>
+
+	<!--Styles imagenes-->
+	<style name="imgMenuNavigation">
+		<item name="android:layout_width">@dimen/img_menu</item>
+		<item name="android:layout_height">@dimen/img_menu</item>
+		<item name="android:layout_weight">1</item>
+		<item name="android:layout_gravity">center</item>
 	</style>
 </resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@drawable/fondo_parroquia"
+	tools:context=".fragments.FragmentCambiarCorreo">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+		<androidx.cardview.widget.CardView
+			style="@style/CardNewEmail">
+			<LinearLayout
+				style="@style/size_1_2"
+				android:orientation="vertical"
+				android:layout_margin="10dp">
+				<TextView
+					style="@style/texto_1_2_Oscuro"
+					android:text="Nuevo correo electronico:"
+					android:textSize="18sp" />
+
+				<EditText
+					android:id="@+id/etnuevoCorreoElectronico"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="10dp"
+					android:layout_marginBottom="10dp"
+					android:ems="10"
+					android:hint="Correo electronico"
+					android:inputType="textEmailAddress" />
+
+				<Button
+					android:id="@+id/bttnGuardarNuevoCorreo"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Guardar" />
+			</LinearLayout>
+		</androidx.cardview.widget.CardView>
+	</LinearLayout>
+</ScrollView>

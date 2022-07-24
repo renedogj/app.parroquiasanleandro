@@ -33,7 +33,7 @@
 
 			<LinearLayout
 				android:id="@+id/linearLayoutInicio"
-				style="@style/linearLayautItemmenuNavigation">
+				style="@style/lnlytItemMenuNavigation">
 
 				<ImageView
 					android:id="@+id/imgInicio"
@@ -47,7 +47,7 @@
 
 			<LinearLayout
 				android:id="@+id/linearLayoutAvisos"
-				style="@style/linearLayautItemmenuNavigation">
+				style="@style/lnlytItemMenuNavigation">
 
 				<ImageView
 					android:id="@+id/imgAvisos"
@@ -61,7 +61,7 @@
 
 			<LinearLayout
 				android:id="@+id/linearLayoutHorario"
-				style="@style/linearLayautItemmenuNavigation">
+				style="@style/lnlytItemMenuNavigation">
 
 				<ImageView
 					android:id="@+id/imgHorario"
@@ -75,7 +75,7 @@
 
 			<LinearLayout
 				android:id="@+id/linearLayoutPerfil"
-				style="@style/linearLayautItemmenuNavigation">
+				style="@style/lnlytItemMenuNavigation">
 
 				<ImageView
 					android:id="@+id/imgPerfil"

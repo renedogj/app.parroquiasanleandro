@@ -45,17 +45,32 @@
 				android:layout_marginBottom="1dp"
 				android:ems="10"
 				android:hint="Correo electronico"
-				android:inputType="textPersonName" />
+				android:inputType="textEmailAddress" />
 
-			<EditText
-				android:id="@+id/etContraseña"
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="1dp"
 				android:layout_marginBottom="1dp"
-				android:ems="10"
-				android:hint="Contraseña"
-				android:inputType="textPassword" />
+				android:orientation="horizontal">
+				<EditText
+					android:id="@+id/etContraseña"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_weight="10"
+					android:ems="10"
+					android:hint="Contraseña"
+					android:inputType="textPassword" />
+
+				<ImageButton
+					android:id="@+id/imageButton"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:background="@color/transparente"
+					app:srcCompat="@android:drawable/ic_menu_view" />
+			</LinearLayout>
+
 
 			<Button
 				android:id="@+id/bttnIniciarSesion"

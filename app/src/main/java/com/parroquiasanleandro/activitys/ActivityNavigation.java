@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.parroquiasanleandro.Categoria;
-import com.parroquiasanleandro.ItemViewModel;
+import com.parroquiasanleandro.utils.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Url;
@@ -58,11 +58,9 @@ public class ActivityNavigation extends AppCompatActivity {
     private ActionBar actionBar;
     private ActionBarDrawerToggle toggle;
 
-    FragmentManager fragmentManager;
-
-    RequestQueue requestQueue;
-
+    private FragmentManager fragmentManager;
     private ItemViewModel viewModel;
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

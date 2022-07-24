@@ -17,6 +17,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.FirebaseDatabase;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
+import com.parroquiasanleandro.utils.Comprobaciones;
 
 import java.util.Objects;
 
@@ -33,6 +34,11 @@ public class ActivityRegistro extends AppCompatActivity {
 	private ActionBar actionBar;
 
 	private FirebaseAuth mAuth;
+
+	private String nombre;
+	private String email;
+	private String password;
+	private String comprobarPassword;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +58,18 @@ public class ActivityRegistro extends AppCompatActivity {
 			actionBar.setTitle("Registrarse");
 		}
 
-
 		mAuth = FirebaseAuth.getInstance();
 
 		bttnRegistrarse.setOnClickListener(v -> {
-			if (comprobarNombre() && comprobarCorreo() && comprobarPassword()) {
+			//etPassword.setInputType(0x00000001);
+			nombre = etNombre.getText().toString().trim();
+			email = etCorreoElectronico.getText().toString().trim();
+			password = etPassword.getText().toString().trim();
+			comprobarPassword = etComprobarPassword.getText().toString().trim();
+
+			if (Comprobaciones.comprobarNombre(context, nombre) &&
+					Comprobaciones.comprobarCorreo(context, email) &&
+					Comprobaciones.comprobarPassword(context, password, comprobarPassword)) {
 				registrarUsuario();
 			}
 		});
@@ -67,51 +80,7 @@ public class ActivityRegistro extends AppCompatActivity {
 		});
 	}
 
-	public boolean comprobarNombre() {
-		if (!etNombre.getText().toString().trim().equals("")) {
-			return true;
-		}
-		Toast.makeText(context, "El nombre no puede estar vacio", Toast.LENGTH_SHORT).show();
-		return false;
-	}
-
-	public boolean comprobarCorreo() {
-		String correo = etCorreoElectronico.getText().toString().trim();
-		if (!correo.equals("")) {
-			if (correo.length() >= 5) {
-				if (correo.contains("@") && correo.contains(".")) {
-					if (correo.indexOf("@") == correo.lastIndexOf("@")
-							&& correo.indexOf("@") < correo.lastIndexOf(".")
-							&& correo.lastIndexOf(".") < correo.length()) {
-						return true;
-					}
-					Toast.makeText(this, "Es necesario introducir un correo electronico valido", Toast.LENGTH_SHORT).show();
-					return false;
-				}
-				Toast.makeText(this, "Es necesario introducir un correo electronico valido", Toast.LENGTH_SHORT).show();
-				return false;
-			}
-			Toast.makeText(context, "El correo electronico debe contener al menos 5 caracteres", Toast.LENGTH_SHORT).show();
-			return false;
-		}
-		Toast.makeText(context, "Es necesario introducir un correo electronico", Toast.LENGTH_SHORT).show();
-		return false;
-	}
-
-	private boolean comprobarPassword() {
-		String password = etPassword.getText().toString().trim();
-		String comprobacion = etComprobarPassword.getText().toString().trim();
-		if (!password.equals("") && password.equals(comprobacion)) {
-			return true;
-		} else {
-			Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
-			return false;
-		}
-	}
-
 	private void registrarUsuario() {
-		String email = etCorreoElectronico.getText().toString().trim();
-		String password = etPassword.getText().toString().trim();
 		mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
 			if (task.isSuccessful()) {
 				FirebaseUser user = mAuth.getCurrentUser();
@@ -127,7 +96,6 @@ public class ActivityRegistro extends AppCompatActivity {
 							finish();
 						}
 					});
-					//Fcm.guardarToken(user,context);
 				}
 			} else {
 				Toast.makeText(context, Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();

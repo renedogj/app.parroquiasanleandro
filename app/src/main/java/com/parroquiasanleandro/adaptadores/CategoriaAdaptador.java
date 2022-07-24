@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.parroquiasanleandro.Categoria;
-import com.parroquiasanleandro.ItemViewModel;
+import com.parroquiasanleandro.utils.ItemViewModel;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
 

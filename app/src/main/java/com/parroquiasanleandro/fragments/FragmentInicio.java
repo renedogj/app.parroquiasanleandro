@@ -32,7 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.parroquiasanleandro.Aviso;
 import com.parroquiasanleandro.Categoria;
-import com.parroquiasanleandro.ItemViewModel;
+import com.parroquiasanleandro.utils.ItemViewModel;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Url;
