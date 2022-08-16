@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	style="@style/size_1_1"
+	android:background="@drawable/fondo_parroquia"
+	tools:context=".activitys.ActivityCambiarCorreo">
+	<androidx.fragment.app.FragmentContainerView
+		android:id="@+id/fragment_container_view"
+		android:name="com.parroquiasanleandro.fragments.FragmentConfirmarPassword"
+		style="@style/size_1_1"
+		android:elevation="20dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<androidx.cardview.widget.CardView
+		style="@style/CardNewEmail"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<LinearLayout
+			style="@style/size_1_2"
+			android:layout_margin="10dp"
+			android:orientation="vertical">
+
+			<TextView
+				style="@style/texto_1_2_Oscuro"
+				android:text="Nuevo correo electronico:"
+				android:textSize="18sp" />
+
+			<EditText
+				android:id="@+id/etnuevoCorreoElectronico"
+				style="@style/size_1_2"
+				android:layout_marginTop="10dp"
+				android:layout_marginBottom="10dp"
+				android:ems="10"
+				android:hint="Correo electronico"
+				android:inputType="textEmailAddress" />
+
+			<Button
+				android:id="@+id/bttnGuardarNuevoCorreo"
+				style="@style/size_1_2"
+				android:text="Guardar" />
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

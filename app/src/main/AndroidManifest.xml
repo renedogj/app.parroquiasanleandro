@@ -1,49 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.parroquiasanleandro">
+	xmlns:tools="http://schemas.android.com/tools"
+	package="com.parroquiasanleandro">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.INTERNET" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.ParroquiaSanLeandro"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="m">
-        <activity
-            android:name=".activitys.ActivityNavigation"
-            android:theme="@style/SplashTheme"
-            android:screenOrientation="portrait"
-            android:exported="true"
-            tools:ignore="LockedOrientationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:roundIcon="@mipmap/ic_launcher"
+		android:supportsRtl="true"
+		android:theme="@style/Theme.ParroquiaSanLeandro"
+		android:usesCleartextTraffic="true"
+		tools:targetApi="m">
+		<activity
+			android:name=".activitys.ActivityCambiarCorreo"
+			android:exported="false" />
+		<activity
+			android:name=".activitys.ActivityNavigation"
+			android:exported="true"
+			android:screenOrientation="portrait"
+			android:theme="@style/SplashTheme"
+			tools:ignore="LockedOrientationActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activitys.ActivityAviso"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity android:name=".activitys.ActivitySeleccionarImagen" />
-        <activity android:name=".activitys.ActivityNuevoAviso" />
-        <activity android:name=".activitys.ActivityRegistro" />
-        <activity android:name=".activitys.ActivityInicarSesion" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity
+			android:name=".activitys.ActivityAviso"
+			android:screenOrientation="portrait"
+			tools:ignore="LockedOrientationActivity" />
+		<activity android:name=".activitys.ActivitySeleccionarImagen" />
+		<activity android:name=".activitys.ActivityNuevoAviso" />
+		<activity android:name=".activitys.ActivityRegistro" />
+		<activity android:name=".activitys.ActivityInicarSesion" />
 
-        <service
-            android:name=".Fcm"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-    </application>
+		<service
+			android:name=".Fcm"
+			android:exported="false">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT" />
+			</intent-filter>
+		</service>
+
+		<meta-data
+			android:name="preloaded_fonts"
+			android:resource="@array/preloaded_fonts" />
+	</application>
+
 </manifest>

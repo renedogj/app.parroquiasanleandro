@@ -16,7 +16,7 @@ import com.parroquiasanleandro.activitys.ActivityInicarSesion;
 import com.parroquiasanleandro.activitys.ActivityNavigation;
 import com.parroquiasanleandro.fragments.FragmentAvisosParroquiales;
 import com.parroquiasanleandro.fragments.FragmentCalendario;
-import com.parroquiasanleandro.fragments.FragmentCambiarCorreo;
+import com.parroquiasanleandro.fragments.FragmentConfirmarPassword;
 import com.parroquiasanleandro.fragments.FragmentCategorias;
 import com.parroquiasanleandro.fragments.FragmentHorario;
 import com.parroquiasanleandro.fragments.FragmentInicio;
@@ -136,7 +136,7 @@ public class Menu {
 	public static void inicarFragmentCambiarCorreo(FragmentManager fragmentManager) {
 		fragmentManager.beginTransaction()
 				.setReorderingAllowed(true)
-				.replace(R.id.fragment_container, FragmentCambiarCorreo.class, null)
+				.replace(R.id.fragment_container, FragmentConfirmarPassword.class, null)
 				.addToBackStack(null)
 				.commit();
 	}

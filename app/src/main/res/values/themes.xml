@@ -12,22 +12,22 @@
 	</style>
 
 	<!-- Styles tamaño  1=match_parent, 2=wrap_content -->
-	<style name="size_1_1" parent="TextAppearance.AppCompat">
+	<style name="size_1_1">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">match_parent</item>
 	</style>
 
-	<style name="size_1_2" parent="TextAppearance.AppCompat">
+	<style name="size_1_2">
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">wrap_content</item>
 	</style>
 
-	<style name="size_2_1" parent="TextAppearance.AppCompat">
+	<style name="size_2_1">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">match_parent</item>
 	</style>
 
-	<style name="size_2_2" parent="TextAppearance.AppCompat">
+	<style name="size_2_2">
 		<item name="android:layout_width">wrap_content</item>
 		<item name="android:layout_height">wrap_content</item>
 	</style>

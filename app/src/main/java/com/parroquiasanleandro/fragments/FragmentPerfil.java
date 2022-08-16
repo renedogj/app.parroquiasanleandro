@@ -1,6 +1,7 @@
 package com.parroquiasanleandro.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.parroquiasanleandro.Menu;
 import com.parroquiasanleandro.R;
 import com.parroquiasanleandro.Usuario;
+import com.parroquiasanleandro.activitys.ActivityCambiarCorreo;
 import com.parroquiasanleandro.adaptadores.CategoriaSencillaAdaptador;
 import com.parroquiasanleandro.fecha.Fecha;
 import com.parroquiasanleandro.utils.ItemViewModel;
@@ -92,7 +94,8 @@ public class FragmentPerfil extends Fragment {
 		});
 
 		linearLayoutEmail.setOnClickListener(v -> {
-			Menu.inicarFragmentCambiarCorreo(fragmentManager);
+			/*Menu.inicarFragmentCambiarCorreo(fragmentManager);*/
+			startActivity(new Intent(context, ActivityCambiarCorreo.class));
 		});
 
 		linearLayoutCategorias.setOnClickListener(v -> {

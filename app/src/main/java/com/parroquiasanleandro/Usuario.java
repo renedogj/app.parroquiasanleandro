@@ -1,6 +1,5 @@
 package com.parroquiasanleandro;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -162,7 +161,7 @@ public class Usuario {
 		editor.apply();
 	}
 
-	public static boolean cambiarCorreoElectronico(Context context, FirebaseUser user, String correoElectronico, Activity activity) {
+	public static boolean cambiarCorreoElectronico(Context context, FirebaseUser user, String correoElectronico) {
 		if (user != null) {
 			return user.updateEmail(correoElectronico).addOnCompleteListener(task -> {
 				if (task.isSuccessful()) {

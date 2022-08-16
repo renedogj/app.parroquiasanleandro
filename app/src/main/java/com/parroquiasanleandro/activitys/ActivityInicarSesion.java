@@ -16,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -34,8 +32,8 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private static final int RC_SIGN_IN = 9001;
 
     private final Context context = ActivityInicarSesion.this;
-    private final int  INPUTTYPE_TEXT = 0x00000091;
-    private final int  INPUTTYPE_PWD = 0x00000081;
+    private static final int INPUTTYPE_TEXT = 0x00000091;
+    private static final int INPUTTYPE_PWD = 0x00000081;
 
     private Button bttnIniciarSesionGoogle;
     private EditText etCorreoElectronico;
@@ -47,7 +45,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private ActionBar actionBar;
 
     private FirebaseAuth mAuth;
-    private GoogleSignInClient mGoogleSignInClient;
+    //private GoogleSignInClient mGoogleSignInClient;
+
+    //ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,28 +67,50 @@ public class ActivityInicarSesion extends AppCompatActivity {
             actionBar.setTitle("Iniciar sesión");
         }
 
-
-        // Configure Google Sign In
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("578961151024-ro7gnluudfbcngsn1apa4isopdiobktm.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         imgButtonShowPassword.setOnClickListener(view -> {
-            if(etContraseña.getInputType() == INPUTTYPE_PWD){
+            changeShowPassword(etContraseña,imgButtonShowPassword);
+            /*if(etContraseña.getInputType() == INPUTTYPE_PWD){
                 etContraseña.setInputType(INPUTTYPE_TEXT);
                 imgButtonShowPassword.setImageResource(R.drawable.eye_24);
             }else{
                 etContraseña.setInputType(INPUTTYPE_PWD);
                 imgButtonShowPassword.setImageResource(R.drawable.eye_crossed_24);
-            }
+            }*/
         });
+
+        // Configure Google Sign In
+        /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                //.requestIdToken("578961151024-ro7gnluudfbcngsn1apa4isopdiobktm.apps.googleusercontent.com")
+                .requestIdToken("578961151024-ahthr4btnt2ek450vgat0bue80r2860o.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);*/
+
+        /*activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                //if (requestCode == RC_SIGN_IN)
+                Log.e("FIREBASE","ASDFPBA");
+
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                Log.e("FIREBASE",task.isSuccessful()+"");
+                try {
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    firebaseAuthWithGoogle(account.getIdToken());
+                } catch (ApiException e) {
+                    Toast.makeText(context, "ERROR:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("ERROR FIREBASE",e.toString());
+                    Log.e("ERROR FIREBASE",e.getMessage());
+                }
+                //}
+            }
+        });*/
 
         bttnIniciarSesionGoogle.setOnClickListener(v -> {
             //Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            //startActivityForResult(signInIntent, RC_SIGN_IN);
+            //startActivityForResult(signInIntent, RC_SIGN_IN);//El startActivityForResult no causa el error
+            //activityResultLauncher.launch(signInIntent);
             Toast.makeText(context,"Inicio de sesion con google desactivado",Toast.LENGTH_SHORT).show();
         });
 
@@ -116,14 +138,16 @@ public class ActivityInicarSesion extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            Log.e("FIREBASE",task.isSuccessful()+"");
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
+                //firebaseAuthWithGoogle(account.getIdToken());
             } catch (ApiException e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "ERROR:" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("ERROR FIREBASE",e.toString());
+                Log.e("ERROR FIREBASE",e.getMessage());
             }
         }
     }
@@ -172,6 +196,16 @@ public class ActivityInicarSesion extends AppCompatActivity {
             });
         }else{
             Toast.makeText(context, "Es necesario completar todos los campos", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static void changeShowPassword(EditText etContraseña, ImageButton imgButtonShowPassword){
+        if(etContraseña.getInputType() == INPUTTYPE_PWD){
+            etContraseña.setInputType(INPUTTYPE_TEXT);
+            imgButtonShowPassword.setImageResource(R.drawable.eye_24);
+        }else{
+            etContraseña.setInputType(INPUTTYPE_PWD);
+            imgButtonShowPassword.setImageResource(R.drawable.eye_crossed_24);
         }
     }
 
