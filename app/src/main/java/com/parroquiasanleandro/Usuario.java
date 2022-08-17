@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -159,31 +158,5 @@ public class Usuario {
 		editor.putString(EMAIL, null);
 		editor.putString(NUMERO_TELEFONO, null);
 		editor.apply();
-	}
-
-	public static boolean cambiarCorreoElectronico(Context context, FirebaseUser user, String correoElectronico) {
-		if (user != null) {
-			return user.updateEmail(correoElectronico).addOnCompleteListener(task -> {
-				if (task.isSuccessful()) {
-					SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
-					SharedPreferences.Editor editor = sharedPreferences.edit();
-					editor.putString(EMAIL, user.getEmail());
-					editor.apply();
-					FirebaseDatabase.getInstance().getReference().child(USUARIOS).child(user.getUid()).child(EMAIL).setValue(correoElectronico);
-					Toast.makeText(context, "Correo electronico actualizado con éxito", Toast.LENGTH_SHORT).show();
-					//activity.startActivity(new Intent(context, ActivityNavigation.class));
-					//activity.finish();
-				}
-			}).addOnFailureListener(e -> {
-				Log.e("UPDATE EMAIL ERROR", e.getMessage());
-				Toast.makeText(context, "Se ha producido un error al actualizar el correo electronico", Toast.LENGTH_SHORT).show();
-				Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-
-
-				//Asegurarse de que ha iniciado sesion recientemente
-			}).isComplete();
-		}
-		Toast.makeText(context, "Por favor, inicia sesion para cambiar tu correo electronico", Toast.LENGTH_SHORT).show();
-		return false;
 	}
 }
