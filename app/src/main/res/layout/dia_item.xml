@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardDia"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="3dp"
+    android:layout_marginEnd="2dp"
+    android:layout_marginBottom="3dp"
+    android:padding="6dp"
+    app:cardCornerRadius="8dp"
+    android:elevation="2dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutDiaCalendario"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue"
+        android:orientation="vertical"
+        android:padding="0dp">
+        <!--android:background="#D93E55EA"-->
+        <TextView
+            android:id="@+id/tvNumDia"
+            style="@style/texto_1_2_Claro"
+            android:gravity="center"
+            android:padding="1dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textSize="12sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAvisosDia"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="1dp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
