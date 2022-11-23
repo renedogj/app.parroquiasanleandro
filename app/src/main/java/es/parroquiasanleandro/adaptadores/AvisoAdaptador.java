@@ -22,8 +22,6 @@ import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.activitys.ActivityAviso;
 import es.parroquiasanleandro.fecha.Fecha;
 
-;
-
 public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHolder> {
 
     private Context context;

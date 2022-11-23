@@ -2,7 +2,6 @@ package es.parroquiasanleandro.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,27 +23,16 @@ import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import es.parroquiasanleandro.Aviso;
-import es.parroquiasanleandro.Categoria;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
-import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
-import es.parroquiasanleandro.adaptadores.DiaAdaptador;
 import es.parroquiasanleandro.fecha.Fecha;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
@@ -119,7 +107,7 @@ public class FragmentInicio extends Fragment {
 		GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
 		rvCalendario.setLayoutManager(gridLayoutManager);
 
-		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		/*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 		if (user != null) {
 			Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
@@ -153,7 +141,7 @@ public class FragmentInicio extends Fragment {
 				}
 			});
 			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, null, DiaAdaptador.TAMAÑO_PEQUEÑO));
-		}
+		}*/
 
 		linearLayoutCalendario.setOnClickListener(view1 -> {
 			FragmentManager fragmentManager = getParentFragmentManager();
@@ -186,7 +174,7 @@ public class FragmentInicio extends Fragment {
 		});
 	}
 
-	public void guardarListAvisos(DataSnapshot dataSnapshot) {
+	/*public void guardarListAvisos(DataSnapshot dataSnapshot) {
 		for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 			Aviso aviso = postSnapshot.getValue(Aviso.class);
 			if (aviso != null) {
@@ -198,7 +186,7 @@ public class FragmentInicio extends Fragment {
 				}
 			}
 		}
-	}
+	}*/
 
 	public void asignarAvisos() {
 		if (!avisos.isEmpty()) {

@@ -1,23 +1,13 @@
 package es.parroquiasanleandro.activitys;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
-
 import es.parroquiasanleandro.R;
-import es.parroquiasanleandro.Usuario;
-import es.parroquiasanleandro.utils.Comprobaciones;
 
 public class ActivityCambiarCorreo extends AppCompatActivity {
 	private final Context context = ActivityCambiarCorreo.this;
@@ -33,7 +23,7 @@ public class ActivityCambiarCorreo extends AppCompatActivity {
 		etnuevoCorreoElectronico = findViewById(R.id.etnuevoCorreoElectronico);
 		bttnGuardarNuevoCorreo = findViewById(R.id.bttnGuardarNuevoCorreo);
 
-		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		/*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 		bttnGuardarNuevoCorreo.setOnClickListener(view1 -> {
 			String nuevoCorreo = etnuevoCorreoElectronico.getText().toString().trim();
@@ -53,6 +43,6 @@ public class ActivityCambiarCorreo extends AppCompatActivity {
 					Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
 				});
 			}
-		});
+		});*/
 	}
 }

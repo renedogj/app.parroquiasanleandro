@@ -12,7 +12,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -130,7 +129,7 @@ public class Categoria {
      */
     public void suscribirCategoria(Context context, String uid) {
         guardarSuscripcionLocal(context);
-        FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(uid).child(SUSCRIPCIONES).child(key).setValue(nombre);
+        //FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(uid).child(SUSCRIPCIONES).child(key).setValue(nombre);
     }
 
     /**
@@ -138,7 +137,7 @@ public class Categoria {
      */
     public void dessuscribirCategoria(Context context, String uid) {
         eliminarSuscripcionLocal(context);
-        FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(uid).child(SUSCRIPCIONES).child(key).setValue(null);
+        //FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(uid).child(SUSCRIPCIONES).child(key).setValue(null);
     }
 
     public static void actualizarCategoriasServidorToLocal(Context context){

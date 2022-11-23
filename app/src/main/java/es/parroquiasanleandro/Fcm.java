@@ -1,20 +1,6 @@
 package es.parroquiasanleandro;
 
-import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
-
-public class Fcm extends FirebaseMessagingService {
+/*public class Fcm extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String s) {
@@ -57,4 +43,4 @@ public class Fcm extends FirebaseMessagingService {
                     }
                 });
     }
-}
+}*/

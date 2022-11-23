@@ -21,9 +21,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,7 +98,9 @@ public class ActivityNavigation extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+
+        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Menu.addCerrarSesion(navView);
             Usuario.actualizarUsuarioLocal(context, user);
@@ -115,7 +114,11 @@ public class ActivityNavigation extends AppCompatActivity {
                     Categoria.setMillisUltimaActualizacion(context,fechaModCategorias);
                 }
             }
-        });
+        });*/
+
+        if(usuario.id != null){
+            Menu.addCerrarSesion(navView);
+        }
 
         linearLayoutInicio.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_INICIO) {
@@ -140,13 +143,13 @@ public class ActivityNavigation extends AppCompatActivity {
 
         linearLayoutPerfil.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_PERFIL) {
-                Menu.iniciarFragmentPerfil(user, activity, context, fragmentManager, actionBar);
+                Menu.iniciarFragmentPerfil(usuario, activity, context, fragmentManager, actionBar);
                 Menu.asignarIconosMenu(navView,Menu.FRAGMENT_PERFIL);
             }
         });
 
         navView.setNavigationItemSelectedListener(item -> {
-            viewModel.setIdFragmentActual(Menu.selecionarItemMenu(item, viewModel.getIdFragmentActual(), user, activity, context, fragmentManager, actionBar, navView));
+            viewModel.setIdFragmentActual(Menu.selecionarItemMenu(item, viewModel.getIdFragmentActual(), usuario, activity, context, fragmentManager, actionBar, navView));
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });

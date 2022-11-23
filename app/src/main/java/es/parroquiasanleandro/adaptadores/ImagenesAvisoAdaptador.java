@@ -2,8 +2,6 @@ package es.parroquiasanleandro.adaptadores;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +9,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.storage.StorageReference;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -29,9 +22,9 @@ public class ImagenesAvisoAdaptador extends RecyclerView.Adapter<ImagenesAvisoAd
 
     private Activity activity;
     Context context;
-    List<StorageReference> imagenes;
+    List<String> imagenes;
 
-    public ImagenesAvisoAdaptador(Context context, Activity activity, List<StorageReference> imagenes) {
+    public ImagenesAvisoAdaptador(Context context, Activity activity, List<String> imagenes) {
         this.activity = activity;
         this.context = context;
         this.imagenes = imagenes;
@@ -47,8 +40,8 @@ public class ImagenesAvisoAdaptador extends RecyclerView.Adapter<ImagenesAvisoAd
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        StorageReference imagen = imagenes.get(position);
-        holder.asignarValores(activity,imagen);
+        //StorageReference imagen = imagenes.get(position);
+        //holder.asignarValores(activity,imagen);
     }
 
     @Override
@@ -66,7 +59,7 @@ public class ImagenesAvisoAdaptador extends RecyclerView.Adapter<ImagenesAvisoAd
             imageView = itemView.findViewById(R.id.imageView);
         }
 
-        public void asignarValores(Activity activity, StorageReference imagen) {
+        /*public void asignarValores(Activity activity, StorageReference imagen) {
             imagen.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull @NotNull Task<Uri> task) {
@@ -86,6 +79,6 @@ public class ImagenesAvisoAdaptador extends RecyclerView.Adapter<ImagenesAvisoAd
                 }
             });
 
-        }
+        }*/
     }
 }

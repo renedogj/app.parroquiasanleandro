@@ -2,7 +2,6 @@ package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -100,23 +95,23 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
             cardImgCategoria.setBackgroundColor(Color.parseColor(categoria.color));
             imgCategoria.setBackgroundColor(Color.parseColor(categoria.color));
 
-            FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria.key).child("imagenPredeterminada.jpg").getDownloadUrl()
+            /*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria.key).child("imagenPredeterminada.jpg").getDownloadUrl()
                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             Glide.with(context).load(uri).into(imgCategoria);
                         }
-                    });
+                    });*/
 
             checkCategoria(comprobarSiCategoriaGuardada(categoria));
 
             cardCategoriaBoton.setOnClickListener(v -> {
                 if (categoriaGuardada){
-                    categoria.dessuscribirCategoria(context, usuario.uid);
+                    categoria.dessuscribirCategoria(context, usuario.id);
                     categoriaGuardada = false;
                     usuario.removeCategoria(categoria);
                 }else{
-                    categoria.suscribirCategoria(context, usuario.uid);
+                    categoria.suscribirCategoria(context, usuario.id);
                     categoriaGuardada = true;
                     usuario.addCategoria(categoria);
                     chekCategoriasPadre(categoria);
@@ -165,7 +160,7 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
         }
         for(Categoria categoria1: categorias){
             if(categoriasKey.contains(categoria1.key)){
-                categoria1.suscribirCategoria(context, usuario.uid);
+                categoria1.suscribirCategoria(context, usuario.id);
                 usuario.addCategoria(categoria1);
             }
         }

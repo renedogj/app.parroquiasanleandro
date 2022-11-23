@@ -10,8 +10,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import es.parroquiasanleandro.activitys.ActivityInicarSesion;
 import es.parroquiasanleandro.activitys.ActivityNavigation;
@@ -37,7 +35,7 @@ public class Menu {
 	private Menu() {
 	}
 
-	public static int selecionarItemMenu(MenuItem item, int idFragmentActual, FirebaseUser user, Activity activity,
+	public static int selecionarItemMenu(MenuItem item, int idFragmentActual, Usuario usuario, Activity activity,
 										 Context context, FragmentManager fragmentManager, ActionBar actionBar, NavigationView navView) {
 		int itemId = item.getItemId();
 		if (itemId != idFragmentActual) {
@@ -52,10 +50,9 @@ public class Menu {
 					iniciarFragmentHorario(fragmentManager, actionBar);
 					break;
 				case FRAGMENT_PERFIL:
-					iniciarFragmentPerfil(user, activity, context, fragmentManager, actionBar);
+					iniciarFragmentPerfil(usuario, activity, context, fragmentManager, actionBar);
 					break;
 				case CERRAR_SESION:
-					FirebaseAuth.getInstance().signOut();
 					item.setVisible(false);
 					Usuario.borrarUsuarioLocal(context);
 					Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
@@ -102,8 +99,8 @@ public class Menu {
 		actionBar.setTitle("Información");
 	}
 
-	public static void iniciarFragmentPerfil(FirebaseUser user, Activity activity, Context context, FragmentManager fragmentManager, ActionBar actionBar) {
-		if (user != null) {
+	public static void iniciarFragmentPerfil(Usuario usuario, Activity activity, Context context, FragmentManager fragmentManager, ActionBar actionBar) {
+		if (usuario.id != null) {
 			fragmentManager.beginTransaction()
 					.setReorderingAllowed(true)
 					.replace(R.id.fragment_container, FragmentPerfil.class, null)

@@ -1,24 +1,16 @@
 package es.parroquiasanleandro.activitys;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import es.parroquiasanleandro.R;
-import es.parroquiasanleandro.adaptadores.ImagenesAvisoAdaptador;
 
 public class ActivitySeleccionarImagen extends AppCompatActivity {
 
@@ -29,7 +21,7 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
     private RecyclerView recyclerView;
     private FloatingActionButton bttnSelecionarImagenGaleria;
 
-    List<StorageReference> imagenes;
+    //List<StorageReference> imagenes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +36,15 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        imagenes = new ArrayList<>();
+        //imagenes = new ArrayList<>();
 
-        FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).listAll()
+        /*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).listAll()
                 .addOnSuccessListener(listResult -> {
                     imagenes.addAll(listResult.getItems());
                     ImagenesAvisoAdaptador imagenesAvisoAdaptador = new ImagenesAvisoAdaptador(context, (Activity) context,imagenes);
                     recyclerView.setAdapter(imagenesAvisoAdaptador);
                 })
-                .addOnFailureListener(e -> Log.e("STORAGE ERROR", e.getMessage()));
+                .addOnFailureListener(e -> Log.e("STORAGE ERROR", e.getMessage()));*/
 
         bttnSelecionarImagenGaleria.setOnClickListener(v -> selecionarImagenGaleria());
     }

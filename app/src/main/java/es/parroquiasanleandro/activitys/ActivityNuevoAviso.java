@@ -22,10 +22,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
 
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.Categoria;
@@ -200,12 +196,12 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 	private void guardarNuevoAviso(Aviso aviso) {
 		if (aviso.titulo.length() > 0) {
 			if (aviso.descripcion.length() > 0) {
-				DatabaseReference refAviso = FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push();
+				/*DatabaseReference refAviso = FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push();
 				refAviso.setValue(aviso);
 				aviso.key = refAviso.getKey();
 				aviso.setFechaInicio(Fecha.toFecha(aviso.longInicio));;
 				FirebaseDatabase.getInstance().getReference().child("Calendario").child(fechaInicio.toString(Fecha.FormatosFecha.aaaaMM))
-						.child(aviso.getFechaInicio().dia+"").child(aviso.key).setValue(aviso.categoria);
+						.child(aviso.getFechaInicio().dia+"").child(aviso.key).setValue(aviso.categoria);*/
 
 				Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
 				finish();
@@ -219,7 +215,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
 	private Aviso nuevoAviso() {
 		String imagen;
-		String userUid = FirebaseAuth.getInstance().getUid();
+		String userUid = "FirebaseAuth.getInstance().getUid()";
 		String titulo = etTitulo.getText().toString().trim();
 		String descripcion = etDescripcion.getText().toString().trim();
 		String categoriaKey = usuario.getCategoriasAdministradas()[spinnerCategoria.getSelectedItemPosition()].key;
@@ -241,8 +237,8 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
 	private String subirImagen(String categoriaKey) {
 		String nombreImagen = System.currentTimeMillis() + "." + getFileExtension(uriImagen);
-		FirebaseStorage.getInstance().getReference("ImagenesAvisos").child(categoriaKey).child(nombreImagen).putFile(uriImagen)
-				.addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+		//FirebaseStorage.getInstance().getReference("ImagenesAvisos").child(categoriaKey).child(nombreImagen).putFile(uriImagen)
+		//		.addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
 		return nombreImagen;
 	}
 }

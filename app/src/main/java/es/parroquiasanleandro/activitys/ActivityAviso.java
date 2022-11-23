@@ -9,13 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.FirebaseDatabase;
-
-import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.R;
-import es.parroquiasanleandro.fecha.Fecha;
 
 public class ActivityAviso extends AppCompatActivity {
 
@@ -45,7 +39,7 @@ public class ActivityAviso extends AppCompatActivity {
 
         Log.d("TAG", avisoCategoria + " " + avisoKey);
 
-        FirebaseDatabase.getInstance().getReference().child("Avisos").child(avisoCategoria).child(avisoKey).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+        /*FirebaseDatabase.getInstance().getReference().child("Avisos").child(avisoCategoria).child(avisoKey).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 Aviso aviso = dataSnapshot.getValue(Aviso.class);
@@ -58,7 +52,7 @@ public class ActivityAviso extends AppCompatActivity {
                             .add(R.id.fragment_aviso,fragment).addToBackStack(null)
                             .commit();*/
 
-                    tvTituloAviso.setText(aviso.titulo);
+                    /*tvTituloAviso.setText(aviso.titulo);
                     //tvFechaInicio.setText(aviso.fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa) + "  " + aviso.fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
                     tvFechaInicio.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
                     if (aviso.getFechaFin() != null){
@@ -69,6 +63,6 @@ public class ActivityAviso extends AppCompatActivity {
                     aviso.asignarColor(context,linearLayoutContenedorAviso);
                 }
             }
-        });
+        });*/
     }
 }

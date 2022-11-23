@@ -1,7 +1,6 @@
 package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,25 +8,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import es.parroquiasanleandro.Aviso;
-import es.parroquiasanleandro.Categoria;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.fecha.Fecha;
@@ -98,7 +88,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 			LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 			rvAvisosDia.setLayoutManager(linearLayoutManager);
 
-			if (usuario != null) {
+			/*if (usuario != null) {
 				FirebaseDatabase.getInstance().getReference().child(Fecha.CALENDARIO)
 						.child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).child(dia + "").addChildEventListener(new ChildEventListener() {
 					@Override
@@ -196,7 +186,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 
 					}
 				});
-			}
+			}*/
 		}
 
 		public void asignarValoresInvisibles() {

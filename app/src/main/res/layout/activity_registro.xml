@@ -101,6 +101,5 @@
                 android:gravity="left"
                 android:text="Iniciar Sesión" />
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

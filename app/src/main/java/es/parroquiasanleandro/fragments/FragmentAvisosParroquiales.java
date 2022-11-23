@@ -3,7 +3,6 @@ package es.parroquiasanleandro.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,12 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.parroquiasanleandro.Aviso;
-import es.parroquiasanleandro.Categoria;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
-import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.activitys.ActivityNuevoAviso;
-import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 
@@ -73,7 +63,7 @@ public class FragmentAvisosParroquiales extends Fragment {
 
         avisos = new ArrayList<>();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
@@ -128,7 +118,7 @@ public class FragmentAvisosParroquiales extends Fragment {
                     Log.e(databaseError.getMessage(), databaseError.getDetails());
                 }
             });
-        }
+        }*/
 
         bttnNuevoAviso.setOnClickListener(v -> startActivity(new Intent(context, ActivityNuevoAviso.class)));
 

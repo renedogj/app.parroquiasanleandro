@@ -8,15 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.activitys.ActivityInicarSesion;
@@ -44,13 +37,13 @@ public class FragmentConfirmarPassword extends Fragment {
 		imgButtonShowPassword = view.findViewById(R.id.imgButtonShowPassword);
 		bttnConfirmarContraseña = view.findViewById(R.id.bttnConfirmarContraseña);
 
-		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		//FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 		imgButtonShowPassword.setOnClickListener(view1 -> {
 			ActivityInicarSesion.changeShowPassword(etConfirmacionPassword,imgButtonShowPassword);
 		});
 
-		bttnConfirmarContraseña.setOnClickListener(view1 -> {
+		/*bttnConfirmarContraseña.setOnClickListener(view1 -> {
 			String password = etConfirmacionPassword.getText().toString().trim();
 			if(!password.equals("")){
 				AuthCredential credential = EmailAuthProvider.getCredential(user.getEmail(), password);
@@ -64,7 +57,7 @@ public class FragmentConfirmarPassword extends Fragment {
 			}else{
 				Toast.makeText(context,"Introduce tu contraseña",Toast.LENGTH_SHORT).show();
 			}
-		});
+		});*/
 		return view;
 	}
 }

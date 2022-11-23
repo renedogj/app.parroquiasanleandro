@@ -35,16 +35,18 @@
 			tools:ignore="LockedOrientationActivity" />
 		<activity android:name=".activitys.ActivitySeleccionarImagen" />
 		<activity android:name=".activitys.ActivityNuevoAviso" />
-		<activity android:name=".activitys.ActivityRegistro" />
+		<activity
+			android:name=".activitys.ActivityRegistro">
+		</activity>
 		<activity android:name=".activitys.ActivityInicarSesion" />
 
-		<service
+		<!--<service
 			android:name=".Fcm"
 			android:exported="false">
 			<intent-filter>
 				<action android:name="com.google.firebase.MESSAGING_EVENT" />
 			</intent-filter>
-		</service>
+		</service>-->
 
 		<meta-data
 			android:name="preloaded_fonts"

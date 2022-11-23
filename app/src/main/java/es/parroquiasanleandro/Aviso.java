@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
-import com.google.firebase.storage.FirebaseStorage;
 import es.parroquiasanleandro.fecha.Fecha;
 
 public class Aviso {
@@ -82,7 +80,7 @@ public class Aviso {
 
 	//Funcion para asignar la imagen del aviso obteniendolo de la bbdd al imageView
 	public void asignarImagen(Context context, ImageView imageView) {
-		if (imagen.equals("imagenPredeterminada")) {
+		/*if (imagen.equals("imagenPredeterminada")) {
 			if (categoria.equals("A")) {
 				Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imageView);
 			} else {
@@ -96,6 +94,6 @@ public class Aviso {
 					.addOnSuccessListener(uri -> {
 						Glide.with(context).load(uri).into(imageView);
 					});
-		}
+		}*/
 	}
 }

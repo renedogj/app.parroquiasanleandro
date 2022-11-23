@@ -14,7 +14,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.storage.FirebaseStorage;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -79,10 +78,10 @@ public class CategoriaSencillaAdaptador extends RecyclerView.Adapter<CategoriaSe
 			if (categoria.key.equals("A")) {
 				Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imgCategoria);
 			} else {
-				FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria.key).child("imagenPredeterminada.jpg").getDownloadUrl()
+				/*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria.key).child("imagenPredeterminada.jpg").getDownloadUrl()
 						.addOnSuccessListener(uri -> {
 							Glide.with(context).load(uri).into(imgCategoria);
-						});
+						});*/
 
 			}
 		}

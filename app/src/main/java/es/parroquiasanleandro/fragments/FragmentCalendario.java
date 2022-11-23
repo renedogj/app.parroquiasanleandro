@@ -12,9 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,8 +68,8 @@ public class FragmentCalendario extends Fragment {
 		GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
 		rvCalendario.setLayoutManager(gridLayoutManager);
 
-		FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
+		//FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+		Usuario user = null;
 		dias = new ArrayList<>();
 
 		setCalendario(user);
@@ -93,7 +90,7 @@ public class FragmentCalendario extends Fragment {
 		return view;
 	}
 
-	public void setCalendario(FirebaseUser user) {
+	public void setCalendario(Usuario user) {
 		tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
 
 		dias.clear();
