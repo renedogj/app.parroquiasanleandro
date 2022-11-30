@@ -21,7 +21,6 @@ import es.parroquiasanleandro.fragments.FragmentHorario;
 import es.parroquiasanleandro.fragments.FragmentInicio;
 import es.parroquiasanleandro.fragments.FragmentPerfil;
 
-
 public class Menu {
 	public static final int FRAGMENT_INICIO = R.id.nav_fragment_inicio;
 	public static final int FRAGMENT_AVISOS = R.id.nav_fragment_avisos;
@@ -32,8 +31,7 @@ public class Menu {
 	public static final int CERRAR_SESION = 1;
 
 	//Constructor privado para que no se pueda inicializar
-	private Menu() {
-	}
+	private Menu() {}
 
 	public static int selecionarItemMenu(MenuItem item, int idFragmentActual, Usuario usuario, Activity activity,
 										 Context context, FragmentManager fragmentManager, ActionBar actionBar, NavigationView navView) {
@@ -100,7 +98,7 @@ public class Menu {
 	}
 
 	public static void iniciarFragmentPerfil(Usuario usuario, Activity activity, Context context, FragmentManager fragmentManager, ActionBar actionBar) {
-		if (usuario.id != null) {
+		if (usuario.getId() != null) {
 			fragmentManager.beginTransaction()
 					.setReorderingAllowed(true)
 					.replace(R.id.fragment_container, FragmentPerfil.class, null)

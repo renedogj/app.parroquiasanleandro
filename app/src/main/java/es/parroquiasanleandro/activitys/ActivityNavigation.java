@@ -116,7 +116,9 @@ public class ActivityNavigation extends AppCompatActivity {
             }
         });*/
 
-        if(usuario.id != null){
+        Categoria.actualizarCategoriasServidorToLocal(context);
+
+        if(usuario.getId() != null){
             Menu.addCerrarSesion(navView);
         }
 
@@ -167,6 +169,7 @@ public class ActivityNavigation extends AppCompatActivity {
         Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
     }*/
 
+    //Función que se ejecuta al selecionar una opción del menú
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (toggle.onOptionsItemSelected(item)) {

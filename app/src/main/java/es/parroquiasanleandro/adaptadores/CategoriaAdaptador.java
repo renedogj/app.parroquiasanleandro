@@ -107,11 +107,11 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
 
             cardCategoriaBoton.setOnClickListener(v -> {
                 if (categoriaGuardada){
-                    categoria.dessuscribirCategoria(context, usuario.id);
+                    categoria.dessuscribirCategoria(context, usuario.getId());
                     categoriaGuardada = false;
                     usuario.removeCategoria(categoria);
                 }else{
-                    categoria.suscribirCategoria(context, usuario.id);
+                    categoria.suscribirCategoria(context, usuario.getId());
                     categoriaGuardada = true;
                     usuario.addCategoria(categoria);
                     chekCategoriasPadre(categoria);
@@ -160,7 +160,7 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
         }
         for(Categoria categoria1: categorias){
             if(categoriasKey.contains(categoria1.key)){
-                categoria1.suscribirCategoria(context, usuario.id);
+                categoria1.suscribirCategoria(context, usuario.getId());
                 usuario.addCategoria(categoria1);
             }
         }

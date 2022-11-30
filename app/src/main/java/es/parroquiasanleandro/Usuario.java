@@ -22,34 +22,33 @@ public class Usuario {
 	public static final String EMAIL_VERIFIED = "emailVerified";
 	public static final String ES_ADMINISTRADOR = "esAdministrador";
 
-	public String id;
+	private String id;
 	public String nombre;
 	public String email;
-	public HashMap<String, String> suscripciones;
+	public HashMap<String, String> hashMapCategorias;
 	private Categoria[] categorias;
 	public long fechaNacimiento;
 	public String fotoPerfil;
 	//public String numeroTelefono;
 	//public boolean emailVerified;
 	public boolean esAdministrador;
-	public HashMap<String, String> administraciones;
+	public HashMap<String, String> hashMapCategoriasAdministradas;
 	private Categoria[] categoriasAdministradas;
 
-	public Usuario() {
-
-	}
+	/*Constructors*/
+	public Usuario() {}
 
 	public Usuario(String nombre, String email) {
 		this.nombre = nombre;
 		this.email = email;
-		this.suscripciones = new HashMap<>();
+		this.hashMapCategorias = new HashMap<>();
 	}
 
 	public Usuario(String nombre, String email, String numeroTelefono) {
 		this.nombre = nombre;
 		this.email = email;
 		//this.numeroTelefono = numeroTelefono;
-		this.suscripciones = new HashMap<>();
+		this.hashMapCategorias = new HashMap<>();
 	}
 
 	public Usuario(JSONObject jsonUsuario) throws JSONException {
@@ -66,12 +65,22 @@ public class Usuario {
 		//this.categoriasAdministradas = jsonUsuario.getString("categoriasAdministradas");
 	}
 
+	/*Getters*/
+	public String getId() {
+		return id;
+	}
+
 	public Categoria[] getCategorias() {
 		return categorias;
 	}
 
 	public Categoria[] getCategoriasAdministradas() {
 		return categoriasAdministradas;
+	}
+
+	/*Setters*/
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public void setCategorias(Categoria[] categorias) {
@@ -82,6 +91,7 @@ public class Usuario {
 		this.categoriasAdministradas = categoriasAdministradas;
 	}
 
+	/*Funciones*/
 	public void addCategoria(Categoria categoria) {
 		List<Categoria> list = Arrays.asList(categorias);
 		List<Categoria> listCategorias = new ArrayList<>(list);
@@ -100,17 +110,18 @@ public class Usuario {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 
-		/*if (suscripciones != null) {
-			categorias = Categoria.convertirCategoria(suscripciones.keySet().toArray(new String[0]), suscripciones.values().toArray(new String[0]));
+		if (hashMapCategorias != null) {
+			categorias = Categoria.convertirCategoria(hashMapCategorias.keySet().toArray(new String[0]), hashMapCategorias.values().toArray(new String[0]));
 			Categoria.guardarCategoriasSuscritasLocal(context, categorias);
 		} else {
+			//Si no sigue a ninguna categoria se pone automaticamente la categoria Padre (Avisos Generales)
 			Categoria categoria = new Categoria(Categoria.ID_PADRE, Categoria.NOMBRE_PADRE);
 			categoria.guardarSuscripcionLocal(context);
 		}
-		if (administraciones != null) {
-			categoriasAdministradas = Categoria.convertirCategoria(administraciones.keySet().toArray(new String[0]), administraciones.values().toArray(new String[0]));
+		if (hashMapCategoriasAdministradas != null) {
+			categoriasAdministradas = Categoria.convertirCategoria(hashMapCategoriasAdministradas.keySet().toArray(new String[0]), hashMapCategoriasAdministradas.values().toArray(new String[0]));
 			Categoria.guardarCategoriasAdministradasLocal(context, categoriasAdministradas);
-		}*/
+		}
 		editor.putBoolean(ES_ADMINISTRADOR, esAdministrador);
 
 		editor.putString(ID, id);

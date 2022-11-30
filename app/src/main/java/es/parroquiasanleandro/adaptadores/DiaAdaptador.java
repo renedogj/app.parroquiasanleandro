@@ -38,6 +38,8 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 		this.fechaReferencia = fechaReferencia;
 		this.usuario = usuario;
 		this.tamaño = tamaño;
+
+
 	}
 
 	@NonNull
@@ -87,6 +89,38 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 			rvAvisosDia.setHasFixedSize(true);
 			LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 			rvAvisosDia.setLayoutManager(linearLayoutManager);
+
+			/*RequestQueue requestQueue = Volley.newRequestQueue(context);
+			requestQueue.add(new StringRequest(Request.Method.POST, Url.iniciarSesion, result -> {
+				//Log.d("Resultado",result);
+				try {
+					JSONObject jsonResult = new JSONObject(result);
+					if(!jsonResult.getBoolean("error")){
+						Log.d("Resultado",jsonResult.getJSONArray("usuario").getJSONObject(0).toString());
+						Log.d("Resultado",jsonResult.getJSONArray("usuario").getJSONObject(0).toString());
+						JSONObject jsonObject = jsonResult.getJSONArray("usuario").getJSONObject(0);
+						Usuario usuario = new Usuario(jsonObject);
+						usuario.guardarUsuarioLocal(context);
+						//startActivity(new Intent(context, ActivityNavigation.class));
+						//finish();
+					}else{
+						Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					Toast.makeText(context, "Se ha producido un error en el servidor al iniciar sesion", Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				}
+			}, error -> {
+				Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+			}) {
+				@Override
+				protected Map<String, String> getParams() {
+					Map<String,String> parametros = new HashMap<>();
+					parametros.put("idUsuario",usuario.id);
+					//parametros.put("password",password);
+					return parametros;
+				}
+			});*/
 
 			/*if (usuario != null) {
 				FirebaseDatabase.getInstance().getReference().child(Fecha.CALENDARIO)
