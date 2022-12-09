@@ -9,11 +9,9 @@ import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,11 +30,13 @@ public class Categoria {
     public static final String ID = "id";
     public static final String NOMBRE = "nombre";
     public static final String COLOR = "color";
+    public static final String IMAGEN = "imagen";
     public static final String MILLIS_ACTUALIZACION = "millis_actualizacion";
 
     public String key;
     public String nombre;
     public String color;
+    public String imagen;
     int posicion;
 
     public Categoria() {
@@ -47,10 +47,11 @@ public class Categoria {
         this.nombre = nombre;
     }
 
-    public Categoria(String key, String nombre, String color) {
+    public Categoria(String key, String nombre, String color, String imagen) {
         this.key = key;
         this.nombre = nombre;
         this.color = color;
+        this.imagen = imagen;
     }
 
     public String getKey() {
@@ -142,36 +143,35 @@ public class Categoria {
 
     public static void actualizarCategoriasServidorToLocal(Context context){
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(new JsonArrayRequest(Url.obtenerCategorias, new Response.Listener<JSONArray>(){
-            @Override
-            public void onResponse(JSONArray response) {
-                FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                dbHelper.truncateTable(db, FeedReaderContract.TablaCategorias.TABLE_NAME);
+        requestQueue.add(new JsonArrayRequest(Url.obtenerCategorias, response -> {
+            FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            dbHelper.truncateTable(db, FeedReaderContract.TablaCategorias.TABLE_NAME);
 
-                JSONObject jsonObject;
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        jsonObject = response.getJSONObject(i);
-                        Categoria categoria = new Categoria(
-                                jsonObject.getString(Categoria.ID),
-                                jsonObject.getString(Categoria.NOMBRE),
-                                jsonObject.getString(Categoria.COLOR)
-                        );
+            JSONObject jsonObject;
+            for (int i = 0; i < response.length(); i++) {
+                try {
+                    jsonObject = response.getJSONObject(i);
+                    Categoria categoria = new Categoria(
+                            jsonObject.getString(Categoria.ID),
+                            jsonObject.getString(Categoria.NOMBRE),
+                            jsonObject.getString(Categoria.COLOR),
+                            jsonObject.getString(Categoria.IMAGEN)
+                    );
 
-                        ContentValues registro = new ContentValues();
-                        registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_ID, categoria.key);
-                        registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_NOMBRE, categoria.nombre);
-                        registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_COLOR, categoria.color);
+                    ContentValues registro = new ContentValues();
+                    registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_ID, categoria.key);
+                    registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_NOMBRE, categoria.nombre);
+                    registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_COLOR, categoria.color);
+                    registro.put(FeedReaderContract.TablaCategorias.COLUMN_NAME_IMAGEN, categoria.imagen);
 
-                        db.insert(FeedReaderContract.TablaCategorias.TABLE_NAME, null, registro);
+                    db.insert(FeedReaderContract.TablaCategorias.TABLE_NAME, null, registro);
 
-                    } catch (JSONException e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                } catch (JSONException e) {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-                db.close();
             }
+            db.close();
         }, error -> {
             Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }) {
@@ -204,7 +204,8 @@ public class Categoria {
             String key = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_ID));
             String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_NOMBRE));
             String color = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_COLOR));
-            categorias.add(new Categoria(key, nombre,color));
+            String imagen = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_IMAGEN));
+            categorias.add(new Categoria(key, nombre, color, imagen));
         }
         cursorConsulta.close();
         db.close();
@@ -233,6 +234,30 @@ public class Categoria {
         cursorConsulta.close();
         db.close();
         return color;
+    }
+
+    public static String obtenerImagenCategoria(Context context, String id){
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] columnasARetornar = {
+                FeedReaderContract.TablaCategorias.COLUMN_NAME_IMAGEN
+        };
+        Cursor cursorConsulta = db.query(
+                FeedReaderContract.TablaCategorias.TABLE_NAME,
+                columnasARetornar,
+                FeedReaderContract.TablaCategorias.COLUMN_NAME_ID + " = ?",
+                new String[]{id},
+                null,
+                null,
+                null
+        );
+        String imagen = null;
+        while (cursorConsulta.moveToNext()) {
+            imagen = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategorias.COLUMN_NAME_IMAGEN));
+        }
+        cursorConsulta.close();
+        db.close();
+        return imagen;
     }
 
     public void guardarSuscripcionLocal(Context context) {
@@ -295,9 +320,9 @@ public class Categoria {
         );
         List<Categoria> categorias = new ArrayList<>();
         while (cursorConsulta.moveToNext()) {
-            String key = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID));
+            String id = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_ID));
             String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaCategoriasSuscritas.COLUMN_NAME_NOMBRE));
-            categorias.add(new Categoria(key, nombre,obtenerColorCategoria(context, key)));
+            categorias.add(new Categoria(id, nombre, obtenerColorCategoria(context, id), obtenerImagenCategoria(context, id)));
         }
         cursorConsulta.close();
         db.close();

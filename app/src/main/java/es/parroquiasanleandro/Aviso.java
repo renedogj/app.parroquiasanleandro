@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,11 +57,10 @@ public class Aviso {
 			fechaInicio.hora = 0;
 			fechaInicio.minuto = 0;
 			fechaInicio.segundo = 0;
-			this.longFin = Fecha.toMillis(fechaInicio);
 		}else{
 			fechaInicio.sumHoras(1);
-			this.longFin = Fecha.toMillis(fechaInicio);
 		}
+		this.longFin = Fecha.toMillis(fechaInicio);
 		this.todoElDia = todoElDia;
 		this.imagen = imagen;
 		this.idCreador = uidCreador;
@@ -110,6 +111,8 @@ public class Aviso {
 
 	//Funcion para asignar la imagen del aviso obteniendolo de la bbdd al imageView
 	public void asignarImagen(Context context, ImageView imageView) {
+		Glide.with(context).load(Url.obtenerImagenAviso + idCategoria +"/img/" + Categoria.obtenerImagenCategoria(context, idCategoria)).into(imageView);
+		//Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imageView);
 		/*if (imagen.equals("imagenPredeterminada")) {
 			if (categoria.equals("A")) {
 				Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imageView);

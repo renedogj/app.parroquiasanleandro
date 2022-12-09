@@ -98,6 +98,7 @@ public class ActivityNavigation extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
 
+        Categoria.actualizarCategoriasServidorToLocal(context);
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
         /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -115,8 +116,6 @@ public class ActivityNavigation extends AppCompatActivity {
                 }
             }
         });*/
-
-        Categoria.actualizarCategoriasServidorToLocal(context);
 
         if(usuario.getId() != null){
             Menu.addCerrarSesion(navView);
@@ -205,7 +204,8 @@ public class ActivityNavigation extends AppCompatActivity {
                                     Categoria categoria = new Categoria(
                                             jsonObject.getString(Categoria.ID),
                                             jsonObject.getString(Categoria.NOMBRE),
-                                            jsonObject.getString(Categoria.COLOR)
+                                            jsonObject.getString(Categoria.COLOR),
+                                            jsonObject.getString(Categoria.IMAGEN)
                                     );
                                     categorias.add(categoria);
                                 } catch (JSONException e) {
