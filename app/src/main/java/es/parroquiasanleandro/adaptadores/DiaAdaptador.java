@@ -128,10 +128,10 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 					@Override
 					public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
 						String key = snapshot.getKey();
-						String categoria = snapshot.getValue(String.class);
-						if (key != null && categoria != null && Arrays.asList(Categoria.getKeysCategorias(usuario.getCategorias())).contains(categoria)) {
+						String grupo = snapshot.getValue(String.class);
+						if (key != null && grupo != null && Arrays.asList(Grupo.getKeysCategorias(usuario.getCategorias())).contains(grupo)) {
 							FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS)
-									.child(categoria).child(key).addValueEventListener(new ValueEventListener() {
+									.child(grupo).child(key).addValueEventListener(new ValueEventListener() {
 								@Override
 								public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
 									Aviso aviso = snapshot.getValue(Aviso.class);
@@ -177,10 +177,10 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 					@Override
 					public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
 						String key = snapshot.getKey();
-						String categoria = snapshot.getValue(String.class);
-						if (key != null && categoria != null && categoria.equals(Categoria.ID_PADRE)) {
+						String grupo = snapshot.getValue(String.class);
+						if (key != null && grupo != null && grupo.equals(Grupo.ID_PADRE)) {
 							FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS)
-									.child(categoria).child(key).addValueEventListener(new ValueEventListener() {
+									.child(grupo).child(key).addValueEventListener(new ValueEventListener() {
 								@Override
 								public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
 									Aviso aviso = snapshot.getValue(Aviso.class);

@@ -11,8 +11,8 @@ import java.util.List;
 public class ItemViewModel extends ViewModel {
     int idFragmentActual;
     List<Integer> idsFragment = new ArrayList<>();
-    String categoriaActual;
-    List<String> idsCategorias = new ArrayList<>();
+    String grupoActual;
+    List<String> idsGrupos = new ArrayList<>();
     ActionBar actionBar;
     NavigationView navView;
 
@@ -40,12 +40,12 @@ public class ItemViewModel extends ViewModel {
         return idsFragment;
     }
 
-    public String getCategoriaActual() {
-        return categoriaActual;
+    public String getGrupoActual() {
+        return grupoActual;
     }
 
-    public List<String> getIdsCategorias() {
-        return idsCategorias;
+    public List<String> getIdsGrupos() {
+        return idsGrupos;
     }
 
     public void setIdFragmentActual(int idFragmentActual) {
@@ -56,19 +56,19 @@ public class ItemViewModel extends ViewModel {
         this.idsFragment = idsFragment;
     }
 
-    public void setCategoriaActual(String categoriaActual) {
-        this.categoriaActual = categoriaActual;
+    public void setGrupoActual(String grupoActual) {
+        this.grupoActual = grupoActual;
     }
 
-    public void setIdsCategorias(List<String> idsCategorias) {
-        this.idsCategorias = idsCategorias;
+    public void setIdsGrupos(List<String> idsGrupos) {
+        this.idsGrupos = idsGrupos;
     }
 
     public void addIdFragmentActual(){
         this.idsFragment.add(idFragmentActual);
     }
 
-    public void addIdCategoria(){
-        this.idsCategorias.add(categoriaActual);
+    public void addIdGrupo(){
+        this.idsGrupos.add(grupoActual);
     }
 }

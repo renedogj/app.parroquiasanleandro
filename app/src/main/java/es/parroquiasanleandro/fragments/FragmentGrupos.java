@@ -13,19 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import es.parroquiasanleandro.Categoria;
+import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
-import es.parroquiasanleandro.adaptadores.CategoriaAdaptador;
+import es.parroquiasanleandro.adaptadores.GrupoAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 
-public class FragmentCategorias extends Fragment {
+public class FragmentGrupos extends Fragment {
     private Context context;
 
-    public static RecyclerView rvCategorias;
+    public static RecyclerView rvGrupos;
 
-    List<Categoria> categorias;
+    List<Grupo> grupos;
 
     private ItemViewModel vmIds;
 
@@ -36,25 +36,25 @@ public class FragmentCategorias extends Fragment {
         context = getContext();
 
         vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_CATEGORIAS);
+        vmIds.setIdFragmentActual(Menu.FRAGMENT_GRUPOS);
         vmIds.addIdFragmentActual();
-        vmIds.setCategoriaActual(Categoria.ID_PADRE);
-        vmIds.addIdCategoria();
+        vmIds.setGrupoActual(Grupo.ID_PADRE);
+        vmIds.addIdGrupo();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_categorias, container, false);
+        View view =  inflater.inflate(R.layout.fragment_grupos, container, false);
 
-        rvCategorias = view.findViewById(R.id.rvCategorias);
+        rvGrupos = view.findViewById(R.id.rvGrupos);
 
-        rvCategorias.setHasFixedSize(true);
+        rvGrupos.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        rvCategorias.setLayoutManager(linearLayoutManager);
+        rvGrupos.setLayoutManager(linearLayoutManager);
 
-        categorias = Categoria.recuperarCategoriasLocal(context);
-        CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias,Categoria.ID_PADRE,rvCategorias,vmIds);
-        rvCategorias.setAdapter(categoriaAdaptador);
+        grupos = Grupo.recuperarGruposLocal(context);
+        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, Grupo.ID_PADRE, rvGrupos,vmIds);
+        rvGrupos.setAdapter(grupoAdaptador);
 
         return view;
     }

@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/fondo_parroquia"
-    tools:context=".fragments.FragmentCategorias">
+    tools:context=".fragments.FragmentGrupos">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCategorias"
+        android:id="@+id/rvGrupos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="1dp"

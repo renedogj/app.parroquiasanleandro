@@ -24,7 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 
 import es.parroquiasanleandro.Aviso;
-import es.parroquiasanleandro.Categoria;
+import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.fecha.Fecha;
@@ -49,7 +49,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 	private LinearLayout lnlytAñadirFechaFinal;
 	private TextView tvSimboloAñadirFechaFinal;
 	private TextView tvAñadirFechaFinal;
-	private Spinner spinnerCategoria;
+	private Spinner spinnerGrupo;
 
 	private Button bttnNuevoAviso;
 	private Button bttnCancelar;
@@ -82,14 +82,14 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		lnlytAñadirFechaFinal = findViewById(R.id.lnlytAñadirFechaFinal);
 		tvSimboloAñadirFechaFinal = findViewById(R.id.tvSimboloAñadirFechaFinal);
 		tvAñadirFechaFinal = findViewById(R.id.tvAñadirFechaFinal);
-		spinnerCategoria = findViewById(R.id.spinnerCategoria);
+		spinnerGrupo = findViewById(R.id.spinnerGrupo);
 		bttnNuevoAviso = findViewById(R.id.bttnNuevoAviso);
 		bttnCancelar = findViewById(R.id.bttnCancelar);
 
 		usuario = Usuario.recuperarUsuarioLocal(context);
-		String[] nombreCategoriasAdministradas = Categoria.getNombreCategorias(usuario.getCategoriasAdministradas());
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_categoria_item, nombreCategoriasAdministradas);
-		spinnerCategoria.setAdapter(adapter);
+		String[] nombreGruposAdministrados = Grupo.getNombreGrupos(usuario.getGruposAdministrados());
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_grupo_item, nombreGruposAdministrados);
+		spinnerGrupo.setAdapter(adapter);
 
 		switchTodoElDia.setOnCheckedChangeListener((buttonView, isChecked) -> {
 			todoElDia = isChecked;
@@ -168,7 +168,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
 		lnlytAñadirImagen.setOnClickListener(v -> {
 			Intent intent = new Intent(context, ActivitySeleccionarImagen.class);
-			intent.putExtra("categoria", usuario.getCategoriasAdministradas()[spinnerCategoria.getSelectedItemPosition()].key);
+			intent.putExtra("grupo", usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].key);
 			startActivityForResult(intent, 1);
 		});
 	}
@@ -196,12 +196,12 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 	private void guardarNuevoAviso(Aviso aviso) {
 		if (aviso.titulo.length() > 0) {
 			if (aviso.descripcion.length() > 0) {
-				/*DatabaseReference refAviso = FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.categoria).push();
+				/*DatabaseReference refAviso = FirebaseDatabase.getInstance().getReference().child("Avisos").child(aviso.grupo).push();
 				refAviso.setValue(aviso);
 				aviso.key = refAviso.getKey();
 				aviso.setFechaInicio(Fecha.toFecha(aviso.longInicio));;
 				FirebaseDatabase.getInstance().getReference().child("Calendario").child(fechaInicio.toString(Fecha.FormatosFecha.aaaaMM))
-						.child(aviso.getFechaInicio().dia+"").child(aviso.key).setValue(aviso.categoria);*/
+						.child(aviso.getFechaInicio().dia+"").child(aviso.key).setValue(aviso.grupo);*/
 
 				Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
 				finish();
@@ -218,26 +218,26 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		String userUid = "FirebaseAuth.getInstance().getUid()";
 		String titulo = etTitulo.getText().toString().trim();
 		String descripcion = etDescripcion.getText().toString().trim();
-		String categoriaKey = usuario.getCategoriasAdministradas()[spinnerCategoria.getSelectedItemPosition()].key;
+		String grupoKey = usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].key;
 		if (uriImagen == null) {
 			imagen = "imagenPredeterminada";
 		} else {
 			if (nombreImagen == null) {
-				imagen = subirImagen(categoriaKey);
+				imagen = subirImagen(grupoKey);
 			} else {
 				imagen = nombreImagen;
 			}
 		}
 		if (fechaInicio.esIgualA(fechaFin)) {
-			return new Aviso(titulo, descripcion, categoriaKey, fechaInicio, todoElDia, imagen, userUid);
+			return new Aviso(titulo, descripcion, grupoKey, fechaInicio, todoElDia, imagen, userUid);
 		} else {
-			return new Aviso(titulo, descripcion, categoriaKey, fechaInicio, fechaFin, todoElDia, imagen, userUid);
+			return new Aviso(titulo, descripcion, grupoKey, fechaInicio, fechaFin, todoElDia, imagen, userUid);
 		}
 	}
 
-	private String subirImagen(String categoriaKey) {
+	private String subirImagen(String grupoKey) {
 		String nombreImagen = System.currentTimeMillis() + "." + getFileExtension(uriImagen);
-		//FirebaseStorage.getInstance().getReference("ImagenesAvisos").child(categoriaKey).child(nombreImagen).putFile(uriImagen)
+		//FirebaseStorage.getInstance().getReference("ImagenesAvisos").child(grupoKey).child(nombreImagen).putFile(uriImagen)
 		//		.addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
 		return nombreImagen;
 	}

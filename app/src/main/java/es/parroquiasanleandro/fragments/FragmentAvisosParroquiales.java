@@ -92,7 +92,7 @@ public class FragmentAvisosParroquiales extends Fragment {
                 if(!jsonResult.getBoolean("error")){
                     JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
                     avisos.addAll(Aviso.JSONArrayToAviso(jsonArrayAvisos));
-                    //Log.d("Resultado",jsonResult.getJSONArray("avisos").toString());
+
                     if(!avisos.isEmpty()) {
                         AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
                         rvAvisos.setAdapter(avisoAdaptador);

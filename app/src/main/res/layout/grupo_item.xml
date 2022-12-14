@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardCategoria"
+    android:id="@+id/cardGrupo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="6dp"
@@ -13,14 +13,14 @@
     app:cardCornerRadius="15dp">
 
     <LinearLayout
-        android:id="@+id/linearLayoutCategoria"
+        android:id="@+id/linearLayoutGrupo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="10dp">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardImgCategoria"
+            android:id="@+id/cardImgGrupo"
             android:layout_width="48dp"
             android:layout_height="48dp"
             app:cardCornerRadius="10dp">
@@ -33,7 +33,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imgCategoria"
+                    android:id="@+id/imgGrupo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/transparente" />
@@ -46,7 +46,7 @@
             android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/tvNombreCategoria"
+            android:id="@+id/tvNombreGrupo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -64,7 +64,7 @@
             android:layout_weight="1" />
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardCategoriaBoton"
+            android:id="@+id/cardGrupoBoton"
             android:layout_width="0dp"
             android:layout_height="38dp"
             android:layout_gravity="center"

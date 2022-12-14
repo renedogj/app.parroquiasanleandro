@@ -35,11 +35,11 @@ public class ActivityAviso extends AppCompatActivity {
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
         String avisoKey = getIntent().getStringExtra("avisoKey");
-        String avisoCategoria = getIntent().getStringExtra("avisoCategoria");
+        String avisoGrupo = getIntent().getStringExtra("avisoGrupo");
 
-        Log.d("TAG", avisoCategoria + " " + avisoKey);
+        Log.d("TAG", avisoGrupo + " " + avisoKey);
 
-        /*FirebaseDatabase.getInstance().getReference().child("Avisos").child(avisoCategoria).child(avisoKey).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
+        /*FirebaseDatabase.getInstance().getReference().child("Avisos").child(avisoGrupo).child(avisoKey).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
             @Override
             public void onSuccess(DataSnapshot dataSnapshot) {
                 Aviso aviso = dataSnapshot.getValue(Aviso.class);

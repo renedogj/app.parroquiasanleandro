@@ -26,7 +26,7 @@ import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.activitys.ActivityCambiarCorreo;
-import es.parroquiasanleandro.adaptadores.CategoriaSencillaAdaptador;
+import es.parroquiasanleandro.adaptadores.GrupoSencilloAdaptador;
 import es.parroquiasanleandro.fecha.Fecha;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
@@ -38,8 +38,8 @@ public class FragmentPerfil extends Fragment {
 	private TextView tvNombreUsuario;
 	private TextView tvEmail;
 	private LinearLayout linearLayoutEmail;
-	private LinearLayout linearLayoutCategorias;
-	private RecyclerView rvCategoriasUsuario;
+	private LinearLayout linearLayoutGrupos;
+	private RecyclerView rvGruposUsuario;
 	private LinearLayout linearLayoutFechaNacimiento;
 	private TextView tvFechaNacimiento;
 
@@ -68,9 +68,9 @@ public class FragmentPerfil extends Fragment {
 		tvNombreUsuario = view.findViewById(R.id.tvNombreUsuario);
 		tvEmail = view.findViewById(R.id.tvEmail);
 		linearLayoutEmail = view.findViewById(R.id.linearLayoutEmail);
-		linearLayoutCategorias = view.findViewById(R.id.linearLayoutCategorias);
+		linearLayoutGrupos = view.findViewById(R.id.linearLayoutGrupos);
 		linearLayoutFechaNacimiento = view.findViewById(R.id.linearLayoutFechaNacimiento);
-		rvCategoriasUsuario = view.findViewById(R.id.rvCategoriasUsuario);
+		rvGruposUsuario = view.findViewById(R.id.rvGruposUsuario);
 		tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
 
 		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
@@ -99,21 +99,21 @@ public class FragmentPerfil extends Fragment {
 			startActivity(new Intent(context, ActivityCambiarCorreo.class));
 		});
 
-		linearLayoutCategorias.setOnClickListener(v -> {
-			Menu.iniciarFragmentCategorias(fragmentManager);
+		linearLayoutGrupos.setOnClickListener(v -> {
+			Menu.iniciarFragmentGrupos(fragmentManager);
 		});
 
 		linearLayoutFechaNacimiento.setOnClickListener(v -> {
 			Toast.makeText(context, "Modificar fecha de nacimineto", Toast.LENGTH_SHORT).show();
 		});
 
-		rvCategoriasUsuario.setHasFixedSize(true);
+		rvGruposUsuario.setHasFixedSize(true);
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 		linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-		rvCategoriasUsuario.setLayoutManager(linearLayoutManager);
+		rvGruposUsuario.setLayoutManager(linearLayoutManager);
 
-		CategoriaSencillaAdaptador categoriaSencillaAdaptador = new CategoriaSencillaAdaptador(context, Arrays.asList(usuario.getCategorias()));
-		rvCategoriasUsuario.setAdapter(categoriaSencillaAdaptador);
+		GrupoSencilloAdaptador grupoSencilloAdaptador = new GrupoSencilloAdaptador(context, Arrays.asList(usuario.getGrupos()));
+		rvGruposUsuario.setAdapter(grupoSencilloAdaptador);
 
 		return view;
 	}

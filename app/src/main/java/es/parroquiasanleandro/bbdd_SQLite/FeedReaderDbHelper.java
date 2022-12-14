@@ -13,15 +13,15 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(FeedReaderContract.TablaCategorias.SQL_CREATE_ENTRIES);
-        db.execSQL(FeedReaderContract.TablaCategoriasSuscritas.SQL_CREATE_ENTRIES);
-        db.execSQL(FeedReaderContract.TablaCategoriasAdministradas.SQL_CREATE_ENTRIES);
+        db.execSQL(FeedReaderContract.TablaGrupos.SQL_CREATE_ENTRIES);
+        db.execSQL(FeedReaderContract.TablaGruposSuscritos.SQL_CREATE_ENTRIES);
+        db.execSQL(FeedReaderContract.TablaGruposAdministrados.SQL_CREATE_ENTRIES);
     }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(FeedReaderContract.TablaCategorias.SQL_DELETE_ENTRIES);
-        db.execSQL(FeedReaderContract.TablaCategoriasSuscritas.SQL_DELETE_ENTRIES);
-        db.execSQL(FeedReaderContract.TablaCategoriasAdministradas.SQL_DELETE_ENTRIES);
+        db.execSQL(FeedReaderContract.TablaGrupos.SQL_DELETE_ENTRIES);
+        db.execSQL(FeedReaderContract.TablaGruposSuscritos.SQL_DELETE_ENTRIES);
+        db.execSQL(FeedReaderContract.TablaGruposAdministrados.SQL_DELETE_ENTRIES);
         onCreate(db);
     }
 

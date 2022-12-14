@@ -74,12 +74,12 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
             tvFecha.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             aviso.asignarImagen(context,ivAviso);
             aviso.asignarColor(context,linearLayoutAviso);
-            ivAviso.setContentDescription(aviso.idCategoria);
+            ivAviso.setContentDescription(aviso.idGrupo);
 
             cardAviso.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ActivityAviso.class);
                 intent.putExtra("avisoKey",aviso.id);
-                intent.putExtra("avisoCategoria",aviso.idCategoria);
+                intent.putExtra("avisoGrupo",aviso.idGrupo);
                 context.startActivity(intent);
             });
         }

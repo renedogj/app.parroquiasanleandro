@@ -29,16 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import es.parroquiasanleandro.Categoria;
+import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
-import es.parroquiasanleandro.adaptadores.CategoriaAdaptador;
-import es.parroquiasanleandro.fragments.FragmentCategorias;
+import es.parroquiasanleandro.adaptadores.GrupoAdaptador;
+import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.utils.ItemViewModel;
-
-;
 
 public class ActivityNavigation extends AppCompatActivity {
     private final Activity activity = ActivityNavigation.this;
@@ -98,6 +96,7 @@ public class ActivityNavigation extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
 
+        Grupo.actualizarGruposServidorToLocal(context);
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
         /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -109,14 +108,12 @@ public class ActivityNavigation extends AppCompatActivity {
         FirebaseDatabase.getInstance().getReference().child("infoGeneral").child("fechaModCategorias").get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult().getValue() != null) {
                 long fechaModCategorias = task.getResult().getValue(long.class);
-                if(fechaModCategorias > Categoria.getMillisUltimaActualizacion(context)){
-                    Categoria.actualizarCategoriasServidorToLocal(context);
-                    Categoria.setMillisUltimaActualizacion(context,fechaModCategorias);
+                if(fechaModCategorias > Grupo.getMillisUltimaActualizacion(context)){
+                    Grupo.actualizarCategoriasServidorToLocal(context);
+                    Grupo.setMillisUltimaActualizacion(context,fechaModCategorias);
                 }
             }
         });*/
-
-        Categoria.actualizarCategoriasServidorToLocal(context);
 
         if(usuario.getId() != null){
             Menu.addCerrarSesion(navView);
@@ -185,35 +182,36 @@ public class ActivityNavigation extends AppCompatActivity {
         } else {
             int posUltimoFragment = viewModel.getIdsFragment().size() - 1;
             int ultimoFragment = viewModel.getIdsFragment().get(posUltimoFragment);
-            if(ultimoFragment == Menu.FRAGMENT_CATEGORIAS) {
-                if(!viewModel.getIdsCategorias().isEmpty()) {
-                    if (viewModel.getCategoriaActual().equals(Categoria.ID_PADRE)) {
+            if(ultimoFragment == Menu.FRAGMENT_GRUPOS) {
+                if(!viewModel.getIdsGrupos().isEmpty()) {
+                    if (viewModel.getGrupoActual().equals(Grupo.ID_PADRE)) {
                         super.onBackPressed();
                     } else {
-                        int posUltimaCategoria = viewModel.getIdsCategorias().size() - 1;
-                        viewModel.getIdsCategorias().remove(posUltimaCategoria);
-                        viewModel.setCategoriaActual(viewModel.getIdsCategorias().get(posUltimaCategoria - 1));
-                        List<Categoria> categorias = new ArrayList<>();
+                        int posUltimaCategoria = viewModel.getIdsGrupos().size() - 1;
+                        viewModel.getIdsGrupos().remove(posUltimaCategoria);
+                        viewModel.setGrupoActual(viewModel.getIdsGrupos().get(posUltimaCategoria - 1));
+                        List<Grupo> grupos = new ArrayList<>();
 
-                        //Obtener categorias del servidor y asignarselas a rvCategorias de FragmentCategorias
-                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Url.obtenerCategorias, response -> {
+                        //Obtener grupos del servidor y asignarselas a rvCategorias de FragmentGrupos
+                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Url.obtenerGrupos, response -> {
                             JSONObject jsonObject;
-                            categorias.clear();
+                            grupos.clear();
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     jsonObject = response.getJSONObject(i);
-                                    Categoria categoria = new Categoria(
-                                            jsonObject.getString(Categoria.ID),
-                                            jsonObject.getString(Categoria.NOMBRE),
-                                            jsonObject.getString(Categoria.COLOR)
+                                    Grupo grupo = new Grupo(
+                                            jsonObject.getString(Grupo.ID),
+                                            jsonObject.getString(Grupo.NOMBRE),
+                                            jsonObject.getString(Grupo.COLOR),
+                                            jsonObject.getString(Grupo.IMAGEN)
                                     );
-                                    categorias.add(categoria);
+                                    grupos.add(grupo);
                                 } catch (JSONException e) {
                                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
-                            CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, categorias, viewModel.getCategoriaActual(), FragmentCategorias.rvCategorias, viewModel);
-                            FragmentCategorias.rvCategorias.setAdapter(categoriaAdaptador);
+                            GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, viewModel.getGrupoActual(), FragmentGrupos.rvGrupos, viewModel);
+                            FragmentGrupos.rvGrupos.setAdapter(grupoAdaptador);
                         }, error -> {
                             Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
                         }) {
@@ -236,8 +234,8 @@ public class ActivityNavigation extends AppCompatActivity {
                 if (!viewModel.getIdsFragment().isEmpty()) {
                     viewModel.setIdFragmentActual(viewModel.getIdsFragment().get(posUltimoFragment - 1));
                     Menu.asignarIconosMenu(navView, viewModel.getIdFragmentActual());
-                    if (viewModel.getIdFragmentActual() == Menu.FRAGMENT_CATEGORIAS) {
-                        viewModel.getIdsCategorias().clear();
+                    if (viewModel.getIdFragmentActual() == Menu.FRAGMENT_GRUPOS) {
+                        viewModel.getIdsGrupos().clear();
                         onBackPressed();
                     }
                 }

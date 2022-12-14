@@ -114,14 +114,14 @@
                     <LinearLayout style="@style/lnlytCardPerfil">
 
                         <LinearLayout
-                            android:id="@+id/linearLayoutCategorias"
+                            android:id="@+id/linearLayoutGrupos"
                             style="@style/size_1_2"
                             android:orientation="horizontal">
 
                             <TextView
                                 style="@style/tvTituloPerfil"
                                 android:layout_weight="1"
-                                android:text="Mis categorias:" />
+                                android:text="Mis grupos:" />
 
                             <TextView style="@style/tvModificar" />
 
@@ -131,7 +131,7 @@
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rvCategoriasUsuario"
+                            android:id="@+id/rvGruposUsuario"
                             style="@style/size_1_2"
                             android:paddingLeft="1dp"
                             android:paddingTop="3dp"

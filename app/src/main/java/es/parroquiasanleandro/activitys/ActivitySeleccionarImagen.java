@@ -31,14 +31,14 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         bttnSelecionarImagenGaleria = findViewById(R.id.bttnSelecionarImagenGaleria);
 
-        String categoria = getIntent().getStringExtra("categoria");
+        String categoria = getIntent().getStringExtra("grupo");
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         //imagenes = new ArrayList<>();
 
-        /*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(categoria).listAll()
+        /*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(grupo).listAll()
                 .addOnSuccessListener(listResult -> {
                     imagenes.addAll(listResult.getItems());
                     ImagenesAvisoAdaptador imagenesAvisoAdaptador = new ImagenesAvisoAdaptador(context, (Activity) context,imagenes);

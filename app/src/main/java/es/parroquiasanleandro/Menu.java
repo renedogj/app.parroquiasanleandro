@@ -15,7 +15,7 @@ import es.parroquiasanleandro.activitys.ActivityInicarSesion;
 import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.fragments.FragmentAvisosParroquiales;
 import es.parroquiasanleandro.fragments.FragmentCalendario;
-import es.parroquiasanleandro.fragments.FragmentCategorias;
+import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.fragments.FragmentConfirmarPassword;
 import es.parroquiasanleandro.fragments.FragmentHorario;
 import es.parroquiasanleandro.fragments.FragmentInicio;
@@ -27,7 +27,7 @@ public class Menu {
 	public static final int FRAGMENT_HORARIO = R.id.nav_fragment_horario;
 	public static final int FRAGMENT_PERFIL = R.id.nav_fragment_perfil;
 	public static final int FRAGMENT_CALENDARIO = R.id.nav_fragment_calendario;
-	public static final int FRAGMENT_CATEGORIAS = 2;
+	public static final int FRAGMENT_GRUPOS = 2;
 	public static final int CERRAR_SESION = 1;
 
 	//Constructor privado para que no se pueda inicializar
@@ -112,10 +112,10 @@ public class Menu {
 		}
 	}
 
-	public static void iniciarFragmentCategorias(FragmentManager fragmentManager) {
+	public static void iniciarFragmentGrupos(FragmentManager fragmentManager) {
 		fragmentManager.beginTransaction()
 				.setReorderingAllowed(true)
-				.replace(R.id.fragment_container, FragmentCategorias.class, null)
+				.replace(R.id.fragment_container, FragmentGrupos.class, null)
 				.addToBackStack(null)
 				.commit();
 	}

@@ -111,8 +111,8 @@ public class FragmentInicio extends Fragment {
 		if (user != null) {
 			Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
-			for (Categoria categoria : usuario.getCategorias()) {
-				FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(categoria.key).addListenerForSingleValueEvent(new ValueEventListener() {
+			for (Grupo grupo : usuario.getCategorias()) {
+				FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(grupo.key).addListenerForSingleValueEvent(new ValueEventListener() {
 					@Override
 					public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
 						guardarListAvisos(dataSnapshot);
@@ -128,7 +128,7 @@ public class FragmentInicio extends Fragment {
 
 			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, Usuario.recuperarUsuarioLocal(context), DiaAdaptador.TAMAÑO_PEQUEÑO));
 		} else {
-			FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(Categoria.ID_PADRE).addListenerForSingleValueEvent(new ValueEventListener() {
+			FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(Grupo.ID_PADRE).addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
 					guardarListAvisos(dataSnapshot);
