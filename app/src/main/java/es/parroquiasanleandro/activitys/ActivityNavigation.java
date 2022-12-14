@@ -95,12 +95,8 @@ public class ActivityNavigation extends AppCompatActivity {
         toggle.syncState();
 
         fragmentManager = getSupportFragmentManager();
-
-<<<<<<< HEAD
         Grupo.actualizarGruposServidorToLocal(context);
-=======
-        Categoria.actualizarCategoriasServidorToLocal(context);
->>>>>>> eb1be89a1d6a0a0d1658df209ac75b64b7d087bb
+
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
         /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -203,19 +199,13 @@ public class ActivityNavigation extends AppCompatActivity {
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     jsonObject = response.getJSONObject(i);
-<<<<<<< HEAD
+
                                     Grupo grupo = new Grupo(
                                             jsonObject.getString(Grupo.ID),
                                             jsonObject.getString(Grupo.NOMBRE),
                                             jsonObject.getString(Grupo.COLOR),
                                             jsonObject.getString(Grupo.IMAGEN)
-=======
-                                    Categoria categoria = new Categoria(
-                                            jsonObject.getString(Categoria.ID),
-                                            jsonObject.getString(Categoria.NOMBRE),
-                                            jsonObject.getString(Categoria.COLOR),
-                                            jsonObject.getString(Categoria.IMAGEN)
->>>>>>> eb1be89a1d6a0a0d1658df209ac75b64b7d087bb
+
                                     );
                                     grupos.add(grupo);
                                 } catch (JSONException e) {

@@ -20,6 +20,7 @@ import es.parroquiasanleandro.fragments.FragmentConfirmarPassword;
 import es.parroquiasanleandro.fragments.FragmentHorario;
 import es.parroquiasanleandro.fragments.FragmentInicio;
 import es.parroquiasanleandro.fragments.FragmentPerfil;
+import es.parroquiasanleandro.mercadillo.FragmentMercadillo;
 
 public class Menu {
 	public static final int FRAGMENT_INICIO = R.id.nav_fragment_inicio;
@@ -27,6 +28,7 @@ public class Menu {
 	public static final int FRAGMENT_HORARIO = R.id.nav_fragment_horario;
 	public static final int FRAGMENT_PERFIL = R.id.nav_fragment_perfil;
 	public static final int FRAGMENT_CALENDARIO = R.id.nav_fragment_calendario;
+	public static final int FRAGMENT_MERCADILLO = R.id.nav_fragment_mercadillo;
 	public static final int FRAGMENT_GRUPOS = 2;
 	public static final int CERRAR_SESION = 1;
 
@@ -50,15 +52,18 @@ public class Menu {
 				case FRAGMENT_PERFIL:
 					iniciarFragmentPerfil(usuario, activity, context, fragmentManager, actionBar);
 					break;
+				case FRAGMENT_CALENDARIO:
+					iniciarFragmentCalendario(fragmentManager, actionBar);
+					break;
+				case FRAGMENT_MERCADILLO:
+					iniciarFragmentMercadillo(fragmentManager, actionBar);
+					break;
 				case CERRAR_SESION:
 					item.setVisible(false);
 					Usuario.borrarUsuarioLocal(context);
 					Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
 					context.startActivity(new Intent(context, ActivityNavigation.class));
 					activity.finish();
-					break;
-				case FRAGMENT_CALENDARIO:
-					iniciarFragmentCalendario(fragmentManager, actionBar);
 					break;
 
 			}
@@ -128,6 +133,16 @@ public class Menu {
 				.commit();
 
 		actionBar.setTitle("Calendario");
+	}
+
+	public static void iniciarFragmentMercadillo(FragmentManager fragmentManager, ActionBar actionBar) {
+		fragmentManager.beginTransaction()
+				.setReorderingAllowed(true)
+				.replace(R.id.fragment_container, FragmentMercadillo.class, null)
+				.addToBackStack(null)
+				.commit();
+
+		actionBar.setTitle("Mercadillo");
 	}
 
 	public static void inicarFragmentCambiarCorreo(FragmentManager fragmentManager) {
