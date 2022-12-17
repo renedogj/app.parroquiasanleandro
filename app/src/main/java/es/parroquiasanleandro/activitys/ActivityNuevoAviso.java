@@ -87,7 +87,12 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		bttnCancelar = findViewById(R.id.bttnCancelar);
 
 		usuario = Usuario.recuperarUsuarioLocal(context);
-		String[] nombreGruposAdministrados = Grupo.getNombreGrupos(usuario.getGruposAdministrados());
+		String[] nombreGruposAdministrados;
+		if(usuario.getGruposAdministrados() != null){
+			nombreGruposAdministrados = Grupo.getNombreGrupos(usuario.getGruposAdministrados());
+		}else{
+			nombreGruposAdministrados = new String[0];
+		}
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_grupo_item, nombreGruposAdministrados);
 		spinnerGrupo.setAdapter(adapter);
 

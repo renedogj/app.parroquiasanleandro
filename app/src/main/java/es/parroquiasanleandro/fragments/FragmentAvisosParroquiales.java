@@ -97,8 +97,6 @@ public class FragmentAvisosParroquiales extends Fragment {
                         AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
                         rvAvisos.setAdapter(avisoAdaptador);
                     }
-                }else{
-                    Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
                 Toast.makeText(context, "Se ha producido un error en el servidor al recuperar los avisos", Toast.LENGTH_SHORT).show();

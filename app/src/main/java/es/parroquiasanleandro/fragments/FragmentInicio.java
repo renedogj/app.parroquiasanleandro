@@ -20,11 +20,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +38,7 @@ import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import es.parroquiasanleandro.fecha.Fecha;
 import es.parroquiasanleandro.utils.ItemViewModel;
@@ -52,6 +59,8 @@ public class FragmentInicio extends Fragment {
 
 	private Fecha fechaReferencia;
 	private List<Integer> dias;
+
+	//private Usuario usuario;
 
 	List<Aviso> avisos;
 	Fecha fechaActual = Fecha.FechaActual();
@@ -106,57 +115,40 @@ public class FragmentInicio extends Fragment {
 		rvCalendario.setHasFixedSize(true);
 		GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
 		rvCalendario.setLayoutManager(gridLayoutManager);
+		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
-		/*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-		if (user != null) {
-			Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+		//Obtener los avisos de esta semana
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisos, result -> {
+			try {
+				JSONObject jsonResult = new JSONObject(result);
+				if(!jsonResult.getBoolean("error")){
+					JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
+					avisos.addAll(Aviso.JSONArrayToAviso(jsonArrayAvisos));
 
-			for (Grupo grupo : usuario.getCategorias()) {
-				FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(grupo.key).addListenerForSingleValueEvent(new ValueEventListener() {
-					@Override
-					public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-						guardarListAvisos(dataSnapshot);
-						asignarAvisos();
-					}
-
-					@Override
-					public void onCancelled(@NotNull DatabaseError databaseError) {
-						Log.e(databaseError.getMessage(), databaseError.getDetails());
-					}
-				});
-			}
-
-			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, Usuario.recuperarUsuarioLocal(context), DiaAdaptador.TAMAÑO_PEQUEÑO));
-		} else {
-			FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS).child(Grupo.ID_PADRE).addListenerForSingleValueEvent(new ValueEventListener() {
-				@Override
-				public void onDataChange(@NotNull DataSnapshot dataSnapshot) {
-					guardarListAvisos(dataSnapshot);
 					asignarAvisos();
 				}
-
-				@Override
-				public void onCancelled(@NotNull DatabaseError databaseError) {
-					Log.e(databaseError.getMessage(), databaseError.getDetails());
-				}
-			});
-			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, null, DiaAdaptador.TAMAÑO_PEQUEÑO));
-		}*/
+			} catch (JSONException e) {
+				Toast.makeText(context, "Se ha producido un error en el servidor al recuperar los avisos de esta semana", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
+		}, error -> {
+			Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+		}) {
+			@Override
+			protected Map<String, String> getParams() {
+				Map<String,String> parametros = new HashMap<>();
+				parametros.put("idUsuario",usuario.getId());
+				return parametros;
+			}
+		});
 
 		linearLayoutCalendario.setOnClickListener(view1 -> {
-			FragmentManager fragmentManager = getParentFragmentManager();
-			actionBar = viewModel.getActionBar();
-			Menu.iniciarFragmentCalendario(fragmentManager, actionBar);
-			navView = viewModel.getNavView();
-			Menu.asignarIconosMenu(navView,Menu.FRAGMENT_CALENDARIO);
+			iniciarFragmentCalendario();
 		});
 
 		rvCalendario.setOnClickListener(view1 -> {
-			FragmentManager fragmentManager = getParentFragmentManager();
-			actionBar = viewModel.getActionBar();
-			Menu.iniciarFragmentCalendario(fragmentManager, actionBar);
-			navView = viewModel.getNavView();
-			Menu.asignarIconosMenu(navView,Menu.FRAGMENT_CALENDARIO);
+			iniciarFragmentCalendario();
 		});
 		return view;
 	}
@@ -174,19 +166,13 @@ public class FragmentInicio extends Fragment {
 		});
 	}
 
-	/*public void guardarListAvisos(DataSnapshot dataSnapshot) {
-		for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-			Aviso aviso = postSnapshot.getValue(Aviso.class);
-			if (aviso != null) {
-				aviso.setFechaInicio(Fecha.toFecha(aviso.longInicio));
-				int difFechas = Fecha.difereciaFecha(fechaActual, aviso.getFechaInicio());
-				if (difFechas >= 0 && difFechas <= 7) {
-					aviso.key = postSnapshot.getKey();
-					avisos.add(aviso);
-				}
-			}
-		}
-	}*/
+	public void iniciarFragmentCalendario(){
+		FragmentManager fragmentManager = getParentFragmentManager();
+		actionBar = viewModel.getActionBar();
+		Menu.iniciarFragmentCalendario(fragmentManager, actionBar);
+		navView = viewModel.getNavView();
+		Menu.asignarIconosMenu(navView,Menu.FRAGMENT_CALENDARIO);
+	}
 
 	public void asignarAvisos() {
 		if (!avisos.isEmpty()) {
