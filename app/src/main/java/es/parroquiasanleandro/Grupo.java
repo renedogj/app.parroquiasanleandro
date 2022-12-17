@@ -188,7 +188,8 @@ public class Grupo {
         String[] columnasARetornar = {
                 FeedReaderContract.TablaGrupos.COLUMN_NAME_ID,
                 FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE,
-                FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN
         };
         Cursor cursorConsulta = db.query(
                 FeedReaderContract.TablaGrupos.TABLE_NAME,

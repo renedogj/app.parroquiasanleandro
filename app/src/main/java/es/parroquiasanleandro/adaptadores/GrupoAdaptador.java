@@ -2,6 +2,7 @@ package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.List;
 
 import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
@@ -89,19 +93,12 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
         public void asignarValores(Grupo grupo) {
             this.grupo = grupo;
-
+            Log.d("GRUPO", grupo.imagen);
+            Glide.with(context).load(Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
             linearLayoutGrupo.setBackgroundColor(Color.parseColor(grupo.color));
             cardImgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
             imgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-
-            /*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(grupo.key).child("imagenPredeterminada.jpg").getDownloadUrl()
-                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Glide.with(context).load(uri).into(imgCategoria);
-                        }
-                    });*/
 
             checkGrupo(comprobarSiGrupoGuardado(grupo));
 

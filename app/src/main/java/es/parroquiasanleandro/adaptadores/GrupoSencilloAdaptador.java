@@ -2,6 +2,7 @@ package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.Url;
 
 public class GrupoSencilloAdaptador extends RecyclerView.Adapter<GrupoSencilloAdaptador.ViewHolder> {
 
@@ -71,19 +73,18 @@ public class GrupoSencilloAdaptador extends RecyclerView.Adapter<GrupoSencilloAd
 		public void asignarValores(Grupo grupo) {
 			this.grupo = grupo;
 
+
 			tvNombreGrupo.setText(grupo.nombre);
 			linearLayoutGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 			imgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
+			Log.d("URL IMAGEN",Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen);
+			Glide.with(context).load(Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen).into(imgGrupo);
 
-			if (grupo.key.equals("A")) {
+			/*if (grupo.key.equals("A")) {
 				Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imgGrupo);
 			} else {
-				/*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(grupo.key).child("imagenPredeterminada.jpg").getDownloadUrl()
-						.addOnSuccessListener(uri -> {
-							Glide.with(context).load(uri).into(imgGrupo);
-						});*/
-
-			}
+				Glide.with(context).load(Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen).into(imgGrupo);
+			}*/
 		}
 	}
 }

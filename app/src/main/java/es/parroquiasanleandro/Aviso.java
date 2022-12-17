@@ -94,7 +94,8 @@ public class Aviso {
 				JSONObject jsonAviso = jsonArrayAvisos.getJSONObject(i);
 				avisoAux.id = jsonAviso.getString("id");
 				avisoAux.idCreador = jsonAviso.getString("id_creador");
-				avisoAux.idGrupo = jsonAviso.getString("id_categoria"); //Hay que modificar el servidor
+				avisoAux.titulo = jsonAviso.getString("titulo");
+				avisoAux.idGrupo = jsonAviso.getString("id_grupo");
 				avisoAux.descripcion = jsonAviso.getString("descripcion");
 				avisoAux.imagen = jsonAviso.getString("imagen");
 				avisoAux.longInicio = jsonAviso.getLong("fecha_inicio");

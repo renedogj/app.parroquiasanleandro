@@ -8,7 +8,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"
-        android:name="com.parroquiasanleandro.fragments.FragmentConfirmarPassword"
+        android:name="es.parroquiasanleandro.fragments.FragmentConfirmarPassword"
         style="@style/size_1_1"
         android:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
