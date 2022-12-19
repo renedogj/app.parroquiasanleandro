@@ -17,15 +17,6 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tvMes"
-                style="@style/texto_1_1_Oscuro"
-                android:layout_weight="1"
-                android:gravity="left|center_vertical"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:paddingStart="15dp" />
-
-            <TextView
                 android:id="@+id/tvMesAnterior"
                 style="@style/texto_1_1_Oscuro"
                 android:layout_weight="3"
@@ -36,11 +27,21 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvMes"
+                style="@style/texto_1_1_Oscuro"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingStart="15dp" />
+
+            <TextView
                 android:id="@+id/tvMesSiguiente"
                 style="@style/texto_1_1_Oscuro"
+                android:layout_gravity="center"
                 android:layout_weight="3"
                 android:fontFamily="@font/nanum_gothic_extra_bold"
-                android:gravity="center"
+                android:gravity="center_horizontal|center_vertical"
                 android:text="&gt;"
                 android:textSize="20sp"
                 android:textStyle="bold" />

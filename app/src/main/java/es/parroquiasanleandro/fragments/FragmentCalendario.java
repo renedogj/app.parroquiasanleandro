@@ -74,7 +74,6 @@ public class FragmentCalendario extends Fragment {
 
 		setCalendario(user);
 
-
 		tvMesAnterior.setOnClickListener(view1 -> {
 			fechaReferencia.sumMeses(-1);
 			fechaReferencia.actualizarDiaSemana();
@@ -90,7 +89,7 @@ public class FragmentCalendario extends Fragment {
 		return view;
 	}
 
-	public void setCalendario(Usuario user) {
+	public void setCalendario(Usuario usuario) {
 		tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
 
 		dias.clear();
@@ -103,7 +102,7 @@ public class FragmentCalendario extends Fragment {
 			dias.add(i);
 		}
 
-		if (user != null) {
+		if (usuario.getId() != null) {
 			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, Usuario.recuperarUsuarioLocal(context), DiaAdaptador.TAMAÑO_GRANDE));
 		} else {
 			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, null, DiaAdaptador.TAMAÑO_GRANDE));

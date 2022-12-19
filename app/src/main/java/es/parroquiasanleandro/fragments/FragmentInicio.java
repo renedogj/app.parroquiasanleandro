@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +13,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,15 +48,15 @@ public class FragmentInicio extends Fragment {
 	private RecyclerView rvAvisosSemana;
 	private TextView tvAvisosSemanales;
 	private TextView tvMes;
-	private LinearLayout linearLayoutCalendario;
-	private RecyclerView rvCalendario;
+	//private LinearLayout linearLayoutCalendario;
+	//private RecyclerView rvCalendario;
 
 	private ItemViewModel viewModel;
 	private ActionBar actionBar;
 	private NavigationView navView;
 
 	private Fecha fechaReferencia;
-	private List<Integer> dias;
+	//private List<Integer> dias;
 
 	//private Usuario usuario;
 
@@ -89,20 +87,21 @@ public class FragmentInicio extends Fragment {
 		tvAvisosSemanales = view.findViewById(R.id.tvAvisosSemanales);
 		rvAvisosSemana = view.findViewById(R.id.rvAvisosSemana);
 		tvMes = view.findViewById(R.id.tvMes);
-		linearLayoutCalendario = view.findViewById(R.id.linearLayoutCalendario);
-		rvCalendario = view.findViewById(R.id.rvCalendario);
+		//linearLayoutCalendario = view.findViewById(R.id.linearLayoutCalendario);
+		//rvCalendario = view.findViewById(R.id.rvCalendario);
 
 		rvAvisosSemana.setHasFixedSize(true);
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 		rvAvisosSemana.setLayoutManager(linearLayoutManager);
 
 		avisos = new ArrayList<>();
+		//dias = new ArrayList<>();
 
+		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 		obtenerCitaBiblica(Url.obtenerCitaBliblica);
 
-		tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
+		/*tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
 
-		dias = new ArrayList<>();
 		for (int i = 1; i <= fechaReferencia.diaSemana.getNumeroDia() - 1; i++) {
 			dias.add(0);
 		}
@@ -115,18 +114,25 @@ public class FragmentInicio extends Fragment {
 		rvCalendario.setHasFixedSize(true);
 		GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
 		rvCalendario.setLayoutManager(gridLayoutManager);
-		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+
+
+		if (usuario.getId() != null) {
+			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, Usuario.recuperarUsuarioLocal(context), DiaAdaptador.TAMAÑO_GRANDE));
+		} else {
+			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, null, DiaAdaptador.TAMAÑO_GRANDE));
+		}*/
+		//setCalendario(usuario);
 
 		//Obtener los avisos de esta semana
 		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisos, result -> {
+		requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisosSemana, result -> {
 			try {
 				JSONObject jsonResult = new JSONObject(result);
 				if(!jsonResult.getBoolean("error")){
 					JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
 					avisos.addAll(Aviso.JSONArrayToAviso(jsonArrayAvisos));
 
-					asignarAvisos();
+					mostrarAvisosSemanales();
 				}
 			} catch (JSONException e) {
 				Toast.makeText(context, "Se ha producido un error en el servidor al recuperar los avisos de esta semana", Toast.LENGTH_SHORT).show();
@@ -143,13 +149,13 @@ public class FragmentInicio extends Fragment {
 			}
 		});
 
-		linearLayoutCalendario.setOnClickListener(view1 -> {
+		/*linearLayoutCalendario.setOnClickListener(view1 -> {
 			iniciarFragmentCalendario();
-		});
+		});*/
 
-		rvCalendario.setOnClickListener(view1 -> {
+		/*rvCalendario.setOnClickListener(view1 -> {
 			iniciarFragmentCalendario();
-		});
+		});*/
 		return view;
 	}
 
@@ -166,6 +172,29 @@ public class FragmentInicio extends Fragment {
 		});
 	}
 
+	/*public void setCalendario(Usuario user) {
+		tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
+
+		dias.clear();
+		for (int i = 1; i <= fechaReferencia.diaSemana.getNumeroDia() - 1; i++) {
+			dias.add(0);
+		}
+
+		int numDiasMes = fechaReferencia.mes.getNumDiasMes();
+		for (int i = 1; i <= numDiasMes; i++) {
+			dias.add(i);
+		}
+
+		Log.d("DIAS",dias.size() + " ");
+		if (user != null) {
+			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, Usuario.recuperarUsuarioLocal(context), DiaAdaptador.TAMAÑO_GRANDE));
+			Log.d("CALENDAR",dias.size() + "AAAAAAAAAAA");
+		} else {
+			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, null, DiaAdaptador.TAMAÑO_GRANDE));
+			Log.d("CALENDAR",dias.size() + "BBBBBBBB");
+		}
+	}*/
+
 	public void iniciarFragmentCalendario(){
 		FragmentManager fragmentManager = getParentFragmentManager();
 		actionBar = viewModel.getActionBar();
@@ -174,7 +203,7 @@ public class FragmentInicio extends Fragment {
 		Menu.asignarIconosMenu(navView,Menu.FRAGMENT_CALENDARIO);
 	}
 
-	public void asignarAvisos() {
+	public void mostrarAvisosSemanales() {
 		if (!avisos.isEmpty()) {
 			rvAvisosSemana.setVisibility(View.VISIBLE);
 			tvAvisosSemanales.setText("Avisos Semanales");

@@ -75,7 +75,7 @@
             app:cardBackgroundColor="@color/white_transparente"
             android:elevation="2dp">
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:id="@+id/linearLayoutCalendario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:padding="3dp" />
-            </LinearLayout>
+            </LinearLayout>-->
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>
