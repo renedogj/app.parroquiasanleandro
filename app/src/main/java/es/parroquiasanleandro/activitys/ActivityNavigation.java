@@ -98,6 +98,7 @@ public class ActivityNavigation extends AppCompatActivity {
         Grupo.actualizarGruposServidorToLocal(context);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+        //Usuario usuario = new Usuario();
 
         /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

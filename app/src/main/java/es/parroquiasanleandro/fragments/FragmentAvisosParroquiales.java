@@ -3,7 +3,6 @@ package es.parroquiasanleandro.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,16 +78,14 @@ public class FragmentAvisosParroquiales extends Fragment {
 
         avisos = new ArrayList<>();
 
-        if(usuario.getId() == null){
+        /*if(usuario.getId() == null){
             usuario.setId("0");
-        }
+        }*/
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisos, result -> {
-            Log.d("Resultado",result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
-                Log.d("jsonResult",jsonResult.toString());
                 if(!jsonResult.getBoolean("error")){
                     JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
                     avisos.addAll(Aviso.JSONArrayToAviso(jsonArrayAvisos));
@@ -108,7 +105,11 @@ public class FragmentAvisosParroquiales extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String,String> parametros = new HashMap<>();
-                parametros.put("idUsuario",usuario.getId());
+                if(usuario.getId() != null){
+                    parametros.put("idUsuario",usuario.getId());
+                }else {
+                    parametros.put("idUsuario","0");
+                }
                 return parametros;
             }
         });
