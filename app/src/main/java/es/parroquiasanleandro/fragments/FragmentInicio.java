@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,22 +35,29 @@ import java.util.Map;
 
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.Menu;
+import es.parroquiasanleandro.MenuOption;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
+import es.parroquiasanleandro.adaptadores.MenuIncioAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentInicio extends Fragment {
 	private Context context;
+	private Activity activity;
+
+	private ItemViewModel viewModel;
+	private ActionBar actionBar;
+	private NavigationView navView;
 
 	private TextView tvCitaBiblica;
 	private RecyclerView rvAvisosSemana;
 	private TextView tvAvisosSemanales;
-
-	private ItemViewModel viewModel;
+	private RecyclerView rvMenu;
 
 	List<Aviso> avisos;
+	List<MenuOption> menuOptionList;
 
 	public FragmentInicio() {
 	}
@@ -56,6 +67,7 @@ public class FragmentInicio extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		context = getContext();
+		activity = getActivity();
 
 		viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 		viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
@@ -68,14 +80,23 @@ public class FragmentInicio extends Fragment {
 		tvCitaBiblica = view.findViewById(R.id.tvCitaBiblica);
 		tvAvisosSemanales = view.findViewById(R.id.tvAvisosSemanales);
 		rvAvisosSemana = view.findViewById(R.id.rvAvisosSemana);
+		rvMenu = view.findViewById(R.id.rvMenu);
 
 		rvAvisosSemana.setHasFixedSize(true);
 		LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 		rvAvisosSemana.setLayoutManager(linearLayoutManager);
 
+		rvMenu.setHasFixedSize(true);
+		GridLayoutManager gridLayoutManager = new GridLayoutManager(context,2);
+		rvMenu.setLayoutManager(gridLayoutManager);
+
 		avisos = new ArrayList<>();
+		menuOptionList = MenuOption.obtenerListMenuOptions();
 
 		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+
+		MenuIncioAdaptador menuIncioAdaptador = new MenuIncioAdaptador(context, activity, menuOptionList, Menu.FRAGMENT_INICIO, getParentFragmentManager(), viewModel.getActionBar(), viewModel.getNavView());
+		rvMenu.setAdapter(menuIncioAdaptador);
 
 		obtenerCitaBiblica(Url.obtenerCitaBliblica);
 
@@ -107,6 +128,7 @@ public class FragmentInicio extends Fragment {
 				return parametros;
 			}
 		});
+
 		return view;
 	}
 

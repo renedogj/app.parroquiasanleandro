@@ -62,74 +62,13 @@
                     android:paddingTop="1dp"
                     android:paddingRight="1dp"
                     android:paddingBottom="1dp" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="7dp"
-            android:layout_marginBottom="10dp"
-            app:cardBackgroundColor="@color/white_transparente"
-            android:elevation="2dp">
-
-            <!--<LinearLayout
-                android:id="@+id/linearLayoutCalendario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvMes"
-                    style="@style/texto_1_2_Oscuro"
-                    android:gravity="center"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:layout_margin="6dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="1dp">
-
-                    <TextView
-                        style="@style/tvDiasSemanaCalendario"
-                        android:text="L" />
-
-                    <TextView
-                        style="@style/tvDiasSemanaCalendario"
-                        android:text="M" />
-
-                    <TextView
-                        style="@style/tvDiasSemanaCalendario"
-                        android:text="X" />
-
-                    <TextView
-                        style="@style/tvDiasSemanaCalendario"
-                        android:text="J" />
-
-                    <TextView
-                        style="@style/tvDiasSemanaCalendario"
-                        android:text="V" />
-
-                    <TextView
-                        style="@style/tvDiasSemanaCalendario"
-                        android:text="S" />
-
-                    <TextView
-                        style="@style/tvDiasSemanaCalendario"
-                        android:text="D" />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvCalendario"
-                    android:layout_width="match_parent"
-                    android:layout_height="350dp"
-                    android:padding="3dp" />
-            </LinearLayout>-->
-        </androidx.cardview.widget.CardView>
+            android:padding="30dp" />
     </LinearLayout>
 </ScrollView>

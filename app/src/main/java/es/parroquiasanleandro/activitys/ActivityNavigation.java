@@ -3,6 +3,7 @@ package es.parroquiasanleandro.activitys;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -98,6 +99,7 @@ public class ActivityNavigation extends AppCompatActivity {
         Grupo.actualizarGruposServidorToLocal(context);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+        Log.d("MENU",Menu.menuOptionMap.size()+"");
         //Usuario usuario = new Usuario();
 
         /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -149,7 +151,7 @@ public class ActivityNavigation extends AppCompatActivity {
         });
 
         navView.setNavigationItemSelectedListener(item -> {
-            viewModel.setIdFragmentActual(Menu.selecionarItemMenu(item, viewModel.getIdFragmentActual(), usuario, activity, context, fragmentManager, actionBar, navView));
+            viewModel.setIdFragmentActual(Menu.selecionarFragmentMenuItem(item, viewModel.getIdFragmentActual(), usuario, activity, context, fragmentManager, actionBar, navView));
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });

@@ -25,8 +25,9 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 ;
 
 public class FragmentCalendario extends Fragment {
-
 	private Context context;
+
+	private ItemViewModel vmIds;
 
 	private RecyclerView rvCalendario;
 	private TextView tvMes;
@@ -36,7 +37,7 @@ public class FragmentCalendario extends Fragment {
 	private Fecha fechaReferencia;
 	private List<Integer> dias;
 
-	private ItemViewModel vmIds;
+	private Usuario usuario;
 
 	public FragmentCalendario() {
 	}
@@ -46,6 +47,8 @@ public class FragmentCalendario extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		context = getContext();
+
+		usuario = Usuario.recuperarUsuarioLocal(context);
 
 		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 		vmIds.setIdFragmentActual(Menu.FRAGMENT_CALENDARIO);
@@ -68,22 +71,20 @@ public class FragmentCalendario extends Fragment {
 		GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
 		rvCalendario.setLayoutManager(gridLayoutManager);
 
-		//FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-		Usuario user = null;
 		dias = new ArrayList<>();
 
-		setCalendario(user);
+		setCalendario(usuario);
 
 		tvMesAnterior.setOnClickListener(view1 -> {
 			fechaReferencia.sumMeses(-1);
 			fechaReferencia.actualizarDiaSemana();
-			setCalendario(user);
+			setCalendario(usuario);
 		});
 
 		tvMesSiguiente.setOnClickListener(view12 -> {
 			fechaReferencia.sumMeses(1);
 			fechaReferencia.actualizarDiaSemana();
-			setCalendario(user);
+			setCalendario(usuario);
 		});
 
 		return view;
