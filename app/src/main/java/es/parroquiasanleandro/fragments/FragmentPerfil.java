@@ -44,7 +44,7 @@ public class FragmentPerfil extends Fragment {
 	private TextView tvFechaNacimiento;
 
 	private FragmentManager fragmentManager;
-	private ItemViewModel vmIds;
+	private ItemViewModel viewModel;
 
 	public FragmentPerfil() {
 	}
@@ -55,9 +55,9 @@ public class FragmentPerfil extends Fragment {
 
 		context = getContext();
 
-		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-		vmIds.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
-		vmIds.addIdFragmentActual();
+		viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+		viewModel.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
+		viewModel.addIdFragmentActual();
 	}
 
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class FragmentPerfil extends Fragment {
 		rvGruposUsuario = view.findViewById(R.id.rvGruposUsuario);
 		tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
 
-		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
+		//vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 
 		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 		tvNombreUsuario.setText(usuario.nombre);
@@ -100,7 +100,7 @@ public class FragmentPerfil extends Fragment {
 		});
 
 		linearLayoutGrupos.setOnClickListener(v -> {
-			Menu.iniciarFragmentGrupos(fragmentManager);
+			Menu.iniciarFragmentGrupos(fragmentManager, viewModel.getActionBar());
 		});
 
 		linearLayoutFechaNacimiento.setOnClickListener(v -> {

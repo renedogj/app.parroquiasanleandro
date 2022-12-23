@@ -21,7 +21,11 @@
         android:icon="@drawable/ic_calendar"
         android:title="Calendario" />
     <item
+        android:id="@+id/nav_fragment_grupos"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Mis Grupos" />
+    <item
         android:id="@+id/nav_fragment_mercadillo"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/eye_24"
         android:title="Mercadillo" />
 </menu>
