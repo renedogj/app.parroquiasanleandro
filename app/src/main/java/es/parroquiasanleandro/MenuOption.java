@@ -59,7 +59,7 @@ public class MenuOption {
         //menuItemList.add(new MenuOption(Menu.INICIO, Menu.FRAGMENT_INICIO, R.drawable.ic_home, FragmentInicio.class));
         menuItemList.add(new MenuOption(Menu.AVISOS,Menu.FRAGMENT_AVISOS, R.drawable.ic_bell, FragmentAvisosParroquiales.class));
         menuItemList.add(new MenuOption(Menu.GRUPOS,Menu.FRAGMENT_GRUPOS, R.drawable.ic_bell, FragmentGrupos.class));
-        menuItemList.add(new MenuOption(Menu.PERFIL,Menu.FRAGMENT_PERFIL, R.drawable.ic_user, FragmentPerfil.class));
+        //menuItemList.add(new MenuOption(Menu.PERFIL,Menu.FRAGMENT_PERFIL, R.drawable.ic_user, FragmentPerfil.class));
         menuItemList.add(new MenuOption(Menu.HORARIO,Menu.FRAGMENT_HORARIO, R.drawable.ic_app, FragmentHorario.class));
         menuItemList.add(new MenuOption(Menu.CALENDARIO,Menu.FRAGMENT_CALENDARIO, R.drawable.ic_calendar, FragmentCalendario.class));
         menuItemList.add(new MenuOption(Menu.MERCADILLO,Menu.FRAGMENT_MERCADILLO, R.drawable.ic_calendar, FragmentMercadillo.class));

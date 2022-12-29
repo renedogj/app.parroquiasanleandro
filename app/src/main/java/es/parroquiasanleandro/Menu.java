@@ -175,6 +175,10 @@ public class Menu {
 	}
 
 	public static void asignarIconosMenu(NavigationView navView, int itemId) {
+		/*Log.d("ASIGNAR ICONOS","AAAAAAAAAAA"+itemId);
+		Log.d("ASIGNAR ICONOS","FRAGMENT_INICIO"+FRAGMENT_INICIO);
+		Log.d("ASIGNAR ICONOS","FRAGMENT_PERFIL"+FRAGMENT_PERFIL);
+		Log.d("ASIGNAR ICONOS","FRAGMENT_HORARIO"+FRAGMENT_HORARIO);*/
 		ActivityNavigation.imgInicio.setImageResource(R.drawable.ic_home);
 		ActivityNavigation.imgAvisos.setImageResource(R.drawable.ic_bell);
 		ActivityNavigation.imgHorario.setImageResource(R.drawable.ic_app);

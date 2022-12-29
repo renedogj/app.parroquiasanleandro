@@ -1,5 +1,7 @@
 package es.parroquiasanleandro.utils;
 
+import android.util.Log;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModel;
 
@@ -66,6 +68,7 @@ public class ItemViewModel extends ViewModel {
 
     public void addIdFragmentActual(){
         this.idsFragment.add(idFragmentActual);
+        Log.d("VIEW MODELS","VM "+getIdsFragment());
     }
 
     public void addIdGrupo(){

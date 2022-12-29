@@ -2,7 +2,6 @@ package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +74,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         private final TextView tvNombreGrupo;
         private final CardView cardGrupoBoton;
         private final CardView cardImgGrupo;
+        private final TextView tvMasGrupos;
         private final TextView tvBotonSeguir;
         private final ImageView imgGrupo;
 
@@ -86,6 +86,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             linearLayoutGrupo = itemView.findViewById(R.id.linearLayoutGrupo);
             tvNombreGrupo = itemView.findViewById(R.id.tvNombreGrupo);
             cardGrupoBoton = itemView.findViewById(R.id.cardGrupoBoton);
+            tvMasGrupos = itemView.findViewById(R.id.tvMasGrupos);
             tvBotonSeguir = itemView.findViewById(R.id.tvBotonSeguir);
             cardImgGrupo = itemView.findViewById(R.id.cardImgGrupo);
             imgGrupo = itemView.findViewById(R.id.imgGrupo);
@@ -93,7 +94,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
         public void asignarValores(Grupo grupo) {
             this.grupo = grupo;
-            Log.d("GRUPO", grupo.imagen);
+            //Log.d("GRUPO", grupo.imagen);
             Glide.with(context).load(Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
             linearLayoutGrupo.setBackgroundColor(Color.parseColor(grupo.color));
@@ -101,6 +102,10 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             imgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 
             checkGrupo(comprobarSiGrupoGuardado(grupo));
+
+            if(existenSubniveles(grupo)){
+                tvMasGrupos.setText("+ mas grupos");
+            }
 
             cardGrupoBoton.setOnClickListener(v -> {
                 if (grupoGuardado){

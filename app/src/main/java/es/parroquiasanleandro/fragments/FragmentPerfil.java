@@ -73,8 +73,6 @@ public class FragmentPerfil extends Fragment {
 		rvGruposUsuario = view.findViewById(R.id.rvGruposUsuario);
 		tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
 
-		//vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-
 		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 		tvNombreUsuario.setText(usuario.nombre);
 		tvEmail.setText(usuario.email);

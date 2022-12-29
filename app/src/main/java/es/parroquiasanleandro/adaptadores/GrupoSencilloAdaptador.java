@@ -2,7 +2,6 @@ package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +76,7 @@ public class GrupoSencilloAdaptador extends RecyclerView.Adapter<GrupoSencilloAd
 			tvNombreGrupo.setText(grupo.nombre);
 			linearLayoutGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 			imgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-			Log.d("URL IMAGEN",Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen);
+			//Log.d("URL IMAGEN",Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen);
 			Glide.with(context).load(Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen).into(imgGrupo);
 
 			/*if (grupo.key.equals("A")) {

@@ -3,7 +3,6 @@ package es.parroquiasanleandro.activitys;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -80,8 +79,8 @@ public class ActivityNavigation extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
 
         viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
-        viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
-        viewModel.addIdFragmentActual();
+        //viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
+        //viewModel.addIdFragmentActual();
         viewModel.setNavView(navView);
 
         actionBar = getSupportActionBar();
@@ -99,7 +98,7 @@ public class ActivityNavigation extends AppCompatActivity {
         Grupo.actualizarGruposServidorToLocal(context);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-        Log.d("MENU",Menu.menuOptionMap.size()+"");
+        //Log.d("MENU",Menu.menuOptionMap.size()+"");
         //Usuario usuario = new Usuario();
 
         /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -157,17 +156,29 @@ public class ActivityNavigation extends AppCompatActivity {
         });
     }
 
-    /*@Override
+    @Override
     protected void onRestart() {
         super.onRestart();
-        Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
+        //Log.d("ON RESTART","VM "+viewModel.getIdsFragment());
+        //Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        /*Log.d("ON RESUME","VM "+viewModel.getIdsFragment());
+        //viewModel.getIdsFragment().clear();
+        int listSize = viewModel.getIdsFragment().size();
+        if(listSize > 1){
+            for (int i = listSize/2; i < listSize-1; i++){
+                viewModel.getIdsFragment().remove(i);
+                //Log.d("ON RESUME","REMOVE "+viewModel.getIdsFragment().get(i));
+            }
+        }
+
+        Log.d("ON RESUME","VM "+viewModel.getIdsFragment());*/
         Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
-    }*/
+    }
 
     //Función que se ejecuta al selecionar una opción del menú
     @Override
@@ -208,7 +219,6 @@ public class ActivityNavigation extends AppCompatActivity {
                                             jsonObject.getString(Grupo.NOMBRE),
                                             jsonObject.getString(Grupo.COLOR),
                                             jsonObject.getString(Grupo.IMAGEN)
-
                                     );
                                     grupos.add(grupo);
                                 } catch (JSONException e) {
@@ -233,7 +243,7 @@ public class ActivityNavigation extends AppCompatActivity {
                     super.onBackPressed();
                 }
             }else{
-                //Controlar pila de fragmentos y de categorias
+                //Controlar pila de fragmentos y de grupos
                 super.onBackPressed();
                 viewModel.getIdsFragment().remove(posUltimoFragment);
                 if (!viewModel.getIdsFragment().isEmpty()) {
