@@ -61,7 +61,6 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         gruposNivel.get(position).setPosicion(position);
         Grupo grupo = gruposNivel.get(position);
-
         holder.asignarValores(grupo);
     }
 
@@ -73,12 +72,10 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final LinearLayout linearLayoutContenedorGrupo;
-        //private final LinearLayout linearLayoutMasGrupos;
         private final LinearLayout linearLayoutGrupo;
         private final TextView tvNombreGrupo;
         //private final CardView cardContenedoraGrupo;
         private final CardView cardGrupoBoton;
-        //private final CardView cardImgGrupo;
         private final TextView tvMasGrupos;
         private final TextView tvBotonSeguir;
         private final ImageView imgGrupo;
@@ -89,14 +86,11 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
             linearLayoutContenedorGrupo = itemView.findViewById(R.id.linearLayoutContenedorGrupo);
-            //linearLayoutMasGrupos = itemView.findViewById(R.id.linearLayoutMasGrupos);
             linearLayoutGrupo = itemView.findViewById(R.id.linearLayoutGrupo);
             tvNombreGrupo = itemView.findViewById(R.id.tvNombreGrupo);
-            //cardContenedoraGrupo = itemView.findViewById(R.id.cardGrupo);
             cardGrupoBoton = itemView.findViewById(R.id.cardGrupoBoton);
             tvMasGrupos = itemView.findViewById(R.id.tvMasGrupos);
             tvBotonSeguir = itemView.findViewById(R.id.tvBotonSeguir);
-            //cardImgGrupo = itemView.findViewById(R.id.cardImgGrupo);
             imgGrupo = itemView.findViewById(R.id.imgGrupo);
         }
 
@@ -110,7 +104,6 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             checkGrupo(comprobarSiGrupoGuardado(grupo));
 
             if(existenSubniveles(grupo)){
-                //tvMasGrupos.setText("+ subgrupos");
                 tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 tvMasGrupos.setVisibility(View.VISIBLE);
                 tvMasGrupos.setOnClickListener(v -> {
@@ -193,13 +186,9 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
     }
 
     public boolean existenSubniveles(Grupo grupoPadre){
-        //Log.d("EXISTENSUBNIBELES",grupoPadre.key + ": " + grupoPadre.nombre);
         for(Grupo grupo : grupos){
-            //Log.d("FOR",grupo.key + ": " + grupo.nombre);
             if(grupo.key.length() == grupoPadre.key.length()+1){
-                //Log.d("IF 1",grupo.key + ": " + grupo.nombre);
                 if(grupo.key.startsWith(grupoPadre.key)) {
-                    //Log.d("IF 2",grupo.key + ": " + grupo.nombre);
                     return true;
                 }
             }
