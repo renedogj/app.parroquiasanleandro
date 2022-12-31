@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Styles linearLayout-->
+    <style name="lnly_1_2_h" parent="size_1_2">
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="lnly_1_1_h" parent="size_1_1">
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="lnly_2_1_h" parent="size_2_1">
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="lnly_2_2_h" parent="size_2_2">
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="lnlytItemMenuNavigation" parent="size_1_2">
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="lnlytDiaHorarioContenedora" parent="size_1_2">
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+
+    <style name="lnlytDiaSemanaHorario_Despacho_Caritas" parent="lnlytDiaHorarioContenedora">
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="lnlytDiaSemanaHorario_Misas" parent="lnlytDiaHorarioContenedora">
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="lnlytCardPerfil" parent="size_1_2">
+        <item name="android:layout_marginStart">18dp</item>
+        <item name="android:layout_marginTop">7dp</item>
+        <item name="android:layout_marginEnd">18dp</item>
+        <item name="android:layout_marginBottom">7dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+</resources>

@@ -156,12 +156,12 @@ public class ActivityNavigation extends AppCompatActivity {
         });
     }
 
-    @Override
+    /*@Override
     protected void onRestart() {
         super.onRestart();
         //Log.d("ON RESTART","VM "+viewModel.getIdsFragment());
         //Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
-    }
+    }*/
 
     @Override
     protected void onResume() {

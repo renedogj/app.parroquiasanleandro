@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -90,7 +89,7 @@ public class MenuIncioAdaptador extends RecyclerView.Adapter<MenuIncioAdaptador.
             ivImagenMenu.setContentDescription(menuOption.nombre);
 
             cardMenu.setOnClickListener(v -> {
-                Toast.makeText(context, menuOption.nombre, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, menuOption.nombre, Toast.LENGTH_SHORT).show();
                 Menu.seleccionarFragmentMenuId(menuOption.id, idFragmentActual, usuario, activity, context, fragmentManager, actionBar, navView);
             });
         }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="spaces_2_1_1" parent="size_2_1">
+        <item name="android:layout_weight">1</item>
+    </style>
+</resources>

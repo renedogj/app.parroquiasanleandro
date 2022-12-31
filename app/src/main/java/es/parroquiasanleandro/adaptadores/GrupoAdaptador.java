@@ -2,12 +2,14 @@ package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -70,10 +72,13 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        private final LinearLayout linearLayoutContenedorGrupo;
+        //private final LinearLayout linearLayoutMasGrupos;
         private final LinearLayout linearLayoutGrupo;
         private final TextView tvNombreGrupo;
+        //private final CardView cardContenedoraGrupo;
         private final CardView cardGrupoBoton;
-        private final CardView cardImgGrupo;
+        //private final CardView cardImgGrupo;
         private final TextView tvMasGrupos;
         private final TextView tvBotonSeguir;
         private final ImageView imgGrupo;
@@ -83,28 +88,41 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
         public ViewHolder(View itemView) {
             super(itemView);
+            linearLayoutContenedorGrupo = itemView.findViewById(R.id.linearLayoutContenedorGrupo);
+            //linearLayoutMasGrupos = itemView.findViewById(R.id.linearLayoutMasGrupos);
             linearLayoutGrupo = itemView.findViewById(R.id.linearLayoutGrupo);
             tvNombreGrupo = itemView.findViewById(R.id.tvNombreGrupo);
+            //cardContenedoraGrupo = itemView.findViewById(R.id.cardGrupo);
             cardGrupoBoton = itemView.findViewById(R.id.cardGrupoBoton);
             tvMasGrupos = itemView.findViewById(R.id.tvMasGrupos);
             tvBotonSeguir = itemView.findViewById(R.id.tvBotonSeguir);
-            cardImgGrupo = itemView.findViewById(R.id.cardImgGrupo);
+            //cardImgGrupo = itemView.findViewById(R.id.cardImgGrupo);
             imgGrupo = itemView.findViewById(R.id.imgGrupo);
         }
 
         public void asignarValores(Grupo grupo) {
             this.grupo = grupo;
-            //Log.d("GRUPO", grupo.imagen);
+
             Glide.with(context).load(Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
-            linearLayoutGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-            cardImgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-            imgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
+            linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 
             checkGrupo(comprobarSiGrupoGuardado(grupo));
 
             if(existenSubniveles(grupo)){
-                tvMasGrupos.setText("+ mas grupos");
+                //tvMasGrupos.setText("+ subgrupos");
+                tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                tvMasGrupos.setVisibility(View.VISIBLE);
+                tvMasGrupos.setOnClickListener(v -> {
+                    if(existenSubniveles(grupo)) {
+                        vmIds.setGrupoActual(grupo.key);
+                        vmIds.addIdGrupo();
+                        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.key, rvGrupos,vmIds);
+                        rvGrupos.setAdapter(grupoAdaptador);
+                    }
+                });
+            }else{
+                tvMasGrupos.setVisibility(View.GONE);
             }
 
             cardGrupoBoton.setOnClickListener(v -> {
@@ -122,12 +140,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             });
 
             linearLayoutGrupo.setOnClickListener(v -> {
-                if(existenSubniveles(grupo)) {
-                    vmIds.setGrupoActual(grupo.key);
-                    vmIds.addIdGrupo();
-                    GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.key, rvGrupos,vmIds);
-                    rvGrupos.setAdapter(grupoAdaptador);
-                }
+                Toast.makeText(context, "Abrir nformación del grupo" + grupo.nombre, Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -145,13 +158,14 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             if(grupoGuardado){
                 cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#aa00dd"));
                 tvBotonSeguir.setTextColor(Color.parseColor("#FFFDF1F1"));
+                tvBotonSeguir.setText("Siguiendo");
             }else{
                 cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
                 tvBotonSeguir.setTextColor(Color.parseColor("#FF5A5046"));
+                tvBotonSeguir.setText("Seguir");
             }
         }
     }
-
 
     public void chekGruposPadre(Grupo grupo) {
         List<String> categoriasKey = new ArrayList<>();
@@ -179,9 +193,13 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
     }
 
     public boolean existenSubniveles(Grupo grupoPadre){
+        //Log.d("EXISTENSUBNIBELES",grupoPadre.key + ": " + grupoPadre.nombre);
         for(Grupo grupo : grupos){
+            //Log.d("FOR",grupo.key + ": " + grupo.nombre);
             if(grupo.key.length() == grupoPadre.key.length()+1){
+                //Log.d("IF 1",grupo.key + ": " + grupo.nombre);
                 if(grupo.key.startsWith(grupoPadre.key)) {
+                    //Log.d("IF 2",grupo.key + ": " + grupo.nombre);
                     return true;
                 }
             }

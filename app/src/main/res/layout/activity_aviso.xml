@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/blanco"
     app:layoutDescription="@xml/scene_activity_aviso"
     app:layout_constraintTop_toTopOf="parent">
 
@@ -12,7 +12,7 @@
         android:id="@+id/ivImagenAviso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/blanco"
         android:paddingBottom="15dp" />
 
     <androidx.cardview.widget.CardView
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="35dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/blanco"
         app:cardCornerRadius="25dp">
 
 

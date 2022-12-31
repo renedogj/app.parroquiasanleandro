@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/size_1_1"
-    android:background="@color/white">
+    android:background="@color/blanco">
 
     <LinearLayout
         style="@style/size_1_2"
@@ -11,7 +11,7 @@
         <LinearLayout
             android:id="@+id/linearLayoutFotoPerfil"
             style="@style/size_1_2"
-            android:background="@color/white"
+            android:background="@color/blanco"
             android:orientation="horizontal">
 
             <Space
@@ -30,7 +30,7 @@
                     android:id="@+id/ivFotoPerfil"
                     android:layout_width="160dp"
                     android:layout_height="160dp"
-                    android:background="@color/white"
+                    android:background="@color/blanco"
                     android:src="@drawable/fondo_parroquia_dark" />
             </androidx.cardview.widget.CardView>
 
@@ -45,7 +45,7 @@
             style="@style/size_1_2"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="-25dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/blanco"
             app:cardCornerRadius="25dp"
             app:cardElevation="10dp">
 

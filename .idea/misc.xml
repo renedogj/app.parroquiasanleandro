@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/fondo_parroquia.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/fondo_parroquia_dark.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_home.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1375" />
@@ -18,6 +19,7 @@
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_articulos_parroquiales.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_avisos_parroquiales.xml" value="0.3453703703703704" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_calendario.xml" value="0.36666666666666664" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_grupos.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_horario.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_inicio.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_perfil.xml" value="0.3453703703703704" />
