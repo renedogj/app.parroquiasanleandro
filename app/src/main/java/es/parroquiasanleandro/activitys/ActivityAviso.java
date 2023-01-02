@@ -2,17 +2,30 @@ package es.parroquiasanleandro.activitys;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.fecha.Fecha;
 
 public class ActivityAviso extends AppCompatActivity {
-
     Context context = ActivityAviso.this;
 
     private ImageView ivImagenAviso;
@@ -21,6 +34,8 @@ public class ActivityAviso extends AppCompatActivity {
     private TextView tvFechaInicio;
     private TextView tvFechaFinal;
     private TextView tvDescripcion;
+
+    private Aviso aviso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,35 +49,40 @@ public class ActivityAviso extends AppCompatActivity {
         tvFechaFinal = findViewById(R.id.tvFechaFinal);
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
-        String avisoKey = getIntent().getStringExtra("avisoKey");
-        String avisoGrupo = getIntent().getStringExtra("avisoGrupo");
+        String idAviso = getIntent().getStringExtra("idAviso");
 
-        Log.d("TAG", avisoGrupo + " " + avisoKey);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAviso, result -> {
+            try {
+                JSONObject jsonResult = new JSONObject(result);
+                if (!jsonResult.getBoolean("error")) {
+                    JSONObject jsonAviso = jsonResult.getJSONObject("aviso");
+                    aviso = Aviso.JSONObjectToAviso(jsonAviso);
+                    aviso.asignarImagen(context, ivImagenAviso);
 
-        /*FirebaseDatabase.getInstance().getReference().child("Avisos").child(avisoGrupo).child(avisoKey).get().addOnSuccessListener(new OnSuccessListener<DataSnapshot>() {
-            @Override
-            public void onSuccess(DataSnapshot dataSnapshot) {
-                Aviso aviso = dataSnapshot.getValue(Aviso.class);
-                if(aviso != null){
-                    aviso.asignarImagen(context,ivImagenAviso);
-
-                    /*Fragment fragment = new FragmentAviso(aviso);
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.fragment_aviso,fragment).addToBackStack(null)
-                            .commit();*/
-
-                    /*tvTituloAviso.setText(aviso.titulo);
-                    //tvFechaInicio.setText(aviso.fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa) + "  " + aviso.fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
+                    tvTituloAviso.setText(aviso.titulo);
                     tvFechaInicio.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
-                    if (aviso.getFechaFin() != null){
-                        //tvFechaFinal.setText(aviso.fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa) + "  " + aviso.fechaFin.toString(Fecha.FormatosFecha.HH_mm));
+                    if (aviso.getFechaFin() != null) {
                         tvFechaFinal.setText(aviso.getFechaFin().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaFin().toString(Fecha.FormatosFecha.HH_mm));
                     }
                     tvDescripcion.setText(aviso.descripcion);
-                    aviso.asignarColor(context,linearLayoutContenedorAviso);
+                    aviso.asignarColor(context, linearLayoutContenedorAviso);
+                } else {
+                    Toast.makeText(context, jsonResult.getString("errorMensaje"), Toast.LENGTH_SHORT).show();
                 }
+            } catch (JSONException e) {
+                Toast.makeText(context, "Se ha producido un error en el servidor al recuperar el aviso", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
-        });*/
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String,String> parametros = new HashMap<>();
+                parametros.put("idAviso",idAviso);
+                return parametros;
+            }
+        });
     }
 }

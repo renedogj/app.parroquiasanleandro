@@ -86,7 +86,7 @@ public class Aviso {
 		linearLayout.setBackgroundColor(Color.parseColor(Grupo.obtenerColorGrupo(context, idGrupo)));
 	}
 
-	public static List<Aviso> JSONArrayToAviso(JSONArray jsonArrayAvisos){
+	public static List<Aviso> JSONArrayToAvisos(JSONArray jsonArrayAvisos){
 		List<Aviso>  avisos = new ArrayList<>();
 		for (int i = 0; i < jsonArrayAvisos.length(); i++) {
 			Aviso avisoAux = new Aviso();
@@ -108,6 +108,25 @@ public class Aviso {
 			avisos.add(avisoAux);
 		}
 		return avisos;
+	}
+
+	public static Aviso JSONObjectToAviso(JSONObject jsonAviso) {
+		Aviso aviso = new Aviso();
+		try {
+			aviso.id = jsonAviso.getString("id");
+			aviso.idCreador = jsonAviso.getString("id_creador");
+			aviso.titulo = jsonAviso.getString("titulo");
+			aviso.idGrupo = jsonAviso.getString("id_grupo");
+			aviso.descripcion = jsonAviso.getString("descripcion");
+			aviso.imagen = jsonAviso.getString("imagen");
+			aviso.longInicio = jsonAviso.getLong("fecha_inicio");
+			aviso.longFin = jsonAviso.getLong("fecha_fin");
+			aviso.fechaInicio = Fecha.toFecha(jsonAviso.getLong("fecha_inicio"));
+			aviso.fechaFin = Fecha.toFecha(jsonAviso.getLong("fecha_fin"));
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return aviso;
 	}
 
 	//Funcion para asignar la imagen del aviso obteniendolo de la bbdd al imageView

@@ -78,9 +78,9 @@ public class FragmentAvisosParroquiales extends Fragment {
 
         avisos = new ArrayList<>();
 
-        /*if(usuario.getId() == null){
-            usuario.setId("0");
-        }*/
+        if(usuario.esAdministrador){
+            bttnNuevoAviso.setVisibility(View.VISIBLE);
+        }
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisos, result -> {
@@ -88,7 +88,7 @@ public class FragmentAvisosParroquiales extends Fragment {
                 JSONObject jsonResult = new JSONObject(result);
                 if(!jsonResult.getBoolean("error")){
                     JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
-                    avisos.addAll(Aviso.JSONArrayToAviso(jsonArrayAvisos));
+                    avisos.addAll(Aviso.JSONArrayToAvisos(jsonArrayAvisos));
 
                     if(!avisos.isEmpty()) {
                         AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);

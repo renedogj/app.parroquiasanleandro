@@ -107,7 +107,7 @@ public class FragmentInicio extends Fragment {
 				JSONObject jsonResult = new JSONObject(result);
 				if(!jsonResult.getBoolean("error")){
 					JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
-					avisos.addAll(Aviso.JSONArrayToAviso(jsonArrayAvisos));
+					avisos.addAll(Aviso.JSONArrayToAvisos(jsonArrayAvisos));
 				}
 				mostrarAvisosSemanales();
 			} catch (JSONException e) {
