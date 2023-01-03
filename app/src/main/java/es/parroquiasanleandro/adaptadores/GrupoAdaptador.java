@@ -97,7 +97,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         public void asignarValores(Grupo grupo) {
             this.grupo = grupo;
 
-            Glide.with(context).load(Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen).into(imgGrupo);
+            Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
             linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 
@@ -108,9 +108,9 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
                 tvMasGrupos.setVisibility(View.VISIBLE);
                 tvMasGrupos.setOnClickListener(v -> {
                     if(existenSubniveles(grupo)) {
-                        vmIds.setGrupoActual(grupo.key);
+                        vmIds.setGrupoActual(grupo.id);
                         vmIds.addIdGrupo();
-                        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.key, rvGrupos,vmIds);
+                        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.id, rvGrupos,vmIds);
                         rvGrupos.setAdapter(grupoAdaptador);
                     }
                 });
@@ -120,11 +120,11 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
             cardGrupoBoton.setOnClickListener(v -> {
                 if (grupoGuardado){
-                    grupo.dessuscribirGrupo(context, usuario.getId());
+                    grupo.eliminarGrupoSeguido(context, usuario.getId());
                     grupoGuardado = false;
                     usuario.removeGrupos(grupo);
                 }else{
-                    grupo.suscribirGrupo(context, usuario.getId());
+                    grupo.seguirGrupo(context, usuario.getId());
                     grupoGuardado = true;
                     usuario.addGrupo(grupo);
                     chekGruposPadre(grupo);
@@ -139,7 +139,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
         public boolean comprobarSiGrupoGuardado(Grupo grupo){
             for (Grupo grupoAux : usuario.getGrupos()){
-                if(grupoAux.key.equals(grupo.key) && grupoAux.nombre.equals(grupo.nombre)){
+                if(grupoAux.id.equals(grupo.id) && grupoAux.nombre.equals(grupo.nombre)){
                     return true;
                 }
             }
@@ -162,14 +162,14 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
     public void chekGruposPadre(Grupo grupo) {
         List<String> categoriasKey = new ArrayList<>();
-        for (int i = 1; i <= grupo.key.length(); i++) {
-            if (!categoriasKey.contains(grupo.key.substring(0, i))) {
-                categoriasKey.add(grupo.key.substring(0, i));
+        for (int i = 1; i <= grupo.id.length(); i++) {
+            if (!categoriasKey.contains(grupo.id.substring(0, i))) {
+                categoriasKey.add(grupo.id.substring(0, i));
             }
         }
         for(Grupo grupo1 : grupos){
-            if(categoriasKey.contains(grupo1.key)){
-                grupo1.suscribirGrupo(context, usuario.getId());
+            if(categoriasKey.contains(grupo1.id)){
+                grupo1.seguirGrupo(context, usuario.getId());
                 usuario.addGrupo(grupo1);
             }
         }
@@ -177,8 +177,8 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
     public void obtenerGruposNivel(){
         for(Grupo grupo : grupos){
-            if(grupo.key.length() == grupoPadre.length()+1){
-                if(grupo.key.startsWith(grupoPadre)) {
+            if(grupo.id.length() == grupoPadre.length()+1){
+                if(grupo.id.startsWith(grupoPadre)) {
                     gruposNivel.add(grupo);
                 }
             }
@@ -187,8 +187,8 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
     public boolean existenSubniveles(Grupo grupoPadre){
         for(Grupo grupo : grupos){
-            if(grupo.key.length() == grupoPadre.key.length()+1){
-                if(grupo.key.startsWith(grupoPadre.key)) {
+            if(grupo.id.length() == grupoPadre.id.length()+1){
+                if(grupo.id.startsWith(grupoPadre.id)) {
                     return true;
                 }
             }

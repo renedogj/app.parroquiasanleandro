@@ -2,7 +2,6 @@ package es.parroquiasanleandro;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
@@ -12,6 +11,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,7 +33,7 @@ public class Grupo {
     public static final String IMAGEN = "imagen";
     public static final String MILLIS_ACTUALIZACION = "millis_actualizacion";
 
-    public String key;
+    public String id;
     public String nombre;
     public String color;
     public String imagen;
@@ -42,20 +42,20 @@ public class Grupo {
     public Grupo() {
     }
 
-    public Grupo(String key, String nombre) {
-        this.key = key;
+    public Grupo(String id, String nombre) {
+        this.id = id;
         this.nombre = nombre;
     }
 
-    public Grupo(String key, String nombre, String color, String imagen) {
-        this.key = key;
+    public Grupo(String id, String nombre, String color, String imagen) {
+        this.id = id;
         this.nombre = nombre;
         this.color = color;
         this.imagen = imagen;
     }
 
-    public String getKey() {
-        return key;
+    public String getId() {
+        return id;
     }
 
     public String getNombre() {
@@ -66,8 +66,8 @@ public class Grupo {
         return posicion;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setNombre(String nombre) {
@@ -88,18 +88,18 @@ public class Grupo {
         return grupos.toArray(new Grupo[0]);
     }
 
-    public static String[] getNombreGrupos(Grupo[] grupos){
+    public static String[] getNombreGrupos(Grupo[] grupos) {
         List<String> nombres = new ArrayList<>();
-        for (Grupo grupo : grupos){
+        for (Grupo grupo : grupos) {
             nombres.add(grupo.nombre);
         }
         return nombres.toArray(new String[0]);
     }
 
-    public static String[] getKeysGrupos(Grupo[] grupos){
+    public static String[] getIdsGrupos(Grupo[] grupos) {
         List<String> keys = new ArrayList<>();
-        for (Grupo grupo : grupos){
-            keys.add(grupo.key);
+        for (Grupo grupo : grupos) {
+            keys.add(grupo.id);
         }
         return keys.toArray(new String[0]);
     }
@@ -113,65 +113,40 @@ public class Grupo {
         return null;
     }*/
 
-    public static long getMillisUltimaActualizacion(Context context){
+    /*public static long getMillisUltimaActualizacion(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(GRUPOS, Context.MODE_PRIVATE);
         return sharedPreferences.getLong(MILLIS_ACTUALIZACION, 0);
-    }
+    }*/
 
-    public static void setMillisUltimaActualizacion(Context context, long timestamp ){
+    /*public static void setMillisUltimaActualizacion(Context context, long timestamp) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(GRUPOS, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(MILLIS_ACTUALIZACION, timestamp );
+        editor.putLong(MILLIS_ACTUALIZACION, timestamp);
         editor.apply();
-    }
+    }*/
 
     /**
      * Suscribe al usuario a un grupo en la BBDD
      */
-    public void suscribirGrupo(Context context, String uid) {
-        guardarSuscripcionLocal(context);
-        //FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(uid).child(SUSCRIPCIONES).child(key).setValue(nombre);
+    public void seguirGrupo(Context context, String id) {
+        guardarGrupoSeguidoEnLocal(context);
+        //add al servidor
+        //FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(id).child(SUSCRIPCIONES).child(key).setValue(nombre);
     }
 
     /**
      * Elimina la suscripcion al usuario a un grupo en la BBDD
      */
-    public void dessuscribirGrupo(Context context, String uid) {
-        eliminarSuscripcionLocal(context);
-        //FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(uid).child(SUSCRIPCIONES).child(key).setValue(null);
+    public void eliminarGrupoSeguido(Context context, String id) {
+        eliminarGrupoSeguidoDeLocal(context);
+        //eliminar del servidor
+        //FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(id).child(SUSCRIPCIONES).child(key).setValue(null);
     }
 
-    public static void actualizarGruposServidorToLocal(Context context){
+    public static void actualizarGruposServidorToLocal(Context context) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(new JsonArrayRequest(Url.obtenerGrupos, response -> {
-            FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            dbHelper.truncateTable(db, FeedReaderContract.TablaGrupos.TABLE_NAME);
-
-            JSONObject jsonObject;
-            for (int i = 0; i < response.length(); i++) {
-                try {
-                    jsonObject = response.getJSONObject(i);
-                    Grupo grupo = new Grupo(
-                            jsonObject.getString(Grupo.ID),
-                            jsonObject.getString(Grupo.NOMBRE),
-                            jsonObject.getString(Grupo.COLOR),
-                            jsonObject.getString(Grupo.IMAGEN)
-                    );
-
-                    ContentValues registro = new ContentValues();
-                    registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_ID, grupo.key);
-                    registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE, grupo.nombre);
-                    registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR, grupo.color);
-                    registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN, grupo.imagen);
-
-                    db.insert(FeedReaderContract.TablaGrupos.TABLE_NAME, null, registro);
-
-                } catch (JSONException e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-            db.close();
+        requestQueue.add(new JsonArrayRequest(Url.obtenerGrupos, jsonArrayResult -> {
+            guardarGruposEnLocal(context, jsonArrayResult);
         }, error -> {
             Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }) {
@@ -182,7 +157,39 @@ public class Grupo {
         });
     }
 
-    public static List<Grupo> recuperarGruposLocal(Context context) {
+    public static Grupo[] guardarGruposEnLocal(Context context, JSONArray jsonArray) {
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        dbHelper.truncateTable(db, FeedReaderContract.TablaGrupos.TABLE_NAME);
+
+        JSONObject jsonObject;
+        List<Grupo> grupos = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                jsonObject = jsonArray.getJSONObject(i);
+                Grupo grupo = new Grupo(
+                        jsonObject.getString(Grupo.ID),
+                        jsonObject.getString(Grupo.NOMBRE),
+                        jsonObject.getString(Grupo.COLOR),
+                        jsonObject.getString(Grupo.IMAGEN)
+                );
+                grupos.add(grupo);
+                ContentValues registro = new ContentValues();
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_ID, grupo.id);
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE, grupo.nombre);
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR, grupo.color);
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN, grupo.imagen);
+
+                db.insert(FeedReaderContract.TablaGrupos.TABLE_NAME, null, registro);
+            } catch (JSONException e) {
+                Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        db.close();
+        return grupos.toArray(new Grupo[0]);
+    }
+
+    public static List<Grupo> recuperarGruposDeLocal(Context context) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columnasARetornar = {
@@ -213,7 +220,7 @@ public class Grupo {
         return grupos;
     }
 
-    public static String obtenerColorGrupo(Context context, String id){
+    public static String obtenerColorGrupo(Context context, String id) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columnasARetornar = {
@@ -237,7 +244,7 @@ public class Grupo {
         return color;
     }
 
-    public static String obtenerImagenGrupo(Context context, String id){
+    public static String obtenerImagenGrupo(Context context, String id) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columnasARetornar = {
@@ -261,41 +268,41 @@ public class Grupo {
         return imagen;
     }
 
-    public void guardarSuscripcionLocal(Context context) {
+    public void guardarGrupoSeguidoEnLocal(Context context) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         String consulta = "DELETE FROM " + FeedReaderContract.TablaGruposSuscritos.TABLE_NAME +
-                " WHERE " + FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_ID + " = '" + key + "'" +
+                " WHERE " + FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_ID + " = '" + id + "'" +
                 " AND " + FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_NOMBRE + " = '" + nombre + "'";
         db.execSQL(consulta);
 
         ContentValues registro = new ContentValues();
-        registro.put(FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_ID, key + "");
+        registro.put(FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_ID, id + "");
         registro.put(FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_NOMBRE, nombre + "");
 
         db.insert(FeedReaderContract.TablaGruposSuscritos.TABLE_NAME, null, registro);
         db.close();
     }
 
-    public void eliminarSuscripcionLocal(Context context) {
+    public void eliminarGrupoSeguidoDeLocal(Context context) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String consulta = "DELETE FROM " + FeedReaderContract.TablaGruposSuscritos.TABLE_NAME +
-                " WHERE " + FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_ID + " = '" + key + "'" +
+                " WHERE " + FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_ID + " = '" + id + "'" +
                 " AND " + FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_NOMBRE + " = '" + nombre + "'";
         db.execSQL(consulta);
         db.close();
     }
 
-    public static void guardarGruposSuscritosLocal(Context context, Grupo[] grupos) {
+    public static void guardarGruposSeguidosEnLocal(Context context, Grupo[] grupos) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         dbHelper.truncateTable(db, FeedReaderContract.TablaGruposSuscritos.TABLE_NAME);
 
         for (Grupo grupo : grupos) {
             ContentValues registro = new ContentValues();
-            registro.put(FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_ID, grupo.key);
+            registro.put(FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_ID, grupo.id);
             registro.put(FeedReaderContract.TablaGruposSuscritos.COLUMN_NAME_NOMBRE, grupo.nombre);
 
             db.insert(FeedReaderContract.TablaGruposSuscritos.TABLE_NAME, null, registro);
@@ -303,7 +310,7 @@ public class Grupo {
         db.close();
     }
 
-    public static Grupo[] recuperarGruposSuscritosLocal(Context context) {
+    public static Grupo[] recuperarGruposSeguidosDeLocal(Context context) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columnasARetornar = {
@@ -330,14 +337,14 @@ public class Grupo {
         return grupos.toArray(new Grupo[0]);
     }
 
-    public static void guardarGruposAdministradosLocal(Context context, Grupo[] grupos) {
+    public static void guardarGruposAdministradosEnLocal(Context context, Grupo[] grupos) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         dbHelper.truncateTable(db, FeedReaderContract.TablaGruposAdministrados.TABLE_NAME);
 
         for (Grupo grupo : grupos) {
             ContentValues registro = new ContentValues();
-            registro.put(FeedReaderContract.TablaGruposAdministrados.COLUMN_NAME_ID, grupo.key);
+            registro.put(FeedReaderContract.TablaGruposAdministrados.COLUMN_NAME_ID, grupo.id);
             registro.put(FeedReaderContract.TablaGruposAdministrados.COLUMN_NAME_NOMBRE, grupo.nombre);
 
             db.insert(FeedReaderContract.TablaGruposAdministrados.TABLE_NAME, null, registro);
@@ -345,7 +352,7 @@ public class Grupo {
         db.close();
     }
 
-    public static Grupo[] recuperarGruposAdministradosLocal(Context context) {
+    public static Grupo[] recuperarGruposAdministradosDeLocal(Context context) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         String[] columnasARetornar = {
@@ -372,11 +379,11 @@ public class Grupo {
         return grupos.toArray(new Grupo[0]);
     }
 
-    public static void vaciarTablasGrupos(Context context){
+    public static void vaciarTablasGruposSeguidosYAdministrados(Context context) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        dbHelper.truncateTable(db, FeedReaderContract.TablaGruposAdministrados.TABLE_NAME);
         dbHelper.truncateTable(db, FeedReaderContract.TablaGruposSuscritos.TABLE_NAME);
+        dbHelper.truncateTable(db, FeedReaderContract.TablaGruposAdministrados.TABLE_NAME);
         db.close();
     }
 }

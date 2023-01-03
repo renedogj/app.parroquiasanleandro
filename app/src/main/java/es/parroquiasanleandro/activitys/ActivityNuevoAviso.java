@@ -173,7 +173,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
 		lnlytAñadirImagen.setOnClickListener(v -> {
 			Intent intent = new Intent(context, ActivitySeleccionarImagen.class);
-			intent.putExtra("grupo", usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].key);
+			intent.putExtra("grupo", usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id);
 			startActivityForResult(intent, 1);
 		});
 	}
@@ -223,7 +223,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		String userUid = "FirebaseAuth.getInstance().getUid()";
 		String titulo = etTitulo.getText().toString().trim();
 		String descripcion = etDescripcion.getText().toString().trim();
-		String grupoKey = usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].key;
+		String grupoKey = usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id;
 		if (uriImagen == null) {
 			imagen = "imagenPredeterminada";
 		} else {

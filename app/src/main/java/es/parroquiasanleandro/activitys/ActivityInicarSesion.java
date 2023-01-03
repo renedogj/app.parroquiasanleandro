@@ -3,7 +3,6 @@ package es.parroquiasanleandro.activitys;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -80,15 +79,13 @@ public class ActivityInicarSesion extends AppCompatActivity {
         if (!email.equals("") && !password.equals("")) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             requestQueue.add(new StringRequest(Request.Method.POST, Url.iniciarSesion, result -> {
-                //Log.d("Resultado",result);
                 try {
                     JSONObject jsonResult = new JSONObject(result);
                     if(!jsonResult.getBoolean("error")){
-                        Log.d("Resultado",jsonResult.getJSONArray("usuario").getJSONObject(0).toString());
-                        Log.d("Resultado",jsonResult.getJSONArray("usuario").getJSONObject(0).toString());
                         JSONObject jsonObject = jsonResult.getJSONArray("usuario").getJSONObject(0);
                         Usuario usuario = new Usuario(jsonObject);
                         usuario.guardarUsuarioLocal(context);
+                        //Grupo.actualizarGruposServidorToLocal(context);
                         startActivity(new Intent(context, ActivityNavigation.class));
                         finish();
                     }else{

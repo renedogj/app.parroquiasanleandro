@@ -52,7 +52,7 @@ public class FragmentGrupos extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         rvGrupos.setLayoutManager(linearLayoutManager);
 
-        grupos = Grupo.recuperarGruposLocal(context);
+        grupos = Grupo.recuperarGruposDeLocal(context);
         GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, Grupo.ID_PADRE, rvGrupos,vmIds);
         rvGrupos.setAdapter(grupoAdaptador);
 

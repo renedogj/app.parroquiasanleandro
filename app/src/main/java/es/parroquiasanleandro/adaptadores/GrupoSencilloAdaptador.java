@@ -77,7 +77,7 @@ public class GrupoSencilloAdaptador extends RecyclerView.Adapter<GrupoSencilloAd
 			linearLayoutGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 			imgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 			//Log.d("URL IMAGEN",Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen);
-			Glide.with(context).load(Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen).into(imgGrupo);
+			Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
 
 			/*if (grupo.key.equals("A")) {
 				Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imgGrupo);

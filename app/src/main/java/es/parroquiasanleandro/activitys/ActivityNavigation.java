@@ -97,25 +97,9 @@ public class ActivityNavigation extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         Grupo.actualizarGruposServidorToLocal(context);
 
-        Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-        //Log.d("MENU",Menu.menuOptionMap.size()+"");
-        //Usuario usuario = new Usuario();
-
-        /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            Menu.addCerrarSesion(navView);
-            Usuario.actualizarUsuarioLocal(context, user);
-        }
-
-        FirebaseDatabase.getInstance().getReference().child("infoGeneral").child("fechaModCategorias").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult().getValue() != null) {
-                long fechaModCategorias = task.getResult().getValue(long.class);
-                if(fechaModCategorias > Grupo.getMillisUltimaActualizacion(context)){
-                    Grupo.actualizarCategoriasServidorToLocal(context);
-                    Grupo.setMillisUltimaActualizacion(context,fechaModCategorias);
-                }
-            }
-        });*/
+        //Usuario.actualizarUsuarioDeServidorToLocal(Context context);
+        //Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+        Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context);
 
         if(usuario.getId() != null){
             Menu.addCerrarSesion(navView);
