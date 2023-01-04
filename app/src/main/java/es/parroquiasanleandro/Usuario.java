@@ -33,14 +33,12 @@ public class Usuario {
     private String id;
     public String nombre;
     public String email;
-    public HashMap<String, String> hashMapGrupos;
-    private Grupo[] grupos;
+    //public String numeroTelefono;
     public long fechaNacimiento;
     public String fotoPerfil;
-    //public String numeroTelefono;
-    //public boolean emailVerified;
+    public boolean emailVerificado;
+    private Grupo[] gruposSeguidos;
     public boolean esAdministrador;
-    public HashMap<String, String> hashMapGruposAdministrados;
     private Grupo[] gruposAdministrados;
 
     /*Constructors*/
@@ -50,28 +48,27 @@ public class Usuario {
     public Usuario(String nombre, String email) {
         this.nombre = nombre;
         this.email = email;
-        this.hashMapGrupos = new HashMap<>();
     }
 
     public Usuario(String nombre, String email, String numeroTelefono) {
         this.nombre = nombre;
         this.email = email;
         //this.numeroTelefono = numeroTelefono;
-        this.hashMapGrupos = new HashMap<>();
     }
 
     public Usuario(JSONObject jsonUsuario) throws JSONException {
         this.id = jsonUsuario.getString("id");
         this.nombre = jsonUsuario.getString("nombre");
         this.email = jsonUsuario.getString("email");
-        //this.suscripciones = jsonUsuario.getString("suscripciones");
-        //this.grupos = jsonUsuario.getString("grupos");
+        this.gruposSeguidos = Grupo.convertirGrupo(jsonUsuario.getJSONArray("grupos"));
         this.fechaNacimiento = jsonUsuario.getLong("fecha_nacimiento");
         this.fotoPerfil = jsonUsuario.getString("foto_perfil");
         //this.numeroTelefono = jsonUsuario.getString("telefono");
-        this.esAdministrador = jsonUsuario.getBoolean("esAdministrador");
-        //this.administraciones = jsonUsuario.getString("administraciones");
-        //this.categoriasAdministradas = jsonUsuario.getString("categoriasAdministradas");
+        this.emailVerificado = (jsonUsuario.getInt("email_verificado") == 1);
+        this.esAdministrador = (jsonUsuario.getInt("esAdministrador") == 1);
+        if(esAdministrador){
+            this.gruposAdministrados = Grupo.convertirGrupo(jsonUsuario.getJSONArray("gruposAdministrados"));
+        }
     }
 
     /*Getters*/
@@ -79,8 +76,8 @@ public class Usuario {
         return id;
     }
 
-    public Grupo[] getGrupos() {
-        return grupos;
+    public Grupo[] getGruposSeguidos() {
+        return gruposSeguidos;
     }
 
     public Grupo[] getGruposAdministrados() {
@@ -92,8 +89,8 @@ public class Usuario {
         this.id = id;
     }
 
-    public void setGrupos(Grupo[] grupos) {
-        this.grupos = grupos;
+    public void setGruposSeguidos(Grupo[] gruposSeguidos) {
+        this.gruposSeguidos = gruposSeguidos;
     }
 
     public void setGruposAdministrados(Grupo[] categoriasAdministradas) {
@@ -102,17 +99,17 @@ public class Usuario {
 
     /*Funciones*/
     public void addGrupo(Grupo grupo) {
-        List<Grupo> list = Arrays.asList(grupos);
+        List<Grupo> list = Arrays.asList(gruposSeguidos);
         List<Grupo> listGrupos = new ArrayList<>(list);
         listGrupos.add(grupo);
-        grupos = listGrupos.toArray(new Grupo[0]);
+        gruposSeguidos = listGrupos.toArray(new Grupo[0]);
     }
 
     public void removeGrupos(Grupo grupo) {
-        List<Grupo> list = Arrays.asList(grupos);
+        List<Grupo> list = Arrays.asList(gruposSeguidos);
         List<Grupo> listGrupos = new ArrayList<>(list);
         listGrupos.remove(grupo);
-        grupos = listGrupos.toArray(new Grupo[0]);
+        gruposSeguidos = listGrupos.toArray(new Grupo[0]);
     }
 
     public static Usuario actualizarUsuarioDeServidorToLocal(Context context) {
@@ -125,10 +122,10 @@ public class Usuario {
                     if (!jsonResult.getBoolean("error")) {
                         JSONObject jsonObject = jsonResult.getJSONArray("usuario").getJSONObject(0);
                         usuario.set(new Usuario(jsonObject));
-                        usuario.get().guardarUsuarioLocal(context);
+                        usuario.get().guardarUsuarioEnLocal(context);
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(context, "Se ha producido un error al recuperar la información del servidor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }, error -> {
@@ -145,31 +142,28 @@ public class Usuario {
         return usuario.get();
     }
 
-    public void guardarUsuarioLocal(Context context) {
+    public void guardarUsuarioEnLocal(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        if (hashMapGrupos != null) {
-            grupos = Grupo.convertirGrupo(hashMapGrupos.keySet().toArray(new String[0]), hashMapGrupos.values().toArray(new String[0]));
-            Grupo.guardarGruposSeguidosEnLocal(context, grupos);
+        if (gruposSeguidos.length != 0) {
+            Grupo.guardarGruposSeguidosEnLocal(context, gruposSeguidos);
         } else {
             //Si no sigue a ninguna grupo se pone automaticamente la grupo Padre (Avisos Generales)
             Grupo grupo = new Grupo(Grupo.ID_PADRE, Grupo.NOMBRE_PADRE);
             grupo.guardarGrupoSeguidoEnLocal(context);
         }
-        if (hashMapGruposAdministrados != null) {
-            gruposAdministrados = Grupo.convertirGrupo(hashMapGruposAdministrados.keySet().toArray(new String[0]), hashMapGruposAdministrados.values().toArray(new String[0]));
+        if (gruposAdministrados.length != 0) {
             Grupo.guardarGruposAdministradosEnLocal(context, gruposAdministrados);
         }
-        editor.putBoolean(ES_ADMINISTRADOR, esAdministrador);
-
         editor.putString(ID, id);
         editor.putString(NOMBRE, nombre);
         editor.putString(EMAIL, email);
         editor.putLong(MILLIS_FECHA_NACIMIENTO, fechaNacimiento);
         //editor.putString("fotoPerfil",user.getPhotoUrl());
         //editor.putString(NUMERO_TELEFONO, numeroTelefono);
-        //editor.putBoolean(EMAIL_VERIFIED, user.isEmailVerified());
+        editor.putBoolean(EMAIL_VERIFIED, emailVerificado);
+        editor.putBoolean(ES_ADMINISTRADOR, esAdministrador);
         editor.apply();
     }
 
@@ -181,8 +175,8 @@ public class Usuario {
         usuario.email = sharedPreferences.getString(EMAIL, null);
         usuario.fechaNacimiento = sharedPreferences.getLong(MILLIS_FECHA_NACIMIENTO, 0);
         //usuario.numeroTelefono = sharedPreferences.getString(NUMERO_TELEFONO, null);
-        usuario.grupos = Grupo.recuperarGruposSeguidosDeLocal(context);
-        //usuario.emailVerified = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);
+        usuario.gruposSeguidos = Grupo.recuperarGruposSeguidosDeLocal(context);
+        usuario.emailVerificado = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);
         usuario.esAdministrador = sharedPreferences.getBoolean(ES_ADMINISTRADOR, false);
         if (usuario.esAdministrador) {
             usuario.gruposAdministrados = Grupo.recuperarGruposAdministradosDeLocal(context);
@@ -193,12 +187,12 @@ public class Usuario {
     public static void borrarUsuarioLocal(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Grupo.vaciarTablasGruposSeguidosYAdministrados(context);
         editor.remove(ES_ADMINISTRADOR);
         editor.putString(ID, null);
         editor.putString(NOMBRE, null);
         editor.putString(EMAIL, null);
         //editor.putString(NUMERO_TELEFONO, null);
         editor.apply();
+        Grupo.vaciarTablasGruposSeguidosYAdministrados(context);
     }
 }

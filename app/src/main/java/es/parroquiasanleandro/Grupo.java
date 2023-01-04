@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -78,11 +79,22 @@ public class Grupo {
         this.posicion = posicion;
     }
 
-    public static Grupo[] convertirGrupo(String[] gruposKey, String[] gruposNombre) {
+    public static Grupo[] convertirGrupo(JSONArray jsonArrayGrupos) {
+        JSONObject jsonObject;
         List<Grupo> grupos = new ArrayList<>();
-        if (gruposKey.length == gruposNombre.length) {
-            for (int i = 0; i < gruposKey.length; i++) {
-                grupos.add(new Grupo(gruposKey[i], gruposNombre[i]));
+        for (int i = 0; i < jsonArrayGrupos.length(); i++) {
+            try {
+                jsonObject = jsonArrayGrupos.getJSONObject(i);
+                Grupo grupo = new Grupo(
+                        jsonObject.getString(Grupo.ID),
+                        jsonObject.getString(Grupo.NOMBRE),
+                        jsonObject.getString(Grupo.COLOR),
+                        jsonObject.getString(Grupo.IMAGEN)
+                );
+                grupos.add(grupo);
+
+            } catch (JSONException e) {
+                Log.e("ERROR JSON",e.getMessage());
             }
         }
         return grupos.toArray(new Grupo[0]);
@@ -157,28 +169,20 @@ public class Grupo {
         });
     }
 
-    public static Grupo[] guardarGruposEnLocal(Context context, JSONArray jsonArray) {
+    public static void guardarGruposEnLocal(Context context, JSONArray jsonArray) {
         FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         dbHelper.truncateTable(db, FeedReaderContract.TablaGrupos.TABLE_NAME);
 
         JSONObject jsonObject;
-        List<Grupo> grupos = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
                 jsonObject = jsonArray.getJSONObject(i);
-                Grupo grupo = new Grupo(
-                        jsonObject.getString(Grupo.ID),
-                        jsonObject.getString(Grupo.NOMBRE),
-                        jsonObject.getString(Grupo.COLOR),
-                        jsonObject.getString(Grupo.IMAGEN)
-                );
-                grupos.add(grupo);
                 ContentValues registro = new ContentValues();
-                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_ID, grupo.id);
-                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE, grupo.nombre);
-                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR, grupo.color);
-                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN, grupo.imagen);
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_ID, jsonObject.getString(Grupo.ID));
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE, jsonObject.getString(Grupo.NOMBRE));
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR, jsonObject.getString(Grupo.COLOR));
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN, jsonObject.getString(Grupo.IMAGEN));
 
                 db.insert(FeedReaderContract.TablaGrupos.TABLE_NAME, null, registro);
             } catch (JSONException e) {
@@ -186,7 +190,6 @@ public class Grupo {
             }
         }
         db.close();
-        return grupos.toArray(new Grupo[0]);
     }
 
     public static List<Grupo> recuperarGruposDeLocal(Context context) {

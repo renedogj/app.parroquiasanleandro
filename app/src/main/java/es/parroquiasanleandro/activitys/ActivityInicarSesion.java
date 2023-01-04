@@ -84,7 +84,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
                     if(!jsonResult.getBoolean("error")){
                         JSONObject jsonObject = jsonResult.getJSONArray("usuario").getJSONObject(0);
                         Usuario usuario = new Usuario(jsonObject);
-                        usuario.guardarUsuarioLocal(context);
+                        usuario.guardarUsuarioEnLocal(context);
                         //Grupo.actualizarGruposServidorToLocal(context);
                         startActivity(new Intent(context, ActivityNavigation.class));
                         finish();

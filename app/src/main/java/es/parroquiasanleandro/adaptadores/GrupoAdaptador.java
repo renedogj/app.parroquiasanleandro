@@ -138,7 +138,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         }
 
         public boolean comprobarSiGrupoGuardado(Grupo grupo){
-            for (Grupo grupoAux : usuario.getGrupos()){
+            for (Grupo grupoAux : usuario.getGruposSeguidos()){
                 if(grupoAux.id.equals(grupo.id) && grupoAux.nombre.equals(grupo.nombre)){
                     return true;
                 }

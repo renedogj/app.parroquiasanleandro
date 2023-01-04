@@ -89,7 +89,7 @@ public class ActivityRegistro extends AppCompatActivity {
 				JSONObject jsonResult = new JSONObject(result);
 				if(!jsonResult.getBoolean("error")){
 					Usuario usuario = new Usuario(nombre,email);
-					usuario.guardarUsuarioLocal(context);
+					usuario.guardarUsuarioEnLocal(context);
 				}else{
 					JSONObject jsonErrorInfo = jsonResult.getJSONObject("errorInfo");
 					if(jsonErrorInfo.getInt("errorCode") == 23000 && jsonErrorInfo.getInt("code")== 1062){

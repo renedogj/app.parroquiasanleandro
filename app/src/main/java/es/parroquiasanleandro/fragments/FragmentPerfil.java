@@ -110,7 +110,7 @@ public class FragmentPerfil extends Fragment {
 		linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
 		rvGruposUsuario.setLayoutManager(linearLayoutManager);
 
-		GrupoSencilloAdaptador grupoSencilloAdaptador = new GrupoSencilloAdaptador(context, Arrays.asList(usuario.getGrupos()));
+		GrupoSencilloAdaptador grupoSencilloAdaptador = new GrupoSencilloAdaptador(context, Arrays.asList(usuario.getGruposSeguidos()));
 		rvGruposUsuario.setAdapter(grupoSencilloAdaptador);
 
 		return view;
