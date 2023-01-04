@@ -189,7 +189,9 @@ public class Menu {
 				{FRAGMENT_AVISOS, R.drawable.ic_bell, R.drawable.ic_bell_black},
 				{FRAGMENT_HORARIO, R.drawable.ic_app, R.drawable.ic_app_black},
 				{FRAGMENT_PERFIL, R.drawable.ic_user, R.drawable.ic_user_black},
-				{FRAGMENT_CALENDARIO, R.drawable.ic_calendar, R.drawable.ic_calendar_black}
+				{FRAGMENT_CALENDARIO, R.drawable.ic_calendar, R.drawable.ic_calendar_black},
+				{FRAGMENT_GRUPOS, R.drawable.ic_grupos, R.drawable.ic_grupos_black},
+				{FRAGMENT_MERCADILLO, R.drawable.ic_mercadillo, R.drawable.ic_mercadillo_black}
 		};
 
 		switch (itemId) {
