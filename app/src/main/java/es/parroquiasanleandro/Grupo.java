@@ -8,8 +8,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
@@ -17,8 +19,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import es.parroquiasanleandro.bbdd_SQLite.FeedReaderContract;
 import es.parroquiasanleandro.bbdd_SQLite.FeedReaderDbHelper;
@@ -140,19 +144,60 @@ public class Grupo {
     /**
      * Suscribe al usuario a un grupo en la BBDD
      */
-    public void seguirGrupo(Context context, String id) {
-        guardarGrupoSeguidoEnLocal(context);
-        //add al servidor
-        //FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(id).child(SUSCRIPCIONES).child(key).setValue(nombre);
+    public void seguirGrupo(Context context, String idUsuario) {
+        Log.d("SEGUIR GRUPO", "147 -> " + id);
+        if(modificarServidorSeguirEliminarGrupo(context, idUsuario, false)){
+            guardarGrupoSeguidoEnLocal(context);
+        }
     }
 
     /**
-     * Elimina la suscripcion al usuario a un grupo en la BBDD
+     * Elimina la suscripcion del usuario a un grupo en la BBDD
      */
-    public void eliminarGrupoSeguido(Context context, String id) {
-        eliminarGrupoSeguidoDeLocal(context);
-        //eliminar del servidor
-        //FirebaseDatabase.getInstance().getReference().child(Usuario.USUARIOS).child(id).child(SUSCRIPCIONES).child(key).setValue(null);
+    public void eliminarGrupoSeguido(Context context, String idUsuario) {
+        if(modificarServidorSeguirEliminarGrupo(context, idUsuario, true)){
+            eliminarGrupoSeguidoDeLocal(context);
+        }
+    }
+
+    /**
+     * Modifica en el servidor el estado de siguiendo o no del usuario sobre el grupo
+     * (@param siguiendo == true) el usuario ya sigue el grupo y se elimina de sus seguidos
+     * (@param siguiendo == false) el usuario no sigue el grupo y lo añade a sus seguidos
+     *
+     * Devuelve un booleano que conprueba que ha funcionado correctamente
+     */
+    public boolean modificarServidorSeguirEliminarGrupo(Context context, String idUsuario, boolean siguiendo){
+        AtomicReference<Boolean> modificadoCorrectamente = new AtomicReference<>(false);
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(new StringRequest(Request.Method.POST, Url.modificarSeguirEliminarSeguido, result -> {
+            //Log.d("RESULT",result);
+            try {
+                JSONObject jsonResult = new JSONObject(result);
+                if (!jsonResult.getBoolean("error")) {
+                    modificadoCorrectamente.set(jsonResult.getBoolean("siguiendo") != siguiendo);
+                }
+            } catch (JSONException e) {
+                if(siguiendo){
+                    Toast.makeText(context, "Se ha producido un error al dejar de seguir la información del grupo", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "Se ha producido un error al seguir la información del grupo", Toast.LENGTH_SHORT).show();
+                }
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("siguiendo", siguiendo + "");
+                parametros.put("idUsuario", idUsuario);
+                parametros.put("idGrupo", id);
+                return parametros;
+            }
+        });
+        return modificadoCorrectamente.get();
     }
 
     public static void actualizarGruposServidorToLocal(Context context) {

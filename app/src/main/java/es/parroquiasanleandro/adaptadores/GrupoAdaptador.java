@@ -74,7 +74,6 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         private final LinearLayout linearLayoutContenedorGrupo;
         private final LinearLayout linearLayoutGrupo;
         private final TextView tvNombreGrupo;
-        //private final CardView cardContenedoraGrupo;
         private final CardView cardGrupoBoton;
         private final TextView tvMasGrupos;
         private final TextView tvBotonSeguir;
@@ -122,7 +121,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
                 if (grupoGuardado){
                     grupo.eliminarGrupoSeguido(context, usuario.getId());
                     grupoGuardado = false;
-                    usuario.removeGrupos(grupo);
+                    usuario.removeGrupo(grupo);
                 }else{
                     grupo.seguirGrupo(context, usuario.getId());
                     grupoGuardado = true;
@@ -161,16 +160,18 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
     }
 
     public void chekGruposPadre(Grupo grupo) {
-        List<String> categoriasKey = new ArrayList<>();
+        List<String> gruposId = new ArrayList<>();
         for (int i = 1; i <= grupo.id.length(); i++) {
-            if (!categoriasKey.contains(grupo.id.substring(0, i))) {
-                categoriasKey.add(grupo.id.substring(0, i));
+            if (!gruposId.contains(grupo.id.substring(0, i))) {
+                gruposId.add(grupo.id.substring(0, i));
             }
         }
-        for(Grupo grupo1 : grupos){
-            if(categoriasKey.contains(grupo1.id)){
-                grupo1.seguirGrupo(context, usuario.getId());
-                usuario.addGrupo(grupo1);
+        for(Grupo grupoAux : grupos){
+            if(gruposId.contains(grupoAux.id)){
+                if(!grupoAux.id.equals(grupo.id) || grupoAux.id.equals("A")){
+                    grupoAux.seguirGrupo(context, usuario.getId());
+                    usuario.addGrupo(grupoAux);
+                }
             }
         }
     }

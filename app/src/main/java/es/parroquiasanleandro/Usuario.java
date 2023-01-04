@@ -105,7 +105,7 @@ public class Usuario {
         gruposSeguidos = listGrupos.toArray(new Grupo[0]);
     }
 
-    public void removeGrupos(Grupo grupo) {
+    public void removeGrupo(Grupo grupo) {
         List<Grupo> list = Arrays.asList(gruposSeguidos);
         List<Grupo> listGrupos = new ArrayList<>(list);
         listGrupos.remove(grupo);
@@ -116,11 +116,11 @@ public class Usuario {
         AtomicReference<Usuario> usuario = new AtomicReference<>(Usuario.recuperarUsuarioLocal(context));
         if (usuario.get().id != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
-            requestQueue.add(new StringRequest(Request.Method.POST, Url.actualizarUsuario, result -> {
+            requestQueue.add(new StringRequest(Request.Method.POST, Url.actualizarUsuario, result -> { ;
                 try {
                     JSONObject jsonResult = new JSONObject(result);
                     if (!jsonResult.getBoolean("error")) {
-                        JSONObject jsonObject = jsonResult.getJSONArray("usuario").getJSONObject(0);
+                        JSONObject jsonObject = jsonResult.getJSONObject("usuario");
                         usuario.set(new Usuario(jsonObject));
                         usuario.get().guardarUsuarioEnLocal(context);
                     }
@@ -146,14 +146,14 @@ public class Usuario {
         SharedPreferences sharedPreferences = context.getSharedPreferences(USUARIO, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        if (gruposSeguidos.length != 0) {
+        if (gruposSeguidos != null && gruposSeguidos.length != 0) {
             Grupo.guardarGruposSeguidosEnLocal(context, gruposSeguidos);
         } else {
             //Si no sigue a ninguna grupo se pone automaticamente la grupo Padre (Avisos Generales)
             Grupo grupo = new Grupo(Grupo.ID_PADRE, Grupo.NOMBRE_PADRE);
             grupo.guardarGrupoSeguidoEnLocal(context);
         }
-        if (gruposAdministrados.length != 0) {
+        if (gruposAdministrados != null && gruposAdministrados.length != 0) {
             Grupo.guardarGruposAdministradosEnLocal(context, gruposAdministrados);
         }
         editor.putString(ID, id);
