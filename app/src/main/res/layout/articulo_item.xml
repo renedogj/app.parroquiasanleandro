@@ -13,43 +13,84 @@
     app:cardBackgroundColor="@color/blanco"
     app:cardCornerRadius="15dp">
 
+    <RelativeLayout
+        android:id="@+id/rllyt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvFlechaIzquierda"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="0dp"
+        android:background="@color/logo"
+        android:fontFamily="@font/nanum_gothic_extra_bold"
+        android:gravity="center"
+        android:text="&lt;"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:translationX="0dp"
+        android:translationZ="10dp" />
+
+    <ImageView
+        android:id="@+id/ivImagenArticulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:id="@+id/tvFlechaDerecha"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="0dp"
+        android:background="@color/logo"
+        android:fontFamily="@font/nanum_gothic_extra_bold"
+        android:gravity="center"
+        android:text="&gt;"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:translationX="0dp"
+        android:translationZ="10dp" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivImagenArticulo"
         android:orientation="vertical">
-        <ImageView
-            android:id="@+id/ivImagenArticulo"
+
+        <TextView
+            android:id="@+id/tvNombreArticulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="2dp" />
-        <LinearLayout
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvPrecio"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvNombreArticulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:text=""
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tvPrecio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:layout_marginTop="1dp"
-                android:text=""
-                android:textColor="@color/black"
-                tools:ignore="RtlHardcoded" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="14sp" />
     </LinearLayout>
+</RelativeLayout>
 </androidx.cardview.widget.CardView>

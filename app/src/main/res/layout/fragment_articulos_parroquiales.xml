@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blanco"
-    tools:context=".mercadillo.FragmentMercadillo">
+    tools:context=".fragments.FragmentMercadillo">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvArticulos"

@@ -1,4 +1,4 @@
-package es.parroquiasanleandro.mercadillo;
+package es.parroquiasanleandro.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -26,9 +26,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.parroquiasanleandro.Articulo;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.adaptadores.ArticuloAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentMercadillo extends Fragment {

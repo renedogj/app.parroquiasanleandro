@@ -1,4 +1,4 @@
-package es.parroquiasanleandro.mercadillo;
+package es.parroquiasanleandro;
 
 import org.json.JSONArray;
 import org.json.JSONException;

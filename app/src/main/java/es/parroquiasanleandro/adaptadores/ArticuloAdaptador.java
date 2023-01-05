@@ -1,4 +1,4 @@
-package es.parroquiasanleandro.mercadillo;
+package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import es.parroquiasanleandro.Articulo;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 
@@ -56,6 +57,9 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
         private ImageView ivImagenArticulo;
         private TextView tvNombreArticulo;
         private TextView tvPrecio;
+        private TextView tvFlechaIzquierda;
+        private TextView tvFlechaDerecha;
+        private int indexImagenesArticulo = 0;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -64,11 +68,27 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
             ivImagenArticulo = itemView.findViewById(R.id.ivImagenArticulo);
             tvNombreArticulo = itemView.findViewById(R.id.tvNombreArticulo);
             tvPrecio = itemView.findViewById(R.id.tvPrecio);
+            tvFlechaIzquierda = itemView.findViewById(R.id.tvFlechaIzquierda);
+            tvFlechaDerecha = itemView.findViewById(R.id.tvFlechaDerecha);
         }
 
         public void asignarValoresArticulo(Articulo articulo) {
             if(articulo.imagenes.get(0) != null){
                 Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(0)).into(ivImagenArticulo);
+                tvFlechaIzquierda.setOnClickListener(view -> {
+                    indexImagenesArticulo -= 1;
+                    if(indexImagenesArticulo < 0){
+                        indexImagenesArticulo = articulo.imagenes.size()-1;
+                    }
+                    Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(indexImagenesArticulo)).into(ivImagenArticulo);
+                });
+                tvFlechaDerecha.setOnClickListener(view -> {
+                    indexImagenesArticulo += 1;
+                    if(indexImagenesArticulo >= articulo.imagenes.size()){
+                        indexImagenesArticulo = 0;
+                    }
+                    Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(indexImagenesArticulo)).into(ivImagenArticulo);
+                });
             }
             tvNombreArticulo.setText(articulo.nombre);
             tvPrecio.setText(articulo.precio + "€");

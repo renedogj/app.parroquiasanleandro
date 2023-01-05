@@ -12,7 +12,7 @@ import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.fragments.FragmentHorario;
 import es.parroquiasanleandro.fragments.FragmentInicio;
 import es.parroquiasanleandro.fragments.FragmentPerfil;
-import es.parroquiasanleandro.mercadillo.FragmentMercadillo;
+import es.parroquiasanleandro.fragments.FragmentMercadillo;
 
 public class MenuOption {
     public String nombre;
