@@ -1,6 +1,7 @@
 package es.parroquiasanleandro.fragments;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,12 +57,23 @@ public class FragmentMercadillo extends Fragment {
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_articulos_parroquiales, container, false);
+        View view = inflater.inflate(R.layout.fragment_mercadillo, container, false);
 
         rvArticulos = view.findViewById(R.id.rvArticulos);
 
         rvArticulos.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context,2);
+        rvArticulos.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
+                if (parent.getChildLayoutPosition(view) % 2 != 0){
+                    outRect.top = 25;
+                    outRect.bottom = -25;
+                }else{
+                    outRect.top = 0;
+                }
+            }
+        });
         rvArticulos.setLayoutManager(gridLayoutManager);
 
         articulos = new ArrayList<>();

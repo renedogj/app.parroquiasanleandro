@@ -1,18 +1,17 @@
 package es.parroquiasanleandro.adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,7 +19,7 @@ import java.util.List;
 
 import es.parroquiasanleandro.Articulo;
 import es.parroquiasanleandro.R;
-import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.activitys.ActivityArticulo;
 
 public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.ViewHolder> {
     private Context context;
@@ -52,56 +51,45 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardArticulo;
-        private ImageView ivImagenArticulo;
+        private RecyclerView rvImagenesArticulo;
         private TextView tvNombreArticulo;
         private TextView tvPrecio;
-        private TextView tvFlechaIzquierda;
-        private TextView tvFlechaDerecha;
-        private int indexImagenesArticulo = 0;
+        //private ImageView ivImagenArticulo;
+        //private TextView tvFlechaIzquierda;
+        //private TextView tvFlechaDerecha;
+        //private int indexImagenesArticulo = 0;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             cardArticulo = itemView.findViewById(R.id.cardArticulo);
-            ivImagenArticulo = itemView.findViewById(R.id.ivImagenArticulo);
+            rvImagenesArticulo = itemView.findViewById(R.id.rvImagenesArticulo);
             tvNombreArticulo = itemView.findViewById(R.id.tvNombreArticulo);
             tvPrecio = itemView.findViewById(R.id.tvPrecio);
-            tvFlechaIzquierda = itemView.findViewById(R.id.tvFlechaIzquierda);
-            tvFlechaDerecha = itemView.findViewById(R.id.tvFlechaDerecha);
+            //ivImagenArticulo = itemView.findViewById(R.id.ivImagenArticulo);
+            //tvFlechaIzquierda = itemView.findViewById(R.id.tvFlechaIzquierda);
+            //tvFlechaDerecha = itemView.findViewById(R.id.tvFlechaDerecha);
         }
 
         public void asignarValoresArticulo(Articulo articulo) {
-            ivImagenArticulo.setMinimumHeight(Math.round(ivImagenArticulo.getWidth()*1.5f));
+            rvImagenesArticulo.setMinimumHeight(Math.round(rvImagenesArticulo.getWidth()*1.5f));
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+            linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+            rvImagenesArticulo.setLayoutManager(linearLayoutManager);
 
-            if(articulo.imagenes.size() > 1){
-                tvFlechaIzquierda.setVisibility(View.VISIBLE);
-                tvFlechaDerecha.setVisibility(View.VISIBLE);
-                tvFlechaIzquierda.setOnClickListener(view -> {
-                    indexImagenesArticulo -= 1;
-                    if(indexImagenesArticulo < 0){
-                        indexImagenesArticulo = articulo.imagenes.size()-1;
-                    }
-                    Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(indexImagenesArticulo)).into(ivImagenArticulo);
+            ImagenAdaptador imagenAdaptador = new ImagenAdaptador(context,articulo.id, articulo.imagenes);
+            rvImagenesArticulo.setAdapter(imagenAdaptador);
 
-                });
-                tvFlechaDerecha.setOnClickListener(view -> {
-                    indexImagenesArticulo += 1;
-                    if(indexImagenesArticulo >= articulo.imagenes.size()){
-                        indexImagenesArticulo = 0;
-                    }
-                    Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(indexImagenesArticulo)).into(ivImagenArticulo);
-                });
-            }
-
-            if(articulo.imagenes.get(0) != null){
-                Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(0)).into(ivImagenArticulo);
-            }
             tvNombreArticulo.setText(articulo.nombre);
             tvPrecio.setText(articulo.precio + "€");
-            ivImagenArticulo.setContentDescription(articulo.nombre);
+            rvImagenesArticulo.setOnClickListener(v -> {
+                Toast.makeText(context,articulo.nombre,Toast.LENGTH_SHORT).show();
+            });
 
             cardArticulo.setOnClickListener(v -> {
-                Toast.makeText(context,articulo.nombre,Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, ActivityArticulo.class);
+                intent.putExtra("idArticulo",articulo.id);
+                context.startActivity(intent);
             });
         }
     }

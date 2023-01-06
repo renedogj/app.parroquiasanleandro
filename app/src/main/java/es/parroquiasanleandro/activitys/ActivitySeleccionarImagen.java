@@ -41,7 +41,7 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
         /*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(grupo).listAll()
                 .addOnSuccessListener(listResult -> {
                     imagenes.addAll(listResult.getItems());
-                    ImagenesAvisoAdaptador imagenesAvisoAdaptador = new ImagenesAvisoAdaptador(context, (Activity) context,imagenes);
+                    ImagenAdaptador imagenesAvisoAdaptador = new ImagenAdaptador(context, (Activity) context,imagenes);
                     recyclerView.setAdapter(imagenesAvisoAdaptador);
                 })
                 .addOnFailureListener(e -> Log.e("STORAGE ERROR", e.getMessage()));*/

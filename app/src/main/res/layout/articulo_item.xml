@@ -4,12 +4,9 @@
     android:id="@+id/cardArticulo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="5dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginEnd="5dp"
-    android:layout_marginBottom="5dp"
+    android:layout_margin="6dp"
     android:padding="5dp"
-    app:cardBackgroundColor="@color/blanco"
+    app:cardBackgroundColor="@color/blanco_2"
     app:cardCornerRadius="15dp">
 
     <LinearLayout
@@ -18,7 +15,7 @@
         android:layout_margin="5dp"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <!--<RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -67,7 +64,11 @@
                 android:translationX="0dp"
                 android:translationZ="10dp"
                 android:visibility="gone" />
-        </RelativeLayout>
+        </RelativeLayout>-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvImagenesArticulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
