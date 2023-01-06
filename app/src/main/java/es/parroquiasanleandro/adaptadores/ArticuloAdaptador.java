@@ -23,7 +23,6 @@ import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 
 public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.ViewHolder> {
-
     private Context context;
     private List<Articulo> articulos;
 
@@ -52,7 +51,6 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         private CardView cardArticulo;
         private ImageView ivImagenArticulo;
         private TextView tvNombreArticulo;
@@ -73,14 +71,18 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
         }
 
         public void asignarValoresArticulo(Articulo articulo) {
-            if(articulo.imagenes.get(0) != null){
-                Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(0)).into(ivImagenArticulo);
+            ivImagenArticulo.setMinimumHeight(Math.round(ivImagenArticulo.getWidth()*1.5f));
+
+            if(articulo.imagenes.size() > 1){
+                tvFlechaIzquierda.setVisibility(View.VISIBLE);
+                tvFlechaDerecha.setVisibility(View.VISIBLE);
                 tvFlechaIzquierda.setOnClickListener(view -> {
                     indexImagenesArticulo -= 1;
                     if(indexImagenesArticulo < 0){
                         indexImagenesArticulo = articulo.imagenes.size()-1;
                     }
                     Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(indexImagenesArticulo)).into(ivImagenArticulo);
+
                 });
                 tvFlechaDerecha.setOnClickListener(view -> {
                     indexImagenesArticulo += 1;
@@ -89,6 +91,10 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
                     }
                     Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(indexImagenesArticulo)).into(ivImagenArticulo);
                 });
+            }
+
+            if(articulo.imagenes.get(0) != null){
+                Glide.with(context).load(Url.urlImagenes + articulo.imagenes.get(0)).into(ivImagenArticulo);
             }
             tvNombreArticulo.setText(articulo.nombre);
             tvPrecio.setText(articulo.precio + "€");
