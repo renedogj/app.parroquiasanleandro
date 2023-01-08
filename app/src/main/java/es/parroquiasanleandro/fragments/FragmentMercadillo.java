@@ -42,7 +42,8 @@ public class FragmentMercadillo extends Fragment {
 
     List<Articulo> articulos;
 
-    public FragmentMercadillo() {}
+    public FragmentMercadillo() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,23 +61,22 @@ public class FragmentMercadillo extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mercadillo, container, false);
 
         rvArticulos = view.findViewById(R.id.rvArticulos);
+        articulos = new ArrayList<>();
 
         rvArticulos.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
         rvArticulos.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
-            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state){
-                if (parent.getChildLayoutPosition(view) % 2 != 0){
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                if (parent.getChildLayoutPosition(view) % 2 != 0) {
                     outRect.top = 25;
                     outRect.bottom = -25;
-                }else{
+                } else {
                     outRect.top = 0;
                 }
             }
         });
         rvArticulos.setLayoutManager(gridLayoutManager);
-
-        articulos = new ArrayList<>();
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerArticulos, result -> {
@@ -84,7 +84,7 @@ public class FragmentMercadillo extends Fragment {
                 JSONArray jsonArrayArticulos = new JSONArray(result);
                 articulos.addAll(Articulo.JSONArrayToArticulos(jsonArrayArticulos));
 
-                if(!articulos.isEmpty()) {
+                if (!articulos.isEmpty()) {
                     ArticuloAdaptador articuloAdaptador = new ArticuloAdaptador(context, articulos);
                     rvArticulos.setAdapter(articuloAdaptador);
                 }
@@ -97,9 +97,9 @@ public class FragmentMercadillo extends Fragment {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String,String> parametros = new HashMap<>();
-                parametros.put("seleccionCategoria","0");
-                parametros.put("seleccionOrden","0");
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("seleccionCategoria", "0");
+                parametros.put("seleccionOrden", "0");
                 return parametros;
             }
         });

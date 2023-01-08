@@ -15,60 +15,11 @@
         android:layout_margin="5dp"
         android:orientation="vertical">
 
-        <!--<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvFlechaIzquierda"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginStart="0dp"
-                android:background="#4DFAFAFA"
-                android:fontFamily="@font/nanum_gothic_extra_bold"
-                android:gravity="center"
-                android:text="&lt;"
-                android:textColor="#BF646464"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:translationX="0dp"
-                android:translationZ="10dp"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/ivImagenArticulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:id="@+id/tvFlechaDerecha"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center"
-                android:layout_marginEnd="0dp"
-                android:background="#4DFAFAFA"
-                android:fontFamily="@font/nanum_gothic_extra_bold"
-                android:gravity="center"
-                android:text="&gt;"
-                android:textColor="#BF646464"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:translationX="0dp"
-                android:translationZ="10dp"
-                android:visibility="gone" />
-        </RelativeLayout>-->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvImagenesArticulo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -54,10 +54,6 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
         private RecyclerView rvImagenesArticulo;
         private TextView tvNombreArticulo;
         private TextView tvPrecio;
-        //private ImageView ivImagenArticulo;
-        //private TextView tvFlechaIzquierda;
-        //private TextView tvFlechaDerecha;
-        //private int indexImagenesArticulo = 0;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -66,29 +62,25 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
             rvImagenesArticulo = itemView.findViewById(R.id.rvImagenesArticulo);
             tvNombreArticulo = itemView.findViewById(R.id.tvNombreArticulo);
             tvPrecio = itemView.findViewById(R.id.tvPrecio);
-            //ivImagenArticulo = itemView.findViewById(R.id.ivImagenArticulo);
-            //tvFlechaIzquierda = itemView.findViewById(R.id.tvFlechaIzquierda);
-            //tvFlechaDerecha = itemView.findViewById(R.id.tvFlechaDerecha);
         }
 
         public void asignarValoresArticulo(Articulo articulo) {
-            rvImagenesArticulo.setMinimumHeight(Math.round(rvImagenesArticulo.getWidth()*1.5f));
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-            linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             rvImagenesArticulo.setLayoutManager(linearLayoutManager);
 
-            ImagenAdaptador imagenAdaptador = new ImagenAdaptador(context,articulo.id, articulo.imagenes);
+            ImagenAdaptador imagenAdaptador = new ImagenAdaptador(context, articulo.id, articulo.imagenes);
             rvImagenesArticulo.setAdapter(imagenAdaptador);
 
             tvNombreArticulo.setText(articulo.nombre);
             tvPrecio.setText(articulo.precio + "€");
+
             rvImagenesArticulo.setOnClickListener(v -> {
-                Toast.makeText(context,articulo.nombre,Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, articulo.nombre, Toast.LENGTH_SHORT).show();
             });
 
             cardArticulo.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ActivityArticulo.class);
-                intent.putExtra("idArticulo",articulo.id);
+                intent.putExtra("idArticulo", articulo.id);
                 context.startActivity(intent);
             });
         }
