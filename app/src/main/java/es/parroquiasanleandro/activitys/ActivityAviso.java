@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,7 +30,7 @@ import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.fecha.Fecha;
 
-public class ActivityAviso extends AppCompatActivity{
+public class ActivityAviso extends AppCompatActivity {
     Context context = ActivityAviso.this;
 
     private ImageView ivImagenAviso;
@@ -74,12 +76,23 @@ public class ActivityAviso extends AppCompatActivity{
                     }
                     tvDescripcion.setText(aviso.descripcion);
                     aviso.asignarColor(context, linearLayoutContenedorAviso);
+
+                    if (aviso.url != null &&!aviso.url.equals("")) {
+                        bttnUrl.setVisibility(View.VISIBLE);
+                    }
+
+                    if (aviso.archivo != null && !aviso.archivo.equals("")) {
+                        bttnArchivos.setVisibility(View.VISIBLE);
+                        Log.d("BTTNARCHIVOS",aviso.archivo);
+                    }
                 } else {
-                    Toast.makeText(context, jsonResult.getString("errorMensaje"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, jsonResult.getString("El aviso solicitado no existe"), Toast.LENGTH_SHORT).show();
+                    onBackPressed();
                 }
             } catch (JSONException e) {
                 Toast.makeText(context, "Se ha producido un error en el servidor al recuperar el aviso", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
+                onBackPressed();
             }
         }, error -> {
             Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
@@ -92,17 +105,31 @@ public class ActivityAviso extends AppCompatActivity{
             }
         });
 
+
         bttnUrl.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityWebView.class);
-            intent.putExtra("url","");
+            intent.putExtra("url", aviso.url);
             startActivity(intent);
         });
 
         bttnArchivos.setOnClickListener(v -> {
-            Uri uriUrl = Uri.parse("");
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(uriUrl, "application/pdf");
-            startActivity(intent);
+            Uri uriArchivo = Uri.parse(aviso.archivo);
+            if (uriArchivo.getLastPathSegment().endsWith(".pdf")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(uriArchivo, "application/pdf");
+                startActivity(intent);
+            }
+
+            if (uriArchivo.getLastPathSegment().endsWith(".docx") || uriArchivo.getLastPathSegment().endsWith(".doc")) {
+                //Intent intent = new Intent(Intent.ACTION_VIEW, uriArchivo);
+                Intent intent = new Intent(Intent.ACTION_QUICK_VIEW);
+                intent.setData(uriArchivo);
+                try {
+                    startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         });
     }
 }

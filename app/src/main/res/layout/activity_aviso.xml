@@ -36,11 +36,13 @@
                 android:id="@+id/bttnUrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="URL"/>
             <Button
                 android:id="@+id/bttnArchivos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="Archivo"/>
 
             <TextView

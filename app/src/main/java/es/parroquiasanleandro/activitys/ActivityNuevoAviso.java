@@ -30,8 +30,6 @@ import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.fecha.Fecha;
 import es.parroquiasanleandro.fecha.Mes;
 
-;
-
 public class ActivityNuevoAviso extends AppCompatActivity {
 	Context context = ActivityNuevoAviso.this;
 
@@ -234,9 +232,9 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 			}
 		}
 		if (fechaInicio.esIgualA(fechaFin)) {
-			return new Aviso(titulo, descripcion, grupoKey, fechaInicio, todoElDia, imagen, userUid);
+			return new Aviso(titulo, descripcion, grupoKey, fechaInicio, /*todoElDia,*/ imagen, userUid);
 		} else {
-			return new Aviso(titulo, descripcion, grupoKey, fechaInicio, fechaFin, todoElDia, imagen, userUid);
+			return new Aviso(titulo, descripcion, grupoKey, fechaInicio, fechaFin, /*todoElDia,*/ imagen, userUid);
 		}
 	}
 
