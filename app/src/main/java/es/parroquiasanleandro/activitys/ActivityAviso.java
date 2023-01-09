@@ -1,7 +1,10 @@
 package es.parroquiasanleandro.activitys;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,7 +28,7 @@ import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.fecha.Fecha;
 
-public class ActivityAviso extends AppCompatActivity {
+public class ActivityAviso extends AppCompatActivity{
     Context context = ActivityAviso.this;
 
     private ImageView ivImagenAviso;
@@ -34,6 +37,8 @@ public class ActivityAviso extends AppCompatActivity {
     private TextView tvFechaInicio;
     private TextView tvFechaFinal;
     private TextView tvDescripcion;
+    private Button bttnUrl;
+    private Button bttnArchivos;
 
     private Aviso aviso;
 
@@ -49,6 +54,9 @@ public class ActivityAviso extends AppCompatActivity {
         tvFechaFinal = findViewById(R.id.tvFechaFinal);
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
+        bttnUrl = findViewById(R.id.bttnUrl);
+        bttnArchivos = findViewById(R.id.bttnArchivos);
+
         String idAviso = getIntent().getStringExtra("idAviso");
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -59,7 +67,6 @@ public class ActivityAviso extends AppCompatActivity {
                     JSONObject jsonAviso = jsonResult.getJSONObject("aviso");
                     aviso = Aviso.JSONObjectToAviso(jsonAviso);
                     aviso.asignarImagen(context, ivImagenAviso);
-
                     tvTituloAviso.setText(aviso.titulo);
                     tvFechaInicio.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
                     if (aviso.getFechaFin() != null) {
@@ -79,10 +86,23 @@ public class ActivityAviso extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String,String> parametros = new HashMap<>();
-                parametros.put("idAviso",idAviso);
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idAviso", idAviso);
                 return parametros;
             }
+        });
+
+        bttnUrl.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivityWebView.class);
+            intent.putExtra("url","");
+            startActivity(intent);
+        });
+
+        bttnArchivos.setOnClickListener(v -> {
+            Uri uriUrl = Uri.parse("");
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setDataAndType(uriUrl, "application/pdf");
+            startActivity(intent);
         });
     }
 }

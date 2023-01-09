@@ -32,6 +32,17 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <Button
+                android:id="@+id/bttnUrl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="URL"/>
+            <Button
+                android:id="@+id/bttnArchivos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Archivo"/>
+
             <TextView
                 android:id="@+id/tvTituloAviso"
                 android:layout_width="match_parent"

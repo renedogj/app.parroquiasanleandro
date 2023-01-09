@@ -17,6 +17,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="s">
         <activity
+            android:name=".activitys.ActivityWebView"
+            android:exported="false" />
+        <activity
             android:name=".activitys.ActivityArticulo"
             android:exported="false" />
         <activity
@@ -40,7 +43,7 @@
             tools:ignore="LockedOrientationActivity" />
         <activity android:name=".activitys.ActivitySeleccionarImagen" />
         <activity android:name=".activitys.ActivityNuevoAviso" />
-        <activity android:name=".activitys.ActivityRegistro"></activity>
+        <activity android:name=".activitys.ActivityRegistro" />
         <activity android:name=".activitys.ActivityInicarSesion" />
         <!--
 <service

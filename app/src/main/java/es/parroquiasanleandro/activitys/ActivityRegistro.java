@@ -59,7 +59,7 @@ public class ActivityRegistro extends AppCompatActivity {
 
 		actionBar = getSupportActionBar();
 		if (actionBar != null) {
-			actionBar.setDisplayHomeAsUpEnabled(true); //True-> mostrar fecha ir atras
+			actionBar.setDisplayHomeAsUpEnabled(true); //True-> mostrar flecha ir atras
 			actionBar.setTitle("Registrarse");
 		}
 
