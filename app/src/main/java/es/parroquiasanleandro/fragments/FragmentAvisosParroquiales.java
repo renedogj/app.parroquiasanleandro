@@ -48,7 +48,7 @@ public class FragmentAvisosParroquiales extends Fragment {
     Usuario usuario;
     List<Aviso> avisos;
 
-    private ItemViewModel vmIds;
+    private ItemViewModel viewModel;
 
     public FragmentAvisosParroquiales() {}
 
@@ -60,9 +60,7 @@ public class FragmentAvisosParroquiales extends Fragment {
 
         usuario = Usuario.recuperarUsuarioLocal(context);
 
-        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_AVISOS);
-        vmIds.addIdFragmentActual();
+        viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
     }
 
     @Override
@@ -117,5 +115,12 @@ public class FragmentAvisosParroquiales extends Fragment {
         bttnNuevoAviso.setOnClickListener(v -> startActivity(new Intent(context, ActivityNuevoAviso.class)));
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.setIdFragmentActual(Menu.FRAGMENT_AVISOS);
+        viewModel.addIdFragmentActual();
     }
 }

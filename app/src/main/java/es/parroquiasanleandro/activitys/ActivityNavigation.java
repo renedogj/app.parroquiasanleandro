@@ -16,7 +16,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
@@ -27,7 +26,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.Menu;
@@ -79,8 +77,6 @@ public class ActivityNavigation extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
 
         viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
-        //viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
-        //viewModel.addIdFragmentActual();
         viewModel.setNavView(navView);
 
         actionBar = getSupportActionBar();
@@ -97,39 +93,37 @@ public class ActivityNavigation extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         Grupo.actualizarGruposServidorToLocal(context);
 
-        //Usuario.actualizarUsuarioDeServidorToLocal(Context context);
-        //Usuario usuario = Usuario.recuperarUsuarioLocal(context);
         Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context);
 
-        if(usuario.getId() != null){
+        if (usuario.getId() != null) {
             Menu.addCerrarSesion(navView);
         }
 
         linearLayoutInicio.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_INICIO) {
                 Menu.iniciarFragmentInicio(fragmentManager, actionBar);
-                Menu.asignarIconosMenu(navView,Menu.FRAGMENT_INICIO);
+                Menu.asignarIconosMenu(navView, Menu.FRAGMENT_INICIO);
             }
         });
 
         linearLayoutAvisos.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_AVISOS) {
                 Menu.iniciarFragmentAvisos(fragmentManager, actionBar);
-                Menu.asignarIconosMenu(navView,Menu.FRAGMENT_AVISOS);
+                Menu.asignarIconosMenu(navView, Menu.FRAGMENT_AVISOS);
             }
         });
 
         linearLayoutInformacion.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_HORARIO) {
                 Menu.iniciarFragmentHorario(fragmentManager, actionBar);
-                Menu.asignarIconosMenu(navView,Menu.FRAGMENT_HORARIO);
+                Menu.asignarIconosMenu(navView, Menu.FRAGMENT_HORARIO);
             }
         });
 
         linearLayoutPerfil.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_PERFIL) {
                 Menu.iniciarFragmentPerfil(usuario, activity, context, fragmentManager, actionBar);
-                Menu.asignarIconosMenu(navView,Menu.FRAGMENT_PERFIL);
+                Menu.asignarIconosMenu(navView, Menu.FRAGMENT_PERFIL);
             }
         });
 
@@ -138,30 +132,6 @@ public class ActivityNavigation extends AppCompatActivity {
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
-    }
-
-    /*@Override
-    protected void onRestart() {
-        super.onRestart();
-        //Log.d("ON RESTART","VM "+viewModel.getIdsFragment());
-        //Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
-    }*/
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*Log.d("ON RESUME","VM "+viewModel.getIdsFragment());
-        //viewModel.getIdsFragment().clear();
-        int listSize = viewModel.getIdsFragment().size();
-        if(listSize > 1){
-            for (int i = listSize/2; i < listSize-1; i++){
-                viewModel.getIdsFragment().remove(i);
-                //Log.d("ON RESUME","REMOVE "+viewModel.getIdsFragment().get(i));
-            }
-        }
-
-        Log.d("ON RESUME","VM "+viewModel.getIdsFragment());*/
-        Menu.asignarIconosMenu(navView,viewModel.getIdFragmentActual());
     }
 
     //Función que se ejecuta al selecionar una opción del menú
@@ -173,6 +143,9 @@ public class ActivityNavigation extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Los super.onBackPressed() deben ir al final para navegar al fragment anterior solo una vez borrado la información del fragment actual
+     */
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -180,31 +153,35 @@ public class ActivityNavigation extends AppCompatActivity {
         } else {
             int posUltimoFragment = viewModel.getIdsFragment().size() - 1;
             int ultimoFragment = viewModel.getIdsFragment().get(posUltimoFragment);
-            if(ultimoFragment == Menu.FRAGMENT_GRUPOS) {
-                if(!viewModel.getIdsGrupos().isEmpty()) {
+            if (ultimoFragment == Menu.FRAGMENT_GRUPOS) {
+                if (!viewModel.getIdsGrupos().isEmpty()) {
                     if (viewModel.getGrupoActual().equals(Grupo.ID_PADRE)) {
+                        //Si el grupo actual es el ID_PADRE al volver atras deber cerrar el fragment actual (FRAGMENT_GRUPOS)
+                        //Por eso borramos la información del fragment actual y la información de los grupos
+                        viewModel.getIdsFragment().remove(posUltimoFragment);
+                        if (!viewModel.getIdsFragment().isEmpty()) {
+                            //Si no es el último fragment (no debería serlo) asignamos los valores del nuevo fragment actual
+                            viewModel.setIdFragmentActual(viewModel.getIdsFragment().get(posUltimoFragment - 1));
+                            Menu.asignarIconosMenu(navView, viewModel.getIdFragmentActual());
+                        }
+                        viewModel.getIdsGrupos().clear();
+                        viewModel.setGrupoActual(null);
                         super.onBackPressed();
                     } else {
-                        int posUltimaCategoria = viewModel.getIdsGrupos().size() - 1;
-                        viewModel.getIdsGrupos().remove(posUltimaCategoria);
-                        viewModel.setGrupoActual(viewModel.getIdsGrupos().get(posUltimaCategoria - 1));
+                        //Si el grupoActual no es el ID_PADRE obtenemos el nuevo grupoActual y obtenemos sus subgrupos
+                        int posUltimoGrupo = viewModel.getIdsGrupos().size() - 1;
+                        viewModel.getIdsGrupos().remove(posUltimoGrupo);
+                        viewModel.setGrupoActual(viewModel.getIdsGrupos().get(posUltimoGrupo - 1));
                         List<Grupo> grupos = new ArrayList<>();
 
                         //Obtener grupos del servidor y asignarselas a rvCategorias de FragmentGrupos
-                        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Url.obtenerGrupos, response -> {
+                        Volley.newRequestQueue(context).add(new JsonArrayRequest(Url.obtenerGrupos, response -> {
                             JSONObject jsonObject;
                             grupos.clear();
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     jsonObject = response.getJSONObject(i);
-
-                                    Grupo grupo = new Grupo(
-                                            jsonObject.getString(Grupo.ID),
-                                            jsonObject.getString(Grupo.NOMBRE),
-                                            jsonObject.getString(Grupo.COLOR),
-                                            jsonObject.getString(Grupo.IMAGEN)
-                                    );
-                                    grupos.add(grupo);
+                                    grupos.add(new Grupo(jsonObject.getString(Grupo.ID), jsonObject.getString(Grupo.NOMBRE), jsonObject.getString(Grupo.COLOR), jsonObject.getString(Grupo.IMAGEN)));
                                 } catch (JSONException e) {
                                     Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -213,31 +190,27 @@ public class ActivityNavigation extends AppCompatActivity {
                             FragmentGrupos.rvGrupos.setAdapter(grupoAdaptador);
                         }, error -> {
                             Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() throws AuthFailureError {
-                                return super.getParams();
-                            }
-                        };
-
-                        requestQueue = Volley.newRequestQueue(context);
-                        requestQueue.add(jsonArrayRequest);
+                        }));
                     }
-                }else{
+                } else {
+                    //Quitamos el último fragmento (FRAGMENT_GRUPOS) pues si idsGrupos está vacio tiene que salir del fragment
+                    viewModel.getIdsFragment().remove(posUltimoFragment);
                     super.onBackPressed();
                 }
-            }else{
+            } else {
                 //Controlar pila de fragmentos y de grupos
-                super.onBackPressed();
                 viewModel.getIdsFragment().remove(posUltimoFragment);
                 if (!viewModel.getIdsFragment().isEmpty()) {
                     viewModel.setIdFragmentActual(viewModel.getIdsFragment().get(posUltimoFragment - 1));
                     Menu.asignarIconosMenu(navView, viewModel.getIdFragmentActual());
                     if (viewModel.getIdFragmentActual() == Menu.FRAGMENT_GRUPOS) {
+                        //Si el nuevo grupo actual el FRAGMENT_GRUPOS guardamos el grupo actual como el ID_PADRE
                         viewModel.getIdsGrupos().clear();
-                        onBackPressed();
+                        viewModel.setGrupoActual(Grupo.ID_PADRE);
+                        viewModel.addIdGrupo();
                     }
                 }
+                super.onBackPressed();
             }
         }
     }

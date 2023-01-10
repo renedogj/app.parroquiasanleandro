@@ -29,13 +29,17 @@ public class FragmentHorario extends Fragment {
         context = getContext();
 
         vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_HORARIO);
-        vmIds.addIdFragmentActual();
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_horario,container,false);
+        return inflater.inflate(R.layout.fragment_horario,container,false);
+    }
 
-        return view;
+    @Override
+    public void onResume() {
+        super.onResume();
+        vmIds.setIdFragmentActual(Menu.FRAGMENT_HORARIO);
+        vmIds.addIdFragmentActual();
     }
 }

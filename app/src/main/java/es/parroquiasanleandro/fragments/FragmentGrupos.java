@@ -27,19 +27,13 @@ public class FragmentGrupos extends Fragment {
 
     List<Grupo> grupos;
 
-    private ItemViewModel vmIds;
+    private ItemViewModel viewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         context = getContext();
-
-        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_GRUPOS);
-        vmIds.addIdFragmentActual();
-        vmIds.setGrupoActual(Grupo.ID_PADRE);
-        vmIds.addIdGrupo();
+        viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
     }
 
     @Override
@@ -53,9 +47,18 @@ public class FragmentGrupos extends Fragment {
         rvGrupos.setLayoutManager(linearLayoutManager);
 
         grupos = Grupo.recuperarGruposDeLocal(context);
-        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, Grupo.ID_PADRE, rvGrupos,vmIds);
+        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, Grupo.ID_PADRE, rvGrupos, viewModel);
         rvGrupos.setAdapter(grupoAdaptador);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.setIdFragmentActual(Menu.FRAGMENT_GRUPOS);
+        viewModel.addIdFragmentActual();
+        viewModel.setGrupoActual(Grupo.ID_PADRE);
+        viewModel.addIdGrupo();
     }
 }

@@ -37,16 +37,16 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
     public List<Grupo> gruposNivel = new ArrayList<>();
     public RecyclerView rvGrupos;
 
-    private final ItemViewModel vmIds;
+    private final ItemViewModel viewModel;
 
-    public GrupoAdaptador(Context context, List<Grupo> grupos, @NotNull String grupoPadre, RecyclerView rvGrupos, ItemViewModel vmIds) {
+    public GrupoAdaptador(Context context, List<Grupo> grupos, @NotNull String grupoPadre, RecyclerView rvGrupos, ItemViewModel viewModel) {
         this.context = context;
         this.grupos = grupos;
         this.grupoPadre = grupoPadre;
         this.rvGrupos = rvGrupos;
         usuario = Usuario.recuperarUsuarioLocal(context);
         obtenerGruposNivel();
-        this.vmIds = vmIds;
+        this.viewModel = viewModel;
     }
 
     @NonNull
@@ -107,9 +107,9 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
                 tvMasGrupos.setVisibility(View.VISIBLE);
                 tvMasGrupos.setOnClickListener(v -> {
                     if(existenSubniveles(grupo)) {
-                        vmIds.setGrupoActual(grupo.id);
-                        vmIds.addIdGrupo();
-                        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.id, rvGrupos,vmIds);
+                        viewModel.setGrupoActual(grupo.id);
+                        viewModel.addIdGrupo();
+                        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.id, rvGrupos, viewModel);
                         rvGrupos.setAdapter(grupoAdaptador);
                     }
                 });

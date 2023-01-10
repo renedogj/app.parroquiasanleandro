@@ -26,8 +26,7 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentCalendario extends Fragment {
 	private Context context;
-
-	private ItemViewModel vmIds;
+	private ItemViewModel viewModel;
 
 	private RecyclerView rvCalendario;
 	private TextView tvMes;
@@ -45,14 +44,10 @@ public class FragmentCalendario extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		context = getContext();
+		viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 
 		usuario = Usuario.recuperarUsuarioLocal(context);
-
-		vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-		vmIds.setIdFragmentActual(Menu.FRAGMENT_CALENDARIO);
-		vmIds.addIdFragmentActual();
 
 		fechaReferencia = Fecha.FechaActual();
 		fechaReferencia.convertirAPrimerDiaMes();
@@ -88,6 +83,13 @@ public class FragmentCalendario extends Fragment {
 		});
 
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		viewModel.setIdFragmentActual(Menu.FRAGMENT_CALENDARIO);
+		viewModel.addIdFragmentActual();
 	}
 
 	public void setCalendario(Usuario usuario) {

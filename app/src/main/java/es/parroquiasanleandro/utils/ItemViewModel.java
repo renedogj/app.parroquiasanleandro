@@ -8,6 +8,8 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.parroquiasanleandro.Menu;
+
 public class ItemViewModel extends ViewModel {
     int idFragmentActual;
     List<Integer> idsFragment = new ArrayList<>();
@@ -65,7 +67,14 @@ public class ItemViewModel extends ViewModel {
     }
 
     public void addIdFragmentActual(){
-        this.idsFragment.add(idFragmentActual);
+        if(idsFragment.size() > 0){
+            if((idsFragment.get(idsFragment.size() - 1)) != idFragmentActual){
+                this.idsFragment.add(idFragmentActual);
+            }
+        }else{
+            this.idsFragment.add(idFragmentActual);
+        }
+        Menu.asignarIconosMenu(navView, idFragmentActual);
     }
 
     public void addIdGrupo(){

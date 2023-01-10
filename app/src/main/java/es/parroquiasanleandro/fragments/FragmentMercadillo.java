@@ -36,7 +36,7 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentMercadillo extends Fragment {
     private Context context;
-    private ItemViewModel vmIds;
+    private ItemViewModel viewModel;
 
     private RecyclerView rvArticulos;
 
@@ -48,12 +48,8 @@ public class FragmentMercadillo extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         context = getContext();
-
-        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_MERCADILLO);
-        vmIds.addIdFragmentActual();
+        viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
     }
 
     @Override
@@ -104,5 +100,12 @@ public class FragmentMercadillo extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.setIdFragmentActual(Menu.FRAGMENT_MERCADILLO);
+        viewModel.addIdFragmentActual();
     }
 }

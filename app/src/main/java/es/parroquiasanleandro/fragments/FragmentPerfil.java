@@ -32,6 +32,7 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentPerfil extends Fragment {
 	private Context context;
+	private ItemViewModel viewModel;
 
 	private ImageView ivFotoPerfil;
 	private LinearLayout linearLayoutNombre;
@@ -44,7 +45,6 @@ public class FragmentPerfil extends Fragment {
 	private TextView tvFechaNacimiento;
 
 	private FragmentManager fragmentManager;
-	private ItemViewModel viewModel;
 
 	public FragmentPerfil() {
 	}
@@ -52,12 +52,8 @@ public class FragmentPerfil extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		context = getContext();
-
 		viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-		viewModel.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
-		viewModel.addIdFragmentActual();
 	}
 
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,5 +110,12 @@ public class FragmentPerfil extends Fragment {
 		rvGruposUsuario.setAdapter(grupoSencilloAdaptador);
 
 		return view;
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		viewModel.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
+		viewModel.addIdFragmentActual();
 	}
 }
