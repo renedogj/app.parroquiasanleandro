@@ -93,7 +93,7 @@ public class ActivityNavigation extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         Grupo.actualizarGruposServidorToLocal(context);
 
-        Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context);
+        Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context, activity);
 
         if (usuario.getId() != null) {
             Menu.addCerrarSesion(navView);

@@ -18,7 +18,7 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 public class FragmentHorario extends Fragment {
     private Context context;
 
-    private ItemViewModel vmIds;
+    private ItemViewModel viewModel;
 
     public FragmentHorario() {}
 
@@ -28,8 +28,7 @@ public class FragmentHorario extends Fragment {
 
         context = getContext();
 
-        vmIds = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-
+        viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +38,7 @@ public class FragmentHorario extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        vmIds.setIdFragmentActual(Menu.FRAGMENT_HORARIO);
-        vmIds.addIdFragmentActual();
+        viewModel.setIdFragmentActual(Menu.FRAGMENT_HORARIO);
+        viewModel.addIdFragmentActual();
     }
 }

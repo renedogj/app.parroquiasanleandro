@@ -61,11 +61,11 @@ public class ActivityInicarSesion extends AppCompatActivity {
         }
 
         imgButtonShowPassword.setOnClickListener(view -> {
-            changeShowPassword(etContraseña,imgButtonShowPassword);
+            changeShowPassword(etContraseña, imgButtonShowPassword);
         });
 
         bttnIniciarSesionGoogle.setOnClickListener(v -> {
-            Toast.makeText(context,"Inicio de sesion con google desactivado",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Inicio de sesion con google desactivado", Toast.LENGTH_SHORT).show();
         });
 
         bttnIniciarSesion.setOnClickListener(v -> iniciarSesion());
@@ -81,14 +81,13 @@ public class ActivityInicarSesion extends AppCompatActivity {
             requestQueue.add(new StringRequest(Request.Method.POST, Url.iniciarSesion, result -> {
                 try {
                     JSONObject jsonResult = new JSONObject(result);
-                    if(!jsonResult.getBoolean("error")){
-                        JSONObject jsonObject = jsonResult.getJSONArray("usuario").getJSONObject(0);
+                    if (!jsonResult.getBoolean("error")) {
+                        JSONObject jsonObject = jsonResult.getJSONObject("usuario");
                         Usuario usuario = new Usuario(jsonObject);
                         usuario.guardarUsuarioEnLocal(context);
-                        //Grupo.actualizarGruposServidorToLocal(context);
                         startActivity(new Intent(context, ActivityNavigation.class));
                         finish();
-                    }else{
+                    } else {
                         Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -100,9 +99,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
             }) {
                 @Override
                 protected Map<String, String> getParams() {
-                    Map<String,String> parametros = new HashMap<>();
-                    parametros.put("email",email);
-                    parametros.put("password",password);
+                    Map<String, String> parametros = new HashMap<>();
+                    parametros.put("email", email);
+                    parametros.put("password", password);
                     return parametros;
                 }
             });
@@ -111,11 +110,11 @@ public class ActivityInicarSesion extends AppCompatActivity {
         }
     }
 
-    public static void changeShowPassword(@NonNull EditText etContraseña, ImageButton imgButtonShowPassword){
-        if(etContraseña.getInputType() == INPUTTYPE_PWD){
+    public static void changeShowPassword(@NonNull EditText etContraseña, ImageButton imgButtonShowPassword) {
+        if (etContraseña.getInputType() == INPUTTYPE_PWD) {
             etContraseña.setInputType(INPUTTYPE_TEXT);
             imgButtonShowPassword.setImageResource(R.drawable.eye_24);
-        }else{
+        } else {
             etContraseña.setInputType(INPUTTYPE_PWD);
             imgButtonShowPassword.setImageResource(R.drawable.eye_crossed_24);
         }

@@ -1,6 +1,8 @@
 package es.parroquiasanleandro;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
@@ -18,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 
 public class Usuario {
     public static final String USUARIOS = "Usuarios";
@@ -112,7 +116,7 @@ public class Usuario {
         gruposSeguidos = listGrupos.toArray(new Grupo[0]);
     }
 
-    public static Usuario actualizarUsuarioDeServidorToLocal(Context context) {
+    public static Usuario actualizarUsuarioDeServidorToLocal(Context context, Activity activity) {
         AtomicReference<Usuario> usuario = new AtomicReference<>(Usuario.recuperarUsuarioLocal(context));
         if (usuario.get().id != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -123,6 +127,10 @@ public class Usuario {
                         JSONObject jsonObject = jsonResult.getJSONObject("usuario");
                         usuario.set(new Usuario(jsonObject));
                         usuario.get().guardarUsuarioEnLocal(context);
+                    }else{
+                        Usuario.borrarUsuarioLocal(context);
+                        context.startActivity(new Intent(context, ActivityNavigation.class));
+                        activity.finish();
                     }
                 } catch (JSONException e) {
                     Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();

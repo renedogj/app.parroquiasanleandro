@@ -23,8 +23,8 @@ import es.parroquiasanleandro.fragments.FragmentConfirmarPassword;
 import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.fragments.FragmentHorario;
 import es.parroquiasanleandro.fragments.FragmentInicio;
-import es.parroquiasanleandro.fragments.FragmentPerfil;
 import es.parroquiasanleandro.fragments.FragmentMercadillo;
+import es.parroquiasanleandro.fragments.FragmentPerfil;
 
 public class Menu {
 	public static final String INICIO = "Parroquia San Leandro";
@@ -63,16 +63,16 @@ public class Menu {
 		if (menuOption != null && idFragmentActual != menuOption.id) {
 			if (menuOption.nombre.equals(Menu.PERFIL)) {
 				iniciarFragmentPerfil(usuario, activity, context, fragmentManager, actionBar);
-			} else if(idFragment == CERRAR_SESION){
-				navView.getMenu().getItem(CERRAR_SESION).setVisible(false);
-				Usuario.borrarUsuarioLocal(context);
-				Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
-				context.startActivity(new Intent(context, ActivityNavigation.class));
-				activity.finish();
-			}else {
+			} else {
 				iniciarFragmentEstandar(menuOption, fragmentManager, actionBar);
 			}
 			asignarIconosMenu(navView, menuOption.id);
+		} else if(idFragment == CERRAR_SESION){
+			navView.getMenu().getItem(CERRAR_SESION).setVisible(false);
+			Usuario.borrarUsuarioLocal(context);
+			Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
+			context.startActivity(new Intent(context, ActivityNavigation.class));
+			activity.finish();
 		}
 	}
 
@@ -181,13 +181,13 @@ public class Menu {
 		Log.d("ASIGNAR ICONOS","FRAGMENT_HORARIO"+FRAGMENT_HORARIO);*/
 		ActivityNavigation.imgInicio.setImageResource(R.drawable.ic_home);
 		ActivityNavigation.imgAvisos.setImageResource(R.drawable.ic_bell);
-		ActivityNavigation.imgHorario.setImageResource(R.drawable.ic_app);
+		ActivityNavigation.imgHorario.setImageResource(R.drawable.ic_reloj);
 		ActivityNavigation.imgPerfil.setImageResource(R.drawable.ic_user);
 
 		int[][] items = {
 				{FRAGMENT_INICIO, R.drawable.ic_home, R.drawable.ic_home_black},
 				{FRAGMENT_AVISOS, R.drawable.ic_bell, R.drawable.ic_bell_black},
-				{FRAGMENT_HORARIO, R.drawable.ic_app, R.drawable.ic_app_black},
+				{FRAGMENT_HORARIO, R.drawable.ic_reloj, R.drawable.ic_reloj_black},
 				{FRAGMENT_PERFIL, R.drawable.ic_user, R.drawable.ic_user_black},
 				{FRAGMENT_CALENDARIO, R.drawable.ic_calendar, R.drawable.ic_calendar_black},
 				{FRAGMENT_GRUPOS, R.drawable.ic_grupos, R.drawable.ic_grupos_black},
@@ -202,7 +202,7 @@ public class Menu {
 				ActivityNavigation.imgAvisos.setImageResource(R.drawable.ic_bell_black);
 				break;
 			case FRAGMENT_HORARIO:
-				ActivityNavigation.imgHorario.setImageResource(R.drawable.ic_app_black);
+				ActivityNavigation.imgHorario.setImageResource(R.drawable.ic_reloj_black);
 				break;
 			case FRAGMENT_PERFIL:
 				ActivityNavigation.imgPerfil.setImageResource(R.drawable.ic_user_black);

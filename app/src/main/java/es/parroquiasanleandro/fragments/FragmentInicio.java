@@ -70,8 +70,6 @@ public class FragmentInicio extends Fragment {
 		activity = getActivity();
 
 		viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-		/*viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
-		viewModel.addIdFragmentActual();*/
 	}
 
 	public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
