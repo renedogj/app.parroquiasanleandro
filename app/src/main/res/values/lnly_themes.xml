@@ -14,9 +14,12 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="lnlytItemMenuNavigation" parent="size_1_2">
-        <item name="android:layout_weight">1</item>
+    <style name="lnly_1_2_v" parent="size_1_2">
         <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="lnlytItemMenuNavigation" parent="lnly_1_2_v">
+        <item name="android:layout_weight">1</item>
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
     </style>
@@ -34,11 +37,10 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="lnlytCardPerfil" parent="size_1_2">
+    <style name="lnlytCardPerfil" parent="lnly_1_2_v">
         <item name="android:layout_marginStart">18dp</item>
         <item name="android:layout_marginTop">7dp</item>
         <item name="android:layout_marginEnd">18dp</item>
         <item name="android:layout_marginBottom">7dp</item>
-        <item name="android:orientation">vertical</item>
     </style>
 </resources>

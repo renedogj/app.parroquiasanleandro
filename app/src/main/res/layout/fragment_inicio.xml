@@ -28,7 +28,7 @@
                     style="@style/texto_1_2_Oscuro"
                     android:fontFamily="@font/nanum_gothic_bold"
                     android:gravity="center"
-                    android:textSize="@dimen/subtitle" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -51,7 +51,7 @@
                     style="@style/texto_1_2_Oscuro"
                     android:gravity="center"
                     android:text="Avisos Semanales"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView

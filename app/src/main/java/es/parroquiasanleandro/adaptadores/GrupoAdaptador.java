@@ -96,9 +96,9 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         public void asignarValores(Grupo grupo) {
             this.grupo = grupo;
 
+            linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
             Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
-            linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 
             checkGrupo(comprobarSiGrupoGuardado(grupo));
 

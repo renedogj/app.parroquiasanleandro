@@ -110,11 +110,12 @@
 
                 <TextView
                     style="@style/texto_1_2_Oscuro"
-                    android:gravity="center"
+                    android:paddingStart="15dp"
                     android:paddingTop="8dp"
+                    android:paddingEnd="15dp"
                     android:paddingBottom="8dp"
                     android:text="*Confesiones media hora antes de la eucaristía"
-                    android:textSize="15dp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

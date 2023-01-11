@@ -54,15 +54,17 @@ public class GrupoSencilloAdaptador extends RecyclerView.Adapter<GrupoSencilloAd
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
 
-		private final LinearLayout linearLayoutGrupo;
-		private final TextView tvNombreGrupo;
-		private final CardView cardImgGrupo;
-		private final ImageView imgGrupo;
+		private LinearLayout linearLayoutContenedorGrupo;
+		private LinearLayout linearLayoutGrupo;
+		private TextView tvNombreGrupo;
+		private CardView cardImgGrupo;
+		private ImageView imgGrupo;
 
 		public Grupo grupo;
 
 		public ViewHolder(View itemView) {
 			super(itemView);
+			linearLayoutContenedorGrupo = itemView.findViewById(R.id.linearLayoutContenedorGrupo);
 			linearLayoutGrupo = itemView.findViewById(R.id.linearLayoutGrupo);
 			tvNombreGrupo = itemView.findViewById(R.id.tvNombreGrupo);
 			cardImgGrupo = itemView.findViewById(R.id.cardImgGrupo);
@@ -72,12 +74,16 @@ public class GrupoSencilloAdaptador extends RecyclerView.Adapter<GrupoSencilloAd
 		public void asignarValores(Grupo grupo) {
 			this.grupo = grupo;
 
-
-			tvNombreGrupo.setText(grupo.nombre);
-			linearLayoutGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-			imgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-			//Log.d("URL IMAGEN",Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen);
+			linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
 			Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
+			tvNombreGrupo.setText(grupo.nombre);
+
+
+			//tvNombreGrupo.setText(grupo.nombre);
+			//linearLayoutGrupo.setBackgroundColor(Color.parseColor(grupo.color));
+			//imgGrupo.setBackgroundColor(Color.parseColor(grupo.color));
+			//Log.d("URL IMAGEN",Url.obtenerImagenAviso + grupo.key +"/img/" + grupo.imagen);
+			//Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
 
 			/*if (grupo.key.equals("A")) {
 				Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imgGrupo);

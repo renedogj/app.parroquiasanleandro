@@ -86,6 +86,7 @@
 
                         <LinearLayout
                             style="@style/size_1_2"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -94,7 +95,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:text=""
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <Space
                                 android:layout_width="10dp"
@@ -152,6 +153,7 @@
 
                         <LinearLayout
                             style="@style/size_1_2"
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal">
 
                             <TextView
@@ -160,7 +162,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:text=""
-                                android:textSize="16sp" />
+                                android:textSize="14sp" />
 
                             <Space
                                 android:layout_width="10dp"

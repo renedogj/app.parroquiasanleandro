@@ -51,7 +51,7 @@
                 android:text=""
                 android:textAllCaps="true"
                 android:textColor="#E7E6E7"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#E7E6E7"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
