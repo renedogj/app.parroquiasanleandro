@@ -91,7 +91,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 		}else{
 			nombreGruposAdministrados = new String[0];
 		}
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_grupo_item, nombreGruposAdministrados);
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.item_spinner_grupo, nombreGruposAdministrados);
 		spinnerGrupo.setAdapter(adapter);
 
 		switchTodoElDia.setOnCheckedChangeListener((buttonView, isChecked) -> {

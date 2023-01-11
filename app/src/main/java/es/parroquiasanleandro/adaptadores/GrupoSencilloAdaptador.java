@@ -37,7 +37,7 @@ public class GrupoSencilloAdaptador extends RecyclerView.Adapter<GrupoSencilloAd
 	@NotNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(context).inflate(R.layout.grupo_sencillo_item, parent, false);
+		View view = LayoutInflater.from(context).inflate(R.layout.item_grupo_sencillo, parent, false);
 		return new ViewHolder(view);
 	}
 

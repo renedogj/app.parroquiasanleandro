@@ -34,7 +34,7 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.articulo_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_articulo, parent, false);
         return new ViewHolder(view);
     }
 

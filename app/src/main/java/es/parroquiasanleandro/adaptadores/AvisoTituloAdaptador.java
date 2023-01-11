@@ -32,7 +32,7 @@ public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdapta
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.aviso_titulo_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_aviso_titulo, parent, false);
         return new ViewHolder(view);
     }
 

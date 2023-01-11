@@ -46,7 +46,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 	@NotNull
 	@Override
 	public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-		View view = LayoutInflater.from(context).inflate(R.layout.dia_item, parent, false);
+		View view = LayoutInflater.from(context).inflate(R.layout.item_dia, parent, false);
 		return new DiaAdaptador.ViewHolder(view);
 	}
 

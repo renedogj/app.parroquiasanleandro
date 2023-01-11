@@ -52,7 +52,7 @@ public class MenuIncioAdaptador extends RecyclerView.Adapter<MenuIncioAdaptador.
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.menu_inicio_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_menu_inicio, parent, false);
         return new ViewHolder(view);
     }
 
