@@ -100,7 +100,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
 
-            checkGrupo(comprobarSiGrupoGuardado(grupo));
+            checkGrupo(isGrupoGuardado(grupo));
 
             if(existenSubniveles(grupo)){
                 tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -136,7 +136,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             });
         }
 
-        public boolean comprobarSiGrupoGuardado(Grupo grupo){
+        public boolean isGrupoGuardado(Grupo grupo){
             for (Grupo grupoAux : usuario.getGruposSeguidos()){
                 if(grupoAux.id.equals(grupo.id) && grupoAux.nombre.equals(grupo.nombre)){
                     return true;
@@ -157,20 +157,20 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
                 tvBotonSeguir.setText("Seguir");
             }
         }
-    }
 
-    public void chekGruposPadre(Grupo grupo) {
-        List<String> gruposId = new ArrayList<>();
-        for (int i = 1; i <= grupo.id.length(); i++) {
-            if (!gruposId.contains(grupo.id.substring(0, i))) {
-                gruposId.add(grupo.id.substring(0, i));
+        public void chekGruposPadre(Grupo grupo) {
+            List<String> gruposId = new ArrayList<>();
+            for (int i = 1; i <= grupo.id.length(); i++) {
+                if (!gruposId.contains(grupo.id.substring(0, i))) {
+                    gruposId.add(grupo.id.substring(0, i));
+                }
             }
-        }
-        for(Grupo grupoAux : grupos){
-            if(gruposId.contains(grupoAux.id)){
-                if(!grupoAux.id.equals(grupo.id) || grupoAux.id.equals("A")){
-                    grupoAux.seguirGrupo(context, usuario.getId());
-                    usuario.addGrupo(grupoAux);
+            for(Grupo grupoAux : grupos){
+                if(gruposId.contains(grupoAux.id)){
+                    if(!grupoAux.id.equals(grupo.id) && !isGrupoGuardado(grupoAux)){
+                        grupoAux.seguirGrupo(context, usuario.getId());
+                        usuario.addGrupo(grupoAux);
+                    }
                 }
             }
         }

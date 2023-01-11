@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
 
 import es.parroquiasanleandro.bbdd_SQLite.FeedReaderContract;
 import es.parroquiasanleandro.bbdd_SQLite.FeedReaderDbHelper;
@@ -142,40 +141,38 @@ public class Grupo {
     }*/
 
     /**
-     * Suscribe al usuario a un grupo en la BBDD
+     * Suscribe al usuario a un grupo en la BBDD y en local
      */
     public void seguirGrupo(Context context, String idUsuario) {
-        Log.d("SEGUIR GRUPO", "147 -> " + id);
-        if(modificarServidorSeguirEliminarGrupo(context, idUsuario, false)){
-            guardarGrupoSeguidoEnLocal(context);
-        }
+        modificarServidorSeguirEliminarGrupo(context, idUsuario, false);
+        guardarGrupoSeguidoEnLocal(context);
+
     }
 
     /**
-     * Elimina la suscripcion del usuario a un grupo en la BBDD
+     * Elimina la suscripcion del usuario a un grupo en la BBDD y en local
      */
     public void eliminarGrupoSeguido(Context context, String idUsuario) {
-        if(modificarServidorSeguirEliminarGrupo(context, idUsuario, true)){
-            eliminarGrupoSeguidoDeLocal(context);
-        }
+        modificarServidorSeguirEliminarGrupo(context, idUsuario, true);
+        eliminarGrupoSeguidoDeLocal(context);
     }
 
     /**
      * Modifica en el servidor el estado de siguiendo o no del usuario sobre el grupo
      * (@param siguiendo == true) el usuario ya sigue el grupo y se elimina de sus seguidos
      * (@param siguiendo == false) el usuario no sigue el grupo y lo añade a sus seguidos
-     *
-     * Devuelve un booleano que conprueba que ha funcionado correctamente
      */
-    public boolean modificarServidorSeguirEliminarGrupo(Context context, String idUsuario, boolean siguiendo){
-        AtomicReference<Boolean> modificadoCorrectamente = new AtomicReference<>(false);
+    public void modificarServidorSeguirEliminarGrupo(Context context, String idUsuario, boolean siguiendo){
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.modificarSeguirEliminarSeguido, result -> {
-            //Log.d("RESULT",result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
-                if (!jsonResult.getBoolean("error")) {
-                    modificadoCorrectamente.set(jsonResult.getBoolean("siguiendo") != siguiendo);
+                if (jsonResult.getBoolean("error")) {
+                    if(siguiendo){
+                        Toast.makeText(context, "Se ha producido un error al dejar de seguir la información del grupo", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, "Se ha producido un error al seguir la información del grupo", Toast.LENGTH_SHORT).show();
+                    }
                 }
             } catch (JSONException e) {
                 if(siguiendo){
@@ -197,7 +194,6 @@ public class Grupo {
                 return parametros;
             }
         });
-        return modificadoCorrectamente.get();
     }
 
     public static void actualizarGruposServidorToLocal(Context context) {
