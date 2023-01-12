@@ -27,8 +27,8 @@ import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
-import es.parroquiasanleandro.fecha.Fecha;
-import es.parroquiasanleandro.fecha.Mes;
+import es.renedogj.fecha.Fecha;
+import es.renedogj.fecha.Mes;
 
 public class ActivityNuevoAviso extends AppCompatActivity {
 	Context context = ActivityNuevoAviso.this;

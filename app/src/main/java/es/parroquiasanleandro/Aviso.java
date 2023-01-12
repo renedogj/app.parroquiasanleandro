@@ -14,7 +14,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import es.parroquiasanleandro.fecha.Fecha;
+import es.renedogj.fecha.Fecha;
 
 public class Aviso {
 	public static final String AVISOS = "Avisos";

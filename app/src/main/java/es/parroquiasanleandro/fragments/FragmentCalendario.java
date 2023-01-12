@@ -21,7 +21,7 @@ import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.adaptadores.DiaAdaptador;
-import es.parroquiasanleandro.fecha.Fecha;
+import es.renedogj.fecha.Fecha;
 import es.parroquiasanleandro.utils.ItemViewModel;
 import es.renedogj.monthpicker.MonthPicker;
 
@@ -86,7 +86,7 @@ public class FragmentCalendario extends Fragment {
 		tvMes.setOnClickListener(v -> {
 			MonthPicker monthPicker = new MonthPicker(context);
 			monthPicker.setColorTheme(R.color.black);
-			monthPicker.setLocale(Locale.forLanguageTag("ES"));
+			monthPicker.setLocale(Locale.forLanguageTag("Es"));
 			monthPicker.setPositiveButton((month, startDate, endDate, year, monthLabel) -> {
 				fechaReferencia.setMes(month - 1);
 				fechaReferencia.convertirAPrimerDiaMes();

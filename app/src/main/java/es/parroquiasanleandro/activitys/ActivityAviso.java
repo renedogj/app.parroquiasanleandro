@@ -28,7 +28,7 @@ import java.util.Map;
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
-import es.parroquiasanleandro.fecha.Fecha;
+import es.renedogj.fecha.Fecha;
 
 public class ActivityAviso extends AppCompatActivity {
     Context context = ActivityAviso.this;

@@ -20,7 +20,7 @@ import java.util.List;
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.activitys.ActivityAviso;
-import es.parroquiasanleandro.fecha.Fecha;
+import es.renedogj.fecha.Fecha;
 
 public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHolder> {
 

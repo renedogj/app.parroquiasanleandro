@@ -27,8 +27,8 @@ import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.activitys.ActivityCambiarCorreo;
 import es.parroquiasanleandro.adaptadores.GrupoSencilloAdaptador;
-import es.parroquiasanleandro.fecha.Fecha;
 import es.parroquiasanleandro.utils.ItemViewModel;
+import es.renedogj.fecha.Fecha;
 
 public class FragmentPerfil extends Fragment {
 	private Context context;

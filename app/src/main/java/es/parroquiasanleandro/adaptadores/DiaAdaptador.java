@@ -20,7 +20,7 @@ import java.util.List;
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
-import es.parroquiasanleandro.fecha.Fecha;
+import es.renedogj.fecha.Fecha;
 
 public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> {
 	public static final int TAMAÑO_GRANDE = 184;
