@@ -44,7 +44,6 @@ public class Menu {
 	public static final int FRAGMENT_GRUPOS = R.id.nav_fragment_grupos;
 	public static final int CERRAR_SESION = 1;
 
-	//public static Map<String, MenuOption> menuItemMap = new ArrayMap<String, MenuOption>();
 	public static Map<Integer, MenuOption> menuOptionMap = MenuOption.obtenerMapMenuOptions();
 
 	//Constructor privado para que no se pueda inicializar

@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.adaptadores.DiaAdaptador;
-import es.renedogj.fecha.Fecha;
 import es.parroquiasanleandro.utils.ItemViewModel;
+import es.renedogj.fecha.Fecha;
+import es.renedogj.fecha.Mes;
 import es.renedogj.monthpicker.MonthPicker;
 
 public class FragmentCalendario extends Fragment {
@@ -85,8 +85,7 @@ public class FragmentCalendario extends Fragment {
 
 		tvMes.setOnClickListener(v -> {
 			MonthPicker monthPicker = new MonthPicker(context);
-			monthPicker.setColorTheme(R.color.black);
-			monthPicker.setLocale(Locale.forLanguageTag("Es"));
+			monthPicker.setMesesAbr(Mes.getAbreviaturas(Mes.FormatosMes.Mes_));
 			monthPicker.setPositiveButton((month, startDate, endDate, year, monthLabel) -> {
 				fechaReferencia.setMes(month - 1);
 				fechaReferencia.convertirAPrimerDiaMes();
