@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
@@ -21,8 +23,7 @@ import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.adaptadores.DiaAdaptador;
 import es.parroquiasanleandro.fecha.Fecha;
 import es.parroquiasanleandro.utils.ItemViewModel;
-
-;
+import es.renedogj.monthpicker.MonthPicker;
 
 public class FragmentCalendario extends Fragment {
 	private Context context;
@@ -80,6 +81,19 @@ public class FragmentCalendario extends Fragment {
 			fechaReferencia.sumMeses(1);
 			fechaReferencia.actualizarDiaSemana();
 			setCalendario(usuario);
+		});
+
+		tvMes.setOnClickListener(v -> {
+			MonthPicker monthPicker = new MonthPicker(context);
+			monthPicker.setColorTheme(R.color.black);
+			monthPicker.setLocale(Locale.forLanguageTag("ES"));
+			monthPicker.setPositiveButton((month, startDate, endDate, year, monthLabel) -> {
+				fechaReferencia.setMes(month - 1);
+				fechaReferencia.convertirAPrimerDiaMes();
+				fechaReferencia.año = year;
+				tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
+			});
+			monthPicker.setNegativeButton(Dialog::dismiss).show();
 		});
 
 		return view;

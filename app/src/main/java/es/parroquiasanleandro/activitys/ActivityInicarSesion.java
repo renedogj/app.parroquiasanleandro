@@ -47,11 +47,11 @@ public class ActivityInicarSesion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iniciar_sesion);
 
-        bttnIniciarSesionGoogle = findViewById(R.id.bttnIniciarSesionGoogle);
+        bttnIniciarSesionGoogle = findViewById(R.id.btnIniciarSesionGoogle);
         etCorreoElectronico = findViewById(R.id.etCorreoElectronico);
         etContraseña = findViewById(R.id.etContraseña);
-        imgButtonShowPassword = findViewById(R.id.imgButtonShowPassword);
-        bttnIniciarSesion = findViewById(R.id.bttnIniciarSesion);
+        imgButtonShowPassword = findViewById(R.id.imgBtnShowPassword);
+        bttnIniciarSesion = findViewById(R.id.btnIniciarSesion);
         linearLayoutRegistrarse = findViewById(R.id.linearLayoutRegistrarse);
 
         actionBar = getSupportActionBar();

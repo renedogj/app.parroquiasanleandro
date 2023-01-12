@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParroquiaSanLeandro"
         android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup"
         tools:targetApi="s">
         <activity
             android:name=".activitys.ActivityWebView"

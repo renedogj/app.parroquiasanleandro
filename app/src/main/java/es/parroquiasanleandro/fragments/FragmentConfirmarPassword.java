@@ -34,7 +34,7 @@ public class FragmentConfirmarPassword extends Fragment {
 		View view = inflater.inflate(R.layout.fragment_confirmar_password, container, false);
 
 		etConfirmacionPassword = view.findViewById(R.id.etConfirmacionPassword);
-		imgButtonShowPassword = view.findViewById(R.id.imgButtonShowPassword);
+		imgButtonShowPassword = view.findViewById(R.id.imgBtnShowPassword);
 		bttnConfirmarContraseña = view.findViewById(R.id.bttnConfirmarContraseña);
 
 		//FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

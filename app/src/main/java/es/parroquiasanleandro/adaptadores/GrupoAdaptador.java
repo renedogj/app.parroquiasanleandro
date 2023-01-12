@@ -87,7 +87,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             linearLayoutContenedorGrupo = itemView.findViewById(R.id.linearLayoutContenedorGrupo);
             linearLayoutGrupo = itemView.findViewById(R.id.linearLayoutGrupo);
             tvNombreGrupo = itemView.findViewById(R.id.tvNombreGrupo);
-            cardGrupoBoton = itemView.findViewById(R.id.cardGrupoBoton);
+            cardGrupoBoton = itemView.findViewById(R.id.cardGrupoBotonSeguir);
             tvMasGrupos = itemView.findViewById(R.id.tvMasGrupos);
             tvBotonSeguir = itemView.findViewById(R.id.tvBotonSeguir);
             imgGrupo = itemView.findViewById(R.id.imgGrupo);

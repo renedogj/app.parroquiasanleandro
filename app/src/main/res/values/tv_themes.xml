@@ -13,6 +13,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/gris</item>
     </style>
 
     <style name="tvTituloHorario" parent="texto_1_2_Oscuro">

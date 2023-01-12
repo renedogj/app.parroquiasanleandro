@@ -79,7 +79,7 @@
                     </LinearLayout>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/cardGrupoBoton"
+                        android:id="@+id/cardGrupoBotonSeguir"
                         android:layout_width="0dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center"

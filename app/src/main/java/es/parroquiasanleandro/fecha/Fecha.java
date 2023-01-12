@@ -80,6 +80,15 @@ public class Fecha {
 		actualizarDiaSemana();
 	}
 
+	//SETTERS
+	public void setMes(Mes mes) {
+		this.mes = mes;
+	}
+
+	public void setMes(int mes) {
+		this.mes = Mes.values()[mes];
+	}
+
 	//METODOS
 
 	/**

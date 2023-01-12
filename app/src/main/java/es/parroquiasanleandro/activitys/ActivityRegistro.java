@@ -54,7 +54,7 @@ public class ActivityRegistro extends AppCompatActivity {
 		etCorreoElectronico = findViewById(R.id.etCorreoElectronico);
 		etPassword = findViewById(R.id.etContraseña);
 		etComprobarPassword = findViewById(R.id.etComprobarContraseña);
-		bttnRegistrarse = findViewById(R.id.bttnRegistrarse);
+		bttnRegistrarse = findViewById(R.id.btnRegistrarse);
 		linearLayoutIniciarSesion = findViewById(R.id.linearLayoutIniciarSesion);
 
 		actionBar = getSupportActionBar();

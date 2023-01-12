@@ -5,9 +5,13 @@
     <color name="red">#FF0000</color>
     <color name="green">#21AA21</color>
     <color name="black">#FF141415</color>
-    <color name="logo">#E6BDBDBD</color>
-    <color name="logo_dark">#FF212121</color>
+    <color name="gris">#505050</color>
+
     <color name="blanco">#FFF5F5F5</color>
     <color name="blanco_2">#EBEBEB</color>
-    <color name="blanco_transparente">#40F3F3F2</color>
+    <color name="blanco_transparente">#40F3F3F3</color>
+
+
+    <color name="logo">#E6BDBDBD</color>
+    <color name="logo_dark">#FF212121</color>
 </resources>
