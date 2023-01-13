@@ -3,7 +3,6 @@ package es.parroquiasanleandro.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +82,6 @@ public class FragmentAvisosParroquiales extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisos, result -> {
-            Log.e("RESULT",result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if(!jsonResult.getBoolean("error")){

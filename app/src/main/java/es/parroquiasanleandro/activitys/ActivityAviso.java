@@ -77,7 +77,7 @@ public class ActivityAviso extends AppCompatActivity {
                     tvDescripcion.setText(aviso.descripcion);
                     aviso.asignarColor(context, linearLayoutContenedorAviso);
 
-                    if (aviso.url != null &&!aviso.url.equals("")) {
+                    if (aviso.url != null && !aviso.url.equals("")) {
                         bttnUrl.setVisibility(View.VISIBLE);
                     }
 
@@ -121,7 +121,6 @@ public class ActivityAviso extends AppCompatActivity {
             }
 
             if (uriArchivo.getLastPathSegment().endsWith(".docx") || uriArchivo.getLastPathSegment().endsWith(".doc")) {
-                //Intent intent = new Intent(Intent.ACTION_VIEW, uriArchivo);
                 Intent intent = new Intent(Intent.ACTION_QUICK_VIEW);
                 intent.setData(uriArchivo);
                 try {

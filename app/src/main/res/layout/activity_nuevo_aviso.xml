@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <Switch
+                    <!--<Switch
                         android:id="@+id/switchTodoElDia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                         android:paddingEnd="0dp"
                         android:text="Todo el día"
                         android:textSize="16.5sp"
-                        tools:ignore="UseSwitchCompatOrMaterialXml" />
+                        tools:ignore="UseSwitchCompatOrMaterialXml" />-->
 
                     <LinearLayout
                         android:layout_width="match_parent"

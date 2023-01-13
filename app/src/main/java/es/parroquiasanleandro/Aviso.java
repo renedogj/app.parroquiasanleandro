@@ -2,6 +2,7 @@ package es.parroquiasanleandro;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -12,19 +13,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import es.renedogj.fecha.Fecha;
 
 public class Aviso {
 	public static final String AVISOS = "Avisos";
+	public static final String TITULO = "titulo";
+	public static final String ID_CREADOR = "idCreador";
+	public static final String ID_GRUPO = "idGrupo";
+	public static final String DESCRIPCION = "descripcion";
+	public static final String IMAGEN = "imagen";
+	public static final String NOMBRE_IMAGEN = "nombreImagen";
+	public static final String URL = "url";
+	public static final String ARCHIVO = "archivo";
+	public static final String FECHA_INICIO = "fechaInicio";
+	public static final String FECHA_FIN = "fechaFin";
 
 	public String id;
 	public String idCreador;
 	public String idGrupo;
 	public String titulo;
 	public String descripcion;
-	public String imagen;
+	public String nombreImagen;
 	public String url;
 	public String archivo;
 	public long longInicio;
@@ -38,18 +51,20 @@ public class Aviso {
 		//setFechaFin(Fecha.toFecha(longFin));
 	}
 
-	public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, Fecha fechaFin, /*boolean todoElDia,*/ String imagen, String uidCreador) {
+	public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, Fecha fechaFin, /*boolean todoElDia,*/ String nombreImagen, String uidCreador) {
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.idGrupo = idGrupo;
 		this.longInicio = Fecha.toMillis(fechaInicio);
 		this.longFin = Fecha.toMillis(fechaFin);
 		//this.todoElDia = todoElDia;
-		this.imagen = imagen;
+		this.nombreImagen = nombreImagen;
+		this.url = null;
+		this.archivo = null;
 		this.idCreador = uidCreador;
 	}
 
-	public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, /*boolean todoElDia,*/ String imagen, String uidCreador) {
+	public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, /*boolean todoElDia,*/ String nombreImagen, String uidCreador) {
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.idGrupo = idGrupo;
@@ -64,7 +79,9 @@ public class Aviso {
 		}*/
 		this.longFin = Fecha.toMillis(fechaInicio);
 		//this.todoElDia = todoElDia;
-		this.imagen = imagen;
+		this.nombreImagen = nombreImagen;
+		this.url = null;
+		this.archivo = null;
 		this.idCreador = uidCreador;
 	}
 
@@ -99,7 +116,7 @@ public class Aviso {
 				avisoAux.titulo = jsonAviso.getString("titulo");
 				avisoAux.idGrupo = jsonAviso.getString("id_grupo");
 				avisoAux.descripcion = jsonAviso.getString("descripcion");
-				avisoAux.imagen = jsonAviso.getString("imagen");
+				avisoAux.nombreImagen = jsonAviso.getString("imagen");
 				avisoAux.longInicio = jsonAviso.getLong("fecha_inicio");
 				avisoAux.longFin = jsonAviso.getLong("fecha_fin");
 				avisoAux.fechaInicio = Fecha.toFecha(jsonAviso.getLong("fecha_inicio"));
@@ -120,7 +137,7 @@ public class Aviso {
 			aviso.titulo = jsonAviso.getString("titulo");
 			aviso.idGrupo = jsonAviso.getString("id_grupo");
 			aviso.descripcion = jsonAviso.getString("descripcion");
-			aviso.imagen = jsonAviso.getString("imagen");
+			aviso.nombreImagen = jsonAviso.getString("imagen");
 			aviso.url = jsonAviso.getString("url");
 			if(aviso.url.equals("null")) aviso.url = null;
 			aviso.archivo = jsonAviso.getString("archivo");
@@ -137,22 +154,28 @@ public class Aviso {
 
 	//Funcion para asignar la imagen del aviso obteniendolo de la bbdd al imageView
 	public void asignarImagen(Context context, ImageView imageView) {
-		Glide.with(context).load(Url.obtenerImagenAviso + idGrupo +"/img/" + Grupo.obtenerImagenGrupo(context, idGrupo)).into(imageView);
-		//Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imageView);
-		/*if (imagen.equals("imagenPredeterminada")) {
-			if (grupo.equals("A")) {
-				Glide.with(context).load(R.drawable.fondo_parroquia_dark).into(imageView);
-			} else {
-				FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(grupo).child("imagenPredeterminada.jpg").getDownloadUrl()
-						.addOnSuccessListener(uri -> {
-							Glide.with(context).load(uri).into(imageView);
-						});
-			}
-		} else {
-			FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(grupo).child(imagen).getDownloadUrl()
-					.addOnSuccessListener(uri -> {
-						Glide.with(context).load(uri).into(imageView);
-					});
-		}*/
+		Log.e("IMAGEN" + id,nombreImagen);
+		if(!nombreImagen.equals("null")){
+			Log.e("IMAGEN" + id,"nombreImagen");
+			Glide.with(context).load(Url.obtenerImagenAviso + idGrupo +"/img/" + nombreImagen +".jpeg").into(imageView);
+		}else{
+			Log.e("IMAGEN" + id,"imagen grupo");
+			Glide.with(context).load(Url.obtenerImagenAviso + idGrupo +"/img/" + Grupo.obtenerImagenGrupo(context, idGrupo)).into(imageView);
+		}
+	}
+
+	public Map<String, String> toMap(){
+		Map<String, String> avisoMap = new HashMap<>();
+		avisoMap.put(Aviso.TITULO, titulo);
+		avisoMap.put(Aviso.DESCRIPCION, descripcion);
+		avisoMap.put(Aviso.ID_GRUPO, idGrupo);
+		avisoMap.put(Aviso.ID_CREADOR, idCreador);
+		avisoMap.put(Aviso.FECHA_INICIO, longInicio + "");
+		avisoMap.put(Aviso.FECHA_FIN, longFin + "");
+
+		if (nombreImagen != null) avisoMap.put(Aviso.NOMBRE_IMAGEN, nombreImagen);
+		if (url != null) avisoMap.put(Aviso.URL, url);
+		if (archivo != null) avisoMap.put(Aviso.ARCHIVO, archivo);
+		return avisoMap;
 	}
 }

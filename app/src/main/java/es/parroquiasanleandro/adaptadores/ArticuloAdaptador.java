@@ -68,8 +68,8 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             rvImagenesArticulo.setLayoutManager(linearLayoutManager);
 
-            ImagenAdaptador imagenAdaptador = new ImagenAdaptador(context, articulo.id, articulo.imagenes);
-            rvImagenesArticulo.setAdapter(imagenAdaptador);
+            ImagenMercadilloAdaptador imagenMercadilloAdaptador = new ImagenMercadilloAdaptador(context, articulo.id, articulo.imagenes);
+            rvImagenesArticulo.setAdapter(imagenMercadilloAdaptador);
 
             tvNombreArticulo.setText(articulo.nombre);
             tvPrecio.setText(articulo.precio + "€");

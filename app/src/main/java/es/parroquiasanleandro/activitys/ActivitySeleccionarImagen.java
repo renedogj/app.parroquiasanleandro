@@ -1,27 +1,44 @@
 package es.parroquiasanleandro.activitys;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.adaptadores.ImagenServidorAdaptador;
 
 public class ActivitySeleccionarImagen extends AppCompatActivity {
+    final Context context = ActivitySeleccionarImagen.this;
+    final Activity activity = ActivitySeleccionarImagen.this;
 
-    private static final int SELECION_IMAGEN_GALERIA = 1;
-
-    Context context = ActivitySeleccionarImagen.this;
+    public static final int SELECION_IMAGEN_GALERIA = 1;
+    public static final int SELECION_IMAGEN_SERVIDOR = 2;
 
     private RecyclerView recyclerView;
     private FloatingActionButton bttnSelecionarImagenGaleria;
 
-    //List<StorageReference> imagenes;
+    List<String> imagenes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,20 +48,34 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         bttnSelecionarImagenGaleria = findViewById(R.id.bttnSelecionarImagenGaleria);
 
-        String categoria = getIntent().getStringExtra("grupo");
+        String idGrupo = getIntent().getStringExtra("idGrupo");
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        //imagenes = new ArrayList<>();
-
-        /*FirebaseStorage.getInstance().getReference().child("ImagenesAvisos").child(grupo).listAll()
-                .addOnSuccessListener(listResult -> {
-                    imagenes.addAll(listResult.getItems());
-                    ImagenAdaptador imagenesAvisoAdaptador = new ImagenAdaptador(context, (Activity) context,imagenes);
-                    recyclerView.setAdapter(imagenesAvisoAdaptador);
-                })
-                .addOnFailureListener(e -> Log.e("STORAGE ERROR", e.getMessage()));*/
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerImagenesGrupo, result -> {
+            try {
+                JSONArray jsonResult = new JSONArray(result);
+                for (int i = 0; i < jsonResult.length(); i++) {
+                    imagenes.add(jsonResult.getString(i));
+                }
+                ImagenServidorAdaptador imagenesAvisosAdaptador = new ImagenServidorAdaptador(context, activity, idGrupo, imagenes);
+                recyclerView.setAdapter(imagenesAvisosAdaptador);
+            } catch (JSONException e) {
+                Toast.makeText(context, "Se ha producido un error al recuperar las imagenes del servidor", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String,String> parametros = new HashMap<>();
+                parametros.put("idGrupo",idGrupo);
+                return parametros;
+            }
+        });
 
         bttnSelecionarImagenGaleria.setOnClickListener(v -> selecionarImagenGaleria());
     }
@@ -59,7 +90,7 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == SELECION_IMAGEN_GALERIA && resultCode == RESULT_OK && data != null && data.getData() != null) {
             setResult(SELECION_IMAGEN_GALERIA,data);
             finish();
         }

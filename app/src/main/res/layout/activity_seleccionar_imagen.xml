@@ -21,7 +21,7 @@
             style="@style/texto_1_2_Oscuro"
             android:gravity="center"
             android:padding="8dp"
-            android:text="Avisos"
+            android:text="Selecionar Imagen"
             android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

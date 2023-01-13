@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.adaptadores;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -18,16 +19,18 @@ import java.util.List;
 
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
-import es.parroquiasanleandro.activitys.ActivityArticulo;
+import es.parroquiasanleandro.activitys.ActivitySeleccionarImagen;
 
-public class ImagenAdaptador extends RecyclerView.Adapter<ImagenAdaptador.ViewHolder> {
+public class ImagenServidorAdaptador extends RecyclerView.Adapter<ImagenServidorAdaptador.ViewHolder> {
     Context context;
-    int idArticulo;
+    Activity activity;
+    String idGrupo;
     List<String> imagenes;
 
-    public ImagenAdaptador(Context context, int idArticulo, List<String> imagenes) {
+    public ImagenServidorAdaptador(Context context, Activity activity, String idGrupo, List<String> imagenes) {
         this.context = context;
-        this.idArticulo = idArticulo;
+        this.activity = activity;
+        this.idGrupo = idGrupo;
         this.imagenes = imagenes;
     }
 
@@ -36,7 +39,7 @@ public class ImagenAdaptador extends RecyclerView.Adapter<ImagenAdaptador.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_imagen, parent, false);
-        return new ImagenAdaptador.ViewHolder(view);
+        return new ImagenServidorAdaptador.ViewHolder(view);
     }
 
     @Override
@@ -52,22 +55,22 @@ public class ImagenAdaptador extends RecyclerView.Adapter<ImagenAdaptador.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imageView;
+        private final ImageView imageView;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-
             imageView = itemView.findViewById(R.id.imageView);
         }
 
         public void asignarValores(String imagen) {
-            Glide.with(context).load(Url.urlImagenes + imagen).into(imageView);
+            Glide.with(context).load(Url.obtenerImagenAviso + idGrupo +"/img/" + imagen).into(imageView);
             imageView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ActivityArticulo.class);
-                intent.putExtra("idArticulo", idArticulo);
-                context.startActivity(intent);
+                Intent intent = new Intent();
+                intent.putExtra("nombreImagen",imagen);
+                activity.setResult(ActivitySeleccionarImagen.SELECION_IMAGEN_SERVIDOR, intent);
+                activity.finish();
             });
-
         }
     }
+
 }
