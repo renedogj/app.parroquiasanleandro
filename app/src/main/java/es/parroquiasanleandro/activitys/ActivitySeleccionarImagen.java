@@ -71,8 +71,8 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
             error.printStackTrace();
         }) {
             protected Map<String, String> getParams() {
-                Map<String,String> parametros = new HashMap<>();
-                parametros.put("idGrupo",idGrupo);
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idGrupo", idGrupo);
                 return parametros;
             }
         });
@@ -84,14 +84,14 @@ public class ActivitySeleccionarImagen extends AppCompatActivity {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,SELECION_IMAGEN_GALERIA,null);
+        startActivityForResult(intent, SELECION_IMAGEN_GALERIA, null);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECION_IMAGEN_GALERIA && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            setResult(SELECION_IMAGEN_GALERIA,data);
+            setResult(SELECION_IMAGEN_GALERIA, data);
             finish();
         }
     }

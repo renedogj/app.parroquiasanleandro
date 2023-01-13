@@ -3,6 +3,7 @@ package es.parroquiasanleandro.adaptadores;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,13 +61,14 @@ public class ImagenServidorAdaptador extends RecyclerView.Adapter<ImagenServidor
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
+
         }
 
         public void asignarValores(String imagen) {
-            Glide.with(context).load(Url.obtenerImagenAviso + idGrupo +"/img/" + imagen).into(imageView);
+            Glide.with(context).load(Url.obtenerImagenAviso + idGrupo + "/img/" + imagen).into(imageView);
             imageView.setOnClickListener(v -> {
                 Intent intent = new Intent();
-                intent.putExtra("nombreImagen",imagen);
+                intent.putExtra("nombreImagen", imagen);
                 activity.setResult(ActivitySeleccionarImagen.SELECION_IMAGEN_SERVIDOR, intent);
                 activity.finish();
             });

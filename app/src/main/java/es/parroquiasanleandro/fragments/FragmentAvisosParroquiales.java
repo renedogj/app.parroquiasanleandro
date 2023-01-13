@@ -55,12 +55,10 @@ public class FragmentAvisosParroquiales extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         context = getContext();
+        viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 
         usuario = Usuario.recuperarUsuarioLocal(context);
-
-        viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
     }
 
     @Override
@@ -80,6 +78,24 @@ public class FragmentAvisosParroquiales extends Fragment {
             bttnNuevoAviso.setVisibility(View.VISIBLE);
         }
 
+        bttnNuevoAviso.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivityNuevoAviso.class);
+            startActivity(intent);
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.setIdFragmentActual(Menu.FRAGMENT_AVISOS);
+        viewModel.addIdFragmentActual();
+        obtenerMostrarAvisos();
+    }
+
+    public void obtenerMostrarAvisos(){
+        avisos.clear();
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisos, result -> {
             try {
@@ -111,16 +127,5 @@ public class FragmentAvisosParroquiales extends Fragment {
                 return parametros;
             }
         });
-
-        bttnNuevoAviso.setOnClickListener(v -> startActivity(new Intent(context, ActivityNuevoAviso.class)));
-
-        return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        viewModel.setIdFragmentActual(Menu.FRAGMENT_AVISOS);
-        viewModel.addIdFragmentActual();
     }
 }

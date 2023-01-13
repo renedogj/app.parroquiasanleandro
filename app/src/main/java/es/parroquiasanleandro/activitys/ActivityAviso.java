@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -83,7 +82,6 @@ public class ActivityAviso extends AppCompatActivity {
 
                     if (aviso.archivo != null && !aviso.archivo.equals("")) {
                         bttnArchivos.setVisibility(View.VISIBLE);
-                        Log.d("BTTNARCHIVOS",aviso.archivo);
                     }
                 } else {
                     Toast.makeText(context, jsonResult.getString("El aviso solicitado no existe"), Toast.LENGTH_SHORT).show();

@@ -290,6 +290,6 @@ public class ActivityNuevoAviso extends AppCompatActivity {
     }
 
     private String generarNombreImagen() {
-        return System.currentTimeMillis() + "_" + usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id + "_" + usuario.getId() ;
+        return System.currentTimeMillis() + "_" + usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id + "_" + usuario.getId();
     }
 }
