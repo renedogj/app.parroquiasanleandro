@@ -17,6 +17,9 @@
     <style name="lnly_1_2_v" parent="size_1_2">
         <item name="android:orientation">vertical</item>
     </style>
+    <style name="lnly_1_1_v" parent="size_1_1">
+        <item name="android:orientation">vertical</item>
+    </style>
 
     <style name="lnlytItemMenuNavigation" parent="lnly_1_2_v">
         <item name="android:layout_weight">1</item>

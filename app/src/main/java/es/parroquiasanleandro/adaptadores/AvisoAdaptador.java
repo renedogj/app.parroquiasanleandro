@@ -53,6 +53,7 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        private LinearLayout linearLayoutContenedorAviso;
         private CardView cardAviso;
         private LinearLayout linearLayoutAviso;
         private TextView tvTitulo;
@@ -62,6 +63,7 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
 
+            linearLayoutContenedorAviso = itemView.findViewById(R.id.linearLayoutContenedorAviso);
             cardAviso = itemView.findViewById(R.id.cardAviso);
             linearLayoutAviso = itemView.findViewById(R.id.linearLayoutAviso);
             tvTitulo = itemView.findViewById(R.id.tvTitulo);
@@ -70,10 +72,11 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
         }
 
         public void asignarValoresAviso(Aviso aviso) {
+            linearLayoutContenedorAviso.setBackgroundColor(aviso.obtenerColor(context));
+            //aviso.asignarColor(context,linearLayoutContenedorAviso);
             tvTitulo.setText(aviso.titulo);
             tvFecha.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             aviso.asignarImagen(context,ivAviso);
-            aviso.asignarColor(context,linearLayoutAviso);
             ivAviso.setContentDescription(aviso.idGrupo);
 
             cardAviso.setOnClickListener(v -> {

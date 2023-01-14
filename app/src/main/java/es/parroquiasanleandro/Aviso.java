@@ -104,6 +104,10 @@ public class Aviso {
         linearLayout.setBackgroundColor(Color.parseColor(Grupo.obtenerColorGrupo(context, idGrupo)));
     }
 
+    public int obtenerColor(Context context) {
+        return Color.parseColor(Grupo.obtenerColorGrupo(context, idGrupo));
+    }
+
     public static List<Aviso> JSONArrayToAvisos(JSONArray jsonArrayAvisos) {
         List<Aviso> avisos = new ArrayList<>();
         for (int i = 0; i < jsonArrayAvisos.length(); i++) {

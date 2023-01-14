@@ -74,7 +74,8 @@ public class ActivityAviso extends AppCompatActivity {
                         tvFechaFinal.setText(aviso.getFechaFin().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaFin().toString(Fecha.FormatosFecha.HH_mm));
                     }
                     tvDescripcion.setText(aviso.descripcion);
-                    aviso.asignarColor(context, linearLayoutContenedorAviso);
+                    //aviso.asignarColor(context, linearLayoutContenedorAviso);
+                    linearLayoutContenedorAviso.setBackgroundColor(aviso.obtenerColor(context));
 
                     if (aviso.url != null && !aviso.url.equals("")) {
                         bttnUrl.setVisibility(View.VISIBLE);

@@ -61,7 +61,8 @@ public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdapta
 
         public void asignarValores(Aviso aviso) {
             tvTituloAviso.setText(aviso.titulo);
-            aviso.asignarColor(context,linearLayoutTituloAviso);
+            linearLayoutTituloAviso.setBackgroundColor(aviso.obtenerColor(context));
+            //aviso.asignarColor(context,linearLayoutTituloAviso);
         }
     }
 }
