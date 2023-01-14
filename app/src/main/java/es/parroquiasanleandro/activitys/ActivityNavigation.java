@@ -86,6 +86,8 @@ public class ActivityNavigation extends AppCompatActivity {
             viewModel.setActionBar(actionBar);
         }
 
+        //navView.setBackgroundResource(R.color.primary_color);
+
         toggle = new ActionBarDrawerToggle(activity, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();

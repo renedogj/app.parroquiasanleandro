@@ -5,6 +5,7 @@
     style="@style/size_2_2"
     android:layout_margin="4dp"
     android:padding="8dp"
+    android:background="@color/background_items"
     app:cardCornerRadius="15dp"
     app:cardElevation="3dp">
 
@@ -21,7 +22,7 @@
             <LinearLayout
                 android:id="@+id/linearLayoutGrupo"
                 style="@style/lnly_1_2_v"
-                android:background="@color/blanco_2"
+                android:background="@color/background_items"
                 android:paddingStart="3dp"
                 android:paddingTop="5dp"
                 android:paddingEnd="3dp"
@@ -55,7 +56,6 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:gravity="center"
-                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>

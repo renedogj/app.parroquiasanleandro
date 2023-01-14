@@ -29,7 +29,7 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/texto_1_2_Oscuro"
+                style="@style/size_1_2"
                 android:text="Nuevo correo electronico:"
                 android:textSize="16sp" />
 

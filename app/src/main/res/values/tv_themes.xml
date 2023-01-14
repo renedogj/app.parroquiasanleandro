@@ -8,7 +8,7 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="tvDiasSemanaCalendario" parent="texto_2_2_Oscuro">
+    <style name="tvDiasSemanaCalendario" parent="size_2_2">
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">20sp</item>
@@ -16,7 +16,7 @@
         <item name="android:textColor">@color/gris</item>
     </style>
 
-    <style name="tvTituloHorario" parent="texto_1_2_Oscuro">
+    <style name="tvTituloHorario" parent="size_1_2">
         <item name="android:layout_margin">8dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">22sp</item>
@@ -29,25 +29,25 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="tvDiaSemanaHorario_Despacho_Caritas" parent="texto_1_1_Oscuro">
+    <style name="tvDiaSemanaHorario_Despacho_Caritas" parent="size_1_1">
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">12dp</item>
     </style>
 
-    <style name="tvTituloPerfil" parent="texto_1_2_Oscuro">
+    <style name="tvTituloPerfil" parent="size_1_2">
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="tvModificar" parent="texto_2_2_Oscuro">
+    <style name="tvModificar" parent="size_2_2">
         <item name="android:text">modificar</item>
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="tvFlecha" parent="texto_2_2_Oscuro">
+    <style name="tvFlecha" parent="size_2_2">
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">4dp</item>

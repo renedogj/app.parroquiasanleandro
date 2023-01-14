@@ -13,7 +13,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/blanco"
+            app:cardBackgroundColor="@color/background_items"
             app:cardCornerRadius="0dp"
             app:cardElevation="4dp">
 
@@ -25,7 +25,7 @@
 
                 <TextView
                     android:id="@+id/tvCitaBiblica"
-                    style="@style/texto_1_2_Oscuro"
+                    style="@style/size_1_2"
                     android:fontFamily="@font/nanum_gothic_bold"
                     android:gravity="center"
                     android:textSize="16sp" />
@@ -48,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/tvAvisosSemanales"
-                    style="@style/texto_1_2_Oscuro"
+                    style="@style/size_1_2"
                     android:gravity="center"
                     android:text="Avisos Semanales"
                     android:textSize="18sp"

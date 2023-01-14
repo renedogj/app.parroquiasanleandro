@@ -34,6 +34,7 @@ public class ActivityAviso extends AppCompatActivity {
 
     private ImageView ivImagenAviso;
     private LinearLayout linearLayoutContenedorAviso;
+    private LinearLayout linearLayoutAviso;
     private TextView tvTituloAviso;
     private TextView tvFechaInicio;
     private TextView tvFechaFinal;
@@ -50,6 +51,7 @@ public class ActivityAviso extends AppCompatActivity {
 
         ivImagenAviso = findViewById(R.id.ivImagenAviso);
         linearLayoutContenedorAviso = findViewById(R.id.linearLayoutContenedorAviso);
+        linearLayoutAviso = findViewById(R.id.linearLayoutAviso);
         tvTituloAviso = findViewById(R.id.tvTituloAviso);
         tvFechaInicio = findViewById(R.id.tvFechaInicio);
         tvFechaFinal = findViewById(R.id.tvFechaFinal);
@@ -76,6 +78,8 @@ public class ActivityAviso extends AppCompatActivity {
                     tvDescripcion.setText(aviso.descripcion);
                     //aviso.asignarColor(context, linearLayoutContenedorAviso);
                     linearLayoutContenedorAviso.setBackgroundColor(aviso.obtenerColor(context));
+                    ivImagenAviso.setBackgroundColor(aviso.obtenerColor(context));
+                    getWindow().setNavigationBarColor(aviso.obtenerColor(context));
 
                     if (aviso.url != null && !aviso.url.equals("")) {
                         bttnUrl.setVisibility(View.VISIBLE);

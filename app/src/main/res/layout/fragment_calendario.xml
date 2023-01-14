@@ -18,7 +18,7 @@
 
             <TextView
                 android:id="@+id/tvMesAnterior"
-                style="@style/texto_1_1_Oscuro"
+                style="@style/size_1_1"
                 android:layout_weight="3"
                 android:fontFamily="@font/nanum_gothic_extra_bold"
                 android:gravity="center"
@@ -28,7 +28,7 @@
 
             <TextView
                 android:id="@+id/tvMes"
-                style="@style/texto_1_1_Oscuro"
+                style="@style/size_1_1"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="22sp"
@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/tvMesSiguiente"
-                style="@style/texto_1_1_Oscuro"
+                style="@style/size_1_1"
                 android:layout_gravity="center"
                 android:layout_weight="3"
                 android:fontFamily="@font/nanum_gothic_extra_bold"
@@ -52,18 +52,14 @@
             android:background="?android:attr/listDivider" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            style="@style/lnly_1_2_v"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                style="@style/lnly_1_2_h"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     style="@style/tvDiasSemanaCalendario"
@@ -96,8 +92,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCalendario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/size_1_2"
                 android:paddingTop="0dp"
                 android:paddingBottom="5dp" />
         </LinearLayout>

@@ -8,6 +8,7 @@
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="5dp"
     android:padding="8dp"
+    android:background="@color/background_items"
     app:cardElevation="3dp"
     app:cardCornerRadius="15dp">
 
@@ -24,14 +25,14 @@
             <LinearLayout
                 android:id="@+id/linearLayoutAviso"
                 style="@style/lnly_1_2_h"
-                android:background="@color/blanco_2">
+                android:background="@color/background_items">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="vertical"
-                    android:padding="10dp">
+                    android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/ivAviso"
@@ -51,7 +52,7 @@
 
                     <TextView
                         android:id="@+id/tvTitulo"
-                        style="@style/texto_1_2_Oscuro"
+                        style="@style/size_1_2"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="7dp"
                         android:text=""
@@ -61,7 +62,7 @@
 
                     <TextView
                         android:id="@+id/tvFecha"
-                        style="@style/texto_1_2_Oscuro"
+                        style="@style/size_1_2"
                         android:text=""
                         android:textSize="12sp" />
                 </LinearLayout>

@@ -12,11 +12,15 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginEnd">15dp</item>
         <item name="android:layout_marginBottom">8dp</item>
+        <item name="cardBackgroundColor">@color/background_items</item>
     </style>
 
     <style name="cardTituloHorario" parent="basicCard_1_2">
         <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
         <item name="cardCornerRadius">0dp</item>
+        <item name="cardBackgroundColor">@color/background_items_contraste</item>
     </style>
 
     <style name="cardHorario" parent="basicCard_1_2">
@@ -25,7 +29,7 @@
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginEnd">4dp</item>
         <item name="android:layout_marginBottom">8dp</item>
-        <item name="cardBackgroundColor">@color/blue</item>
+        <item name="cardBackgroundColor">@color/azul</item>
     </style>
 
     <style name="cardHorario_Despacho_Caritas" parent="cardHorario">
@@ -38,7 +42,8 @@
         <item name="android:layout_marginEnd">6dp</item>
         <item name="android:layout_marginBottom">6dp</item>-->
         <item name="android:layout_margin">6dp</item>
-        <item name="cardElevation">5dp</item>
+        <item name="cardElevation">3dp</item>
+        <item name="cardBackgroundColor">@color/background_items</item>
     </style>
 
     <style name="CardNewEmail" parent="basicCard_1_2">

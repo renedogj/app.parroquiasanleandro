@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ParroquiaSanLeandro" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="android:textColor">@color/blanco</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/blue</item>
+    <style name="Theme.ParroquiaSanLeandro" parent="Theme.MaterialComponents.Light">
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorSecondary">@color/blanco_2</item>
+        <item name="android:textColor">@color/negro</item>
+        <item name="android:textColorPrimary">@color/blanco_2</item>
+        <item name="android:statusBarColor">@color/primary_color</item>
+        <!--<item name="android:navigationBarColor">@color/primary_color</item>-->
     </style>
 
     <!-- Style splash -->
@@ -38,7 +41,7 @@
         <item name="android:textColor">@color/blanco</item>
     </style>
 
-    <style name="texto_1_1_Oscuro" parent="size_1_1">
+    <!--<style name="texto_1_1_Oscuro" parent="size_1_1">
         <item name="android:textColor">@color/black</item>
     </style>
 
@@ -52,7 +55,7 @@
 
     <style name="texto_2_1_Oscuro" parent="size_2_1">
         <item name="android:textColor">@color/black</item>
-    </style>
+    </style>-->
 
     <!--Styles imagenes-->
     <style name="imgMenuNavigation">

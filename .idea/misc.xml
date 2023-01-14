@@ -13,10 +13,13 @@
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_home.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1375" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_launcher_logo_background.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_logoparroquia.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_logoparroquia_dark.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_mercadillo.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_mercadillo_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_reloj.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_reloj_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/usuarios-alt_24.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/activity_articulo.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/activity_aviso.xml" value="0.3541666666666667" />
@@ -43,10 +46,15 @@
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/grupo_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/grupo_sencillo_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/imagen_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_articulo.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_aviso.xml" value="0.36102564102564105" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_aviso_titulo.xml" value="0.36666666666666664" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_dia.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_grupo.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_grupo_sencillo.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_imagen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_menu_inicio.xml" value="0.36666666666666664" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/item_spinner_grupo.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/menu_inicio_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/prueba.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/prueba_relative.xml" value="0.36666666666666664" />

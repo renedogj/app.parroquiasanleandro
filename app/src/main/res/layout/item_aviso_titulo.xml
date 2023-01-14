@@ -2,8 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardTituloAviso"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    style="@style/size_1_2"
     android:layout_marginStart="1dp"
     android:layout_marginEnd="1dp"
     app:cardBackgroundColor="@color/blanco"
@@ -11,8 +10,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayoutTituloAviso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/size_1_2"
         android:orientation="horizontal"
         android:padding="2dp">
 

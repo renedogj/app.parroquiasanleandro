@@ -9,8 +9,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvArticulos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/size_1_2"
         android:paddingLeft="1dp"
         android:paddingTop="1dp"
         android:paddingRight="1dp"

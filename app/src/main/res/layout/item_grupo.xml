@@ -7,6 +7,7 @@
     android:layout_marginTop="6dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="6dp"
+    android:background="@color/background_items"
     app:cardCornerRadius="15dp">
 
     <LinearLayout
@@ -22,7 +23,7 @@
             <LinearLayout
                 android:id="@+id/linearLayoutGrupo"
                 style="@style/lnly_1_2_h"
-                android:background="@color/blanco_2"
+                android:background="@color/background_items"
                 android:padding="10dp">
 
                 <androidx.cardview.widget.CardView
@@ -62,7 +63,7 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:padding="5dp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/negro"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -73,7 +74,7 @@
                             android:layout_weight="1"
                             android:padding="4dp"
                             android:text="+ subgrupos"
-                            android:textColor="@color/blue"
+                            android:textColor="@color/azul"
                             android:textSize="12sp"
                             android:visibility="gone" />
                     </LinearLayout>

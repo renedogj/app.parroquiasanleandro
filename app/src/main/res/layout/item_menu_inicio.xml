@@ -2,11 +2,10 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardMenu"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    style="@style/size_1_2"
     android:layout_margin="5dp"
     android:padding="5dp"
-    app:cardBackgroundColor="@color/blanco_2"
+    app:cardBackgroundColor="@color/background_items"
     app:cardCornerRadius="15dp">
 
     <LinearLayout
@@ -23,12 +22,10 @@
 
         <TextView
             android:id="@+id/tvNombreMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/size_1_2"
             android:gravity="center"
             android:layout_marginTop="10dp"
             android:text=""
-            android:textColor="@color/black"
             android:textSize="16sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

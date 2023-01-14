@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary_color">@color/azul</color>
+    <color name="background_items">@color/blanco_2</color>
+    <color name="background_items_contraste">@color/blanco</color>
+
+    <color name="logo">@color/gris_claro</color>
+    <color name="logo_dark">@color/negro_claro</color>
+    <color name="background_logo">@color/blanco</color>
+    <!--<color name="logo_dark">#FF212121</color>-->
+
+
     <color name="transparente">#00000000</color>
-    <color name="blue">#203CEC</color>
-    <color name="red">#FF0000</color>
-    <color name="green">#21AA21</color>
-    <color name="black">#FF141415</color>
+    <color name="azul">#203CEC</color>
+    <color name="rojo">#FF0000</color>
+    <color name="verde">#21AA21</color>
+    <color name="negro">#141414</color>
+    <color name="negro_claro">#FF212121</color>
+
     <color name="gris">#505050</color>
+    <color name="gris_claro">#E6BDBDBD</color>
 
     <color name="blanco">#FFF5F5F5</color>
-    <color name="blanco_2">#EBEBEB</color>
+    <color name="blanco_2">#F0F0F0</color>
     <color name="blanco_transparente">#40F3F3F3</color>
-
-
-    <color name="logo">#E6BDBDBD</color>
-    <color name="logo_dark">#FF212121</color>
 </resources>

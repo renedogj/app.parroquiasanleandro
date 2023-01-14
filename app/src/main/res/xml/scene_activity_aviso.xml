@@ -3,29 +3,49 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        motion:constraintSetEnd="@+id/soloImagen"
         motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/soloImagen"
         motion:duration="500">
         <OnClick motion:targetId="@+id/ivImagenAviso" />
     </Transition>
 
     <Transition
-        motion:constraintSetEnd="@+id/soloImagen"
         motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/soloImagen"
         motion:duration="500">
         <OnSwipe
+            motion:touchRegionId="@+id/ivImagenAviso"
             motion:dragDirection="dragDown"
-            motion:touchAnchorId="@+id/ivImagenAviso"
             motion:touchAnchorSide="bottom" />
     </Transition>
 
     <Transition
-        motion:constraintSetEnd="@+id/soloInformacion"
         motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/soloImagen"
         motion:duration="500">
         <OnSwipe
+            motion:touchRegionId="@+id/cardAviso"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorSide="bottom" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/soloInformacion"
+        motion:duration="500">
+        <OnSwipe
+            motion:touchRegionId="@+id/cardAviso"
             motion:dragDirection="dragUp"
-            motion:touchAnchorId="@+id/cardAviso"
+            motion:touchAnchorSide="top" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/soloInformacion"
+        motion:duration="500">
+        <OnSwipe
+            motion:touchRegionId="@+id/ivImagenAviso"
+            motion:dragDirection="dragUp"
             motion:touchAnchorSide="top" />
     </Transition>
 
