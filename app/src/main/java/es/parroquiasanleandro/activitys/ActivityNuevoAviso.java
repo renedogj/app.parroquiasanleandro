@@ -54,6 +54,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
     private TextView tvAñadirImagen;
     private EditText etDescripcion;
     //private Switch switchTodoElDia;
+    private TextView etUrl;
     private TextView tvFechaInicio;
     private TextView tvHoraInicio;
     private LinearLayout lnlytFechaFinal;
@@ -67,10 +68,6 @@ public class ActivityNuevoAviso extends AppCompatActivity {
     private Button bttnNuevoAviso;
     private Button bttnCancelar;
 
-    //private String idGrupo;
-
-    //private boolean todoElDia;
-    //private Bitmap bitmapImagen = null;
     private String imagenStringByte = null;
     private String nombreImagen = null;
 
@@ -89,16 +86,16 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         lnlytAñadirImagen = findViewById(R.id.lnlytAñadirImagen);
         tvAñadirImagen = findViewById(R.id.tvAñadirImagen);
         etDescripcion = findViewById(R.id.etDescripcion);
-        //switchTodoElDia = findViewById(R.id.switchTodoElDia);
+        etUrl = findViewById(R.id.etUrl);
         tvFechaInicio = findViewById(R.id.tvFechaInicio);
         tvHoraInicio = findViewById(R.id.tvHoraInicio);
         lnlytFechaFinal = findViewById(R.id.lnlytFechaFinal);
         tvFechaFinal = findViewById(R.id.tvFechaFinal);
         tvHoraFinal = findViewById(R.id.tvHoraFinal);
+        spinnerGrupo = findViewById(R.id.spinnerGrupo);
         lnlytAñadirFechaFinal = findViewById(R.id.lnlytAñadirFechaFinal);
         tvSimboloAñadirFechaFinal = findViewById(R.id.tvSimboloAñadirFechaFinal);
         tvAñadirFechaFinal = findViewById(R.id.tvAñadirFechaFinal);
-        spinnerGrupo = findViewById(R.id.spinnerGrupo);
         bttnNuevoAviso = findViewById(R.id.bttnNuevoAviso);
         bttnCancelar = findViewById(R.id.bttnCancelar);
 
@@ -118,32 +115,22 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.item_spinner_grupo, nombreGruposAdministrados);
         spinnerGrupo.setAdapter(adapter);
 
-		/*switchTodoElDia.setOnCheckedChangeListener((buttonView, isChecked) -> {
-			todoElDia = isChecked;
-			if (todoElDia) {
-				tvHoraInicio.setVisibility(View.GONE);
-				tvHoraFinal.setVisibility(View.GONE);
-			} else {
-				tvHoraInicio.setVisibility(View.VISIBLE);
-				tvHoraFinal.setVisibility(View.VISIBLE);
-			}
-		});*/
+        fechaInicio = Fecha.FechaActual();
+        fechaFin = Fecha.FechaActual();
 
         lnlytAñadirFechaFinal.setOnClickListener(v -> {
             if (lnlytFechaFinal.getVisibility() == View.GONE) {
                 lnlytFechaFinal.setVisibility(View.VISIBLE);
                 tvSimboloAñadirFechaFinal.setText("-");
                 tvAñadirFechaFinal.setText("Quitar fecha de fin");
+                actualizarFechaFin();
             } else if (lnlytFechaFinal.getVisibility() == View.VISIBLE) {
                 lnlytFechaFinal.setVisibility(View.GONE);
                 tvSimboloAñadirFechaFinal.setText("+");
                 tvAñadirFechaFinal.setText("Añade fecha de fin");
+                fechaFin = fechaInicio;
             }
         });
-
-        fechaInicio = Fecha.FechaActual();
-        fechaFin = Fecha.FechaActual();
-        //fechaFin.sumMinutos(60);
 
         tvFechaInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
         tvHoraInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
@@ -156,6 +143,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                 fechaInicio.mes = Mes.values()[month];
                 fechaInicio.año = year;
                 tvFechaInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
+                actualizarFechaFin();
             }, fechaInicio.año, fechaInicio.mes.getNumeroMes() - 1, fechaInicio.dia);
             datePickerDialog.show();
         });
@@ -165,6 +153,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                 fechaInicio.hora = hourOfDay;
                 fechaInicio.minuto = minute;
                 tvHoraInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
+                actualizarFechaFin();
             }, fechaInicio.hora, fechaInicio.minuto, true);
             timePickerDialog.show();
         });
@@ -200,22 +189,31 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         });
     }
 
+    public void actualizarFechaFin(){
+        fechaFin = fechaInicio;
+        if(lnlytFechaFinal.getVisibility() == View.VISIBLE){
+            fechaFin.sumMinutos(60);
+        }
+        tvFechaFinal.setText(fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
+        tvHoraFinal.setText(fechaFin.toString(Fecha.FormatosFecha.HH_mm));
+    }
+
     private void guardarNuevoAviso() {
         Aviso aviso;
         String titulo = etTitulo.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
         String idGrupo = usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id;
+        String url = etUrl.getText().toString().trim();
+        url = (!url.equals("") ? url : null);
 
         if (fechaInicio.esIgualA(fechaFin)) {
-            aviso = new Aviso(titulo, descripcion, idGrupo, fechaInicio, /*todoElDia,*/ nombreImagen, usuario.getId());
+            aviso = new Aviso(titulo, descripcion, idGrupo, fechaInicio, nombreImagen, url, usuario.getId());
         } else {
-            aviso = new Aviso(titulo, descripcion, idGrupo, fechaInicio, fechaFin, /*todoElDia,*/ nombreImagen, usuario.getId());
+            aviso = new Aviso(titulo, descripcion, idGrupo, fechaInicio, fechaFin, nombreImagen, url, usuario.getId());
         }
 
         if (aviso.titulo.length() > 0) {
             if (aviso.descripcion.length() > 0) {
-                aviso.setFechaInicio(Fecha.toFecha(aviso.longInicio));
-
                 RequestQueue requestQueue = Volley.newRequestQueue(context);
                 requestQueue.add(new StringRequest(Request.Method.POST, Url.crearNuevoAviso, result -> {
                     Log.e("RESULT", result);
@@ -235,7 +233,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                     error.printStackTrace();
                 }) {
                     protected Map<String, String> getParams() {
-                        Map<String, String> parametros = aviso.toMap();
+                        Map<String, String> parametros = aviso.toMap(context);
                         if (imagenStringByte != null) {
                             parametros.put(Aviso.IMAGEN, imagenStringByte);
                         }
@@ -278,7 +276,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
     private String bitmapToString(Bitmap bitmap) {
         ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, arrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, arrayOutputStream);
         byte[] imagenByte = arrayOutputStream.toByteArray();
         return Base64.encodeToString(imagenByte, Base64.DEFAULT);
     }

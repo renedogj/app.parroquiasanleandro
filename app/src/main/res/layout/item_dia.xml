@@ -16,7 +16,7 @@
         android:id="@+id/linearLayoutDiaCalendario"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/azul"
+        android:background="@color/primary_color"
         android:orientation="vertical"
         android:padding="0dp">
         <!--android:background="#D93E55EA"-->

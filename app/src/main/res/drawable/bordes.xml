@@ -3,7 +3,7 @@
     <solid android:color="#00000000" />
     <stroke
         android:width="3dp"
-        android:color="#aa00dd" />
+        android:color="@color/primary_color" />
     <corners android:radius="20dp" />
     <padding
         android:left="0dp"

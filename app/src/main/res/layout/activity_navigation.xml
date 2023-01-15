@@ -27,7 +27,7 @@
             android:layout_height="55dp"
             android:layout_gravity="bottom"
             android:layout_marginTop="-55dp"
-            android:background="@color/azul"
+            android:background="@color/primary_color"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -91,6 +91,7 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         style="@style/size_2_1"
+        android:background="@color/blanco_2"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:menu="@menu/nav_menu" />

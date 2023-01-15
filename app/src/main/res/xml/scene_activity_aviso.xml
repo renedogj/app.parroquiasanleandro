@@ -2,6 +2,7 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
+    <!-- Transiton a soloImagen -->
     <Transition
         motion:constraintSetStart="@+id/start"
         motion:constraintSetEnd="@+id/soloImagen"
@@ -29,6 +30,7 @@
             motion:touchAnchorSide="bottom" />
     </Transition>
 
+    <!-- Transiton a soloInformacion -->
     <Transition
         motion:constraintSetStart="@+id/start"
         motion:constraintSetEnd="@+id/soloInformacion"

@@ -3,9 +3,10 @@
     <!-- Base application theme. -->
     <style name="Theme.ParroquiaSanLeandro" parent="Theme.MaterialComponents.Light">
         <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorSecondary">@color/blanco_2</item>
+        <item name="android:colorPrimary">@color/primary_color</item>
+        <item name="colorSecondary">@color/primary_color</item>
         <item name="android:textColor">@color/negro</item>
-        <item name="android:textColorPrimary">@color/blanco_2</item>
+        <!--<item name="android:textColorPrimary">@color/blanco_2</item>-->
         <item name="android:statusBarColor">@color/primary_color</item>
         <!--<item name="android:navigationBarColor">@color/primary_color</item>-->
     </style>

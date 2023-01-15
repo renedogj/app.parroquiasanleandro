@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -64,6 +65,7 @@ public class ActivityAviso extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAviso, result -> {
+            Log.e("RESULT", result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if (!jsonResult.getBoolean("error")) {
@@ -76,10 +78,11 @@ public class ActivityAviso extends AppCompatActivity {
                         tvFechaFinal.setText(aviso.getFechaFin().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaFin().toString(Fecha.FormatosFecha.HH_mm));
                     }
                     tvDescripcion.setText(aviso.descripcion);
-                    //aviso.asignarColor(context, linearLayoutContenedorAviso);
-                    linearLayoutContenedorAviso.setBackgroundColor(aviso.obtenerColor(context));
-                    ivImagenAviso.setBackgroundColor(aviso.obtenerColor(context));
-                    getWindow().setNavigationBarColor(aviso.obtenerColor(context));
+
+                    int colorGrupo = aviso.obtenerColor(context);
+                    linearLayoutContenedorAviso.setBackgroundColor(colorGrupo);
+                    ivImagenAviso.setBackgroundColor(colorGrupo);
+                    getWindow().setNavigationBarColor(colorGrupo);
 
                     if (aviso.url != null && !aviso.url.equals("")) {
                         bttnUrl.setVisibility(View.VISIBLE);

@@ -39,35 +39,32 @@ public class Aviso {
     public String nombreImagen;
     public String url;
     public String archivo;
-    public long longInicio;
-    public long longFin;
     private Fecha fechaInicio;
     private Fecha fechaFin;
-    //public boolean todoElDia;
 
-    public Aviso() {
-        //setFechaInicio(Fecha.toFecha(longInicio));
-        //setFechaFin(Fecha.toFecha(longFin));
-    }
+    public Aviso() {}
 
-    public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, Fecha fechaFin, /*boolean todoElDia,*/ String nombreImagen, String uidCreador) {
+    public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, Fecha fechaFin, /*boolean todoElDia,*/ String nombreImagen, String url, String uidCreador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.idGrupo = idGrupo;
-        this.longInicio = Fecha.toMillis(fechaInicio);
-        this.longFin = Fecha.toMillis(fechaFin);
+        this.fechaInicio = fechaInicio;
+        //this.longInicio = Fecha.toMillis(fechaInicio);
+        this.fechaFin = fechaFin;
+        //this.longFin = Fecha.toMillis(fechaFin);
         //this.todoElDia = todoElDia;
         this.nombreImagen = nombreImagen;
-        this.url = null;
+        this.url = url;
         this.archivo = null;
         this.idCreador = uidCreador;
     }
 
-    public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, /*boolean todoElDia,*/ String nombreImagen, String uidCreador) {
+    public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, /*boolean todoElDia,*/ String nombreImagen, String url, String uidCreador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.idGrupo = idGrupo;
-        this.longInicio = Fecha.toMillis(fechaInicio);
+        this.fechaInicio = fechaInicio;
+        //this.longInicio = Fecha.toMillis(fechaInicio);
 		/*if(todoElDia){
 			fechaInicio.sumDias(1);
 			fechaInicio.hora = 0;
@@ -76,10 +73,11 @@ public class Aviso {
 		}else{
 			fechaInicio.sumHoras(1);
 		}*/
-        this.longFin = Fecha.toMillis(fechaInicio);
+        this.fechaFin = fechaInicio;
+        //this.longFin = Fecha.toMillis(fechaInicio);
         //this.todoElDia = todoElDia;
         this.nombreImagen = nombreImagen;
-        this.url = null;
+        this.url = url;
         this.archivo = null;
         this.idCreador = uidCreador;
     }
@@ -120,10 +118,8 @@ public class Aviso {
                 avisoAux.idGrupo = jsonAviso.getString("id_grupo");
                 avisoAux.descripcion = jsonAviso.getString("descripcion");
                 avisoAux.nombreImagen = jsonAviso.getString("imagen");
-                avisoAux.longInicio = jsonAviso.getLong("fecha_inicio");
-                avisoAux.longFin = jsonAviso.getLong("fecha_fin");
-                avisoAux.fechaInicio = Fecha.toFecha(jsonAviso.getLong("fecha_inicio"));
-                avisoAux.fechaFin = Fecha.toFecha(jsonAviso.getLong("fecha_fin"));
+                avisoAux.fechaInicio = Fecha.stringToFecha(jsonAviso.getString("fecha_inicio"),Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
+                avisoAux.fechaFin = Fecha.stringToFecha(jsonAviso.getString("fecha_fin"),Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -145,10 +141,8 @@ public class Aviso {
             if (aviso.url.equals("null")) aviso.url = null;
             aviso.archivo = jsonAviso.getString("archivo");
             if (aviso.archivo.equals("null")) aviso.archivo = null;
-            aviso.longInicio = jsonAviso.getLong("fecha_inicio");
-            aviso.longFin = jsonAviso.getLong("fecha_fin");
-            aviso.fechaInicio = Fecha.toFecha(jsonAviso.getLong("fecha_inicio"));
-            aviso.fechaFin = Fecha.toFecha(jsonAviso.getLong("fecha_fin"));
+            aviso.fechaInicio = Fecha.stringToFecha(jsonAviso.getString("fecha_inicio"),Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
+            aviso.fechaFin = Fecha.stringToFecha(jsonAviso.getString("fecha_fin"),Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -164,16 +158,20 @@ public class Aviso {
         }
     }
 
-    public Map<String, String> toMap() {
+    public Map<String, String> toMap(Context context) {
         Map<String, String> avisoMap = new HashMap<>();
         avisoMap.put(Aviso.TITULO, titulo);
         avisoMap.put(Aviso.DESCRIPCION, descripcion);
         avisoMap.put(Aviso.ID_GRUPO, idGrupo);
         avisoMap.put(Aviso.ID_CREADOR, idCreador);
-        avisoMap.put(Aviso.FECHA_INICIO, longInicio + "");
-        avisoMap.put(Aviso.FECHA_FIN, longFin + "");
+        avisoMap.put(Aviso.FECHA_INICIO, fechaInicio.toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
+        avisoMap.put(Aviso.FECHA_FIN, fechaFin.toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
 
-        if (nombreImagen != null) avisoMap.put(Aviso.NOMBRE_IMAGEN, nombreImagen);
+        if (nombreImagen != null) {
+            if(!nombreImagen.equals(Grupo.obtenerImagenGrupo(context,idGrupo))){
+                avisoMap.put(Aviso.NOMBRE_IMAGEN, nombreImagen);
+            }
+        }
         if (url != null) avisoMap.put(Aviso.URL, url);
         if (archivo != null) avisoMap.put(Aviso.ARCHIVO, archivo);
         return avisoMap;
