@@ -59,7 +59,7 @@ public class ActivityRegistro extends AppCompatActivity {
 
 		actionBar = getSupportActionBar();
 		if (actionBar != null) {
-			actionBar.setDisplayHomeAsUpEnabled(true); //True-> mostrar flecha ir atras
+			actionBar.setDisplayHomeAsUpEnabled(false); //True-> mostrar flecha ir atras
 			actionBar.setTitle("Registrarse");
 		}
 
@@ -88,8 +88,11 @@ public class ActivityRegistro extends AppCompatActivity {
 			try {
 				JSONObject jsonResult = new JSONObject(result);
 				if(!jsonResult.getBoolean("error")){
-					Usuario usuario = new Usuario(nombre,email);
+					JSONObject jsonObject = jsonResult.getJSONObject("usuario");
+					Usuario usuario = new Usuario(jsonObject);
 					usuario.guardarUsuarioEnLocal(context);
+					startActivity(new Intent(context, ActivityNavigation.class));
+					finish();
 				}else{
 					JSONObject jsonErrorInfo = jsonResult.getJSONObject("errorInfo");
 					if(jsonErrorInfo.getInt("errorCode") == 23000 && jsonErrorInfo.getInt("code")== 1062){
@@ -116,5 +119,11 @@ public class ActivityRegistro extends AppCompatActivity {
 				return parametros;
 			}
 		});
+	}
+
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		startActivity(new Intent(context, ActivityInicarSesion.class));
 	}
 }

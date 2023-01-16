@@ -63,6 +63,7 @@
                     <TextView
                         android:id="@+id/tvFecha"
                         style="@style/size_1_2"
+                        android:background="@color/transparente"
                         android:text=""
                         android:textSize="12sp" />
                 </LinearLayout>

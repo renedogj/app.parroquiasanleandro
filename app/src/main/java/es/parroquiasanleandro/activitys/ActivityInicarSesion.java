@@ -70,7 +70,10 @@ public class ActivityInicarSesion extends AppCompatActivity {
 
         bttnIniciarSesion.setOnClickListener(v -> iniciarSesion());
 
-        linearLayoutRegistrarse.setOnClickListener(v -> startActivity(new Intent(context, ActivityRegistro.class)));
+        linearLayoutRegistrarse.setOnClickListener(v -> {
+            startActivity(new Intent(context, ActivityRegistro.class));
+            finish();
+        });
     }
 
     private void iniciarSesion() {

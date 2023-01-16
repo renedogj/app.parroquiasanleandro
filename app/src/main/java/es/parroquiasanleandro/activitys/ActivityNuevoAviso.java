@@ -221,7 +221,6 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                         JSONObject jsonResult = new JSONObject(result);
                         if (!jsonResult.getBoolean("error")) {
                             Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
-                            finish();
                         } else {
                             Toast.makeText(context, "Se ha producido un error al crear el aviso, por favor intentalo más tarde", Toast.LENGTH_SHORT).show();
                         }
@@ -240,6 +239,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                         return parametros;
                     }
                 });
+                finish();
             } else {
                 Toast.makeText(context, "El campo de descripción no puede estar vacio", Toast.LENGTH_SHORT).show();
             }

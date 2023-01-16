@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.parroquiasanleandro.Aviso;
@@ -23,23 +22,24 @@ import es.parroquiasanleandro.Usuario;
 import es.renedogj.fecha.Fecha;
 
 public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> {
-	public static final int TAMAÑO_GRANDE = 184;
-	public static final int TAMAÑO_PEQUEÑO = 160;
+	//public static final int TAMAÑO_GRANDE = 184;
+	//public static final int TAMAÑO_PEQUEÑO = 160;
 
-	private Context context;
-	private List<Integer> dias;
+	private final Context context;
+	//private List<Integer> dias;
+	private List<Fecha> fechas;
+	private List<Aviso> avisos;
 	private Usuario usuario;
 	private Fecha fechaReferencia;
-	private final int tamaño;
+	//private final int tamaño;
 
-	public DiaAdaptador(Context context, List<Integer> dias, Fecha fechaReferencia, Usuario usuario, int tamaño) {
+	public DiaAdaptador(Context context, List<Fecha> fechas, List<Aviso> avisos, Fecha fechaReferencia, Usuario usuario/*, int tamaño*/) {
 		this.context = context;
-		this.dias = dias;
-		this.fechaReferencia = fechaReferencia;
-		this.usuario = usuario;
-		this.tamaño = tamaño;
-
-
+		this.fechas = fechas;
+		this.avisos = avisos;
+		//this.fechaReferencia = fechaReferencia;
+		//this.usuario = usuario;
+		//this.tamaño = tamaño;
 	}
 
 	@NonNull
@@ -52,17 +52,17 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 
 	@Override
 	public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-		int dia = dias.get(position);
-		if (dia != 0) {
-			holder.asignarValores(dia);
-		} else {
-			holder.asignarValoresInvisibles();
-		}
+		Fecha fecha = fechas.get(position);
+		//if (dia != 0) {
+			holder.asignarValores(fecha);
+		//} else {
+		//	holder.asignarValoresInvisibles();
+		//}
 	}
 
 	@Override
 	public int getItemCount() {
-		return dias.size();
+		return fechas.size();
 	}
 
 	public class ViewHolder extends RecyclerView.ViewHolder {
@@ -71,7 +71,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 		private RecyclerView rvAvisosDia;
 		private LinearLayout linearLayoutDiaCalendario;
 
-		List<Aviso> avisosDia = new ArrayList<>();
+		//List<Aviso> avisosDia = new ArrayList<>();
 
 		public ViewHolder(@NonNull @NotNull View itemView) {
 			super(itemView);
@@ -81,146 +81,15 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 			linearLayoutDiaCalendario = itemView.findViewById(R.id.linearLayoutDiaCalendario);
 		}
 
-		public void asignarValores(int dia) {
-			tvNumDia.setText(String.valueOf(dia));
+		public void asignarValores(Fecha fecha) {
+			tvNumDia.setText(String.valueOf(fecha.dia));
 
-			cardDia.getLayoutParams().height = tamaño;
+			//cardDia.getLayoutParams().height = tamaño;
 
 			rvAvisosDia.setHasFixedSize(true);
 			LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
 			rvAvisosDia.setLayoutManager(linearLayoutManager);
 
-			/*RequestQueue requestQueue = Volley.newRequestQueue(context);
-			requestQueue.add(new StringRequest(Request.Method.POST, Url.iniciarSesion, result -> {
-				//Log.d("Resultado",result);
-				try {
-					JSONObject jsonResult = new JSONObject(result);
-					if(!jsonResult.getBoolean("error")){
-						Log.d("Resultado",jsonResult.getJSONArray("usuario").getJSONObject(0).toString());
-						Log.d("Resultado",jsonResult.getJSONArray("usuario").getJSONObject(0).toString());
-						JSONObject jsonObject = jsonResult.getJSONArray("usuario").getJSONObject(0);
-						Usuario usuario = new Usuario(jsonObject);
-						usuario.guardarUsuarioLocal(context);
-						//startActivity(new Intent(context, ActivityNavigation.class));
-						//finish();
-					}else{
-						Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
-					}
-				} catch (JSONException e) {
-					Toast.makeText(context, "Se ha producido un error en el servidor al iniciar sesion", Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				}
-			}, error -> {
-				Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-			}) {
-				@Override
-				protected Map<String, String> getParams() {
-					Map<String,String> parametros = new HashMap<>();
-					parametros.put("idUsuario",usuario.id);
-					//parametros.put("password",password);
-					return parametros;
-				}
-			});*/
-
-			/*if (usuario != null) {
-				FirebaseDatabase.getInstance().getReference().child(Fecha.CALENDARIO)
-						.child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).child(dia + "").addChildEventListener(new ChildEventListener() {
-					@Override
-					public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-						String key = snapshot.getKey();
-						String grupo = snapshot.getValue(String.class);
-						if (key != null && grupo != null && Arrays.asList(Grupo.getKeysCategorias(usuario.getCategorias())).contains(grupo)) {
-							FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS)
-									.child(grupo).child(key).addValueEventListener(new ValueEventListener() {
-								@Override
-								public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-									Aviso aviso = snapshot.getValue(Aviso.class);
-									if (aviso != null) {
-										aviso.key = key;
-										avisosDia.add(aviso);
-									}
-									AvisoTituloAdaptador avisoTituloAdaptador = new AvisoTituloAdaptador(context, avisosDia);
-									rvAvisosDia.setAdapter(avisoTituloAdaptador);
-								}
-
-								@Override
-								public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-									Log.e(databaseError.getMessage(), databaseError.getDetails());
-								}
-							});
-						}
-					}
-
-					@Override
-					public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-					}
-
-					@Override
-					public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
-					}
-
-					@Override
-					public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-					}
-
-					@Override
-					public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-					}
-				});
-			} else {
-				FirebaseDatabase.getInstance().getReference().child(Fecha.CALENDARIO)
-						.child(fechaReferencia.toString(Fecha.FormatosFecha.aaaaMM)).child(dia + "").addChildEventListener(new ChildEventListener() {
-					@Override
-					public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-						String key = snapshot.getKey();
-						String grupo = snapshot.getValue(String.class);
-						if (key != null && grupo != null && grupo.equals(Grupo.ID_PADRE)) {
-							FirebaseDatabase.getInstance().getReference().child(Aviso.AVISOS)
-									.child(grupo).child(key).addValueEventListener(new ValueEventListener() {
-								@Override
-								public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-									Aviso aviso = snapshot.getValue(Aviso.class);
-									if (aviso != null) {
-										aviso.key = key;
-										avisosDia.add(aviso);
-									}
-									AvisoTituloAdaptador avisoTituloAdaptador = new AvisoTituloAdaptador(context, avisosDia);
-									rvAvisosDia.setAdapter(avisoTituloAdaptador);
-								}
-
-								@Override
-								public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-									Log.e(databaseError.getMessage(), databaseError.getDetails());
-								}
-							});
-						}
-					}
-
-					@Override
-					public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-					}
-
-					@Override
-					public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
-					}
-
-					@Override
-					public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-					}
-
-					@Override
-					public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-					}
-				});
-			}*/
 		}
 
 		public void asignarValoresInvisibles() {

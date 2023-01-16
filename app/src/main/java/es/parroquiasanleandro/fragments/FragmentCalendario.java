@@ -3,21 +3,36 @@ package es.parroquiasanleandro.fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.adaptadores.DiaAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
@@ -35,7 +50,9 @@ public class FragmentCalendario extends Fragment {
 	private TextView tvMesSiguiente;
 
 	private Fecha fechaReferencia;
-	private List<Integer> dias;
+	//private List<Integer> dias;
+	private List<Fecha> fechas;
+	private List<Aviso> avisos;
 
 	private Usuario usuario;
 
@@ -50,8 +67,7 @@ public class FragmentCalendario extends Fragment {
 
 		usuario = Usuario.recuperarUsuarioLocal(context);
 
-		fechaReferencia = Fecha.FechaActual();
-		fechaReferencia.convertirAPrimerDiaMes();
+		fechaReferencia = Fecha.FechaPrimerDiaMesActual();
 	}
 
 	@Override
@@ -67,7 +83,9 @@ public class FragmentCalendario extends Fragment {
 		GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
 		rvCalendario.setLayoutManager(gridLayoutManager);
 
-		dias = new ArrayList<>();
+		//dias = new ArrayList<>();
+		fechas = new ArrayList<>();
+		avisos = new ArrayList<>();
 
 		setCalendario(usuario);
 
@@ -93,6 +111,7 @@ public class FragmentCalendario extends Fragment {
 				tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
 			});
 			monthPicker.setNegativeButton(Dialog::dismiss).show();
+			setCalendario(usuario);
 		});
 
 		return view;
@@ -108,7 +127,7 @@ public class FragmentCalendario extends Fragment {
 	public void setCalendario(Usuario usuario) {
 		tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
 
-		dias.clear();
+		/*dias.clear();
 		for (int i = 1; i <= fechaReferencia.diaSemana.getNumeroDia() - 1; i++) {
 			dias.add(0);
 		}
@@ -116,12 +135,70 @@ public class FragmentCalendario extends Fragment {
 		int numDiasMes = fechaReferencia.mes.getNumDiasMes();
 		for (int i = 1; i <= numDiasMes; i++) {
 			dias.add(i);
+		}*/
+
+
+
+		fechas.clear();
+		for (int i = 1; i <= fechaReferencia.diaSemana.getNumeroDia() -1; i++) {
+			Fecha auxFecha = new Fecha(fechaReferencia.dia,fechaReferencia.mes,fechaReferencia.año);
+			auxFecha.sumDias(-i);
+			fechas.add(auxFecha);
 		}
 
-		if (usuario.getId() != null) {
-			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, Usuario.recuperarUsuarioLocal(context), DiaAdaptador.TAMAÑO_GRANDE));
-		} else {
-			rvCalendario.setAdapter(new DiaAdaptador(context, dias, fechaReferencia, null, DiaAdaptador.TAMAÑO_GRANDE));
+		for (int i = 0; i <= fechaReferencia.mes.getNumDiasMes() -1; i++) {
+			Fecha auxFecha = new Fecha(fechaReferencia.dia,fechaReferencia.mes,fechaReferencia.año);
+			auxFecha.sumDias(i);
+			fechas.add(auxFecha);
 		}
+
+		Fecha fechaFinMes = new Fecha(fechaReferencia.dia, fechaReferencia.mes, fechaReferencia.año);
+		fechaFinMes.dia = fechaFinMes.mes.getNumDiasMes();
+		fechaFinMes.actualizarDiaSemana();
+		for (int i = 0; i < 7-fechaFinMes.diaSemana.getNumeroDia(); i++) {
+			Fecha auxFecha = new Fecha(fechaFinMes.dia,fechaFinMes.mes,fechaFinMes.año);
+			auxFecha.sumDias(i);
+			fechas.add(auxFecha);
+
+		}
+
+		obtenerAvisos();
+
+		if (usuario.getId() != null) {
+			rvCalendario.setAdapter(new DiaAdaptador(context, fechas, avisos, fechaReferencia, usuario));
+		} else {
+			rvCalendario.setAdapter(new DiaAdaptador(context, fechas, avisos, fechaReferencia, null));
+		}
+	}
+
+	public void obtenerAvisos(){
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisosCalendario, result -> {
+			Log.d("Resultado",result);
+			try {
+				JSONObject jsonResult = new JSONObject(result);
+				if(!jsonResult.getBoolean("error")){
+					Log.d("Resultado",jsonResult.getJSONArray("avisos").toString());
+					JSONArray jsonArray = jsonResult.getJSONArray("avisos");
+					avisos = Aviso.JSONArrayToAvisos(jsonResult.getJSONArray("avisos"));
+				}else{
+					Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				Toast.makeText(context, "Se ha producido un error en el servidor al iniciar sesion", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
+		}, error -> {
+			Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+		}) {
+			@Override
+			protected Map<String, String> getParams() {
+				Map<String,String> parametros = new HashMap<>();
+				parametros.put("idUsuario",usuario.getId());
+				parametros.put("fechaInicio",fechas.get(0).toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
+				parametros.put("fechaFin",fechas.get(fechas.size()-1).toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
+				return parametros;
+			}
+		});
 	}
 }

@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardDia"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_marginStart="2dp"
-    android:layout_marginTop="3dp"
-    android:layout_marginEnd="2dp"
-    android:layout_marginBottom="3dp"
-    android:padding="6dp"
-    app:cardCornerRadius="8dp"
-    android:elevation="2dp">
+    android:layout_height="80dp"
+    android:layout_margin="1dp"
+    android:layout_marginStart="1dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="1dp"
+    android:layout_marginBottom="2dp"
+    android:elevation="2dp"
+    android:padding="5dp"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:id="@+id/linearLayoutDiaCalendario"
@@ -19,7 +20,7 @@
         android:background="@color/primary_color"
         android:orientation="vertical"
         android:padding="0dp">
-        <!--android:background="#D93E55EA"-->
+
         <TextView
             android:id="@+id/tvNumDia"
             style="@style/texto_1_2_Claro"

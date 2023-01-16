@@ -148,12 +148,17 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         public void checkGrupo(Boolean chek){
             grupoGuardado = chek;
             if(grupoGuardado){
-                cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#aa00dd"));
-                tvBotonSeguir.setTextColor(Color.parseColor("#FFFDF1F1"));
+                cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#FF3F888F"));
+                //cardGrupoBoton.setCardBackgroundColor(R.color.primary_color);
+                //tvBotonSeguir.setTextColor(Color.parseColor("#FFFDF1F1"));
+                //tvBotonSeguir.setTextColor(R.color.negro);
                 tvBotonSeguir.setText("Siguiendo");
             }else{
-                cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                tvBotonSeguir.setTextColor(Color.parseColor("#FF5A5046"));
+                //cardGrupoBoton.setCardBackgroundColor(R.color.blanco);
+                //cardGrupoBoton.setBackgroundResource(R.color.blanco);
+                cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#FFF5F5F5"));
+                //tvBotonSeguir.setTextColor(Color.parseColor("#FF5A5046"));
+                //tvBotonSeguir.setTextColor(R.color.negro);
                 tvBotonSeguir.setText("Seguir");
             }
         }
