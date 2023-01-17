@@ -17,15 +17,20 @@ import java.util.List;
 
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.R;
+import es.renedogj.fecha.Fecha;
 
-public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdaptador.ViewHolder>{
+public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdaptador.ViewHolder> {
 
     private Context context;
     private List<Aviso> avisos;
+    private TextView tvFechaSelecionada;
+    private RecyclerView rvAvisosDiaSelecionado;
 
-    public AvisoTituloAdaptador(Context context,List<Aviso> avisos){
+    public AvisoTituloAdaptador(Context context, List<Aviso> avisos, TextView tvFechaSelecionada, RecyclerView rvAvisosDiaSelecionado) {
         this.context = context;
         this.avisos = avisos;
+        this.tvFechaSelecionada = tvFechaSelecionada;
+        this.rvAvisosDiaSelecionado = rvAvisosDiaSelecionado;
     }
 
     @NonNull
@@ -47,22 +52,27 @@ public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdapta
         return avisos.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardTituloAviso;
         private LinearLayout linearLayoutTituloAviso;
         private TextView tvTituloAviso;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
+            cardTituloAviso = itemView.findViewById(R.id.cardTituloAviso);
             tvTituloAviso = itemView.findViewById(R.id.tvTituloAviso);
             linearLayoutTituloAviso = itemView.findViewById(R.id.linearLayoutTituloAviso);
-            cardTituloAviso = itemView.findViewById(R.id.cardTituloAviso);
         }
 
         public void asignarValores(Aviso aviso) {
             tvTituloAviso.setText(aviso.titulo);
             linearLayoutTituloAviso.setBackgroundColor(aviso.obtenerColor(context));
-            //aviso.asignarColor(context,linearLayoutTituloAviso);
+
+            cardTituloAviso.setOnClickListener(v -> {
+                tvFechaSelecionada.setText("Avisos " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.EEEE_d_MMMM));
+                AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
+                rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
+            });
         }
     }
 }

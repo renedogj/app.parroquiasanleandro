@@ -65,6 +65,7 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
         }
 
         public void asignarValoresArticulo(Articulo articulo) {
+            //cardDia.getLayoutParams().height = tamaño;
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             rvImagenesArticulo.setLayoutManager(linearLayoutManager);
 
