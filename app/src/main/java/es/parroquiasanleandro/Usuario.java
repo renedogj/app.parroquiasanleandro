@@ -203,4 +203,15 @@ public class Usuario {
         editor.apply();
         Grupo.vaciarTablasGruposSeguidosYAdministrados(context);
     }
+
+    public boolean esAdminGrupo(String idGrupo){
+        if(esAdministrador){
+            for (Grupo grupo: gruposAdministrados) {
+                if(idGrupo.equals(grupo.id)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

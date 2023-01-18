@@ -12,7 +12,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/background_items_contraste"
+        app:layout_constraintTop_toTopOf="parent"
         android:paddingBottom="15dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnEditar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_editar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Editar aviso" />
 
     <androidx.cardview.widget.CardView
         android:id="@id/cardAviso"
@@ -103,6 +118,6 @@
                         tools:targetApi="p" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
-        </LinearLayout>-
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.motion.widget.MotionLayout>

@@ -82,6 +82,7 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
             cardAviso.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ActivityAviso.class);
                 intent.putExtra("idAviso",aviso.id);
+                intent.putExtra("idGrupo",aviso.idGrupo);
                 context.startActivity(intent);
             });
         }

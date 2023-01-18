@@ -16,6 +16,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,6 +37,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import es.parroquiasanleandro.Aviso;
@@ -50,10 +53,10 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
     private EditText etTitulo;
     private ImageView ivImagenAviso;
-    private LinearLayout lnlytAñadirImagen;
+    private ConstraintLayout cntrtlytAñadirImagen;
+    private ImageButton btnEliminarImagen;
     private TextView tvAñadirImagen;
     private EditText etDescripcion;
-    //private Switch switchTodoElDia;
     private TextView etUrl;
     private TextView tvFechaInicio;
     private TextView tvHoraInicio;
@@ -76,6 +79,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
     private Usuario usuario;
 
+    private String idAviso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +87,8 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
         etTitulo = findViewById(R.id.etTitulo);
         ivImagenAviso = findViewById(R.id.ivImagenAviso);
-        lnlytAñadirImagen = findViewById(R.id.lnlytAñadirImagen);
+        cntrtlytAñadirImagen = findViewById(R.id.cntrtlytAñadirImagen);
+        btnEliminarImagen = findViewById(R.id.btnEliminarImagen);
         tvAñadirImagen = findViewById(R.id.tvAñadirImagen);
         etDescripcion = findViewById(R.id.etDescripcion);
         etUrl = findViewById(R.id.etUrl);
@@ -104,6 +109,8 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         if (!usuario.esAdministrador) {
             finish();
         }
+
+        idAviso = getIntent().getStringExtra("idAviso");
 
         String[] nombreGruposAdministrados;
         if (usuario.getGruposAdministrados() != null) {
@@ -173,24 +180,82 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                 fechaFin.hora = hourOfDay;
                 fechaFin.minuto = minute;
                 tvHoraFinal.setText(fechaFin.toString(Fecha.FormatosFecha.HH_mm));
+                Log.d("FECHA FIN", fechaFin.toString(Fecha.FormatosFecha.dd_MM_aaaa_HH_mm));
             }, fechaFin.hora, fechaFin.minuto, true);
             timePickerDialog.show();
         });
 
 
-        bttnNuevoAviso.setOnClickListener(v -> guardarNuevoAviso());
+        bttnNuevoAviso.setOnClickListener(v -> guardarAviso());
 
         bttnCancelar.setOnClickListener(v -> finish());
 
-        lnlytAñadirImagen.setOnClickListener(v -> {
+        cntrtlytAñadirImagen.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivitySeleccionarImagen.class);
             intent.putExtra("idGrupo", usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id);
             startActivityForResult(intent, 1);
         });
+
+        btnEliminarImagen.setOnClickListener(v -> {
+            imagenStringByte = null;
+            nombreImagen = null;
+            Glide.with(context).clear(ivImagenAviso);
+            btnEliminarImagen.setVisibility(View.GONE);
+        });
+
+        if(idAviso != null){
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAviso, result -> {
+                Log.e("RESULT", result);
+                try {
+                    JSONObject jsonResult = new JSONObject(result);
+                    if (!jsonResult.getBoolean("error")) {
+                        JSONObject jsonAviso = jsonResult.getJSONObject("aviso");
+                        Aviso aviso = Aviso.JSONObjectToAviso(jsonAviso);
+                        etTitulo.setText(aviso.titulo);
+                        etDescripcion.setText(aviso.descripcion);
+                        aviso.asignarImagen(context,ivImagenAviso);
+                        btnEliminarImagen.setVisibility(View.VISIBLE);
+                        if (!aviso.nombreImagen.equals("null")){
+                            nombreImagen = aviso.nombreImagen;
+                        }
+                        fechaInicio = aviso.getFechaInicio();
+                        fechaFin = aviso.getFechaFin();
+                        tvFechaInicio.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
+                        tvHoraInicio.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
+                        tvFechaFinal.setText(aviso.getFechaFin().toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
+                        tvHoraFinal.setText(aviso.getFechaFin().toString(Fecha.FormatosFecha.HH_mm));
+                        lnlytFechaFinal.setVisibility(View.VISIBLE);
+                        tvSimboloAñadirFechaFinal.setText("-");
+                        tvAñadirFechaFinal.setText("Quitar fecha de fin");
+                        spinnerGrupo.setSelection(0);
+                        if(aviso.url != null){
+                            etUrl.setText(aviso.url);
+                        }
+                    } else {
+                        Toast.makeText(context, jsonResult.getString("El aviso solicitado no existe"), Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Se ha producido un error en el servidor al recuperar el aviso", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                    onBackPressed();
+                }
+            }, error -> {
+                Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> parametros = new HashMap<>();
+                    parametros.put("idAviso", idAviso);
+                    return parametros;
+                }
+            });
+        }
     }
 
     public void actualizarFechaFin(){
-        fechaFin = fechaInicio;
+        fechaFin = fechaInicio.clone();
         if(lnlytFechaFinal.getVisibility() == View.VISIBLE){
             fechaFin.sumMinutos(60);
         }
@@ -198,7 +263,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         tvHoraFinal.setText(fechaFin.toString(Fecha.FormatosFecha.HH_mm));
     }
 
-    private void guardarNuevoAviso() {
+    private void guardarAviso() {
         Aviso aviso;
         String titulo = etTitulo.getText().toString().trim();
         String descripcion = etDescripcion.getText().toString().trim();
@@ -214,32 +279,16 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
         if (aviso.titulo.length() > 0) {
             if (aviso.descripcion.length() > 0) {
-                RequestQueue requestQueue = Volley.newRequestQueue(context);
-                requestQueue.add(new StringRequest(Request.Method.POST, Url.crearNuevoAviso, result -> {
-                    Log.e("RESULT", result);
-                    try {
-                        JSONObject jsonResult = new JSONObject(result);
-                        if (!jsonResult.getBoolean("error")) {
-                            Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(context, "Se ha producido un error al crear el aviso, por favor intentalo más tarde", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                if(aviso.getFechaInicio().esIgualA(aviso.getFechaFin()) || Fecha.isFecha1MayorQueFecha2(aviso.getFechaFin(), aviso.getFechaInicio())){
+                    if(idAviso == null){
+                        guardarNuevoAviso(aviso);
+                    }else{
+                        editarAviso(aviso);
                     }
-                }, error -> {
-                    Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-                    error.printStackTrace();
-                }) {
-                    protected Map<String, String> getParams() {
-                        Map<String, String> parametros = aviso.toMap(context);
-                        if (imagenStringByte != null) {
-                            parametros.put(Aviso.IMAGEN, imagenStringByte);
-                        }
-                        return parametros;
-                    }
-                });
-                finish();
+                    finish();
+                }else{
+                    Toast.makeText(context, "La fecha final no puede ser anterior a la fecha inicial", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(context, "El campo de descripción no puede estar vacio", Toast.LENGTH_SHORT).show();
             }
@@ -248,26 +297,85 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         }
     }
 
+    public void guardarNuevoAviso(Aviso aviso){
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(new StringRequest(Request.Method.POST, Url.crearNuevoAviso, result -> {
+            Log.e("RESULT", result);
+            try {
+                JSONObject jsonResult = new JSONObject(result);
+                if (!jsonResult.getBoolean("error")) {
+                    Toast.makeText(context, "Aviso creado con exito", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Se ha producido un error al crear el aviso, por favor intentalo más tarde", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> parametros = aviso.toMap(context);
+                if (imagenStringByte != null) {
+                    parametros.put(Aviso.IMAGEN, imagenStringByte);
+                }
+                return parametros;
+            }
+        });
+    }
+
+    public void editarAviso(Aviso aviso){
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(new StringRequest(Request.Method.POST, Url.editarAviso, result -> {
+            Log.e("RESULT", result);
+            try {
+                JSONObject jsonResult = new JSONObject(result);
+                if (!jsonResult.getBoolean("error")) {
+                    Toast.makeText(context, "Aviso editado con exito", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Se ha producido un error al editar el aviso, por favor intentalo más tarde", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> parametros = aviso.toMap(context);
+                if (imagenStringByte != null) {
+                    parametros.put(Aviso.IMAGEN, imagenStringByte);
+                }
+                parametros.put("idAviso", idAviso);
+                return parametros;
+            }
+        });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == ActivitySeleccionarImagen.SELECION_IMAGEN_GALERIA) {
             if (requestCode == 1 && data != null && data.getData() != null) {
+                Uri uriImagen = data.getData();
                 try {
-                    Uri uriImagen = data.getData();
                     Bitmap bitmapImagen = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uriImagen);
                     imagenStringByte = bitmapToString(bitmapImagen);
                     Glide.with(context).load(uriImagen.toString()).into(ivImagenAviso);
+                    btnEliminarImagen.setVisibility(View.VISIBLE);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                nombreImagen = generarNombreImagen();
+                nombreImagen = generarNombreImagen();// + "." + getFileExtension(uriImagen);
             }
         }
         if (resultCode == ActivitySeleccionarImagen.SELECION_IMAGEN_SERVIDOR) {
             nombreImagen = data.getStringExtra("nombreImagen");
             String idGrupo = usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id;
             Glide.with(context).load(Url.obtenerImagenAviso + idGrupo + "/img/" + nombreImagen).into(ivImagenAviso);
+            btnEliminarImagen.setVisibility(View.VISIBLE);
         }
 
         tvAñadirImagen.setText("Cambiar imagen");
@@ -288,6 +396,6 @@ public class ActivityNuevoAviso extends AppCompatActivity {
     }
 
     private String generarNombreImagen() {
-        return System.currentTimeMillis() + "_" + usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id + "_" + usuario.getId();
+        return System.currentTimeMillis() + "_" + usuario.getGruposAdministrados()[spinnerGrupo.getSelectedItemPosition()].id + "_" + usuario.getId() + ".jpeg";
     }
 }

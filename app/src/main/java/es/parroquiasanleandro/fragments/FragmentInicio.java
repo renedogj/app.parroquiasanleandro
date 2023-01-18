@@ -59,6 +59,8 @@ public class FragmentInicio extends Fragment {
 	List<Aviso> avisos;
 	List<MenuOption> menuOptionList;
 
+	private Usuario usuario;
+
 	public FragmentInicio() {
 	}
 
@@ -91,41 +93,12 @@ public class FragmentInicio extends Fragment {
 		avisos = new ArrayList<>();
 		menuOptionList = MenuOption.obtenerListMenuOptions();
 
-		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+		usuario = Usuario.recuperarUsuarioLocal(context);
 
 		MenuIncioAdaptador menuIncioAdaptador = new MenuIncioAdaptador(context, activity, menuOptionList, Menu.FRAGMENT_INICIO, getParentFragmentManager(), viewModel.getActionBar(), viewModel.getNavView());
 		rvMenu.setAdapter(menuIncioAdaptador);
 
 		obtenerCitaBiblica(Url.obtenerCitaBliblica);
-
-		//Obtener los avisos de esta semana
-		RequestQueue requestQueue = Volley.newRequestQueue(context);
-		requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisosSemana, result -> {
-			try {
-				JSONObject jsonResult = new JSONObject(result);
-				if(!jsonResult.getBoolean("error")){
-					JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
-					avisos.addAll(Aviso.JSONArrayToAvisos(jsonArrayAvisos));
-				}
-				mostrarAvisosSemanales();
-			} catch (JSONException e) {
-				Toast.makeText(context, "Se ha producido un error en el servidor al recuperar los avisos de esta semana", Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
-			}
-		}, error -> {
-			Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-		}) {
-			@Override
-			protected Map<String, String> getParams() {
-				Map<String,String> parametros = new HashMap<>();
-				if(usuario.getId() != null){
-					parametros.put("idUsuario",usuario.getId());
-				}else {
-					parametros.put("idUsuario","0");
-				}
-				return parametros;
-			}
-		});
 
 		return view;
 	}
@@ -135,6 +108,7 @@ public class FragmentInicio extends Fragment {
 		super.onResume();
 		viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
 		viewModel.addIdFragmentActual();
+		obtenerAvisosSemanales();
 	}
 
 	public void obtenerCitaBiblica(String url) {
@@ -167,5 +141,37 @@ public class FragmentInicio extends Fragment {
 			tvAvisosSemanales.setText("No hay ningún aviso esta semana");
 			tvAvisosSemanales.getLayoutParams().height = 220;
 		}
+	}
+
+	//Obtener los avisos de esta semana
+	public void obtenerAvisosSemanales(){
+		avisos.clear();
+		RequestQueue requestQueue = Volley.newRequestQueue(context);
+		requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisosSemana, result -> {
+			try {
+				JSONObject jsonResult = new JSONObject(result);
+				if(!jsonResult.getBoolean("error")){
+					JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
+					avisos.addAll(Aviso.JSONArrayToAvisos(jsonArrayAvisos));
+				}
+				mostrarAvisosSemanales();
+			} catch (JSONException e) {
+				Toast.makeText(context, "Se ha producido un error en el servidor al recuperar los avisos de esta semana", Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
+		}, error -> {
+			Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+		}) {
+			@Override
+			protected Map<String, String> getParams() {
+				Map<String,String> parametros = new HashMap<>();
+				if(usuario.getId() != null){
+					parametros.put("idUsuario",usuario.getId());
+				}else {
+					parametros.put("idUsuario","0");
+				}
+				return parametros;
+			}
+		});
 	}
 }

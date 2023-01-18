@@ -44,38 +44,24 @@ public class Aviso {
 
     public Aviso() {}
 
-    public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, Fecha fechaFin, /*boolean todoElDia,*/ String nombreImagen, String url, String uidCreador) {
+    public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, Fecha fechaFin, String nombreImagen, String url, String uidCreador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.idGrupo = idGrupo;
         this.fechaInicio = fechaInicio;
-        //this.longInicio = Fecha.toMillis(fechaInicio);
         this.fechaFin = fechaFin;
-        //this.longFin = Fecha.toMillis(fechaFin);
-        //this.todoElDia = todoElDia;
         this.nombreImagen = nombreImagen;
         this.url = url;
         this.archivo = null;
         this.idCreador = uidCreador;
     }
 
-    public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, /*boolean todoElDia,*/ String nombreImagen, String url, String uidCreador) {
+    public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, String nombreImagen, String url, String uidCreador) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.idGrupo = idGrupo;
         this.fechaInicio = fechaInicio;
-        //this.longInicio = Fecha.toMillis(fechaInicio);
-		/*if(todoElDia){
-			fechaInicio.sumDias(1);
-			fechaInicio.hora = 0;
-			fechaInicio.minuto = 0;
-			fechaInicio.segundo = 0;
-		}else{
-			fechaInicio.sumHoras(1);
-		}*/
         this.fechaFin = fechaInicio;
-        //this.longFin = Fecha.toMillis(fechaInicio);
-        //this.todoElDia = todoElDia;
         this.nombreImagen = nombreImagen;
         this.url = url;
         this.archivo = null;
@@ -151,8 +137,8 @@ public class Aviso {
 
     //Funcion para asignar la imagen del aviso obteniendolo de la bbdd al imageView
     public void asignarImagen(Context context, ImageView imageView) {
-        if (!nombreImagen.equals("null")) {
-            Glide.with(context).load(Url.obtenerImagenAviso + idGrupo + "/img/" + nombreImagen + ".jpeg").into(imageView);
+        if (!nombreImagen.equals("null") && !nombreImagen.equals("")) {
+            Glide.with(context).load(Url.obtenerImagenAviso + idGrupo + "/img/" + nombreImagen).into(imageView);
         } else {
             Glide.with(context).load(Url.obtenerImagenAviso + idGrupo + "/img/" + Grupo.obtenerImagenGrupo(context, idGrupo)).into(imageView);
         }
