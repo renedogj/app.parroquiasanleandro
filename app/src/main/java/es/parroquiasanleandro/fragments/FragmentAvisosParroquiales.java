@@ -3,6 +3,7 @@ package es.parroquiasanleandro.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,6 @@ import es.parroquiasanleandro.activitys.ActivityNuevoAviso;
 import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
-
 public class FragmentAvisosParroquiales extends Fragment {
     private Context context;
 
@@ -50,7 +50,8 @@ public class FragmentAvisosParroquiales extends Fragment {
 
     private ItemViewModel viewModel;
 
-    public FragmentAvisosParroquiales() {}
+    public FragmentAvisosParroquiales() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class FragmentAvisosParroquiales extends Fragment {
 
         avisos = new ArrayList<>();
 
-        if(usuario.esAdministrador){
+        if (usuario.esAdministrador) {
             bttnNuevoAviso.setVisibility(View.VISIBLE);
         }
 
@@ -89,25 +90,24 @@ public class FragmentAvisosParroquiales extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("ON RESUME", "ON RESUME");
         viewModel.setIdFragmentActual(Menu.FRAGMENT_AVISOS);
         viewModel.addIdFragmentActual();
         obtenerMostrarAvisos();
     }
 
-    public void obtenerMostrarAvisos(){
+    public void obtenerMostrarAvisos() {
         avisos.clear();
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisos, result -> {
             try {
                 JSONObject jsonResult = new JSONObject(result);
-                if(!jsonResult.getBoolean("error")){
+                if (!jsonResult.getBoolean("error")) {
                     JSONArray jsonArrayAvisos = jsonResult.getJSONArray("avisos");
                     avisos.addAll(Aviso.JSONArrayToAvisos(jsonArrayAvisos));
 
-                    if(!avisos.isEmpty()) {
-                        AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
-                        rvAvisos.setAdapter(avisoAdaptador);
-                    }
+                    AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
+                    rvAvisos.setAdapter(avisoAdaptador);
                 }
             } catch (JSONException e) {
                 Toast.makeText(context, "Se ha producido un error en el servidor al recuperar los avisos", Toast.LENGTH_SHORT).show();
@@ -118,11 +118,11 @@ public class FragmentAvisosParroquiales extends Fragment {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String,String> parametros = new HashMap<>();
-                if(usuario.getId() != null){
-                    parametros.put("idUsuario",usuario.getId());
-                }else {
-                    parametros.put("idUsuario","0");
+                Map<String, String> parametros = new HashMap<>();
+                if (usuario.getId() != null) {
+                    parametros.put("idUsuario", usuario.getId());
+                } else {
+                    parametros.put("idUsuario", "0");
                 }
                 return parametros;
             }

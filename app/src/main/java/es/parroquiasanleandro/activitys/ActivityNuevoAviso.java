@@ -70,6 +70,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
     private Button bttnNuevoAviso;
     private Button bttnCancelar;
+    private Button bttnEliminarAviso;
 
     private String imagenStringByte = null;
     private String nombreImagen = null;
@@ -101,8 +102,10 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         lnlytAñadirFechaFinal = findViewById(R.id.lnlytAñadirFechaFinal);
         tvSimboloAñadirFechaFinal = findViewById(R.id.tvSimboloAñadirFechaFinal);
         tvAñadirFechaFinal = findViewById(R.id.tvAñadirFechaFinal);
+
         bttnNuevoAviso = findViewById(R.id.bttnNuevoAviso);
         bttnCancelar = findViewById(R.id.bttnCancelar);
+        bttnEliminarAviso = findViewById(R.id.bttnEliminarAviso);
 
         usuario = Usuario.recuperarUsuarioLocal(context);
 
@@ -204,9 +207,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         });
 
         if(idAviso != null){
-            RequestQueue requestQueue = Volley.newRequestQueue(context);
-            requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAviso, result -> {
-                Log.e("RESULT", result);
+            Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.obtenerAviso, result -> {
                 try {
                     JSONObject jsonResult = new JSONObject(result);
                     if (!jsonResult.getBoolean("error")) {
@@ -250,6 +251,36 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                     parametros.put("idAviso", idAviso);
                     return parametros;
                 }
+            });
+
+            bttnEliminarAviso.setVisibility(View.VISIBLE);
+            bttnEliminarAviso.setOnClickListener(v -> {
+                Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.eliminarAviso, result -> {
+                    Log.e("RESULT", result);
+                    try {
+                        JSONObject jsonResult = new JSONObject(result);
+                        if (!jsonResult.getBoolean("error")) {
+                            Toast.makeText(context, "Aviso eliminado con éxito", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "Se ha producido un error al eliminar el aviso", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(context, "Se ha producido un error en el servidor al eliminar el aviso", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                        onBackPressed();
+                    }
+                }, error -> {
+                    Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> parametros = new HashMap<>();
+                        parametros.put("idAviso", idAviso);
+                        return parametros;
+                    }
+                });
+                onBackPressed();
+                finish();
             });
         }
     }

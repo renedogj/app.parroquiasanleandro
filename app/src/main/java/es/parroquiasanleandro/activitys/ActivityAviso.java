@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -71,13 +70,13 @@ public class ActivityAviso extends AppCompatActivity {
         aviso.id = getIntent().getStringExtra("idAviso");
         aviso.idGrupo = getIntent().getStringExtra("idGrupo");
 
-        if(usuario.getId() != null){
-            if(usuario.esAdministrador){
-                if(usuario.esAdminGrupo(aviso.idGrupo)){
+        if (usuario.getId() != null) {
+            if (usuario.esAdministrador) {
+                if (usuario.esAdminGrupo(aviso.idGrupo)) {
                     btnEditar.setVisibility(View.VISIBLE);
                     btnEditar.setOnClickListener(v -> {
                         Intent intent = new Intent(context, ActivityNuevoAviso.class);
-                        intent.putExtra("idAviso",aviso.id);
+                        intent.putExtra("idAviso", aviso.id);
                         startActivity(intent);
                     });
                 }
@@ -115,7 +114,6 @@ public class ActivityAviso extends AppCompatActivity {
         super.onResume();
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAviso, result -> {
-            Log.e("RESULT", result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if (!jsonResult.getBoolean("error")) {
@@ -142,7 +140,7 @@ public class ActivityAviso extends AppCompatActivity {
                         bttnArchivos.setVisibility(View.VISIBLE);
                     }
                 } else {
-                    Toast.makeText(context, jsonResult.getString("El aviso solicitado no existe"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "El aviso solicitado no existe", Toast.LENGTH_SHORT).show();
                     onBackPressed();
                 }
             } catch (JSONException e) {
