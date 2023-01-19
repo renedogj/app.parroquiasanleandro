@@ -73,7 +73,6 @@ public class AvisoAdaptador extends RecyclerView.Adapter<AvisoAdaptador.ViewHold
 
         public void asignarValoresAviso(Aviso aviso) {
             linearLayoutContenedorAviso.setBackgroundColor(aviso.obtenerColor(context));
-            //aviso.asignarColor(context,linearLayoutContenedorAviso);
             tvTitulo.setText(aviso.titulo);
             tvFecha.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             aviso.asignarImagen(context,ivAviso);

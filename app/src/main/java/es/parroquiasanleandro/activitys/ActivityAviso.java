@@ -78,6 +78,7 @@ public class ActivityAviso extends AppCompatActivity {
                         Intent intent = new Intent(context, ActivityNuevoAviso.class);
                         intent.putExtra("idAviso", aviso.id);
                         startActivity(intent);
+                        finish();
                     });
                 }
             }

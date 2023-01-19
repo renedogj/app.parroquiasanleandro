@@ -281,7 +281,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                         return parametros;
                     }
                 });
-                onBackPressed();
+                //onBackPressed();
                 finish();
             });
         }
