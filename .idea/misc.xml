@@ -8,6 +8,7 @@
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/fondo_parroquia.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/fondo_parroquia_dark.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_add.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_angulo_derecho.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_app.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_calendar.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_calendar_black.xml" value="0.3675" />
@@ -62,6 +63,7 @@
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/prueba.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/prueba_relative.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/spinner_grupo_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/view_cambiar_password.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/menu/nav_menu.xml" value="0.36666666666666664" />
       </map>
     </option>

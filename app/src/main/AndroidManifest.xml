@@ -24,7 +24,7 @@
             android:name=".activitys.ActivityArticulo"
             android:exported="false" />
         <activity
-            android:name=".activitys.ActivityCambiarCorreo"
+            android:name=".activitys.ActivityCambiarInfoUsuario"
             android:exported="false" />
         <activity
             android:name=".activitys.ActivityNavigation"

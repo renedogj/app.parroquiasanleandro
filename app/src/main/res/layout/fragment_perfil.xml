@@ -74,8 +74,7 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <androidx.cardview.widget.CardView
-                    style="@style/cardContenedoraPerfil">
+                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
 
                     <LinearLayout
                         android:id="@+id/linearLayoutEmail"
@@ -173,6 +172,31 @@
 
                             <TextView
                                 style="@style/tvFlecha"
+                                android:text=" >" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayoutCambiarContraseña"
+                        style="@style/lnlytCardPerfil">
+
+                        <LinearLayout
+                            style="@style/size_1_2"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/tvTituloPerfil"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:text="Cambia tu contraseña" />
+
+                            <TextView
+                                style="@style/tvFlecha"
+                                android:layout_margin="0dp"
                                 android:text=" >" />
                         </LinearLayout>
                     </LinearLayout>

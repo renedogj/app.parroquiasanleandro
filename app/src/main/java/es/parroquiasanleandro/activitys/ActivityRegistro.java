@@ -119,7 +119,6 @@ public class ActivityRegistro extends AppCompatActivity {
         }) {
             @Override
             protected Map<String, String> getParams() {
-                ;
                 Map<String, String> parametros = new HashMap<>();
                 parametros.put("nombre", nombre);
                 parametros.put("email", email);
