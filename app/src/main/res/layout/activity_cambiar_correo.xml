@@ -30,7 +30,9 @@
 
             <TextView
                 style="@style/size_1_2"
-                android:text="Nuevo correo electronico:"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:text="Introduce un nuevo correo electronico:"
                 android:textSize="16sp" />
 
             <EditText
@@ -39,8 +41,9 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:ems="10"
-                android:hint="Correo electronico"
-                android:inputType="textEmailAddress" />
+                android:hint="ejemplo@gmail.com"
+                android:inputType="textEmailAddress"
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/bttnGuardarNuevoCorreo"

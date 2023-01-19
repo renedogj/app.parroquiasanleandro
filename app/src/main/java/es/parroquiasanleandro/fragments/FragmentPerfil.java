@@ -1,6 +1,7 @@
 package es.parroquiasanleandro.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
+import es.parroquiasanleandro.activitys.ActivityCambiarCorreo;
 import es.parroquiasanleandro.adaptadores.GrupoSencilloAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 import es.renedogj.fecha.Fecha;
@@ -67,6 +69,8 @@ public class FragmentPerfil extends Fragment {
 		rvGruposUsuario = view.findViewById(R.id.rvGruposUsuario);
 		tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
 
+		fragmentManager = getParentFragmentManager();
+
 		Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 		tvNombreUsuario.setText(usuario.nombre);
 		tvEmail.setText(usuario.email);
@@ -81,15 +85,14 @@ public class FragmentPerfil extends Fragment {
 		if (usuario.fotoPerfil != null) {
 			Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
 		}
-		fragmentManager = getParentFragmentManager();
+
 		linearLayoutNombre.setOnClickListener(v -> {
 			Toast.makeText(context, "Modificar nombre", Toast.LENGTH_SHORT).show();
 		});
 
 		linearLayoutEmail.setOnClickListener(v -> {
-			/*Menu.inicarFragmentCambiarCorreo(fragmentManager);*/
-			//startActivity(new Intent(context, ActivityCambiarCorreo.class));
-			Toast.makeText(context,"Cambiar correo", Toast.LENGTH_SHORT).show();
+			startActivity(new Intent(context, ActivityCambiarCorreo.class));
+			requireActivity().finish();
 		});
 
 		linearLayoutGrupos.setOnClickListener(v -> {
