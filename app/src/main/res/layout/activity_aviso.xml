@@ -4,16 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/scene_activity_aviso"
-    app:layout_constraintTop_toTopOf="parent">
+    app:layoutDescription="@xml/scene_activity_aviso">
 
     <ImageView
         android:id="@+id/ivImagenAviso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_items_contraste"
-        app:layout_constraintTop_toTopOf="parent"
-        android:paddingBottom="15dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@id/cardAviso"
@@ -114,7 +113,6 @@
         android:layout_marginEnd="15dp"
         android:clickable="true"
         android:contentDescription="Editar aviso"
-        android:elevation="10dp"
         android:focusable="true"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

@@ -152,6 +152,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                 fechaInicio.dia = dayOfMonth;
                 fechaInicio.mes = Mes.values()[month];
                 fechaInicio.año = year;
+                fechaInicio.actualizarDiaSemana();
                 tvFechaInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
                 actualizarFechaFin();
             }, fechaInicio.año, fechaInicio.mes.getNumeroMes() - 1, fechaInicio.dia);
@@ -162,6 +163,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
             TimePickerDialog timePickerDialog = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
                 fechaInicio.hora = hourOfDay;
                 fechaInicio.minuto = minute;
+                fechaInicio.actualizarDiaSemana();
                 tvHoraInicio.setText(fechaInicio.toString(Fecha.FormatosFecha.HH_mm));
                 actualizarFechaFin();
             }, fechaInicio.hora, fechaInicio.minuto, true);
@@ -173,6 +175,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                 fechaFin.dia = dayOfMonth;
                 fechaFin.mes = Mes.values()[month];
                 fechaFin.año = year;
+                fechaFin.actualizarDiaSemana();
                 tvFechaFinal.setText(fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
             }, fechaFin.año, fechaFin.mes.getNumeroMes() - 1, fechaFin.dia);
             datePickerDialog.show();
@@ -182,8 +185,8 @@ public class ActivityNuevoAviso extends AppCompatActivity {
             TimePickerDialog timePickerDialog = new TimePickerDialog(context, (view, hourOfDay, minute) -> {
                 fechaFin.hora = hourOfDay;
                 fechaFin.minuto = minute;
+                fechaFin.actualizarDiaSemana();
                 tvHoraFinal.setText(fechaFin.toString(Fecha.FormatosFecha.HH_mm));
-                Log.d("FECHA FIN", fechaFin.toString(Fecha.FormatosFecha.dd_MM_aaaa_HH_mm));
             }, fechaFin.hora, fechaFin.minuto, true);
             timePickerDialog.show();
         });
@@ -256,7 +259,6 @@ public class ActivityNuevoAviso extends AppCompatActivity {
             bttnEliminarAviso.setVisibility(View.VISIBLE);
             bttnEliminarAviso.setOnClickListener(v -> {
                 Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.eliminarAviso, result -> {
-                    Log.e("RESULT", result);
                     try {
                         JSONObject jsonResult = new JSONObject(result);
                         if (!jsonResult.getBoolean("error")) {
@@ -290,6 +292,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         if(lnlytFechaFinal.getVisibility() == View.VISIBLE){
             fechaFin.sumMinutos(60);
         }
+        fechaFin.actualizarDiaSemana();
         tvFechaFinal.setText(fechaFin.toString(Fecha.FormatosFecha.EE_d_MMM_aaaa));
         tvHoraFinal.setText(fechaFin.toString(Fecha.FormatosFecha.HH_mm));
     }

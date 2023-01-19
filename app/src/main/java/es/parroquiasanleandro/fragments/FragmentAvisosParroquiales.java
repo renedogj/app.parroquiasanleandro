@@ -3,7 +3,6 @@ package es.parroquiasanleandro.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +89,6 @@ public class FragmentAvisosParroquiales extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("ON RESUME", "ON RESUME");
         viewModel.setIdFragmentActual(Menu.FRAGMENT_AVISOS);
         viewModel.addIdFragmentActual();
         obtenerMostrarAvisos();

@@ -33,6 +33,7 @@ import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
+import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import es.parroquiasanleandro.adaptadores.DiaAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 import es.renedogj.fecha.Fecha;
@@ -130,6 +131,10 @@ public class FragmentCalendario extends Fragment {
     }
 
     public void setCalendario() {
+        avisos.clear();
+        tvFechaSelecionada.setText("");
+        AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
+        rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
         fechas.clear();
         for (int i = fechaReferencia.diaSemana.getNumeroDia() - 1; i >= 1; i--) {
             Fecha auxFecha = new Fecha(fechaReferencia.dia, fechaReferencia.mes, fechaReferencia.año);
@@ -158,7 +163,6 @@ public class FragmentCalendario extends Fragment {
     public void obtenerAvisos() {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisosCalendario, result -> {
-            //Log.d("Resultado",result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if (!jsonResult.getBoolean("error")) {
