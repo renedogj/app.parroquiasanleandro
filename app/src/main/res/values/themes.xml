@@ -9,6 +9,7 @@
         <!--<item name="android:textColorPrimary">@color/blanco_2</item>-->
         <item name="android:statusBarColor">@color/primary_color</item>
         <!--<item name="android:navigationBarColor">@color/primary_color</item>-->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <!-- Style splash -->

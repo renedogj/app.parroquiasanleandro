@@ -1,7 +1,6 @@
 package es.parroquiasanleandro.fragments;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,17 +60,17 @@ public class FragmentMercadillo extends Fragment {
 
         rvArticulos.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
-        rvArticulos.addItemDecoration(new RecyclerView.ItemDecoration() {
+        /*rvArticulos.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 if (parent.getChildLayoutPosition(view) % 2 != 0) {
-                    outRect.top = 25;
-                    outRect.bottom = -25;
+                    outRect.top = 50;
+                    outRect.bottom = -50;
                 } else {
                     outRect.top = 0;
                 }
             }
-        });
+        });*/
         rvArticulos.setLayoutManager(gridLayoutManager);
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);

@@ -33,9 +33,9 @@
                 android:background="@color/transparente"
                 android:hint="Añade un título"
                 android:inputType="text"
-                android:paddingStart="25dp"
+                android:paddingStart="20dp"
                 android:paddingTop="10dp"
-                android:paddingEnd="25dp"
+                android:paddingEnd="20dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/negro"
                 android:textSize="18sp" />
@@ -55,13 +55,13 @@
                 android:gravity="start|top"
                 android:hint="Añade una descripción"
                 android:inputType="textMultiLine"
-                android:lines="3"
-                android:paddingStart="25dp"
+                android:lines="2"
+                android:paddingStart="20dp"
                 android:paddingTop="10dp"
-                android:paddingEnd="25dp"
+                android:paddingEnd="20dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/negro"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -140,8 +140,16 @@
                 android:id="@+id/spinnerGrupo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:padding="5dp" />
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider" />
 
             <EditText
                 android:id="@+id/etUrl"
@@ -150,12 +158,12 @@
                 android:ems="10"
                 android:gravity="start|top"
                 android:hint="Añade una url"
-                android:paddingStart="25dp"
+                android:paddingStart="20dp"
                 android:paddingTop="10dp"
-                android:paddingEnd="25dp"
+                android:paddingEnd="20dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/azul"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"

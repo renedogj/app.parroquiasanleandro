@@ -132,7 +132,9 @@ public class FragmentInicio extends Fragment {
 			if (avisos.size() == 1) {
 				rvAvisosSemana.getLayoutParams().height = -2;
 			} else {
-				rvAvisosSemana.getLayoutParams().height = 450;
+				//rvAvisosSemana.getLayoutParams().height = 450;
+				rvAvisosSemana.getLayoutParams().height = 490;
+				//rvAvisosSemana.getLayoutParams().height = 500;
 			}
 			AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
 			rvAvisosSemana.setAdapter(avisoAdaptador);
