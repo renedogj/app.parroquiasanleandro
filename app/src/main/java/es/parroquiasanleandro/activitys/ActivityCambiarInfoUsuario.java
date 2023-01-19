@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -123,12 +124,18 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
         EditText etPassword;
         EditText etComprobarPassword;
         Button bttnGuardarPassword;
+        ImageButton imgBtnShowPassword;
 
         setContentView(R.layout.view_cambiar_password);
 
         etPassword = findViewById(R.id.etContraseña);
         etComprobarPassword = findViewById(R.id.etComprobarContraseña);
         bttnGuardarPassword = findViewById(R.id.bttnGuardarPassword);
+        imgBtnShowPassword = findViewById(R.id.imgBtnShowPassword);
+
+        imgBtnShowPassword.setOnClickListener(view1 -> {
+            ActivityInicarSesion.changeShowPassword(etPassword, imgBtnShowPassword);
+        });
 
         bttnGuardarPassword.setOnClickListener(v -> {
             String password = etPassword.getText().toString().trim();

@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.activitys;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -39,7 +40,10 @@ public class ActivityAviso extends AppCompatActivity {
     private LinearLayout linearLayoutContenedorAviso;
     private LinearLayout linearLayoutAviso;
     private TextView tvTituloAviso;
+    private TextView tvFecha;
+    private LinearLayout lnlytFechaInicio;
     private TextView tvFechaInicio;
+    private LinearLayout lnlytFechaFin;
     private TextView tvFechaFinal;
     private TextView tvDescripcion;
     private Button bttnUrl;
@@ -58,7 +62,10 @@ public class ActivityAviso extends AppCompatActivity {
         linearLayoutContenedorAviso = findViewById(R.id.linearLayoutContenedorAviso);
         linearLayoutAviso = findViewById(R.id.linearLayoutAviso);
         tvTituloAviso = findViewById(R.id.tvTituloAviso);
+        tvFecha = findViewById(R.id.tvFecha);
+        lnlytFechaInicio = findViewById(R.id.lnlytFechaInicio);
         tvFechaInicio = findViewById(R.id.tvFechaInicio);
+        lnlytFechaFin = findViewById(R.id.lnlytFechaFin);
         tvFechaFinal = findViewById(R.id.tvFechaFinal);
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
@@ -122,11 +129,9 @@ public class ActivityAviso extends AppCompatActivity {
                     aviso = Aviso.JSONObjectToAviso(jsonAviso);
                     aviso.asignarImagen(context, ivImagenAviso);
                     tvTituloAviso.setText(aviso.titulo);
-                    tvFechaInicio.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
-                    if (aviso.getFechaFin() != null) {
-                        tvFechaFinal.setText(aviso.getFechaFin().toString(Fecha.FormatosFecha.dd_MM_aaaa) + "  " + aviso.getFechaFin().toString(Fecha.FormatosFecha.HH_mm));
-                    }
                     tvDescripcion.setText(aviso.descripcion);
+
+                    asignarFechas();
 
                     int colorGrupo = aviso.obtenerColor(context);
                     linearLayoutContenedorAviso.setBackgroundColor(colorGrupo);
@@ -159,5 +164,28 @@ public class ActivityAviso extends AppCompatActivity {
                 return parametros;
             }
         });
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void asignarFechas() {
+        if (aviso.getFechaFin() != null) {
+            if (aviso.getFechaInicio().esIgualA(aviso.getFechaFin())) {
+                tvFecha.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMMM) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
+            } else {
+                if (Fecha.isFechasDelMismoDia(aviso.getFechaInicio(), aviso.getFechaFin())) {
+                    tvFecha.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMMM)
+                            + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm)
+                            + " - " + aviso.getFechaFin().toString(Fecha.FormatosFecha.HH_mm));
+                } else {
+                    tvFechaInicio.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMMM) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
+                    tvFechaFinal.setText(aviso.getFechaFin().toString(Fecha.FormatosFecha.EE_d_MMMM) + "  " + aviso.getFechaFin().toString(Fecha.FormatosFecha.HH_mm));
+                    lnlytFechaInicio.setVisibility(View.VISIBLE);
+                    lnlytFechaFin.setVisibility(View.VISIBLE);
+                    tvFecha.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            tvFecha.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMMM) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
+        }
     }
 }

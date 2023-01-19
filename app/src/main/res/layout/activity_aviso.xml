@@ -25,8 +25,8 @@
             android:id="@+id/linearLayoutContenedorAviso"
             style="@style/lnly_1_2_v"
             android:paddingStart="10dp"
-            android:paddingEnd="10dp"
             android:paddingTop="10dp"
+            android:paddingEnd="10dp"
             android:paddingBottom="20dp">
 
             <androidx.cardview.widget.CardView
@@ -43,20 +43,6 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <Button
-                        android:id="@+id/bttnUrl"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="URL"
-                        android:visibility="gone" />
-
-                    <Button
-                        android:id="@+id/bttnArchivos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Archivo"
-                        android:visibility="gone" />
-
                     <TextView
                         android:id="@+id/tvTituloAviso"
                         style="@style/size_1_2"
@@ -66,24 +52,66 @@
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/tvFecha"
+                        style="@style/size_1_2"
+                        android:gravity="center"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingEnd="20dp"
+                        android:paddingBottom="10dp"
+                        android:text=""
+                        android:textSize="16sp" />
+
                     <LinearLayout
-                        android:id="@+id/lnlyt2"
+                        android:id="@+id/lnlytFechaInicio"
                         style="@style/lnly_1_2_h"
-                        android:padding="20dp">
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/size_2_1"
+                            android:gravity="center_vertical"
+                            android:text="Fecha Inicio:"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvFechaInicio"
                             style="@style/size_1_2"
                             android:layout_weight="1"
                             android:gravity="left"
+                            android:paddingStart="20dp"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="10dp"
                             android:text=""
                             android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lnlytFechaFin"
+                        style="@style/lnly_1_2_h"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/size_2_1"
+                            android:gravity="center_vertical"
+                            android:text="Fecha Fin:"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvFechaFinal"
                             style="@style/size_1_2"
-                            android:layout_weight="1"
-                            android:gravity="right"
+                            android:gravity="center"
+                            android:paddingStart="20dp"
+                            android:paddingTop="10dp"
+                            android:paddingEnd="20dp"
+                            android:paddingBottom="10dp"
                             android:text=""
                             android:textSize="16sp" />
                     </LinearLayout>
@@ -94,17 +122,30 @@
                         android:ems="10"
                         android:justificationMode="inter_word"
                         android:paddingStart="20dp"
-                        android:paddingTop="10dp"
+                        android:paddingTop="15dp"
                         android:paddingEnd="20dp"
-                        android:paddingBottom="10dp"
+                        android:paddingBottom="15dp"
                         android:text=""
                         android:textSize="16sp"
                         app:lineHeight="24dp"
                         tools:targetApi="p" />
+
+                    <Button
+                        android:id="@+id/bttnUrl"
+                        style="@style/size_1_2"
+                        android:text="URL"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/bttnArchivos"
+                        style="@style/size_1_2"
+                        android:text="Archivo"
+                        android:visibility="gone" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnEditar"
         android:layout_width="wrap_content"

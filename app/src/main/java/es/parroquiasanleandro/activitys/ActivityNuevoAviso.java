@@ -81,6 +81,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
     private Usuario usuario;
 
     private String idAviso;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -209,7 +210,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
             btnEliminarImagen.setVisibility(View.GONE);
         });
 
-        if(idAviso != null){
+        if (idAviso != null) {
             Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.obtenerAviso, result -> {
                 try {
                     JSONObject jsonResult = new JSONObject(result);
@@ -218,9 +219,9 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                         Aviso aviso = Aviso.JSONObjectToAviso(jsonAviso);
                         etTitulo.setText(aviso.titulo);
                         etDescripcion.setText(aviso.descripcion);
-                        aviso.asignarImagen(context,ivImagenAviso);
+                        aviso.asignarImagen(context, ivImagenAviso);
                         btnEliminarImagen.setVisibility(View.VISIBLE);
-                        if (!aviso.nombreImagen.equals("null")){
+                        if (!aviso.nombreImagen.equals("null")) {
                             nombreImagen = aviso.nombreImagen;
                         }
                         fechaInicio = aviso.getFechaInicio();
@@ -233,7 +234,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                         tvSimboloAñadirFechaFinal.setText("-");
                         tvAñadirFechaFinal.setText("Quitar fecha de fin");
                         spinnerGrupo.setSelection(0);
-                        if(aviso.url != null){
+                        if (aviso.url != null) {
                             etUrl.setText(aviso.url);
                         }
                     } else {
@@ -281,15 +282,14 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                         return parametros;
                     }
                 });
-                //onBackPressed();
                 finish();
             });
         }
     }
 
-    public void actualizarFechaFin(){
+    public void actualizarFechaFin() {
         fechaFin = fechaInicio.clone();
-        if(lnlytFechaFinal.getVisibility() == View.VISIBLE){
+        if (lnlytFechaFinal.getVisibility() == View.VISIBLE) {
             fechaFin.sumMinutos(60);
         }
         fechaFin.actualizarDiaSemana();
@@ -313,14 +313,14 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
         if (aviso.titulo.length() > 0) {
             if (aviso.descripcion.length() > 0) {
-                if(aviso.getFechaInicio().esIgualA(aviso.getFechaFin()) || Fecha.isFecha1MayorQueFecha2(aviso.getFechaFin(), aviso.getFechaInicio())){
-                    if(idAviso == null){
+                if (aviso.getFechaInicio().esIgualA(aviso.getFechaFin()) || Fecha.isFecha1MayorQueFecha2(aviso.getFechaFin(), aviso.getFechaInicio())) {
+                    if (idAviso == null) {
                         guardarNuevoAviso(aviso);
-                    }else{
+                    } else {
                         editarAviso(aviso);
                     }
                     finish();
-                }else{
+                } else {
                     Toast.makeText(context, "La fecha final no puede ser anterior a la fecha inicial", Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -331,7 +331,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         }
     }
 
-    public void guardarNuevoAviso(Aviso aviso){
+    public void guardarNuevoAviso(Aviso aviso) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.crearNuevoAviso, result -> {
             Log.e("RESULT", result);
@@ -359,7 +359,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         });
     }
 
-    public void editarAviso(Aviso aviso){
+    public void editarAviso(Aviso aviso) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.editarAviso, result -> {
             Log.e("RESULT", result);

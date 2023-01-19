@@ -33,7 +33,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private static final int INPUTTYPE_TEXT = 0x00000091;
     private static final int INPUTTYPE_PWD = 0x00000081;
 
-    private Button bttnIniciarSesionGoogle;
+    //private Button bttnIniciarSesionGoogle;
     private EditText etCorreoElectronico;
     private EditText etContraseña;
     private ImageButton imgButtonShowPassword;
@@ -47,7 +47,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iniciar_sesion);
 
-        bttnIniciarSesionGoogle = findViewById(R.id.btnIniciarSesionGoogle);
+        //bttnIniciarSesionGoogle = findViewById(R.id.btnIniciarSesionGoogle);
         etCorreoElectronico = findViewById(R.id.etCorreoElectronico);
         etContraseña = findViewById(R.id.etContraseña);
         imgButtonShowPassword = findViewById(R.id.imgBtnShowPassword);
@@ -64,9 +64,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
             changeShowPassword(etContraseña, imgButtonShowPassword);
         });
 
-        bttnIniciarSesionGoogle.setOnClickListener(v -> {
+        /*bttnIniciarSesionGoogle.setOnClickListener(v -> {
             Toast.makeText(context, "Inicio de sesion con google desactivado", Toast.LENGTH_SHORT).show();
-        });
+        });*/
 
         bttnIniciarSesion.setOnClickListener(v -> iniciarSesion());
 

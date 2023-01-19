@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class ActivityRegistro extends AppCompatActivity {
     private EditText etNombre;
     private EditText etCorreoElectronico;
     private EditText etPassword;
+    private ImageButton imgBtnShowPassword;
     private EditText etComprobarPassword;
     private Button bttnRegistrarse;
     private LinearLayout linearLayoutIniciarSesion;
@@ -52,6 +54,7 @@ public class ActivityRegistro extends AppCompatActivity {
 
         etNombre = findViewById(R.id.etNombre);
         etCorreoElectronico = findViewById(R.id.etCorreoElectronico);
+        imgBtnShowPassword = findViewById(R.id.imgBtnShowPassword);
         etPassword = findViewById(R.id.etContraseña);
         etComprobarPassword = findViewById(R.id.etComprobarContraseña);
         bttnRegistrarse = findViewById(R.id.btnRegistrarse);
@@ -62,6 +65,10 @@ public class ActivityRegistro extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(false); //True-> mostrar flecha ir atras
             actionBar.setTitle("Registrarse");
         }
+
+        imgBtnShowPassword.setOnClickListener(view1 -> {
+            ActivityInicarSesion.changeShowPassword(etPassword, imgBtnShowPassword);
+        });
 
         bttnRegistrarse.setOnClickListener(v -> {
             nombre = etNombre.getText().toString().trim();

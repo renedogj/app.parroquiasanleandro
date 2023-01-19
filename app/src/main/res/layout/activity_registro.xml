@@ -25,6 +25,14 @@
             android:contentDescription="Logo parroquia San Leandro"
             app:srcCompat="@drawable/fondo_parroquia_dark" />
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="?android:attr/listDivider" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,15 +58,30 @@
                 android:hint="Correo electrónico"
                 android:inputType="textEmailAddress" />
 
-            <EditText
-                android:id="@+id/etContraseña"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
-                android:hint="Contraseña"
-                android:inputType="textPassword" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etContraseña"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:ems="10"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword" />
+
+                <ImageButton
+                    android:id="@+id/imgBtnShowPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/transparente"
+                    android:src="@drawable/eye_crossed_24" />
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/etComprobarContraseña"
@@ -83,6 +106,7 @@
             android:id="@+id/linearLayoutIniciarSesion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:orientation="horizontal">
 
             <TextView
@@ -93,12 +117,17 @@
                 android:gravity="right"
                 android:text="¿Ya tienes cuenta? " />
 
+            <Space
+                android:layout_width="3dp"
+                android:layout_height="match_parent"/>
+
             <TextView
                 android:id="@+id/tvIniciarSesion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
+                android:textColor="@color/azul"
                 android:text="Iniciar Sesión" />
         </LinearLayout>
     </LinearLayout>

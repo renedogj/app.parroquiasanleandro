@@ -32,8 +32,8 @@ import es.parroquiasanleandro.activitys.ActivityInicarSesion;
 public class FragmentConfirmarPassword extends Fragment {
     private Context context;
 
-    private EditText etConfirmacionPassword;
-    private ImageButton imgButtonShowPassword;
+    private EditText etPassword;
+    private ImageButton imgBtnShowPassword;
     private Button bttnConfirmarContraseña;
 
     @Override
@@ -47,18 +47,18 @@ public class FragmentConfirmarPassword extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_confirmar_password, container, false);
 
-        etConfirmacionPassword = view.findViewById(R.id.etConfirmacionPassword);
-        imgButtonShowPassword = view.findViewById(R.id.imgBtnShowPassword);
+        etPassword = view.findViewById(R.id.etConfirmacionPassword);
+        imgBtnShowPassword = view.findViewById(R.id.imgBtnShowPassword);
         bttnConfirmarContraseña = view.findViewById(R.id.bttnConfirmarContraseña);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
 
-        imgButtonShowPassword.setOnClickListener(view1 -> {
-            ActivityInicarSesion.changeShowPassword(etConfirmacionPassword, imgButtonShowPassword);
+        imgBtnShowPassword.setOnClickListener(view1 -> {
+            ActivityInicarSesion.changeShowPassword(etPassword, imgBtnShowPassword);
         });
 
         bttnConfirmarContraseña.setOnClickListener(view1 -> {
-            String password = etConfirmacionPassword.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
             if (!password.equals("")) {
                 Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.iniciarSesion, result -> {
                     try {
