@@ -17,20 +17,19 @@ import java.util.List;
 
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.R;
-import es.renedogj.fecha.Fecha;
 
 public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdaptador.ViewHolder> {
 
     private Context context;
     private List<Aviso> avisos;
-    private TextView tvFechaSelecionada;
-    private RecyclerView rvAvisosDiaSelecionado;
+    private DiaAdaptador rvAdapterDia;
+    private DiaAdaptador.ViewHolder DiaAdaptadorViewHolder;
 
-    public AvisoTituloAdaptador(Context context, List<Aviso> avisos, TextView tvFechaSelecionada, RecyclerView rvAvisosDiaSelecionado) {
+    public AvisoTituloAdaptador(Context context, List<Aviso> avisos, DiaAdaptador rvAdapterDia, DiaAdaptador.ViewHolder DiaAdaptadorViewHolder) {
         this.context = context;
         this.avisos = avisos;
-        this.tvFechaSelecionada = tvFechaSelecionada;
-        this.rvAvisosDiaSelecionado = rvAvisosDiaSelecionado;
+        this.rvAdapterDia = rvAdapterDia;
+        this.DiaAdaptadorViewHolder = DiaAdaptadorViewHolder;
     }
 
     @NonNull
@@ -69,9 +68,8 @@ public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdapta
             linearLayoutTituloAviso.setBackgroundColor(aviso.obtenerColor(context));
 
             cardTituloAviso.setOnClickListener(v -> {
-                tvFechaSelecionada.setText("Avisos " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.EEEE_d_MMMM));
-                AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
-                rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
+                rvAdapterDia.diaSelecionado = DiaAdaptadorViewHolder.getAdapterPosition();
+                rvAdapterDia.notifyDataSetChanged();
             });
         }
     }

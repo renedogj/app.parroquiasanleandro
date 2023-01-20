@@ -43,6 +43,10 @@
         <item name="android:textColor">@color/blanco</item>
     </style>
 
+    <style name="texto_2_2_Claro" parent="size_2_2">
+        <item name="android:textColor">@color/blanco</item>
+    </style>
+
     <!--<style name="texto_1_1_Oscuro" parent="size_1_1">
         <item name="android:textColor">@color/black</item>
     </style>

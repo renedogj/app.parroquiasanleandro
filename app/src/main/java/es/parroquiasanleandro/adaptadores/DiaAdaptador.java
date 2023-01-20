@@ -28,6 +28,8 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
     private Fecha fechaReferencia;
     private TextView tvFechaSelecionada;
     private RecyclerView rvAvisosDiaSelecionado;
+    public int diaSelecionado = -1;
+    private DiaAdaptador rvAdapterDia = this;
 
     public DiaAdaptador(Context context, List<Fecha> fechas, List<Aviso> avisos, Fecha fechaReferencia, TextView tvFechaSelecionada, RecyclerView rvAvisosDiaSelecionado) {
         this.context = context;
@@ -50,6 +52,19 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         Fecha fecha = fechas.get(position);
         holder.asignarValores(fecha);
+        if (diaSelecionado != -1) {
+            if (position == diaSelecionado) {
+                setHolderSelecionado(holder);
+            }
+        } else if (fecha.esHoy()) {
+            setHolderSelecionado(holder);
+        }
+    }
+
+    public void setHolderSelecionado(ViewHolder holder) {
+        holder.itemView.setSelected(true);
+        holder.divider.setBackgroundResource(R.color.negro);
+        holder.mostrarAvisosDia();
     }
 
     @Override
@@ -63,7 +78,9 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
         private CardView cardAvisosDia;
         private RecyclerView rvAvisosDia;
         private LinearLayout linearLayoutDiaCalendario;
+        private View divider;
 
+        private Fecha fecha;
         List<Aviso> avisosDia = new ArrayList<>();
 
         public ViewHolder(View itemView) {
@@ -73,12 +90,14 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
             cardAvisosDia = itemView.findViewById(R.id.cardAvisosDia);
             rvAvisosDia = itemView.findViewById(R.id.rvAvisosDia);
             linearLayoutDiaCalendario = itemView.findViewById(R.id.linearLayoutDiaCalendario);
+            divider = itemView.findViewById(R.id.divider);
         }
 
         public void asignarValores(Fecha fecha) {
+            this.fecha = fecha;
             tvNumDia.setText(String.valueOf(fecha.dia));
 
-            if(fecha.mes != fechaReferencia.mes){
+            if (fecha.mes != fechaReferencia.mes) {
                 linearLayoutDiaCalendario.setAlpha(0.5f);
             }
 
@@ -92,20 +111,24 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
                 }
             }
 
-            AvisoTituloAdaptador avisoTituloAdaptador = new AvisoTituloAdaptador(context, avisosDia, tvFechaSelecionada, rvAvisosDiaSelecionado);
+            AvisoTituloAdaptador avisoTituloAdaptador = new AvisoTituloAdaptador(context, avisosDia, rvAdapterDia, this);
             rvAvisosDia.setAdapter(avisoTituloAdaptador);
 
             cardDia.setOnClickListener(v -> {
-                tvFechaSelecionada.setText("Avisos " + fecha.toString(Fecha.FormatosFecha.EEEE_d_MMMM));
-                AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisosDia);
-                rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
+                diaSelecionado = getAdapterPosition();
+                notifyDataSetChanged();
             });
 
             cardAvisosDia.setOnClickListener(v -> {
-                tvFechaSelecionada.setText("Avisos " + fecha.toString(Fecha.FormatosFecha.EEEE_d_MMMM));
-                AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisosDia);
-                rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
+                diaSelecionado = getAdapterPosition();
+                notifyDataSetChanged();
             });
+        }
+
+        public void mostrarAvisosDia() {
+            tvFechaSelecionada.setText("Avisos " + fecha.toString(Fecha.FormatosFecha.EEEE_d_MMMM));
+            AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisosDia);
+            rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
         }
     }
 }
