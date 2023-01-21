@@ -179,7 +179,7 @@
                         android:text="Horario de Cáritas" />
                 </androidx.cardview.widget.CardView>
 
-                <LinearLayout style="@style/lnlytDiaSemanaHorario_Despacho_Caritas">
+                <!--<LinearLayout style="@style/lnlytDiaSemanaHorario_Despacho_Caritas">
 
                     <TextView
                         style="@style/tvDiaSemanaHorario_Despacho_Caritas"
@@ -191,7 +191,7 @@
                             style="@style/tvHorario"
                             android:text="11:00 - 13:00" />
                     </androidx.cardview.widget.CardView>
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <LinearLayout style="@style/lnlytDiaSemanaHorario_Despacho_Caritas">
 
