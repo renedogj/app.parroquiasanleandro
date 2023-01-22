@@ -1,76 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fondo_parroquia">
+    android:background="@drawable/fondo_parroquia"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:cardBackgroundColor="@color/background_items"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="4dp">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/background_items"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="4dp">
+            android:layout_margin="15dp"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvCitaBiblica"
+                style="@style/size_1_2"
+                android:fontFamily="@font/nanum_gothic_bold"
+                android:gravity="center"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:id="@+id/tvCitaBiblica"
-                    style="@style/size_1_2"
-                    android:fontFamily="@font/nanum_gothic_bold"
-                    android:gravity="center"
-                    android:textSize="16sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            app:cardBackgroundColor="@color/transparente"
-            app:cardCornerRadius="0dp"
-            app:cardElevation="0dp">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                app:cardBackgroundColor="@color/transparente"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="0dp">
 
-                <TextView
-                    android:id="@+id/tvAvisosSemanales"
-                    style="@style/size_1_2"
-                    android:gravity="center"
-                    android:text="Avisos Semanales"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvAvisosSemana"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="1dp"
-                    android:paddingTop="1dp"
-                    android:paddingRight="1dp"
-                    android:paddingBottom="1dp" />
+                    android:orientation="vertical">
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMenu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="40dp" />
-    </LinearLayout>
-</ScrollView>
+                    <TextView
+                        android:id="@+id/tvAvisosSemanales"
+                        style="@style/size_1_2"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:gravity="center"
+                        android:text="Avisos Semanales"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAvisosSemana"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="1dp"
+                        android:paddingTop="1dp"
+                        android:paddingRight="1dp"
+                        android:paddingBottom="1dp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="40dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

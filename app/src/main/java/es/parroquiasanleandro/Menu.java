@@ -30,6 +30,7 @@ public class Menu {
     public static final String INICIO = "Parroquia San Leandro";
     public static final String AVISOS = "Avisos";
     public static final String HORARIO = "Horario";
+    public static final String INFORMACION = "Informacion";
     public static final String PERFIL = "Perfil";
     public static final String CALENDARIO = "Calendario";
     public static final String MERCADILLO = "Mercadillo";
@@ -38,6 +39,7 @@ public class Menu {
     public static final int FRAGMENT_INICIO = R.id.nav_fragment_inicio;
     public static final int FRAGMENT_AVISOS = R.id.nav_fragment_avisos;
     public static final int FRAGMENT_HORARIO = R.id.nav_fragment_horario;
+    public static final int FRAGMENT_INFORMACION = R.id.nav_fragment_informacion;
     public static final int FRAGMENT_PERFIL = R.id.nav_fragment_perfil;
     public static final int FRAGMENT_CALENDARIO = R.id.nav_fragment_calendario;
     public static final int FRAGMENT_MERCADILLO = R.id.nav_fragment_mercadillo;
