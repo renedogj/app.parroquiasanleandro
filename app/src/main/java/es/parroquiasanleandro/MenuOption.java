@@ -10,7 +10,6 @@ import es.parroquiasanleandro.fragments.FragmentAvisosParroquiales;
 import es.parroquiasanleandro.fragments.FragmentCalendario;
 import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.fragments.FragmentHorario;
-import es.parroquiasanleandro.fragments.FragmentInformacion;
 import es.parroquiasanleandro.fragments.FragmentInicio;
 import es.parroquiasanleandro.fragments.FragmentMercadillo;
 import es.parroquiasanleandro.fragments.FragmentPerfil;
@@ -50,7 +49,7 @@ public class MenuOption {
         menuItemMap.put(Menu.FRAGMENT_AVISOS,new MenuOption(Menu.AVISOS,Menu.FRAGMENT_AVISOS, R.drawable.ic_bell, FragmentAvisosParroquiales.class));
         menuItemMap.put(Menu.FRAGMENT_CALENDARIO,new MenuOption(Menu.CALENDARIO,Menu.FRAGMENT_CALENDARIO, R.drawable.ic_calendar, FragmentCalendario.class));
         menuItemMap.put(Menu.FRAGMENT_MERCADILLO,new MenuOption(Menu.MERCADILLO,Menu.FRAGMENT_MERCADILLO, R.drawable.ic_mercadillo, FragmentMercadillo.class));
-        menuItemMap.put(Menu.FRAGMENT_INFORMACION,new MenuOption(Menu.INFORMACION,Menu.FRAGMENT_INFORMACION, R.drawable.ic_app, FragmentInformacion.class));
+        //menuItemMap.put(Menu.FRAGMENT_INFORMACION,new MenuOption(Menu.INFORMACION,Menu.FRAGMENT_INFORMACION, R.drawable.ic_app, FragmentInformacion.class));
         return menuItemMap;
     }
 
@@ -61,7 +60,7 @@ public class MenuOption {
         menuItemList.add(new MenuOption(Menu.AVISOS,Menu.FRAGMENT_AVISOS, R.drawable.ic_bell, FragmentAvisosParroquiales.class));
         menuItemList.add(new MenuOption(Menu.CALENDARIO,Menu.FRAGMENT_CALENDARIO, R.drawable.ic_calendar, FragmentCalendario.class));
         menuItemList.add(new MenuOption(Menu.HORARIO,Menu.FRAGMENT_HORARIO, R.drawable.ic_reloj, FragmentHorario.class));
-        menuItemList.add(new MenuOption(Menu.INFORMACION,Menu.FRAGMENT_INFORMACION, R.drawable.ic_app, FragmentInformacion.class));
+        //menuItemList.add(new MenuOption(Menu.INFORMACION,Menu.FRAGMENT_INFORMACION, R.drawable.ic_app, FragmentInformacion.class));
         menuItemList.add(new MenuOption(Menu.GRUPOS,Menu.FRAGMENT_GRUPOS, R.drawable.ic_grupos, FragmentGrupos.class));
         menuItemList.add(new MenuOption(Menu.MERCADILLO,Menu.FRAGMENT_MERCADILLO, R.drawable.ic_mercadillo, FragmentMercadillo.class));
         return menuItemList;

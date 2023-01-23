@@ -19,7 +19,8 @@
     <item
         android:id="@+id/nav_fragment_informacion"
         android:icon="@drawable/ic_app"
-        android:title="Informacion" />
+        android:title="Informacion"
+        android:visible="false"/>
     <item
         android:id="@+id/nav_fragment_mercadillo"
         android:icon="@drawable/ic_mercadillo"
