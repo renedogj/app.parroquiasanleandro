@@ -1,6 +1,5 @@
 package es.parroquiasanleandro.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,23 +15,16 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 
 
 public class FragmentHorario extends Fragment {
-    private Context context;
-
     private ItemViewModel viewModel;
-
-    public FragmentHorario() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        context = getContext();
-
         viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_horario,container,false);
+        return inflater.inflate(R.layout.fragment_horario, container, false);
     }
 
     @Override

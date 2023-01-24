@@ -21,13 +21,13 @@ import es.parroquiasanleandro.R;
 public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdaptador.ViewHolder> {
 
     private Context context;
-    private List<Aviso> avisos;
+    private List<Aviso> avisosDia;
     private DiaAdaptador rvAdapterDia;
     private DiaAdaptador.ViewHolder DiaAdaptadorViewHolder;
 
-    public AvisoTituloAdaptador(Context context, List<Aviso> avisos, DiaAdaptador rvAdapterDia, DiaAdaptador.ViewHolder DiaAdaptadorViewHolder) {
+    public AvisoTituloAdaptador(Context context, List<Aviso> avisosDia, DiaAdaptador rvAdapterDia, DiaAdaptador.ViewHolder DiaAdaptadorViewHolder) {
         this.context = context;
-        this.avisos = avisos;
+        this.avisosDia = avisosDia;
         this.rvAdapterDia = rvAdapterDia;
         this.DiaAdaptadorViewHolder = DiaAdaptadorViewHolder;
     }
@@ -42,13 +42,13 @@ public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdapta
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        Aviso aviso = avisos.get(position);
+        Aviso aviso = avisosDia.get(position);
         holder.asignarValores(aviso);
     }
 
     @Override
     public int getItemCount() {
-        return avisos.size();
+        return avisosDia.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

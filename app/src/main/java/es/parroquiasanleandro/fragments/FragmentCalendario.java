@@ -52,7 +52,6 @@ public class FragmentCalendario extends Fragment {
     private RecyclerView rvAvisosDiaSelecionado;
 
     private Fecha fechaReferencia;
-    //private List<Integer> dias;
     private List<Fecha> fechas;
     private List<Aviso> avisos;
 
@@ -128,6 +127,7 @@ public class FragmentCalendario extends Fragment {
         super.onResume();
         viewModel.setIdFragmentActual(Menu.FRAGMENT_CALENDARIO);
         viewModel.addIdFragmentActual();
+        obtenerAvisos();
     }
 
     public void setCalendario() {
@@ -168,7 +168,8 @@ public class FragmentCalendario extends Fragment {
                 if (!jsonResult.getBoolean("error")) {
                     avisos = Aviso.JSONArrayToAvisos(jsonResult.getJSONArray("avisos"));
                     tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
-                    rvCalendario.setAdapter(new DiaAdaptador(context, fechas, avisos, fechaReferencia, tvFechaSelecionada, rvAvisosDiaSelecionado));
+                    DiaAdaptador diaAdaptador = new DiaAdaptador(context, fechas, avisos, fechaReferencia, tvFechaSelecionada, rvAvisosDiaSelecionado);
+                    rvCalendario.setAdapter(diaAdaptador);
                 } else {
                     Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
                 }
@@ -184,7 +185,11 @@ public class FragmentCalendario extends Fragment {
                 Map<String, String> parametros = new HashMap<>();
                 parametros.put("idUsuario", usuario.getId());
                 parametros.put("fechaInicio", fechas.get(0).toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
-                parametros.put("fechaFin", fechas.get(fechas.size() - 1).toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
+                Fecha fechaFin = fechas.get(fechas.size() - 1).clone();
+                fechaFin.hora = 23;
+                fechaFin.minuto = 59;
+                fechaFin.segundo = 59;
+                parametros.put("fechaFin", fechaFin.toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
                 return parametros;
             }
         });

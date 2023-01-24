@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/size_1_1"
     android:background="@drawable/fondo_parroquia">
 
@@ -9,8 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            style="@style/cardContenedoraHorario">
+        <androidx.cardview.widget.CardView style="@style/cardContenedoraHorario">
 
             <LinearLayout
                 style="@style/size_1_2"
@@ -22,7 +20,7 @@
 
                     <TextView
                         style="@style/tvTituloHorario"
-                        android:text="Horario Misas"/>
+                        android:text="Horario Misas" />
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout style="@style/lnlytDiaSemanaHorario_Misas">
@@ -132,6 +130,36 @@
 
                     <TextView
                         style="@style/tvTituloHorario"
+                        android:text="Horario de apertura del Templo" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout style="@style/lnlytDiaSemanaHorario_Despacho_Caritas">
+
+                    <TextView
+                        style="@style/tvDiaSemanaHorario_Despacho_Caritas"
+                        android:text="Todos los días" />
+
+                    <androidx.cardview.widget.CardView style="@style/cardHorario_Despacho_Caritas">
+
+                        <TextView
+                            style="@style/tvHorario"
+                            android:text="9:00 - 21:00" />
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView style="@style/cardContenedoraHorario">
+
+            <LinearLayout
+                style="@style/size_1_2"
+                android:orientation="vertical"
+                android:paddingBottom="5dp">
+
+                <androidx.cardview.widget.CardView style="@style/cardTituloHorario">
+
+                    <TextView
+                        style="@style/tvTituloHorario"
                         android:text="Horario de despacho parroquial" />
                 </androidx.cardview.widget.CardView>
 
@@ -165,7 +193,9 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView style="@style/cardContenedoraHorario">
+        <androidx.cardview.widget.CardView
+            style="@style/cardContenedoraHorario"
+            android:layout_marginBottom="50dp">
 
             <LinearLayout
                 style="@style/size_1_2"
@@ -178,20 +208,6 @@
                         style="@style/tvTituloHorario"
                         android:text="Horario de Cáritas" />
                 </androidx.cardview.widget.CardView>
-
-                <!--<LinearLayout style="@style/lnlytDiaSemanaHorario_Despacho_Caritas">
-
-                    <TextView
-                        style="@style/tvDiaSemanaHorario_Despacho_Caritas"
-                        android:text="Miercoles" />
-
-                    <androidx.cardview.widget.CardView style="@style/cardHorario_Despacho_Caritas">
-
-                        <TextView
-                            style="@style/tvHorario"
-                            android:text="11:00 - 13:00" />
-                    </androidx.cardview.widget.CardView>
-                </LinearLayout>-->
 
                 <LinearLayout style="@style/lnlytDiaSemanaHorario_Despacho_Caritas">
 

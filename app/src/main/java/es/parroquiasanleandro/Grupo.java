@@ -119,14 +119,14 @@ public class Grupo {
         return keys.toArray(new String[0]);
     }
 
-    /*public static String getKey(Grupo[] categorias,String nombre){
-        for (Grupo grupo: categorias){
+    public static String getIndex(Grupo[] grupos, String nombre){
+        for (Grupo grupo: grupos){
             if(grupo.nombre.equals(nombre)){
-                return grupo.key;
+                return grupo.id;
             }
         }
         return null;
-    }*/
+    }
 
     /*public static long getMillisUltimaActualizacion(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(GRUPOS, Context.MODE_PRIVATE);
@@ -146,7 +146,6 @@ public class Grupo {
     public void seguirGrupo(Context context, String idUsuario) {
         modificarServidorSeguirEliminarGrupo(context, idUsuario, false);
         guardarGrupoSeguidoEnLocal(context);
-
     }
 
     /**

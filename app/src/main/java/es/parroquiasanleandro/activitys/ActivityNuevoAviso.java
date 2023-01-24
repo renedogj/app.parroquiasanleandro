@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -233,7 +234,8 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                         lnlytFechaFinal.setVisibility(View.VISIBLE);
                         tvSimboloAñadirFechaFinal.setText("-");
                         tvAñadirFechaFinal.setText("Quitar fecha de fin");
-                        spinnerGrupo.setSelection(0);
+
+                        spinnerGrupo.setSelection(Arrays.asList(Grupo.getIdsGrupos(usuario.getGruposAdministrados())).indexOf(aviso.idGrupo));
                         if (aviso.url != null) {
                             etUrl.setText(aviso.url);
                         }

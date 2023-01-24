@@ -97,7 +97,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
             this.fecha = fecha;
             tvNumDia.setText(String.valueOf(fecha.dia));
 
-            if (fecha.mes != fechaReferencia.mes) {
+            if (this.fecha.mes != fechaReferencia.mes) {
                 linearLayoutDiaCalendario.setAlpha(0.5f);
             }
 
@@ -107,6 +107,8 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
 
             for (Aviso auxAviso : avisos) {
                 if (auxAviso.getFechaInicio().dia == fecha.dia && auxAviso.getFechaInicio().mes == fecha.mes) {
+                    avisosDia.add(auxAviso);
+                }else if(Fecha.isFecha1MayorQueFecha2(fecha,auxAviso.getFechaInicio()) && Fecha.isFecha1MayorQueFecha2(auxAviso.getFechaFin(), fecha)){
                     avisosDia.add(auxAviso);
                 }
             }
