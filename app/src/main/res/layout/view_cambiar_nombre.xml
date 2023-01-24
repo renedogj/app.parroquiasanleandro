@@ -30,21 +30,20 @@
                 style="@style/size_1_2"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:text="Introduce un nuevo correo electronico:"
+                android:text="Introduce un nuevo nombre:"
                 android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/etnuevoCorreoElectronico"
+                android:id="@+id/etnuevoNombre"
                 style="@style/size_1_2"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:ems="10"
-                android:hint="ejemplo@gmail.com"
                 android:inputType="textEmailAddress"
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/btnGuardarNuevoCorreo"
+                android:id="@+id/btnGuardarNuevoNombre"
                 style="@style/size_1_2"
                 android:text="Guardar" />
         </LinearLayout>

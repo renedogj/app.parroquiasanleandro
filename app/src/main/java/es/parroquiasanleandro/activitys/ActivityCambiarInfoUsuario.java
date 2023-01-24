@@ -3,6 +3,7 @@ package es.parroquiasanleandro.activitys;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -69,14 +70,14 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
 
     public void cambiarEmail() {
         EditText etnuevoCorreoElectronico;
-        Button bttnGuardarNuevoCorreo;
+        Button btnGuardarNuevoCorreo;
 
         setContentView(R.layout.view_cambiar_correo);
 
         etnuevoCorreoElectronico = findViewById(R.id.etnuevoCorreoElectronico);
-        bttnGuardarNuevoCorreo = findViewById(R.id.bttnGuardarNuevoCorreo);
+        btnGuardarNuevoCorreo = findViewById(R.id.btnGuardarNuevoCorreo);
 
-        bttnGuardarNuevoCorreo.setOnClickListener(view1 -> {
+        btnGuardarNuevoCorreo.setOnClickListener(view1 -> {
             String nuevoEmail = etnuevoCorreoElectronico.getText().toString().trim();
             if (Comprobaciones.comprobarCorreo(context, nuevoEmail)) {
                 Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.cambiarCorreo, result -> {
@@ -114,8 +115,6 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                         return parametros;
                     }
                 });
-            } else {
-                Toast.makeText(context, "Introduce un correo valido", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -173,7 +172,47 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
     }
 
     public void cambiarNombre(){
+        EditText etnuevoNombre;
+        Button btnGuardarNuevoNombre;
 
+        setContentView(R.layout.view_cambiar_nombre);
+
+        etnuevoNombre = findViewById(R.id.etnuevoNombre);
+        btnGuardarNuevoNombre = findViewById(R.id.btnGuardarNuevoNombre);
+
+        btnGuardarNuevoNombre.setOnClickListener(view1 -> {
+            String nuevoNombre = etnuevoNombre.getText().toString().trim();
+            if (Comprobaciones.comprobarNombre(context, nuevoNombre)) {
+                Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.cambiarNombre, result -> {
+                    Log.d("Result",result);
+                    try {
+                        JSONObject jsonResult = new JSONObject(result);
+                        if (!jsonResult.getBoolean("error")) {
+                            Usuario.actualizarUsuarioDeServidorToLocal(context, this);
+                            Toast.makeText(context, "Nombre actualizado con exito", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(context, ActivityNavigation.class));
+                            finish();
+                        } else {
+                            Toast.makeText(context, "Se ha producido al actualizar el nombre", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(context, "Se ha producido un error en el servidor al actualizar el nombre", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                }, error -> {
+                    Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> parametros = new HashMap<>();
+                        parametros.put("idUsuario", usuario.getId());
+                        parametros.put("nombre", nuevoNombre);
+                        return parametros;
+                    }
+                });
+            }
+        });
     }
 
     public void cambiarFecha(){

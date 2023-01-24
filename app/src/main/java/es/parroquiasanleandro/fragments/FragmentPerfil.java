@@ -89,7 +89,10 @@ public class FragmentPerfil extends Fragment {
         }
 
         linearLayoutNombre.setOnClickListener(v -> {
-            Toast.makeText(context, "Modificar nombre", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
+            intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_NOMBRE);
+            startActivity(intent);
+            requireActivity().finish();
         });
 
         linearLayoutEmail.setOnClickListener(v -> {
