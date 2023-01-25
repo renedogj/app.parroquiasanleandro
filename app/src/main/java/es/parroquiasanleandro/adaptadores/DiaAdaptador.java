@@ -19,6 +19,7 @@ import java.util.List;
 
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.fragments.FragmentCalendario;
 import es.renedogj.fecha.Fecha;
 
 public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> {
@@ -26,18 +27,16 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
     private List<Fecha> fechas;
     private List<Aviso> avisos;
     private Fecha fechaReferencia;
-    private TextView tvFechaSelecionada;
-    private RecyclerView rvAvisosDiaSelecionado;
     public int diaSelecionado = -1;
     private DiaAdaptador rvAdapterDia = this;
+    private FragmentCalendario fragmentCalendario;
 
-    public DiaAdaptador(Context context, List<Fecha> fechas, List<Aviso> avisos, Fecha fechaReferencia, TextView tvFechaSelecionada, RecyclerView rvAvisosDiaSelecionado) {
+    public DiaAdaptador(Context context, List<Fecha> fechas, List<Aviso> avisos, Fecha fechaReferencia, FragmentCalendario fragmentCalendario) {
         this.context = context;
         this.fechas = fechas;
         this.avisos = avisos;
         this.fechaReferencia = fechaReferencia;
-        this.tvFechaSelecionada = tvFechaSelecionada;
-        this.rvAvisosDiaSelecionado = rvAvisosDiaSelecionado;
+        this.fragmentCalendario = fragmentCalendario;
     }
 
     @NonNull
@@ -108,7 +107,7 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
             for (Aviso auxAviso : avisos) {
                 if (auxAviso.getFechaInicio().dia == fecha.dia && auxAviso.getFechaInicio().mes == fecha.mes) {
                     avisosDia.add(auxAviso);
-                }else if(Fecha.isFecha1MayorQueFecha2(fecha,auxAviso.getFechaInicio()) && Fecha.isFecha1MayorQueFecha2(auxAviso.getFechaFin(), fecha)){
+                } else if (Fecha.isFecha1MayorQueFecha2(fecha, auxAviso.getFechaInicio()) && Fecha.isFecha1MayorQueFecha2(auxAviso.getFechaFin(), fecha)) {
                     avisosDia.add(auxAviso);
                 }
             }
@@ -128,9 +127,14 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
         }
 
         public void mostrarAvisosDia() {
-            tvFechaSelecionada.setText("Avisos " + fecha.toString(Fecha.FormatosFecha.EEEE_d_MMMM));
+            fragmentCalendario.tvFechaSelecionada.setText("Avisos " + fecha.toString(Fecha.FormatosFecha.EEEE_d_MMMM));
             AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisosDia);
-            rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
+            fragmentCalendario.rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
+            if (avisosDia.isEmpty()) {
+                fragmentCalendario.tvNoHayAvisos.setText("No hay ningún aviso");
+            } else {
+                fragmentCalendario.tvNoHayAvisos.setText("");
+            }
         }
     }
 }

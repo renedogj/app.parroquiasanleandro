@@ -97,7 +97,7 @@ public class Grupo {
                 grupos.add(grupo);
 
             } catch (JSONException e) {
-                Log.e("ERROR JSON",e.getMessage());
+                Log.e("ERROR JSON", e.getMessage());
             }
         }
         return grupos.toArray(new Grupo[0]);
@@ -119,9 +119,9 @@ public class Grupo {
         return keys.toArray(new String[0]);
     }
 
-    public static String getIndex(Grupo[] grupos, String nombre){
-        for (Grupo grupo: grupos){
-            if(grupo.nombre.equals(nombre)){
+    public static String getIndex(Grupo[] grupos, String nombre) {
+        for (Grupo grupo : grupos) {
+            if (grupo.nombre.equals(nombre)) {
                 return grupo.id;
             }
         }
@@ -161,22 +161,22 @@ public class Grupo {
      * (@param siguiendo == true) el usuario ya sigue el grupo y se elimina de sus seguidos
      * (@param siguiendo == false) el usuario no sigue el grupo y lo añade a sus seguidos
      */
-    public void modificarServidorSeguirEliminarGrupo(Context context, String idUsuario, boolean siguiendo){
+    public void modificarServidorSeguirEliminarGrupo(Context context, String idUsuario, boolean siguiendo) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.modificarSeguirEliminarSeguido, result -> {
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if (jsonResult.getBoolean("error")) {
-                    if(siguiendo){
+                    if (siguiendo) {
                         Toast.makeText(context, "Se ha producido un error al dejar de seguir la información del grupo", Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Toast.makeText(context, "Se ha producido un error al seguir la información del grupo", Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch (JSONException e) {
-                if(siguiendo){
+                if (siguiendo) {
                     Toast.makeText(context, "Se ha producido un error al dejar de seguir la información del grupo", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(context, "Se ha producido un error al seguir la información del grupo", Toast.LENGTH_SHORT).show();
                 }
                 e.printStackTrace();

@@ -48,14 +48,16 @@ public class FragmentCalendario extends Fragment {
     private TextView tvMesAnterior;
     private TextView tvMesSiguiente;
     private RecyclerView rvCalendario;
-    private TextView tvFechaSelecionada;
-    private RecyclerView rvAvisosDiaSelecionado;
+    public TextView tvFechaSelecionada;
+    public RecyclerView rvAvisosDiaSelecionado;
 
     private Fecha fechaReferencia;
     private List<Fecha> fechas;
     private List<Aviso> avisos;
 
     private Usuario usuario;
+
+    public TextView tvNoHayAvisos;
 
     public FragmentCalendario() {
     }
@@ -81,6 +83,7 @@ public class FragmentCalendario extends Fragment {
         rvCalendario = view.findViewById(R.id.rvCalendario);
         tvFechaSelecionada = view.findViewById(R.id.tvFechaSelecionada);
         rvAvisosDiaSelecionado = view.findViewById(R.id.rvAvisosDiaSelecionado);
+        tvNoHayAvisos = view.findViewById(R.id.tvNoHayAvisos);
 
         rvCalendario.setHasFixedSize(false);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 7);
@@ -168,7 +171,7 @@ public class FragmentCalendario extends Fragment {
                 if (!jsonResult.getBoolean("error")) {
                     avisos = Aviso.JSONArrayToAvisos(jsonResult.getJSONArray("avisos"));
                     tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
-                    DiaAdaptador diaAdaptador = new DiaAdaptador(context, fechas, avisos, fechaReferencia, tvFechaSelecionada, rvAvisosDiaSelecionado);
+                    DiaAdaptador diaAdaptador = new DiaAdaptador(context, fechas, avisos, fechaReferencia,this);
                     rvCalendario.setAdapter(diaAdaptador);
                 } else {
                     Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
