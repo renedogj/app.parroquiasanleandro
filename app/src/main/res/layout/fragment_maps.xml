@@ -14,6 +14,14 @@
     map:uiZoomGestures="true" />-->
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="300dp">
+    android:layout_height="300dp"
+    android:background="@color/gris_claro">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Google Maps (en proceso)"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:gravity="center"/>
 </androidx.appcompat.widget.LinearLayoutCompat>

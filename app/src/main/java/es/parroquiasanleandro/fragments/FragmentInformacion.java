@@ -1,9 +1,11 @@
 package es.parroquiasanleandro.fragments;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,8 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 public class FragmentInformacion extends Fragment {
     private ItemViewModel viewModel;
 
+    private TextView tvWeb;
+
     public FragmentInformacion() {}
 
     @Override
@@ -25,7 +29,12 @@ public class FragmentInformacion extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_informacion,container,false);
+        View view = inflater.inflate(R.layout.fragment_informacion,container,false);
+
+        tvWeb = view.findViewById(R.id.tvWeb);
+
+        tvWeb.setPaintFlags(tvWeb.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        return view;
     }
 
     @Override
