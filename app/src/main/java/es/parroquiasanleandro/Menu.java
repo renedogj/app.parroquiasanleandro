@@ -22,6 +22,7 @@ import es.parroquiasanleandro.fragments.FragmentCalendario;
 import es.parroquiasanleandro.fragments.FragmentConfirmarPassword;
 import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.fragments.FragmentHorario;
+import es.parroquiasanleandro.fragments.FragmentInfoGrupo;
 import es.parroquiasanleandro.fragments.FragmentInicio;
 import es.parroquiasanleandro.fragments.FragmentMercadillo;
 import es.parroquiasanleandro.fragments.FragmentPerfil;
@@ -36,6 +37,7 @@ public class Menu {
     public static final String MERCADILLO = "Mercadillo";
     public static final String GRUPOS = "Mis grupos";
 
+    public static final int CERRAR_SESION = 1;
     public static final int FRAGMENT_INICIO = R.id.nav_fragment_inicio;
     public static final int FRAGMENT_AVISOS = R.id.nav_fragment_avisos;
     public static final int FRAGMENT_HORARIO = R.id.nav_fragment_horario;
@@ -44,7 +46,7 @@ public class Menu {
     public static final int FRAGMENT_CALENDARIO = R.id.nav_fragment_calendario;
     public static final int FRAGMENT_MERCADILLO = R.id.nav_fragment_mercadillo;
     public static final int FRAGMENT_GRUPOS = R.id.nav_fragment_grupos;
-    public static final int CERRAR_SESION = 1;
+    public static final int FRAGMENT_INFO_GRUPO = 2;
 
     public static Map<Integer, MenuOption> menuOptionMap = MenuOption.obtenerMapMenuOptions();
 
@@ -174,6 +176,16 @@ public class Menu {
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentGrupos.class, null)
+                .addToBackStack(null)
+                .commit();
+
+        actionBar.setTitle(GRUPOS);
+    }
+
+    public static void iniciarFragmentInfoGrupo(FragmentManager fragmentManager, ActionBar actionBar){
+        fragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .replace(R.id.fragment_container, FragmentInfoGrupo.class, null)
                 .addToBackStack(null)
                 .commit();
 

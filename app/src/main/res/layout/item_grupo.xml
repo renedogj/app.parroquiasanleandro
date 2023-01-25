@@ -81,21 +81,11 @@
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardGrupoBotonSeguir"
-                        android:background="@color/blanco"
-                        android:layout_width="0dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center"
-                        android:layout_weight="10"
-                        app:cardCornerRadius="20dp">
+                        style="@style/cardGrupoBotonSeguir">
 
                         <TextView
                             android:id="@+id/tvBotonSeguir"
-                            style="@style/size_1_1"
-                            android:background="@drawable/bordes"
-                            android:gravity="center"
-                            android:text="Seguir"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            style="@style/tvBotonSeguir" />
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </LinearLayout>

@@ -33,6 +33,7 @@ import es.renedogj.fecha.Fecha;
 public class FragmentPerfil extends Fragment {
     private Context context;
     private ItemViewModel viewModel;
+    private FragmentManager fragmentManager;
 
     private ImageView ivFotoPerfil;
     private LinearLayout linearLayoutNombre;
@@ -45,7 +46,6 @@ public class FragmentPerfil extends Fragment {
     private TextView tvFechaNacimiento;
     private LinearLayout linearLayoutCambiarContraseña;
 
-    private FragmentManager fragmentManager;
 
     public FragmentPerfil() {
     }

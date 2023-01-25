@@ -46,7 +46,16 @@
         <item name="cardBackgroundColor">@color/background_items</item>
     </style>
 
-    <style name="CardNewEmail" parent="basicCard_1_2">
+    <style name="CardActualizarInfo" parent="basicCard_1_2">
         <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="cardGrupoBotonSeguir">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">8</item>
+        <item name="android:background">@color/blanco</item>
+        <item name="cardCornerRadius">20dp</item>
     </style>
 </resources>

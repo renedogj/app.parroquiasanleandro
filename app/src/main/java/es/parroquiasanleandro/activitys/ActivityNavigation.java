@@ -209,7 +209,7 @@ public class ActivityNavigation extends AppCompatActivity {
                         //Si el nuevo grupo actual el FRAGMENT_GRUPOS guardamos el grupo actual como el ID_PADRE
                         viewModel.getIdsGrupos().clear();
                         viewModel.setGrupoActual(Grupo.ID_PADRE);
-                        viewModel.addIdGrupo();
+                        viewModel.addIdGrupoActual();
                     }
                 }
                 super.onBackPressed();

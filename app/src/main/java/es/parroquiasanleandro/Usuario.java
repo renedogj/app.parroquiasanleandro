@@ -64,14 +64,14 @@ public class Usuario {
         this.id = jsonUsuario.getString("id");
         this.nombre = jsonUsuario.getString("nombre");
         this.email = jsonUsuario.getString("email");
-        this.gruposSeguidos = Grupo.convertirGrupo(jsonUsuario.getJSONArray("grupos"));
+        this.gruposSeguidos = Grupo.convertirGrupos(jsonUsuario.getJSONArray("grupos"));
         this.fechaNacimiento = jsonUsuario.getLong("fecha_nacimiento");
         this.fotoPerfil = jsonUsuario.getString("foto_perfil");
         //this.numeroTelefono = jsonUsuario.getString("telefono");
         this.emailVerificado = (jsonUsuario.getInt("email_verificado") == 1);
         this.esAdministrador = (jsonUsuario.getInt("esAdministrador") == 1);
         if(esAdministrador){
-            this.gruposAdministrados = Grupo.convertirGrupo(jsonUsuario.getJSONArray("gruposAdministrados"));
+            this.gruposAdministrados = Grupo.convertirGrupos(jsonUsuario.getJSONArray("gruposAdministrados"));
         }
     }
 

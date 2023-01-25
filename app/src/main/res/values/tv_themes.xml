@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Styles texviews-->
+    <!-- Navigation -->
     <style name="tvMenuNavigation" parent="size_2_2">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_gravity">center</item>
@@ -8,6 +9,7 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <!-- Calendario -->
     <style name="tvDiasSemanaCalendario" parent="size_2_2">
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
@@ -16,6 +18,7 @@
         <item name="android:textColor">@color/gris</item>
     </style>
 
+    <!-- Horario -->
     <style name="tvTituloHorario" parent="size_1_2">
         <item name="android:layout_margin">8dp</item>
         <item name="android:gravity">center</item>
@@ -36,6 +39,7 @@
         <item name="android:padding">12dp</item>
     </style>
 
+    <!-- Perfil -->
     <style name="tvTituloPerfil" parent="size_1_2">
         <item name="android:layout_gravity">center</item>
         <item name="android:textSize">16sp</item>
@@ -53,5 +57,14 @@
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:layout_marginBottom">-4dp</item>
         <item name="android:fontFamily">@font/oswald_bold</item>
+    </style>
+
+    <!-- Grupos -->
+    <style name="tvBotonSeguir" parent="size_1_1">
+        <item name="android:background">@drawable/bordes</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">Seguir</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
