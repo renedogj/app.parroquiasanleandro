@@ -35,6 +35,8 @@ public class Grupo {
     public static final String NOMBRE = "nombre";
     public static final String COLOR = "color";
     public static final String IMAGEN = "imagen";
+    public static final String TEXTO = "texto";
+    public static final String PRIVADO = "privado";
     public static final String MILLIS_ACTUALIZACION = "millis_actualizacion";
 
     public String id;
@@ -58,6 +60,15 @@ public class Grupo {
         this.nombre = nombre;
         this.color = color;
         this.imagen = imagen;
+    }
+
+    public Grupo(String id, String nombre, String color, String imagen, String texto, boolean privado) {
+        this.id = id;
+        this.nombre = nombre;
+        this.color = color;
+        this.imagen = imagen;
+        this.texto = texto;
+        this.privado = privado;
     }
 
     public String getId() {
@@ -265,6 +276,8 @@ public class Grupo {
                 registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE, jsonObject.getString(Grupo.NOMBRE));
                 registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR, jsonObject.getString(Grupo.COLOR));
                 registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN, jsonObject.getString(Grupo.IMAGEN));
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_TEXTO, jsonObject.getString(Grupo.TEXTO));
+                registro.put(FeedReaderContract.TablaGrupos.COLUMN_NAME_PRIVADO, jsonObject.getString(Grupo.PRIVADO));
 
                 db.insert(FeedReaderContract.TablaGrupos.TABLE_NAME, null, registro);
             } catch (JSONException e) {
@@ -281,7 +294,9 @@ public class Grupo {
                 FeedReaderContract.TablaGrupos.COLUMN_NAME_ID,
                 FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE,
                 FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR,
-                FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_TEXTO,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_PRIVADO
         };
         Cursor cursorConsulta = db.query(
                 FeedReaderContract.TablaGrupos.TABLE_NAME,
@@ -298,11 +313,47 @@ public class Grupo {
             String nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE));
             String color = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR));
             String imagen = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN));
-            grupos.add(new Grupo(key, nombre, color, imagen));
+            String texto = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_TEXTO));
+            boolean privado = (cursorConsulta.getInt(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_PRIVADO)) == 1);
+            grupos.add(new Grupo(key, nombre, color, imagen, texto, privado));
         }
         cursorConsulta.close();
         db.close();
         return grupos;
+    }
+
+    public static Grupo recuperarGrupoDeLocal(Context context, String id) {
+        FeedReaderDbHelper dbHelper = new FeedReaderDbHelper(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        String[] columnasARetornar = {
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_ID,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_TEXTO,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_PRIVADO
+        };
+        Cursor cursorConsulta = db.query(
+                FeedReaderContract.TablaGrupos.TABLE_NAME,
+                columnasARetornar,
+                FeedReaderContract.TablaGrupos.COLUMN_NAME_ID + " = ?",
+                new String[]{id},
+                null,
+                null,
+                null
+        );
+        Grupo grupo = new Grupo();
+        while (cursorConsulta.moveToNext()) {
+            grupo.id = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_ID));
+            grupo.nombre = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_NOMBRE));
+            grupo.color = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_COLOR));
+            grupo.imagen = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_IMAGEN));
+            grupo.texto = cursorConsulta.getString(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_TEXTO));
+            grupo.privado = (cursorConsulta.getInt(cursorConsulta.getColumnIndexOrThrow(FeedReaderContract.TablaGrupos.COLUMN_NAME_PRIVADO)) == 1);
+        }
+        cursorConsulta.close();
+        db.close();
+        return grupo;
     }
 
     public static String obtenerColorGrupo(Context context, String id) {

@@ -66,11 +66,11 @@ public class Menu {
         MenuOption menuOption = menuOptionMap.get(idFragment);
         if (menuOption != null && idFragmentActual != menuOption.id) {
             if (menuOption.nombre.equals(Menu.PERFIL)) {
-                iniciarFragmentPerfil(usuario, activity, context, fragmentManager, actionBar);
+                iniciarFragmentPerfil(usuario, activity, context);
             } else if (menuOption.nombre.equals(Menu.GRUPOS)) {
-                iniciarFragmentGrupos(usuario, activity, context, fragmentManager, actionBar);
+                iniciarFragmentGrupos(usuario, activity, context);
             } else {
-                iniciarFragmentEstandar(menuOption, fragmentManager, actionBar);
+                iniciarFragmentEstandar(menuOption);
             }
             asignarIconosMenu(navView, menuOption.id);
         } else if (idFragment == CERRAR_SESION) {
@@ -82,118 +82,118 @@ public class Menu {
         }
     }
 
-    public static void iniciarFragmentEstandar(MenuOption menuOption, FragmentManager fragmentManager, ActionBar actionBar) {
-        fragmentManager.beginTransaction()
+    public static void iniciarFragmentEstandar(MenuOption menuOption) {
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, menuOption.fragementClass, null)
                 .addToBackStack(null)
                 .commit();
 
-        actionBar.setTitle(menuOption.nombre);
+        ActivityNavigation.actionBar.setTitle(menuOption.nombre);
     }
 
-    public static void iniciarFragmentInicio(FragmentManager fragmentManager, ActionBar actionBar) {
-        fragmentManager.beginTransaction()
+    public static void iniciarFragmentInicio() {
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentInicio.class, null)
                 .addToBackStack(null)
                 .commit();
 
-        actionBar.setTitle(INICIO);
+        ActivityNavigation.actionBar.setTitle(INICIO);
     }
 
-    public static void iniciarFragmentAvisos(FragmentManager fragmentManager, ActionBar actionBar) {
-        fragmentManager.beginTransaction()
+    public static void iniciarFragmentAvisos() {
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentAvisosParroquiales.class, null)
                 .addToBackStack(null)
                 .commit();
 
-        actionBar.setTitle(AVISOS);
+        ActivityNavigation.actionBar.setTitle(AVISOS);
     }
 
-    public static void iniciarFragmentHorario(FragmentManager fragmentManager, ActionBar actionBar) {
-        fragmentManager.beginTransaction()
+    public static void iniciarFragmentHorario() {
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentHorario.class, null)
                 .addToBackStack(null)
                 .commit();
 
-        actionBar.setTitle(HORARIO);
+        ActivityNavigation.actionBar.setTitle(HORARIO);
     }
 
-    public static void iniciarFragmentPerfil(Usuario usuario, Activity activity, Context context, FragmentManager fragmentManager, ActionBar actionBar) {
+    public static void iniciarFragmentPerfil(Usuario usuario, Activity activity, Context context) {
         if (usuario.getId() != null) {
-            fragmentManager.beginTransaction()
+            ActivityNavigation.fragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
                     .replace(R.id.fragment_container, FragmentPerfil.class, null)
                     .addToBackStack(null)
                     .commit();
 
-            actionBar.setTitle(PERFIL);
+            ActivityNavigation.actionBar.setTitle(PERFIL);
         } else {
             activity.startActivity(new Intent(context, ActivityInicarSesion.class));
             activity.finish();
         }
     }
 
-    public static void iniciarFragmentCalendario(FragmentManager fragmentManager, ActionBar actionBar) {
-        fragmentManager.beginTransaction()
+    public static void iniciarFragmentCalendario() {
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentCalendario.class, null)
                 .addToBackStack(null)
                 .commit();
 
-        actionBar.setTitle(CALENDARIO);
+        ActivityNavigation.actionBar.setTitle(CALENDARIO);
     }
 
-    public static void iniciarFragmentMercadillo(FragmentManager fragmentManager, ActionBar actionBar) {
-        fragmentManager.beginTransaction()
+    public static void iniciarFragmentMercadillo() {
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentMercadillo.class, null)
                 .addToBackStack(null)
                 .commit();
 
-        actionBar.setTitle(MERCADILLO);
+        ActivityNavigation.actionBar.setTitle(MERCADILLO);
     }
 
-    public static void iniciarFragmentGrupos(Usuario usuario, Activity activity, Context context, FragmentManager fragmentManager, ActionBar actionBar) {
+    public static void iniciarFragmentGrupos(Usuario usuario, Activity activity, Context context) {
         if (usuario.getId() != null) {
-            fragmentManager.beginTransaction()
+            ActivityNavigation.fragmentManager.beginTransaction()
                     .setReorderingAllowed(true)
                     .replace(R.id.fragment_container, FragmentGrupos.class, null)
                     .addToBackStack(null)
                     .commit();
 
-            actionBar.setTitle(GRUPOS);
+            ActivityNavigation.actionBar.setTitle(GRUPOS);
         } else {
             activity.startActivity(new Intent(context, ActivityInicarSesion.class));
             activity.finish();
         }
     }
 
-    public static void iniciarFragmentGrupos(FragmentManager fragmentManager, ActionBar actionBar) {
-        fragmentManager.beginTransaction()
+    public static void iniciarFragmentGrupos() {
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentGrupos.class, null)
                 .addToBackStack(null)
                 .commit();
 
-        actionBar.setTitle(GRUPOS);
+        ActivityNavigation.actionBar.setTitle(GRUPOS);
     }
 
-    public static void iniciarFragmentInfoGrupo(FragmentManager fragmentManager, ActionBar actionBar){
-        fragmentManager.beginTransaction()
+    public static void iniciarFragmentInfoGrupo(){
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentInfoGrupo.class, null)
                 .addToBackStack(null)
                 .commit();
 
-        actionBar.setTitle(GRUPOS);
+        ActivityNavigation.actionBar.setTitle(GRUPOS);
     }
 
-    public static void inicarFragmentConfirmarPassword(FragmentManager fragmentManager) {
-        fragmentManager.beginTransaction()
+    public static void inicarFragmentConfirmarPassword() {
+        ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentConfirmarPassword.class, null)
                 .addToBackStack(null)

@@ -16,7 +16,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
@@ -51,12 +50,11 @@ public class ActivityNavigation extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navView;
-    private ActionBar actionBar;
     private ActionBarDrawerToggle toggle;
 
-    private FragmentManager fragmentManager;
+    public static FragmentManager fragmentManager;
+    public static ActionBar actionBar;
     private ItemViewModel viewModel;
-    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,28 +101,28 @@ public class ActivityNavigation extends AppCompatActivity {
 
         linearLayoutInicio.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_INICIO) {
-                Menu.iniciarFragmentInicio(fragmentManager, actionBar);
+                Menu.iniciarFragmentInicio();
                 Menu.asignarIconosMenu(navView, Menu.FRAGMENT_INICIO);
             }
         });
 
         linearLayoutAvisos.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_AVISOS) {
-                Menu.iniciarFragmentAvisos(fragmentManager, actionBar);
+                Menu.iniciarFragmentAvisos();
                 Menu.asignarIconosMenu(navView, Menu.FRAGMENT_AVISOS);
             }
         });
 
         linearLayoutInformacion.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_HORARIO) {
-                Menu.iniciarFragmentHorario(fragmentManager, actionBar);
+                Menu.iniciarFragmentHorario();
                 Menu.asignarIconosMenu(navView, Menu.FRAGMENT_HORARIO);
             }
         });
 
         linearLayoutPerfil.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_PERFIL) {
-                Menu.iniciarFragmentPerfil(usuario, activity, context, fragmentManager, actionBar);
+                Menu.iniciarFragmentPerfil(usuario, activity, context);
                 Menu.asignarIconosMenu(navView, Menu.FRAGMENT_PERFIL);
             }
         });

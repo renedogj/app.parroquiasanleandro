@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -27,13 +26,11 @@ import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
-import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHolder> {
     private final Context context;
     private final ItemViewModel viewModel;
-    private FragmentManager fragmentManager;
 
     private final List<Grupo> grupos;
     private final Usuario usuario;
@@ -47,7 +44,6 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         this.grupos = grupos;
         this.grupoPadre = grupoPadre;
         this.rvGrupos = rvGrupos;
-        this.fragmentManager = FragmentGrupos.fragmentManager;
         usuario = Usuario.recuperarUsuarioLocal(context);
         obtenerGruposNivel();
         this.viewModel = viewModel;
@@ -63,7 +59,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        gruposNivel.get(position).setPosicion(position);
+        gruposNivel.get(position).setPosicion(position); //Comprobar utilidad
         Grupo grupo = gruposNivel.get(position);
         holder.asignarValores(grupo);
     }
@@ -140,7 +136,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             linearLayoutGrupo.setOnClickListener(v -> {
                 viewModel.setGrupoActual(grupo.id);
                 viewModel.addIdGrupoActual();
-                Menu.iniciarFragmentInfoGrupo(fragmentManager, viewModel.getActionBar());
+                Menu.iniciarFragmentInfoGrupo();
             });
         }
 

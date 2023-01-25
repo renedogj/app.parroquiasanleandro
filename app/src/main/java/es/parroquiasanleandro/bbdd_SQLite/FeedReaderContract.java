@@ -11,13 +11,17 @@ public class FeedReaderContract {
         public static final String COLUMN_NAME_NOMBRE = "nombre";
         public static final String COLUMN_NAME_COLOR = "color";
         public static final String COLUMN_NAME_IMAGEN = "imagen";
+        public static final String COLUMN_NAME_TEXTO = "texto";
+        public static final String COLUMN_NAME_PRIVADO = "privado";
 
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         COLUMN_NAME_ID + " TEXT," +
                         COLUMN_NAME_NOMBRE + " TEXT," +
                         COLUMN_NAME_COLOR + " TEXT," +
-                        COLUMN_NAME_IMAGEN + " TEXT)";
+                        COLUMN_NAME_IMAGEN + " TEXT," +
+                        COLUMN_NAME_TEXTO + " TEXT," +
+                        COLUMN_NAME_PRIVADO + " INTEGER)";
 
         public static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }

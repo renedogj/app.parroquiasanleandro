@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +15,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.Menu;
@@ -42,7 +31,7 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 public class FragmentInfoGrupo extends Fragment {
     private Context context;
     private ItemViewModel viewModel;
-    public static FragmentManager fragmentManager;
+    //public static FragmentManager fragmentManager;
 
     private LinearLayout linearLayoutContenedorGrupo;
     private LinearLayout linearLayoutGrupo;
@@ -51,6 +40,7 @@ public class FragmentInfoGrupo extends Fragment {
     private TextView tvMasGrupos;
     private TextView tvBotonSeguir;
     private ImageView imgGrupo;
+    private TextView tvTextoGrupo;
 
     private List<Grupo> grupos;
     private Grupo grupo;
@@ -62,7 +52,6 @@ public class FragmentInfoGrupo extends Fragment {
         super.onCreate(savedInstanceState);
         context = getContext();
         viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        fragmentManager = getParentFragmentManager();
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,30 +64,28 @@ public class FragmentInfoGrupo extends Fragment {
         tvMasGrupos = view.findViewById(R.id.tvMasGrupos);
         tvBotonSeguir = view.findViewById(R.id.tvBotonSeguir);
         imgGrupo = view.findViewById(R.id.imgGrupo);
+        tvTextoGrupo = view.findViewById(R.id.tvTextoGrupo);
 
         usuario = Usuario.recuperarUsuarioLocal(context);
         grupos = Grupo.recuperarGruposDeLocal(context);
+        grupo = Grupo.recuperarGrupoDeLocal(context, viewModel.getGrupoActual());
+        if(grupo.equals(new Grupo())){
+            Toast.makeText(context, "Se ha producido un error al recuperar el grupo", Toast.LENGTH_SHORT).show();
+            requireActivity().onBackPressed();
+        }else{
+            linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
+            Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
+            tvNombreGrupo.setText(grupo.nombre);
 
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerGrupo, result -> {
-            Log.e("RESULT",result);
-            try {
-                JSONObject jsonResult = new JSONObject(result);
-                grupo = Grupo.convertirGrupo(jsonResult);
-                if(grupo.equals(new Grupo())){
-                    Toast.makeText(context, "Se ha producido un error al recuperar el grupo", Toast.LENGTH_SHORT).show();
-                    requireActivity().onBackPressed();
-                }else{
-                    linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-                    Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
-                    tvNombreGrupo.setText(grupo.nombre);
+            if(!grupo.texto.equals("null")){
+                tvTextoGrupo.setText(grupo.texto);
+            }
+            grupoGuardado = grupo.isGrupoGuardado(usuario);
+            checkGrupo(grupoGuardado);
 
-                    grupoGuardado = grupo.isGrupoGuardado(usuario);
-                    checkGrupo(grupoGuardado);
-
-                    if(grupo.existenSubniveles(grupos)){
-                        tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                        tvMasGrupos.setVisibility(View.VISIBLE);
+            if(grupo.existenSubniveles(grupos)){
+                tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                tvMasGrupos.setVisibility(View.VISIBLE);
                         /*tvMasGrupos.setOnClickListener(v -> {
                             if(grupo.existenSubniveles(grupos)) {
                                 viewModel.setGrupoActual(grupo.id);
@@ -107,25 +94,10 @@ public class FragmentInfoGrupo extends Fragment {
                                 //rvGrupos.setAdapter(grupoAdaptador);
                             }
                         });*/
-                    }else{
-                        tvMasGrupos.setVisibility(View.GONE);
-                    }
-                }
-            } catch (JSONException e) {
-                Toast.makeText(context, "Se ha producido un error en el servidor al recuperar el grupo", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-                requireActivity().onBackPressed();
+            }else{
+                tvMasGrupos.setVisibility(View.GONE);
             }
-        }, error -> {
-            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("idGrupo", viewModel.getGrupoActual());
-                return parametros;
-            }
-        });
+        }
 
         cardGrupoBoton.setOnClickListener(v -> {
             if (grupoGuardado){
@@ -139,12 +111,6 @@ public class FragmentInfoGrupo extends Fragment {
                 grupo.chekGruposPadre(context, grupos, usuario);
             }
             checkGrupo(grupoGuardado);
-        });
-
-        linearLayoutGrupo.setOnClickListener(v -> {
-            //viewModel.setGrupoActual(grupo.id);
-            //viewModel.addIdGrupoActual();
-            //Menu.iniciarFragmentInfoGrupo(fragmentManager, viewModel.getActionBar());
         });
 
         return view;

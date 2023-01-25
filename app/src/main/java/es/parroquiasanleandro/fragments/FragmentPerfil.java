@@ -103,7 +103,7 @@ public class FragmentPerfil extends Fragment {
         });
 
         linearLayoutGrupos.setOnClickListener(v -> {
-            Menu.iniciarFragmentGrupos(fragmentManager, viewModel.getActionBar());
+            Menu.iniciarFragmentGrupos();
         });
 
         linearLayoutFechaNacimiento.setOnClickListener(v -> {
