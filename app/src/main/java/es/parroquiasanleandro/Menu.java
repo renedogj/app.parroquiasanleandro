@@ -222,6 +222,7 @@ public class Menu {
                 {FRAGMENT_HORARIO, R.drawable.ic_reloj, R.drawable.ic_reloj_black},
                 {FRAGMENT_CALENDARIO, R.drawable.ic_calendar, R.drawable.ic_calendar_black},
                 {FRAGMENT_MERCADILLO, R.drawable.ic_mercadillo, R.drawable.ic_mercadillo_black},
+                {FRAGMENT_INFORMACION, R.drawable.ic_informacion, R.drawable.ic_informacion_black},
                 {FRAGMENT_GRUPOS, R.drawable.ic_grupos, R.drawable.ic_grupos_black},
                 {FRAGMENT_PERFIL, R.drawable.ic_user, R.drawable.ic_user_black},
         };
