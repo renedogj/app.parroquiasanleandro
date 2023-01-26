@@ -13,7 +13,7 @@ import es.parroquiasanleandro.Menu;
 public class ItemViewModel extends ViewModel {
     int idFragmentActual;
     List<Integer> idsFragment = new ArrayList<>();
-    String grupoActual;
+    String grupoActual = null;
     List<String> idsGrupos = new ArrayList<>();
     ActionBar actionBar;
     NavigationView navView;
@@ -66,18 +66,18 @@ public class ItemViewModel extends ViewModel {
         this.idsGrupos = idsGrupos;
     }
 
-    public void addIdFragmentActual(){
-        if(idsFragment.size() > 0){
-            if((idsFragment.get(idsFragment.size() - 1)) != idFragmentActual){
+    public void addIdFragmentActual() {
+        if (idsFragment.size() > 0) {
+            if ((idsFragment.get(idsFragment.size() - 1)) != idFragmentActual) {
                 this.idsFragment.add(idFragmentActual);
             }
-        }else{
+        } else {
             this.idsFragment.add(idFragmentActual);
         }
         Menu.asignarIconosMenu(navView, idFragmentActual);
     }
 
-    public void addIdGrupoActual(){
+    public void addIdGrupoActual() {
         this.idsGrupos.add(grupoActual);
     }
 }

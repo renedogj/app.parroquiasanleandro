@@ -171,7 +171,7 @@ public class FragmentCalendario extends Fragment {
                 if (!jsonResult.getBoolean("error")) {
                     avisos = Aviso.JSONArrayToAvisos(jsonResult.getJSONArray("avisos"));
                     tvMes.setText(fechaReferencia.toString(Fecha.FormatosFecha.MMMM_aaaa));
-                    DiaAdaptador diaAdaptador = new DiaAdaptador(context, fechas, avisos, fechaReferencia,this);
+                    DiaAdaptador diaAdaptador = new DiaAdaptador(context, fechas, avisos, fechaReferencia, this);
                     rvCalendario.setAdapter(diaAdaptador);
                 } else {
                     Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();

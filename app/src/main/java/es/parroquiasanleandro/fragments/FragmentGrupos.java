@@ -35,17 +35,22 @@ public class FragmentGrupos extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_grupos, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_grupos, container, false);
 
         rvGrupos = view.findViewById(R.id.rvGrupos);
 
         rvGrupos.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         rvGrupos.setLayoutManager(linearLayoutManager);
-        
+
+        if (viewModel.getGrupoActual() == null || viewModel.getGrupoActual().equals("")) {
+            viewModel.setGrupoActual(Grupo.ID_PADRE);
+            viewModel.addIdGrupoActual();
+        }
+
         grupos = Grupo.recuperarGruposDeLocal(context);
-        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, Grupo.ID_PADRE, rvGrupos, viewModel);
+        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, viewModel.getGrupoActual(), rvGrupos, viewModel);
         rvGrupos.setAdapter(grupoAdaptador);
 
         return view;
@@ -56,7 +61,6 @@ public class FragmentGrupos extends Fragment {
         super.onResume();
         viewModel.setIdFragmentActual(Menu.FRAGMENT_GRUPOS);
         viewModel.addIdFragmentActual();
-        viewModel.setGrupoActual(Grupo.ID_PADRE);
-        viewModel.addIdGrupoActual();
+
     }
 }

@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
         android:paddingLeft="20dp"
+        android:paddingTop="10dp"
         android:paddingRight="20dp">
 
         <ImageView
@@ -42,9 +42,9 @@
                 android:id="@+id/etNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
+                android:ems="10"
                 android:hint="Nombre y Apellidos"
                 android:inputType="textPersonName" />
 
@@ -52,9 +52,9 @@
                 android:id="@+id/etCorreoElectronico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
+                android:ems="10"
                 android:hint="Correo electrónico"
                 android:inputType="textEmailAddress" />
 
@@ -87,9 +87,9 @@
                 android:id="@+id/etComprobarContraseña"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="1dp"
+                android:ems="10"
                 android:hint="Vuelve a escribir la contraseña"
                 android:inputType="textPassword" />
 
@@ -106,8 +106,8 @@
             android:id="@+id/linearLayoutIniciarSesion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/tvTengoCuenta"
@@ -119,7 +119,7 @@
 
             <Space
                 android:layout_width="3dp"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <TextView
                 android:id="@+id/tvIniciarSesion"
@@ -127,8 +127,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:textColor="@color/azul"
-                android:text="Iniciar Sesión" />
+                android:text="Iniciar Sesión"
+                android:textColor="@color/azul" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

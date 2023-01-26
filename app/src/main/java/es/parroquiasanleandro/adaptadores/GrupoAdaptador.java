@@ -59,7 +59,6 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
-        gruposNivel.get(position).setPosicion(position); //Comprobar utilidad
         Grupo grupo = gruposNivel.get(position);
         holder.asignarValores(grupo);
     }
@@ -97,37 +96,34 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             this.grupo = grupo;
 
             linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-            Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
+            Glide.with(context).load(Url.obtenerImagenAviso + grupo.id + "/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
 
             grupoGuardado = grupo.isGrupoGuardado(usuario);
             checkGrupo(grupoGuardado);
 
-            if(grupo.existenSubniveles(grupos)){
+            if (grupo.existenSubniveles(grupos)) {
                 tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 tvMasGrupos.setVisibility(View.VISIBLE);
                 tvMasGrupos.setOnClickListener(v -> {
-                    //if(grupo.existenSubniveles(grupos)) {
-                        viewModel.setGrupoActual(grupo.id);
-                        viewModel.addIdGrupoActual();
-                        GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.id, rvGrupos, viewModel);
-                        rvGrupos.setAdapter(grupoAdaptador);
-                    //}
+                    viewModel.setGrupoActual(grupo.id);
+                    viewModel.addIdGrupoActual();
+                    GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.id, rvGrupos, viewModel);
+                    rvGrupos.setAdapter(grupoAdaptador);
                 });
-            }else{
+            } else {
                 tvMasGrupos.setVisibility(View.GONE);
             }
 
             cardGrupoBoton.setOnClickListener(v -> {
-                if (grupoGuardado){
+                if (grupoGuardado) {
                     grupo.eliminarGrupoSeguido(context, usuario.getId());
                     grupoGuardado = false;
                     usuario.removeGrupo(grupo);
-                }else{
+                } else {
                     grupo.seguirGrupo(context, usuario.getId());
                     grupoGuardado = true;
                     usuario.addGrupo(grupo);
-                    //chekGruposPadre(grupo);
                     grupo.chekGruposPadre(context, grupos, usuario);
                 }
                 checkGrupo(grupoGuardado);
@@ -140,23 +136,14 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             });
         }
 
-        /*public boolean isGrupoGuardado(Grupo grupo){
-            for (Grupo grupoAux : usuario.getGruposSeguidos()){
-                if(grupoAux.id.equals(grupo.id) && grupoAux.nombre.equals(grupo.nombre)){
-                    return true;
-                }
-            }
-            return false;
-        }*/
-
-        public void checkGrupo(Boolean chek){
-            if(chek){
+        public void checkGrupo(Boolean chek) {
+            if (chek) {
                 cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#FF3F888F"));
                 //cardGrupoBoton.setCardBackgroundColor(R.color.primary_color);
                 //tvBotonSeguir.setTextColor(Color.parseColor("#FFFDF1F1"));
                 //tvBotonSeguir.setTextColor(R.color.negro);
                 tvBotonSeguir.setText("Siguiendo");
-            }else{
+            } else {
                 //cardGrupoBoton.setCardBackgroundColor(R.color.blanco);
                 //cardGrupoBoton.setBackgroundResource(R.color.blanco);
                 cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#FFF5F5F5"));
@@ -165,43 +152,15 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
                 tvBotonSeguir.setText("Seguir");
             }
         }
-
-        /*public void chekGruposPadre(Grupo grupo) {
-            List<String> gruposId = new ArrayList<>();
-            for (int i = 1; i <= grupo.id.length(); i++) {
-                if (!gruposId.contains(grupo.id.substring(0, i))) {
-                    gruposId.add(grupo.id.substring(0, i));
-                }
-            }
-            for(Grupo grupoAux : grupos){
-                if(gruposId.contains(grupoAux.id)){
-                    if(!grupoAux.id.equals(grupo.id) && !grupoAux.isGrupoGuardado(usuario)){
-                        grupoAux.seguirGrupo(context, usuario.getId());
-                        usuario.addGrupo(grupoAux);
-                    }
-                }
-            }
-        }*/
     }
 
-    public void obtenerGruposNivel(){
-        for(Grupo grupo : grupos){
-            if(grupo.id.length() == grupoPadre.length()+1){
-                if(grupo.id.startsWith(grupoPadre)) {
+    public void obtenerGruposNivel() {
+        for (Grupo grupo : grupos) {
+            if (grupo.id.length() == grupoPadre.length() + 1) {
+                if (grupo.id.startsWith(grupoPadre)) {
                     gruposNivel.add(grupo);
                 }
             }
         }
     }
-
-    /*public boolean existenSubniveles(Grupo grupoPadre){
-        for(Grupo grupo : grupos){
-            if(grupo.id.length() == grupoPadre.id.length()+1){
-                if(grupo.id.startsWith(grupoPadre.id)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
 }

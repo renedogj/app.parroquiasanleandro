@@ -4,8 +4,8 @@
     android:id="@+id/cardGrupo"
     style="@style/size_2_2"
     android:layout_margin="4dp"
-    android:padding="8dp"
     android:background="@color/background_items"
+    android:padding="8dp"
     app:cardCornerRadius="15dp"
     app:cardElevation="3dp">
 

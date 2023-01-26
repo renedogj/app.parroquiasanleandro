@@ -171,7 +171,7 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
         });
     }
 
-    public void cambiarNombre(){
+    public void cambiarNombre() {
         EditText etnuevoNombre;
         Button btnGuardarNuevoNombre;
 
@@ -184,7 +184,7 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
             String nuevoNombre = etnuevoNombre.getText().toString().trim();
             if (Comprobaciones.comprobarNombre(context, nuevoNombre)) {
                 Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.cambiarNombre, result -> {
-                    Log.d("Result",result);
+                    Log.d("Result", result);
                     try {
                         JSONObject jsonResult = new JSONObject(result);
                         if (!jsonResult.getBoolean("error")) {
@@ -215,7 +215,7 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
         });
     }
 
-    public void cambiarFecha(){
+    public void cambiarFecha() {
 
     }
 }

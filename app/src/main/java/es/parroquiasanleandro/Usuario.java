@@ -70,7 +70,7 @@ public class Usuario {
         //this.numeroTelefono = jsonUsuario.getString("telefono");
         this.emailVerificado = (jsonUsuario.getInt("email_verificado") == 1);
         this.esAdministrador = (jsonUsuario.getInt("esAdministrador") == 1);
-        if(esAdministrador){
+        if (esAdministrador) {
             this.gruposAdministrados = Grupo.convertirGrupos(jsonUsuario.getJSONArray("gruposAdministrados"));
         }
     }
@@ -120,14 +120,15 @@ public class Usuario {
         AtomicReference<Usuario> usuario = new AtomicReference<>(Usuario.recuperarUsuarioLocal(context));
         if (usuario.get().id != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
-            requestQueue.add(new StringRequest(Request.Method.POST, Url.actualizarUsuario, result -> { ;
+            requestQueue.add(new StringRequest(Request.Method.POST, Url.actualizarUsuario, result -> {
+                ;
                 try {
                     JSONObject jsonResult = new JSONObject(result);
                     if (!jsonResult.getBoolean("error")) {
                         JSONObject jsonObject = jsonResult.getJSONObject("usuario");
                         usuario.set(new Usuario(jsonObject));
                         usuario.get().guardarUsuarioEnLocal(context);
-                    }else{
+                    } else {
                         Usuario.borrarUsuarioLocal(context);
                         context.startActivity(new Intent(context, ActivityNavigation.class));
                         activity.finish();
@@ -204,10 +205,10 @@ public class Usuario {
         Grupo.vaciarTablasGruposSeguidosYAdministrados(context);
     }
 
-    public boolean esAdminGrupo(String idGrupo){
-        if(esAdministrador){
-            for (Grupo grupo: gruposAdministrados) {
-                if(idGrupo.equals(grupo.id)){
+    public boolean esAdminGrupo(String idGrupo) {
+        if (esAdministrador) {
+            for (Grupo grupo : gruposAdministrados) {
+                if (idGrupo.equals(grupo.id)) {
                     return true;
                 }
             }

@@ -16,10 +16,11 @@ public class Articulo {
     public int disponibilidad;
     public List<String> imagenes;
 
-    public Articulo(){}
+    public Articulo() {
+    }
 
-    public static List<Articulo> JSONArrayToArticulos(JSONArray jsonArrayArticulos){
-        List<Articulo>  articulos = new ArrayList<>();
+    public static List<Articulo> JSONArrayToArticulos(JSONArray jsonArrayArticulos) {
+        List<Articulo> articulos = new ArrayList<>();
         for (int i = 0; i < jsonArrayArticulos.length(); i++) {
             Articulo articuloAux = new Articulo();
             try {

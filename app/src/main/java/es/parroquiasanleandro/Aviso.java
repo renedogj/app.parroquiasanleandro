@@ -42,7 +42,8 @@ public class Aviso {
     private Fecha fechaInicio;
     private Fecha fechaFin;
 
-    public Aviso() {}
+    public Aviso() {
+    }
 
     public Aviso(String titulo, String descripcion, String idGrupo, Fecha fechaInicio, Fecha fechaFin, String nombreImagen, String url, String uidCreador) {
         this.titulo = titulo;
@@ -104,8 +105,8 @@ public class Aviso {
                 avisoAux.idGrupo = jsonAviso.getString("id_grupo");
                 avisoAux.descripcion = jsonAviso.getString("descripcion");
                 avisoAux.nombreImagen = jsonAviso.getString("imagen");
-                avisoAux.fechaInicio = Fecha.stringToFecha(jsonAviso.getString("fecha_inicio"),Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
-                avisoAux.fechaFin = Fecha.stringToFecha(jsonAviso.getString("fecha_fin"),Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
+                avisoAux.fechaInicio = Fecha.stringToFecha(jsonAviso.getString("fecha_inicio"), Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
+                avisoAux.fechaFin = Fecha.stringToFecha(jsonAviso.getString("fecha_fin"), Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -127,8 +128,8 @@ public class Aviso {
             if (aviso.url.equals("null")) aviso.url = null;
             aviso.archivo = jsonAviso.getString("archivo");
             if (aviso.archivo.equals("null")) aviso.archivo = null;
-            aviso.fechaInicio = Fecha.stringToFecha(jsonAviso.getString("fecha_inicio"),Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
-            aviso.fechaFin = Fecha.stringToFecha(jsonAviso.getString("fecha_fin"),Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
+            aviso.fechaInicio = Fecha.stringToFecha(jsonAviso.getString("fecha_inicio"), Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
+            aviso.fechaFin = Fecha.stringToFecha(jsonAviso.getString("fecha_fin"), Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -154,7 +155,7 @@ public class Aviso {
         avisoMap.put(Aviso.FECHA_FIN, fechaFin.toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
 
         if (nombreImagen != null) {
-            if(!nombreImagen.equals(Grupo.obtenerImagenGrupo(context,idGrupo))){
+            if (!nombreImagen.equals(Grupo.obtenerImagenGrupo(context, idGrupo))) {
                 avisoMap.put(Aviso.NOMBRE_IMAGEN, nombreImagen);
             }
         }

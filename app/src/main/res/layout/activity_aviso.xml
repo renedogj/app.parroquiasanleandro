@@ -133,7 +133,7 @@
                     <Button
                         android:id="@+id/bttnUrl"
                         style="@style/size_1_2"
-                        android:text="URL"
+                        android:text="Ir al enlace"
                         android:visibility="gone" />
 
                     <Button

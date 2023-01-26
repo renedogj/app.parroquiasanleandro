@@ -23,13 +23,13 @@
         <TextView
             android:id="@+id/tvNumDia"
             style="@style/texto_2_2_Claro"
-            android:textStyle="bold"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="1dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
         <View
             android:id="@+id/divider"
@@ -40,9 +40,10 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/cardAvisosDia"
             style="@style/size_1_1"
-            app:cardBackgroundColor="@color/background_items"
             android:layout_margin="2dp"
+            app:cardBackgroundColor="@color/background_items"
             app:cardCornerRadius="4dp">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvAvisosDia"
                 style="@style/size_1_2"

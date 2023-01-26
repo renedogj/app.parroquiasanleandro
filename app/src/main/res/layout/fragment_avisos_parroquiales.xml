@@ -24,9 +24,8 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="18dp"
+        android:contentDescription="Crear un nuevo aviso"
         android:visibility="gone"
-        app:srcCompat="@android:drawable/ic_input_add"
         app:backgroundTint="@color/primary_color"
-        android:contentDescription="Crear un nuevo aviso" />
-
+        app:srcCompat="@android:drawable/ic_input_add" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

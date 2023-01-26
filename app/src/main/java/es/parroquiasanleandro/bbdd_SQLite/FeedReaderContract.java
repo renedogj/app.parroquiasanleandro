@@ -3,7 +3,8 @@ package es.parroquiasanleandro.bbdd_SQLite;
 import android.provider.BaseColumns;
 
 public class FeedReaderContract {
-    private FeedReaderContract() {}
+    private FeedReaderContract() {
+    }
 
     public static class TablaGrupos implements BaseColumns {
         public static final String TABLE_NAME = "grupos";

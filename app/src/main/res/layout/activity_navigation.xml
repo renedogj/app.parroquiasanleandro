@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".activitys.ActivityNavigation">
 
-    <LinearLayout
-        style="@style/lnly_1_2_v">
+    <LinearLayout style="@style/lnly_1_2_v">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment_container"
@@ -91,8 +90,8 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navView"
         style="@style/size_2_1"
-        android:background="@color/blanco_2"
         android:layout_gravity="start"
+        android:background="@color/blanco_2"
         android:fitsSystemWindows="true"
         app:menu="@menu/nav_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>

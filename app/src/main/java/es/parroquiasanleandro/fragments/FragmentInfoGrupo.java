@@ -87,12 +87,10 @@ public class FragmentInfoGrupo extends Fragment {
                 tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 tvMasGrupos.setVisibility(View.VISIBLE);
                         /*tvMasGrupos.setOnClickListener(v -> {
-                            if(grupo.existenSubniveles(grupos)) {
                                 viewModel.setGrupoActual(grupo.id);
                                 viewModel.addIdGrupoActual();
                                 //GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.id, rvGrupos, viewModel);
                                 //rvGrupos.setAdapter(grupoAdaptador);
-                            }
                         });*/
             }else{
                 tvMasGrupos.setVisibility(View.GONE);

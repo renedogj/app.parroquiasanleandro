@@ -20,7 +20,8 @@ public class FragmentInformacion extends Fragment {
 
     private TextView tvWeb;
 
-    public FragmentInformacion() {}
+    public FragmentInformacion() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class FragmentInformacion extends Fragment {
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_informacion,container,false);
+        View view = inflater.inflate(R.layout.fragment_informacion, container, false);
 
         tvWeb = view.findViewById(R.id.tvWeb);
 

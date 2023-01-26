@@ -37,7 +37,6 @@ public class Grupo {
     public static final String IMAGEN = "imagen";
     public static final String TEXTO = "texto";
     public static final String PRIVADO = "privado";
-    public static final String MILLIS_ACTUALIZACION = "millis_actualizacion";
 
     public String id;
     public String nombre;
@@ -45,7 +44,6 @@ public class Grupo {
     public String imagen;
     public String texto;
     public boolean privado;
-    int posicion;
 
     public Grupo() {
     }
@@ -79,20 +77,12 @@ public class Grupo {
         return nombre;
     }
 
-    public int getPosicion() {
-        return posicion;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public void setPosicion(int posicion) {
-        this.posicion = posicion;
     }
 
     public static Grupo[] convertirGrupos(JSONArray jsonArrayGrupos) {
@@ -156,19 +146,19 @@ public class Grupo {
         return null;
     }
 
-    public boolean isGrupoGuardado(Usuario usuario){
-        for (Grupo grupoAux : usuario.getGruposSeguidos()){
-            if(grupoAux.id.equals(id) && grupoAux.nombre.equals(nombre)){
+    public boolean isGrupoGuardado(Usuario usuario) {
+        for (Grupo grupoAux : usuario.getGruposSeguidos()) {
+            if (grupoAux.id.equals(id) && grupoAux.nombre.equals(nombre)) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean existenSubniveles(List<Grupo> grupos){
-        for(Grupo grupo : grupos){
-            if(grupo.id.length() == id.length()+1){
-                if(grupo.id.startsWith(id)) {
+    public boolean existenSubniveles(List<Grupo> grupos) {
+        for (Grupo grupo : grupos) {
+            if (grupo.id.length() == id.length() + 1) {
+                if (grupo.id.startsWith(id)) {
                     return true;
                 }
             }
@@ -176,16 +166,16 @@ public class Grupo {
         return false;
     }
 
-    public void chekGruposPadre(Context context, List<Grupo> grupos, Usuario usuario){
+    public void chekGruposPadre(Context context, List<Grupo> grupos, Usuario usuario) {
         List<String> gruposId = new ArrayList<>();
         for (int i = 1; i <= id.length(); i++) {
             if (!gruposId.contains(id.substring(0, i))) {
                 gruposId.add(id.substring(0, i));
             }
         }
-        for(Grupo grupoAux : grupos){
-            if(gruposId.contains(grupoAux.id)){
-                if(!grupoAux.id.equals(id) && !grupoAux.isGrupoGuardado(usuario)){
+        for (Grupo grupoAux : grupos) {
+            if (gruposId.contains(grupoAux.id)) {
+                if (!grupoAux.id.equals(id) && !grupoAux.isGrupoGuardado(usuario)) {
                     grupoAux.seguirGrupo(context, usuario.getId());
                     usuario.addGrupo(grupoAux);
                 }

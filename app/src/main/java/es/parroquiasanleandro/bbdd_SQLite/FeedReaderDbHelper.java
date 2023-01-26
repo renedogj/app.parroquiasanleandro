@@ -29,7 +29,7 @@ public class FeedReaderDbHelper extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
-    public void truncateTable(SQLiteDatabase db, String nombreTabla){
-        db.execSQL("DELETE FROM "+ nombreTabla);
+    public void truncateTable(SQLiteDatabase db, String nombreTabla) {
+        db.execSQL("DELETE FROM " + nombreTabla);
     }
 }
