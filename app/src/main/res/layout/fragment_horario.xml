@@ -219,7 +219,7 @@
 
                         <TextView
                             style="@style/tvHorario"
-                            android:text="17:00 - 19:00" />
+                            android:text="17:30 - 19:00" />
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </LinearLayout>

@@ -160,7 +160,7 @@ public class FragmentCalendario extends Fragment {
             fechas.add(auxFecha);
         }
 
-        obtenerAvisos();
+        //obtenerAvisos();
     }
 
     public void obtenerAvisos() {
@@ -186,7 +186,11 @@ public class FragmentCalendario extends Fragment {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("idUsuario", usuario.getId());
+                if (usuario.getId() != null) {
+                    parametros.put("idUsuario", usuario.getId());
+                } else {
+                    parametros.put("idUsuario", "0");
+                }
                 parametros.put("fechaInicio", fechas.get(0).toString(Fecha.FormatosFecha.aaaa_MM_dd_HH_mm_ss));
                 Fecha fechaFin = fechas.get(fechas.size() - 1).clone();
                 fechaFin.hora = 23;

@@ -1,6 +1,5 @@
 package es.parroquiasanleandro.activitys;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -36,7 +35,7 @@ import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class ActivityNavigation extends AppCompatActivity {
-    private final Activity activity = ActivityNavigation.this;
+    //private final Activity activity = ActivityNavigation.this;
     private final Context context = ActivityNavigation.this;
 
     private LinearLayout linearLayoutInicio;
@@ -52,8 +51,8 @@ public class ActivityNavigation extends AppCompatActivity {
     private NavigationView navView;
     private ActionBarDrawerToggle toggle;
 
-    public static FragmentManager fragmentManager;
     public static ActionBar actionBar;
+    public static FragmentManager fragmentManager;
     private ItemViewModel viewModel;
 
     @Override
@@ -86,14 +85,14 @@ public class ActivityNavigation extends AppCompatActivity {
 
         //navView.setBackgroundResource(R.color.primary_color);
 
-        toggle = new ActionBarDrawerToggle(activity, drawerLayout, R.string.open, R.string.close);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         fragmentManager = getSupportFragmentManager();
         Grupo.actualizarGruposServidorToLocal(context);
 
-        Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context, activity);
+        Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context, this);
 
         if (usuario.getId() != null) {
             Menu.addCerrarSesion(navView);
@@ -122,13 +121,13 @@ public class ActivityNavigation extends AppCompatActivity {
 
         linearLayoutPerfil.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_PERFIL) {
-                Menu.iniciarFragmentPerfil(usuario, activity, context);
+                Menu.iniciarFragmentPerfil(usuario, this, context);
                 Menu.asignarIconosMenu(navView, Menu.FRAGMENT_PERFIL);
             }
         });
 
         navView.setNavigationItemSelectedListener(item -> {
-            viewModel.setIdFragmentActual(Menu.selecionarFragmentMenuItem(item, viewModel.getIdFragmentActual(), usuario, activity, context, fragmentManager, actionBar, navView));
+            viewModel.setIdFragmentActual(Menu.selecionarFragmentMenuItem(item, viewModel.getIdFragmentActual(), usuario, this, context, fragmentManager, actionBar, navView));
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });

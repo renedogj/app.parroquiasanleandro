@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:text="612345678"
+                    android:text="915 18 36 52"
                     android:textAlignment="center"
                     android:textSize="17sp" />
             </LinearLayout>
@@ -145,8 +145,37 @@
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
                     android:text="parroquiasanleandro.es"
-
                     android:textAlignment="center"
+                    android:textColor="@color/azul"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/tvEmailTexto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="Email: "
+                    android:textAlignment="center"
+                    android:textSize="17sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="parroquiadesanleandro@gmail.com"
                     android:textColor="@color/azul"
                     android:textSize="16sp" />
             </LinearLayout>

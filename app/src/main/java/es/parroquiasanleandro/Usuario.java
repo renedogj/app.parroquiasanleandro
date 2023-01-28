@@ -164,6 +164,8 @@ public class Usuario {
         }
         if (gruposAdministrados != null && gruposAdministrados.length != 0) {
             Grupo.guardarGruposAdministradosEnLocal(context, gruposAdministrados);
+        }else{
+            Grupo.guardarGruposAdministradosEnLocal(context, new Grupo[0]);
         }
         editor.putString(ID, id);
         editor.putString(NOMBRE, nombre);

@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.activitys;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
@@ -261,8 +262,16 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
             bttnEliminarAviso.setVisibility(View.VISIBLE);
             bttnEliminarAviso.setOnClickListener(v -> {
-                eliminarAviso();
-                finish();
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                alertDialog.setTitle("Eliminar Aviso");
+                alertDialog.setMessage("¿Estás seguro de que quieres eliminar este aviso? \nEsta acción no se puede deshacer.");
+                alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                alertDialog.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    Toast.makeText(context, "Aviso eliminado con éxito", Toast.LENGTH_SHORT).show();
+                    eliminarAviso();
+                    finish();
+                });
+                alertDialog.setNegativeButton(android.R.string.no, null).show();
             });
         }
     }
@@ -292,7 +301,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         }
 
         if (aviso.titulo.length() > 0) {
-            if (aviso.descripcion.length() > 0) {
+            //if (aviso.descripcion.length() > 0) {
                 if (aviso.getFechaInicio().esIgualA(aviso.getFechaFin()) || Fecha.isFecha1MayorQueFecha2(aviso.getFechaFin(), aviso.getFechaInicio())) {
                     if (idAviso == null) {
                         guardarNuevoAviso(aviso);
@@ -303,9 +312,9 @@ public class ActivityNuevoAviso extends AppCompatActivity {
                 } else {
                     Toast.makeText(context, "La fecha final no puede ser anterior a la fecha inicial", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(context, "El campo de descripción no puede estar vacio", Toast.LENGTH_SHORT).show();
-            }
+            //} else {
+            //    Toast.makeText(context, "El campo de descripción no puede estar vacio", Toast.LENGTH_SHORT).show();
+            //}
         } else {
             Toast.makeText(context, "El campo de titulo no puede estar vacio", Toast.LENGTH_SHORT).show();
         }
@@ -368,7 +377,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         });
     }
 
-    public void eliminarAviso(){
+    public void eliminarAviso() {
         Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.eliminarAviso, result -> {
             try {
                 JSONObject jsonResult = new JSONObject(result);

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -62,7 +63,7 @@ public class ActivityRegistro extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(false); //True-> mostrar flecha ir atras
+            actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Registrarse");
         }
 
@@ -133,6 +134,12 @@ public class ActivityRegistro extends AppCompatActivity {
                 return parametros;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

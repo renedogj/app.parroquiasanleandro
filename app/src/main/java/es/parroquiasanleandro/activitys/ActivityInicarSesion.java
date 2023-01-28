@@ -3,6 +3,7 @@ package es.parroquiasanleandro.activitys;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -56,8 +57,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Iniciar sesión");
+
         }
 
         imgButtonShowPassword.setOnClickListener(view -> {
@@ -121,6 +123,12 @@ public class ActivityInicarSesion extends AppCompatActivity {
             etContraseña.setInputType(INPUTTYPE_PWD);
             imgButtonShowPassword.setImageResource(R.drawable.eye_crossed_24);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
