@@ -31,6 +31,7 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
     public static final int CAMBIAR_PASSWORD = 2;
     public static final int CAMBIAR_NOMBRE = 3;
     public static final int CAMBIAR_FECHA = 4;
+    public static final int ELIMINAR_USUARIO = 5;
 
     private final Context context = ActivityCambiarInfoUsuario.this;
 
@@ -56,6 +57,9 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                 break;
             case CAMBIAR_FECHA:
                 cambiarFecha();
+                break;
+            case ELIMINAR_USUARIO:
+                eliminarUsuario();
                 break;
             default:
                 finish();
@@ -217,5 +221,42 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
 
     public void cambiarFecha() {
 
+    }
+
+    public void eliminarUsuario(){
+        Button btnEliminarUsuario;
+
+        setContentView(R.layout.view_eliminar_usuario);
+
+        btnEliminarUsuario = findViewById(R.id.btnEliminarUsuario);
+
+        btnEliminarUsuario.setOnClickListener(v -> {
+            Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.eliminarUsuario, result -> {
+                try {
+                    JSONObject jsonResult = new JSONObject(result);
+                    if (!jsonResult.getBoolean("error")) {
+                        Usuario.borrarUsuarioLocal(context);
+                        Toast.makeText(context, "Usuario eliminado con exito", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(context, ActivityNavigation.class));
+                        finish();
+                    } else {
+                        Toast.makeText(context, "Se ha producido al eliminar el usuario", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Se ha producido un error en el servidor al eliminar el usuario", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }, error -> {
+                Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                error.printStackTrace();
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> parametros = new HashMap<>();
+                    parametros.put("idUsuario", usuario.getId());
+                    return parametros;
+                }
+            });
+        });
     }
 }

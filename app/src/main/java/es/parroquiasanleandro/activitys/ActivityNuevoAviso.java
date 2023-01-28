@@ -262,12 +262,11 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
             bttnEliminarAviso.setVisibility(View.VISIBLE);
             bttnEliminarAviso.setOnClickListener(v -> {
-                AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
                 alertDialog.setTitle("Eliminar Aviso");
                 alertDialog.setMessage("¿Estás seguro de que quieres eliminar este aviso? \nEsta acción no se puede deshacer.");
                 alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
                 alertDialog.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    Toast.makeText(context, "Aviso eliminado con éxito", Toast.LENGTH_SHORT).show();
                     eliminarAviso();
                     finish();
                 });

@@ -96,7 +96,7 @@ public class FragmentCalendario extends Fragment {
         fechas = new ArrayList<>();
         avisos = new ArrayList<>();
 
-        setCalendario();
+        //setCalendario();
 
         tvMesAnterior.setOnClickListener(view1 -> {
             fechaReferencia.sumMeses(-1);
@@ -130,7 +130,7 @@ public class FragmentCalendario extends Fragment {
         super.onResume();
         viewModel.setIdFragmentActual(Menu.FRAGMENT_CALENDARIO);
         viewModel.addIdFragmentActual();
-        obtenerAvisos();
+        setCalendario();
     }
 
     public void setCalendario() {
@@ -159,8 +159,8 @@ public class FragmentCalendario extends Fragment {
             auxFecha.sumDias(i);
             fechas.add(auxFecha);
         }
-
-        //obtenerAvisos();
+        tvNoHayAvisos.setText("");
+        obtenerAvisos();
     }
 
     public void obtenerAvisos() {

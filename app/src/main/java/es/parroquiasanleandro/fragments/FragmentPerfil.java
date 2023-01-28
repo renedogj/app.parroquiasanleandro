@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,18 +32,18 @@ import es.renedogj.fecha.Fecha;
 public class FragmentPerfil extends Fragment {
     private Context context;
     private ItemViewModel viewModel;
-    private FragmentManager fragmentManager;
 
     private ImageView ivFotoPerfil;
-    private LinearLayout linearLayoutNombre;
+    private LinearLayout lnlytNombre;
     private TextView tvNombreUsuario;
     private TextView tvEmail;
-    private LinearLayout linearLayoutEmail;
-    private LinearLayout linearLayoutGrupos;
+    private LinearLayout lnlytEmail;
+    private LinearLayout lnlytGrupos;
     private RecyclerView rvGruposUsuario;
-    private LinearLayout linearLayoutFechaNacimiento;
+    private LinearLayout lnlytFechaNacimiento;
     private TextView tvFechaNacimiento;
-    private LinearLayout linearLayoutCambiarContraseña;
+    private LinearLayout lnlytCambiarContraseña;
+    private LinearLayout lnlytEliminarUsuario;
 
 
     public FragmentPerfil() {
@@ -61,17 +60,16 @@ public class FragmentPerfil extends Fragment {
         View view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
         ivFotoPerfil = view.findViewById(R.id.ivFotoPerfil);
-        linearLayoutNombre = view.findViewById(R.id.linearLayoutNombre);
+        lnlytNombre = view.findViewById(R.id.linearLayoutNombre);
         tvNombreUsuario = view.findViewById(R.id.tvNombreUsuario);
         tvEmail = view.findViewById(R.id.tvEmail);
-        linearLayoutEmail = view.findViewById(R.id.linearLayoutEmail);
-        linearLayoutGrupos = view.findViewById(R.id.linearLayoutGrupos);
-        linearLayoutFechaNacimiento = view.findViewById(R.id.linearLayoutFechaNacimiento);
+        lnlytEmail = view.findViewById(R.id.linearLayoutEmail);
+        lnlytGrupos = view.findViewById(R.id.linearLayoutGrupos);
+        lnlytFechaNacimiento = view.findViewById(R.id.lnlytFechaNacimiento);
         rvGruposUsuario = view.findViewById(R.id.rvGruposUsuario);
         tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
-        linearLayoutCambiarContraseña = view.findViewById(R.id.linearLayoutCambiarContraseña);
-
-        fragmentManager = getParentFragmentManager();
+        lnlytCambiarContraseña = view.findViewById(R.id.lnlytCambiarContraseña);
+        lnlytEliminarUsuario = view.findViewById(R.id.lnlytEliminarUsuario);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
         tvNombreUsuario.setText(usuario.nombre);
@@ -88,29 +86,32 @@ public class FragmentPerfil extends Fragment {
             Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
         }
 
-        linearLayoutNombre.setOnClickListener(v -> {
+        lnlytNombre.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
             intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_NOMBRE);
             startActivity(intent);
             requireActivity().finish();
         });
 
-        linearLayoutEmail.setOnClickListener(v -> {
+        lnlytEmail.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
             intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_EMAIL);
             startActivity(intent);
             requireActivity().finish();
         });
 
-        linearLayoutGrupos.setOnClickListener(v -> {
+        lnlytGrupos.setOnClickListener(v -> {
             Menu.iniciarFragmentGrupos();
         });
 
-        linearLayoutFechaNacimiento.setOnClickListener(v -> {
-            Toast.makeText(context, "Modificar fecha de nacimineto", Toast.LENGTH_SHORT).show();
+        lnlytFechaNacimiento.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
+            intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_FECHA);
+            startActivity(intent);
+            requireActivity().finish();
         });
 
-        linearLayoutCambiarContraseña.setOnClickListener(v -> {
+        lnlytCambiarContraseña.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
             intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_PASSWORD);
             startActivity(intent);
@@ -124,6 +125,20 @@ public class FragmentPerfil extends Fragment {
 
         GrupoSencilloAdaptador grupoSencilloAdaptador = new GrupoSencilloAdaptador(context, Arrays.asList(usuario.getGruposSeguidos()));
         rvGruposUsuario.setAdapter(grupoSencilloAdaptador);
+
+        lnlytEliminarUsuario.setOnClickListener(v -> {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            alertDialog.setTitle("Eliminar Usuario");
+            alertDialog.setMessage("¿Estás seguro de que quieres eliminar tu usuario?");
+            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.setPositiveButton("Eliminar", (dialog, whichButton) -> {
+                Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
+                intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.ELIMINAR_USUARIO);
+                startActivity(intent);
+                requireActivity().finish();
+            });
+            alertDialog.setNegativeButton(android.R.string.no, null).show();
+        });
 
         return view;
     }
