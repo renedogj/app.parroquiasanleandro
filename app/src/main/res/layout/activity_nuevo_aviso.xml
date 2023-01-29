@@ -2,8 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/size_1_1"
     android:background="@color/blanco"
     tools:context=".activitys.ActivityNuevoAviso">
 
@@ -19,12 +18,12 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/size_2_2"
+                style="@style/size_1_2"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:padding="15dp"
                 android:text="Crear nuevo aviso"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
 
             <EditText
@@ -138,12 +137,8 @@
 
             <Spinner
                 android:id="@+id/spinnerGrupo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="15dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="15dp"
-                android:paddingBottom="5dp" />
+                style="@style/size_1_2"
+                android:padding="10dp" />
 
             <View
                 android:layout_width="match_parent"
