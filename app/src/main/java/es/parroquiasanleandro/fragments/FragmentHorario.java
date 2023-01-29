@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 
@@ -30,6 +31,7 @@ public class FragmentHorario extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(Menu.HORARIO);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_HORARIO);
         viewModel.addIdFragmentActual();
     }

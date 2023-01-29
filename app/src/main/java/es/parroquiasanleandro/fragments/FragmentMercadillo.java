@@ -30,6 +30,7 @@ import es.parroquiasanleandro.Articulo;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.adaptadores.ArticuloAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
@@ -104,6 +105,7 @@ public class FragmentMercadillo extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(Menu.MERCADILLO);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_MERCADILLO);
         viewModel.addIdFragmentActual();
     }

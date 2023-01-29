@@ -49,8 +49,7 @@ public class Menu {
     private Menu() {
     }
 
-    public static int selecionarFragmentMenuItem(MenuItem item, int idFragmentActual, Usuario usuario, Activity activity,
-                                                 Context context) {
+    public static int selecionarFragmentMenuItem(MenuItem item, int idFragmentActual, Usuario usuario, Activity activity, Context context) {
         int itemId = item.getItemId();
         seleccionarFragmentMenuId(itemId, idFragmentActual, usuario, activity, context);
         return itemId;

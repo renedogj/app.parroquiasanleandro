@@ -16,6 +16,7 @@ import java.util.List;
 import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.adaptadores.GrupoAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
@@ -59,6 +60,7 @@ public class FragmentGrupos extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(Menu.HORARIO);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_GRUPOS);
         viewModel.addIdFragmentActual();
 

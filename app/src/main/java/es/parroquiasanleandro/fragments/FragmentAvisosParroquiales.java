@@ -40,6 +40,7 @@ import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.activitys.ActivityNuevoAviso;
 import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
@@ -102,21 +103,21 @@ public class FragmentAvisosParroquiales extends Fragment {
         spinnerGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position > 0){
-                    Grupo grupo = usuario.getGruposSeguidos()[position-1];
+                if (position > 0) {
+                    Grupo grupo = usuario.getGruposSeguidos()[position - 1];
                     List<Aviso> avisosFiltrados = new ArrayList<>();
-                    for (Aviso aviso: avisos) {
-                        if(aviso.idGrupo.equals(grupo.id)){
+                    for (Aviso aviso : avisos) {
+                        if (aviso.idGrupo.equals(grupo.id)) {
                             avisosFiltrados.add(aviso);
                         }
                     }
                     //if(avisosFiltrados.isEmpty()){
 
                     //}else{
-                        AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisosFiltrados);
-                        rvAvisos.setAdapter(avisoAdaptador);
+                    AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisosFiltrados);
+                    rvAvisos.setAdapter(avisoAdaptador);
                     //}
-                }else{
+                } else {
                     AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisos);
                     rvAvisos.setAdapter(avisoAdaptador);
                 }
@@ -139,6 +140,7 @@ public class FragmentAvisosParroquiales extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(Menu.AVISOS);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_AVISOS);
         viewModel.addIdFragmentActual();
         obtenerMostrarAvisos();

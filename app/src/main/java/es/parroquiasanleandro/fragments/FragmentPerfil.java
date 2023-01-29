@@ -158,6 +158,7 @@ public class FragmentPerfil extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(Menu.PERFIL);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
         viewModel.addIdFragmentActual();
     }

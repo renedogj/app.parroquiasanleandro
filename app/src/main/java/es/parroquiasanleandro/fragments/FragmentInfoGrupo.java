@@ -26,6 +26,7 @@ import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentInfoGrupo extends Fragment {
@@ -69,21 +70,21 @@ public class FragmentInfoGrupo extends Fragment {
         usuario = Usuario.recuperarUsuarioLocal(context);
         grupos = Grupo.recuperarGruposDeLocal(context);
         grupo = Grupo.recuperarGrupoDeLocal(context, viewModel.getGrupoActual());
-        if(grupo.equals(new Grupo())){
+        if (grupo.equals(new Grupo())) {
             Toast.makeText(context, "Se ha producido un error al recuperar el grupo", Toast.LENGTH_SHORT).show();
             requireActivity().onBackPressed();
-        }else{
+        } else {
             linearLayoutContenedorGrupo.setBackgroundColor(Color.parseColor(grupo.color));
-            Glide.with(context).load(Url.obtenerImagenAviso + grupo.id +"/img/" + grupo.imagen).into(imgGrupo);
+            Glide.with(context).load(Url.obtenerImagenAviso + grupo.id + "/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
 
-            if(!grupo.texto.equals("null")){
+            if (!grupo.texto.equals("null")) {
                 tvTextoGrupo.setText(grupo.texto);
             }
             grupoGuardado = grupo.isGrupoGuardado(usuario);
             checkGrupo(grupoGuardado);
 
-            if(grupo.existenSubniveles(grupos)){
+            if (grupo.existenSubniveles(grupos)) {
                 tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 tvMasGrupos.setVisibility(View.VISIBLE);
                         /*tvMasGrupos.setOnClickListener(v -> {
@@ -92,17 +93,17 @@ public class FragmentInfoGrupo extends Fragment {
                                 //GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.id, rvGrupos, viewModel);
                                 //rvGrupos.setAdapter(grupoAdaptador);
                         });*/
-            }else{
+            } else {
                 tvMasGrupos.setVisibility(View.GONE);
             }
         }
 
         cardGrupoBoton.setOnClickListener(v -> {
-            if (grupoGuardado){
+            if (grupoGuardado) {
                 grupo.eliminarGrupoSeguido(context, usuario.getId());
                 grupoGuardado = false;
                 usuario.removeGrupo(grupo);
-            }else{
+            } else {
                 grupo.seguirGrupo(context, usuario.getId());
                 grupoGuardado = true;
                 usuario.addGrupo(grupo);
@@ -117,18 +118,19 @@ public class FragmentInfoGrupo extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(grupo.nombre);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_INFO_GRUPO);
         viewModel.addIdFragmentActual();
     }
 
-    public void checkGrupo(Boolean chek){
-        if(chek){
+    public void checkGrupo(Boolean chek) {
+        if (chek) {
             cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#FF3F888F"));
             //cardGrupoBoton.setCardBackgroundColor(R.color.primary_color);
             //tvBotonSeguir.setTextColor(Color.parseColor("#FFFDF1F1"));
             //tvBotonSeguir.setTextColor(R.color.negro);
             tvBotonSeguir.setText("Siguiendo");
-        }else{
+        } else {
             //cardGrupoBoton.setCardBackgroundColor(R.color.blanco);
             //cardGrupoBoton.setBackgroundResource(R.color.blanco);
             cardGrupoBoton.setCardBackgroundColor(Color.parseColor("#FFF5F5F5"));

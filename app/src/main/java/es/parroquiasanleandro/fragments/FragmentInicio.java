@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,7 +21,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +37,7 @@ import es.parroquiasanleandro.MenuOption;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import es.parroquiasanleandro.adaptadores.MenuIncioAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
@@ -48,8 +47,6 @@ public class FragmentInicio extends Fragment {
     private Activity activity;
 
     private ItemViewModel viewModel;
-    private ActionBar actionBar;
-    private NavigationView navView;
 
     private TextView tvCitaBiblica;
     private RecyclerView rvAvisosSemana;
@@ -94,7 +91,7 @@ public class FragmentInicio extends Fragment {
 
         usuario = Usuario.recuperarUsuarioLocal(context);
 
-        MenuIncioAdaptador menuIncioAdaptador = new MenuIncioAdaptador(context, activity, menuOptionList, Menu.FRAGMENT_INICIO, getParentFragmentManager(), viewModel.getActionBar(), viewModel.getNavView());
+        MenuIncioAdaptador menuIncioAdaptador = new MenuIncioAdaptador(context, activity, menuOptionList, Menu.FRAGMENT_INICIO);
         rvMenu.setAdapter(menuIncioAdaptador);
 
         obtenerCitaBiblica(Url.obtenerCitaBliblica);
@@ -105,6 +102,7 @@ public class FragmentInicio extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(Menu.INICIO);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_INICIO);
         viewModel.addIdFragmentActual();
         obtenerAvisosSemanales();

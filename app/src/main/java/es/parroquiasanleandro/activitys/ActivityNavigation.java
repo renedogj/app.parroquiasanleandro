@@ -73,16 +73,12 @@ public class ActivityNavigation extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawerLayout);
 
         viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
-        viewModel.setNavView(navView);
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Parroquia San Leandro");
-            viewModel.setActionBar(actionBar);
         }
-
-        //navView.setBackgroundResource(R.color.primary_color);
 
         toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
@@ -202,7 +198,7 @@ public class ActivityNavigation extends AppCompatActivity {
                     viewModel.setIdFragmentActual(viewModel.getIdsFragment().get(posUltimoFragment - 1));
                     Menu.asignarIconosMenu(viewModel.getIdFragmentActual());
                     if (viewModel.getIdFragmentActual() == Menu.FRAGMENT_GRUPOS) {
-                        //Si el nuevo grupo actual el FRAGMENT_GRUPOS guardamos el grupo actual como el ID_PADRE
+                        //Si el nuevo grupo actual es el FRAGMENT_GRUPOS guardamos el grupo actual como el ID_PADRE
                         viewModel.getIdsGrupos().clear();
                         viewModel.setGrupoActual(Grupo.ID_PADRE);
                         viewModel.addIdGrupoActual();

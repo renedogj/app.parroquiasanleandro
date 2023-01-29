@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentInformacion extends Fragment {
@@ -41,6 +42,7 @@ public class FragmentInformacion extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(Menu.INFORMACION);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_INFORMACION);
         viewModel.addIdFragmentActual();
     }

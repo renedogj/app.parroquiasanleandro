@@ -2,6 +2,8 @@ package es.parroquiasanleandro;
 
 import android.util.ArrayMap;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,7 @@ public class MenuOption {
 
     //Map para obtener la información de los items
     //Todos los items tienen que estar aquí
+    @NonNull
     public static Map<Integer, MenuOption> obtenerMapMenuOptions() {
         Map<Integer, MenuOption> menuItemMap = new ArrayMap<Integer, MenuOption>();
         menuItemMap.put(Menu.FRAGMENT_HORARIO, new MenuOption(Menu.HORARIO, Menu.FRAGMENT_HORARIO, R.drawable.ic_reloj, FragmentHorario.class));
@@ -57,6 +60,7 @@ public class MenuOption {
 
     //Lista para tener ordenados los items
     //Los items que se muestran en la pantalla de inicio tienen que estar aquí
+    @NonNull
     public static List<MenuOption> obtenerListMenuOptions() {
         List<MenuOption> menuItemList = new ArrayList<>();
         menuItemList.add(new MenuOption(Menu.AVISOS, Menu.FRAGMENT_AVISOS, R.drawable.ic_bell, FragmentAvisosParroquiales.class));

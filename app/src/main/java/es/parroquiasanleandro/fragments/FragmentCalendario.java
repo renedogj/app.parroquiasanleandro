@@ -33,6 +33,7 @@ import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import es.parroquiasanleandro.adaptadores.DiaAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
@@ -128,6 +129,7 @@ public class FragmentCalendario extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        ActivityNavigation.actionBar.setTitle(Menu.CALENDARIO);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_CALENDARIO);
         viewModel.addIdFragmentActual();
         setCalendario();

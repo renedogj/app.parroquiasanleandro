@@ -9,13 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,24 +25,18 @@ import es.parroquiasanleandro.Usuario;
 
 public class MenuIncioAdaptador extends RecyclerView.Adapter<MenuIncioAdaptador.ViewHolder> {
 
-    private Context context;
-    private Activity activity;
-    private List<MenuOption> menuOptionList;
-    private int idFragmentActual;
-    private Usuario usuario;
-    private FragmentManager fragmentManager;
-    private ActionBar actionBar;
-    private NavigationView navView;
+    private final Context context;
+    private final Activity activity;
+    private final List<MenuOption> menuOptionList;
+    private final int idFragmentActual;
+    private final Usuario usuario;
 
-    public MenuIncioAdaptador(Context context, Activity activity, List<MenuOption> menuOptionList, int idFragmentActual, FragmentManager fragmentManager, ActionBar actionBar, NavigationView navView) {
+    public MenuIncioAdaptador(Context context, Activity activity, List<MenuOption> menuOptionList, int idFragmentActual) {
         this.context = context;
         this.activity = activity;
         this.idFragmentActual = idFragmentActual;
         this.menuOptionList = menuOptionList;
         this.usuario = Usuario.recuperarUsuarioLocal(context);
-        this.fragmentManager = fragmentManager;
-        this.actionBar = actionBar;
-        this.navView = navView;
     }
 
     @NonNull
@@ -69,9 +60,9 @@ public class MenuIncioAdaptador extends RecyclerView.Adapter<MenuIncioAdaptador.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private CardView cardMenu;
-        private ImageView ivImagenMenu;
-        private TextView tvNombreMenu;
+        private final CardView cardMenu;
+        private final ImageView ivImagenMenu;
+        private final TextView tvNombreMenu;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -82,14 +73,12 @@ public class MenuIncioAdaptador extends RecyclerView.Adapter<MenuIncioAdaptador.
         }
 
         public void asignarValoresArticulo(MenuOption menuOption) {
-            //if(articulo.imagenes.get(0) != null){
             Glide.with(context).load(menuOption.icono).into(ivImagenMenu);
-            //}
+
             tvNombreMenu.setText(menuOption.nombre);
             ivImagenMenu.setContentDescription(menuOption.nombre);
 
             cardMenu.setOnClickListener(v -> {
-                //Toast.makeText(context, menuOption.nombre, Toast.LENGTH_SHORT).show();
                 Menu.seleccionarFragmentMenuId(menuOption.id, idFragmentActual, usuario, activity, context);
             });
         }

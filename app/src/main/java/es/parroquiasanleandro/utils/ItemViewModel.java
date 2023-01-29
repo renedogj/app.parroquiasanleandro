@@ -1,9 +1,6 @@
 package es.parroquiasanleandro.utils;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModel;
-
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,24 +12,6 @@ public class ItemViewModel extends ViewModel {
     List<Integer> idsFragment = new ArrayList<>();
     String grupoActual = null;
     List<String> idsGrupos = new ArrayList<>();
-    ActionBar actionBar;
-    NavigationView navView;
-
-    public NavigationView getNavView() {
-        return navView;
-    }
-
-    public void setNavView(NavigationView navView) {
-        this.navView = navView;
-    }
-
-    public ActionBar getActionBar() {
-        return actionBar;
-    }
-
-    public void setActionBar(ActionBar actionBar) {
-        this.actionBar = actionBar;
-    }
 
     public int getIdFragmentActual() {
         return idFragmentActual;
