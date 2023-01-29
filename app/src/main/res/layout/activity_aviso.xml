@@ -39,7 +39,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/background_items"
-                    android:minHeight="10000dp"
+                    android:minHeight="800dp"
                     android:orientation="vertical"
                     android:padding="10dp">
 

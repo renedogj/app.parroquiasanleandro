@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -49,6 +51,8 @@ public class ActivityAviso extends AppCompatActivity {
     private Button bttnUrl;
     private Button bttnArchivos;
 
+    private ActionBar actionBar;
+
     private Aviso aviso = new Aviso();
     private Usuario usuario;
 
@@ -76,6 +80,12 @@ public class ActivityAviso extends AppCompatActivity {
 
         aviso.id = getIntent().getStringExtra("idAviso");
         aviso.idGrupo = getIntent().getStringExtra("idGrupo");
+
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setTitle("Iniciar sesión");
+        }
 
         if (usuario.getId() != null) {
             if (usuario.esAdministrador) {
@@ -187,5 +197,11 @@ public class ActivityAviso extends AppCompatActivity {
         } else {
             tvFecha.setText(aviso.getFechaInicio().toString(Fecha.FormatosFecha.EE_d_MMMM) + "  " + aviso.getFechaInicio().toString(Fecha.FormatosFecha.HH_mm));
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return super.onOptionsItemSelected(item);
     }
 }

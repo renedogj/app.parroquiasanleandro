@@ -35,7 +35,6 @@ import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class ActivityNavigation extends AppCompatActivity {
-    //private final Activity activity = ActivityNavigation.this;
     private final Context context = ActivityNavigation.this;
 
     private LinearLayout linearLayoutInicio;
@@ -48,9 +47,9 @@ public class ActivityNavigation extends AppCompatActivity {
     public static ImageView imgPerfil;
 
     private DrawerLayout drawerLayout;
-    private NavigationView navView;
     private ActionBarDrawerToggle toggle;
 
+    public static NavigationView navView;
     public static ActionBar actionBar;
     public static FragmentManager fragmentManager;
     private ItemViewModel viewModel;
@@ -101,33 +100,33 @@ public class ActivityNavigation extends AppCompatActivity {
         linearLayoutInicio.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_INICIO) {
                 Menu.iniciarFragmentInicio();
-                Menu.asignarIconosMenu(navView, Menu.FRAGMENT_INICIO);
+                Menu.asignarIconosMenu(Menu.FRAGMENT_INICIO);
             }
         });
 
         linearLayoutAvisos.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_AVISOS) {
                 Menu.iniciarFragmentAvisos();
-                Menu.asignarIconosMenu(navView, Menu.FRAGMENT_AVISOS);
+                Menu.asignarIconosMenu(Menu.FRAGMENT_AVISOS);
             }
         });
 
         linearLayoutInformacion.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_HORARIO) {
                 Menu.iniciarFragmentHorario();
-                Menu.asignarIconosMenu(navView, Menu.FRAGMENT_HORARIO);
+                Menu.asignarIconosMenu(Menu.FRAGMENT_HORARIO);
             }
         });
 
         linearLayoutPerfil.setOnClickListener(v -> {
             if (viewModel.getIdFragmentActual() != Menu.FRAGMENT_PERFIL) {
                 Menu.iniciarFragmentPerfil(usuario, this, context);
-                Menu.asignarIconosMenu(navView, Menu.FRAGMENT_PERFIL);
+                Menu.asignarIconosMenu(Menu.FRAGMENT_PERFIL);
             }
         });
 
         navView.setNavigationItemSelectedListener(item -> {
-            viewModel.setIdFragmentActual(Menu.selecionarFragmentMenuItem(item, viewModel.getIdFragmentActual(), usuario, this, context, fragmentManager, actionBar, navView));
+            viewModel.setIdFragmentActual(Menu.selecionarFragmentMenuItem(item, viewModel.getIdFragmentActual(), usuario, this, context));
             drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
@@ -161,7 +160,7 @@ public class ActivityNavigation extends AppCompatActivity {
                         if (!viewModel.getIdsFragment().isEmpty()) {
                             //Si no es el último fragment (no debería serlo) asignamos los valores del nuevo fragment actual
                             viewModel.setIdFragmentActual(viewModel.getIdsFragment().get(posUltimoFragment - 1));
-                            Menu.asignarIconosMenu(navView, viewModel.getIdFragmentActual());
+                            Menu.asignarIconosMenu(viewModel.getIdFragmentActual());
                         }
                         viewModel.getIdsGrupos().clear();
                         viewModel.setGrupoActual(null);
@@ -201,7 +200,7 @@ public class ActivityNavigation extends AppCompatActivity {
                 viewModel.getIdsFragment().remove(posUltimoFragment);
                 if (!viewModel.getIdsFragment().isEmpty()) {
                     viewModel.setIdFragmentActual(viewModel.getIdsFragment().get(posUltimoFragment - 1));
-                    Menu.asignarIconosMenu(navView, viewModel.getIdFragmentActual());
+                    Menu.asignarIconosMenu(viewModel.getIdFragmentActual());
                     if (viewModel.getIdFragmentActual() == Menu.FRAGMENT_GRUPOS) {
                         //Si el nuevo grupo actual el FRAGMENT_GRUPOS guardamos el grupo actual como el ID_PADRE
                         viewModel.getIdsGrupos().clear();

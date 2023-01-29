@@ -59,7 +59,6 @@ public class ActivityInicarSesion extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Iniciar sesión");
-
         }
 
         imgButtonShowPassword.setOnClickListener(view -> {

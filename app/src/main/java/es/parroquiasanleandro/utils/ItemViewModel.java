@@ -74,7 +74,7 @@ public class ItemViewModel extends ViewModel {
         } else {
             this.idsFragment.add(idFragmentActual);
         }
-        Menu.asignarIconosMenu(navView, idFragmentActual);
+        Menu.asignarIconosMenu(idFragmentActual);
     }
 
     public void addIdGrupoActual() {

@@ -90,7 +90,7 @@ public class MenuIncioAdaptador extends RecyclerView.Adapter<MenuIncioAdaptador.
 
             cardMenu.setOnClickListener(v -> {
                 //Toast.makeText(context, menuOption.nombre, Toast.LENGTH_SHORT).show();
-                Menu.seleccionarFragmentMenuId(menuOption.id, idFragmentActual, usuario, activity, context, fragmentManager, actionBar, navView);
+                Menu.seleccionarFragmentMenuId(menuOption.id, idFragmentActual, usuario, activity, context);
             });
         }
     }

@@ -197,6 +197,30 @@
                 <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
 
                     <LinearLayout
+                        android:id="@+id/lnlytCerrarSesion"
+                        style="@style/lnlytCardPerfil">
+
+                        <LinearLayout
+                            style="@style/lnly_1_2_h"
+                            android:layout_gravity="center_vertical">
+
+                            <TextView
+                                style="@style/tvTituloPerfil"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:text="Cerrar Sesión"  />
+
+                            <TextView
+                                style="@style/tvFlecha"
+                                android:layout_margin="0dp"
+                                android:text=" >" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
+
+                    <LinearLayout
                         android:id="@+id/lnlytEliminarUsuario"
                         style="@style/lnlytCardPerfil">
 

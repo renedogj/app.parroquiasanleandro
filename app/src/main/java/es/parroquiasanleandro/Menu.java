@@ -6,12 +6,7 @@ import android.content.Intent;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.FragmentManager;
-
 import com.google.android.material.navigation.NavigationView;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -55,14 +50,13 @@ public class Menu {
     }
 
     public static int selecionarFragmentMenuItem(MenuItem item, int idFragmentActual, Usuario usuario, Activity activity,
-                                                 Context context, FragmentManager fragmentManager, ActionBar actionBar, NavigationView navView) {
+                                                 Context context) {
         int itemId = item.getItemId();
-        seleccionarFragmentMenuId(itemId, idFragmentActual, usuario, activity, context, fragmentManager, actionBar, navView);
+        seleccionarFragmentMenuId(itemId, idFragmentActual, usuario, activity, context);
         return itemId;
     }
 
-    public static void seleccionarFragmentMenuId(@NotNull int idFragment, @NotNull int idFragmentActual, Usuario usuario, Activity activity,
-                                                 Context context, @NotNull FragmentManager fragmentManager, @NotNull ActionBar actionBar, NavigationView navView) {
+    public static void seleccionarFragmentMenuId(int idFragment, int idFragmentActual, Usuario usuario, Activity activity, Context context) {
         MenuOption menuOption = menuOptionMap.get(idFragment);
         if (menuOption != null && idFragmentActual != menuOption.id) {
             if (menuOption.nombre.equals(Menu.PERFIL)) {
@@ -72,9 +66,9 @@ public class Menu {
             } else {
                 iniciarFragmentEstandar(menuOption);
             }
-            asignarIconosMenu(navView, menuOption.id);
+            asignarIconosMenu(menuOption.id);
         } else if (idFragment == CERRAR_SESION) {
-            navView.getMenu().getItem(CERRAR_SESION).setVisible(false);
+            ActivityNavigation.navView.getMenu().getItem(CERRAR_SESION).setVisible(false);
             Usuario.borrarUsuarioLocal(context);
             Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
             context.startActivity(new Intent(context, ActivityNavigation.class));
@@ -182,7 +176,7 @@ public class Menu {
         ActivityNavigation.actionBar.setTitle(GRUPOS);
     }
 
-    public static void iniciarFragmentInfoGrupo(){
+    public static void iniciarFragmentInfoGrupo() {
         ActivityNavigation.fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .replace(R.id.fragment_container, FragmentInfoGrupo.class, null)
@@ -206,7 +200,7 @@ public class Menu {
         return menuItem;
     }
 
-    public static void asignarIconosMenu(NavigationView navView, int itemId) {
+    public static void asignarIconosMenu(int itemId) {
         ActivityNavigation.imgInicio.setImageResource(R.drawable.ic_home);
         ActivityNavigation.imgAvisos.setImageResource(R.drawable.ic_bell);
         ActivityNavigation.imgHorario.setImageResource(R.drawable.ic_reloj);
@@ -241,9 +235,9 @@ public class Menu {
         //Modificamos los iconos del menu lateral
         for (int[] item : items) {
             if (item[0] == itemId) {
-                navView.getMenu().findItem(item[0]).setIcon(item[2]);
+                ActivityNavigation.navView.getMenu().findItem(item[0]).setIcon(item[2]);
             } else {
-                navView.getMenu().findItem(item[0]).setIcon(item[1]);
+                ActivityNavigation.navView.getMenu().findItem(item[0]).setIcon(item[1]);
             }
         }
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,7 @@ import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.activitys.ActivityCambiarInfoUsuario;
+import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.adaptadores.GrupoSencilloAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
 import es.renedogj.fecha.Fecha;
@@ -43,6 +45,7 @@ public class FragmentPerfil extends Fragment {
     private LinearLayout lnlytFechaNacimiento;
     private TextView tvFechaNacimiento;
     private LinearLayout lnlytCambiarContraseña;
+    private LinearLayout lnlytCerrarSesion;
     private LinearLayout lnlytEliminarUsuario;
 
 
@@ -69,6 +72,7 @@ public class FragmentPerfil extends Fragment {
         rvGruposUsuario = view.findViewById(R.id.rvGruposUsuario);
         tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
         lnlytCambiarContraseña = view.findViewById(R.id.lnlytCambiarContraseña);
+        lnlytCerrarSesion = view.findViewById(R.id.lnlytCerrarSesion);
         lnlytEliminarUsuario = view.findViewById(R.id.lnlytEliminarUsuario);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
@@ -85,6 +89,14 @@ public class FragmentPerfil extends Fragment {
         if (usuario.fotoPerfil != null) {
             Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
         }
+
+        rvGruposUsuario.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+        rvGruposUsuario.setLayoutManager(linearLayoutManager);
+
+        GrupoSencilloAdaptador grupoSencilloAdaptador = new GrupoSencilloAdaptador(context, Arrays.asList(usuario.getGruposSeguidos()));
+        rvGruposUsuario.setAdapter(grupoSencilloAdaptador);
 
         lnlytNombre.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
@@ -118,13 +130,13 @@ public class FragmentPerfil extends Fragment {
             requireActivity().finish();
         });
 
-        rvGruposUsuario.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
-        rvGruposUsuario.setLayoutManager(linearLayoutManager);
-
-        GrupoSencilloAdaptador grupoSencilloAdaptador = new GrupoSencilloAdaptador(context, Arrays.asList(usuario.getGruposSeguidos()));
-        rvGruposUsuario.setAdapter(grupoSencilloAdaptador);
+        lnlytCerrarSesion.setOnClickListener(v -> {
+            ActivityNavigation.navView.getMenu().getItem(Menu.CERRAR_SESION).setVisible(false);
+            Usuario.borrarUsuarioLocal(context);
+            Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
+            context.startActivity(new Intent(context, ActivityNavigation.class));
+            requireActivity().finish();
+        });
 
         lnlytEliminarUsuario.setOnClickListener(v -> {
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
