@@ -102,6 +102,29 @@
                                 style="@style/tvFlecha"
                                 android:text=" >" />
                         </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lnlytVerificarEmail"
+                            style="@style/lnly_1_2_h"
+                            android:layout_marginTop="5dp"
+                            android:visibility="gone">
+                            <TextView
+                                android:id="@+id/tvVerificarEmail"
+                                style="@style/size_2_1"
+                                android:layout_gravity="center"
+                                android:gravity="bottom|right"
+                                android:layout_weight="1"
+                                android:text="Verificar email"
+                                android:textSize="16sp" />
+
+                            <Space
+                                android:layout_width="10dp"
+                                android:layout_height="match_parent" />
+
+                            <TextView
+                                style="@style/tvFlecha"
+                                android:text=" >" />
+                        </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

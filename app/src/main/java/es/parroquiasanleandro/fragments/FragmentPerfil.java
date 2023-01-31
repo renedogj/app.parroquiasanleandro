@@ -18,12 +18,18 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.activitys.ActivityCambiarInfoUsuario;
 import es.parroquiasanleandro.activitys.ActivityNavigation;
@@ -47,6 +53,7 @@ public class FragmentPerfil extends Fragment {
     private LinearLayout lnlytCambiarContraseña;
     private LinearLayout lnlytCerrarSesion;
     private LinearLayout lnlytEliminarUsuario;
+    private LinearLayout lnlytVerificarEmail;
 
 
     public FragmentPerfil() {
@@ -74,6 +81,7 @@ public class FragmentPerfil extends Fragment {
         lnlytCambiarContraseña = view.findViewById(R.id.lnlytCambiarContraseña);
         lnlytCerrarSesion = view.findViewById(R.id.lnlytCerrarSesion);
         lnlytEliminarUsuario = view.findViewById(R.id.lnlytEliminarUsuario);
+        lnlytVerificarEmail = view.findViewById(R.id.lnlytVerificarEmail);
 
         Usuario usuario = Usuario.recuperarUsuarioLocal(context);
         tvNombreUsuario.setText(usuario.nombre);
@@ -111,6 +119,26 @@ public class FragmentPerfil extends Fragment {
             startActivity(intent);
             requireActivity().finish();
         });
+
+        if (!usuario.emailVerificado) {
+            lnlytVerificarEmail.setVisibility(View.VISIBLE);
+            lnlytVerificarEmail.setOnClickListener(v -> {
+                Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.reenviarEmailConfirmacion, result -> {
+                    Toast.makeText(context, "Se ha enviado un correo de verificación", Toast.LENGTH_SHORT).show();
+                }, error -> {
+                    Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> parametros = new HashMap<>();
+                        parametros.put("idUsuario", usuario.getId());
+                        parametros.put("email", usuario.email);
+                        return parametros;
+                    }
+                });
+            });
+        }
 
         lnlytGrupos.setOnClickListener(v -> {
             Menu.iniciarFragmentGrupos();

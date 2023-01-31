@@ -122,10 +122,8 @@ public class FragmentAvisosParroquiales extends Fragment {
                     rvAvisos.setAdapter(avisoAdaptador);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 

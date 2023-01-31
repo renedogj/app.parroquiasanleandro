@@ -90,6 +90,7 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                         if (!jsonResult.getBoolean("error")) {
                             Usuario.actualizarUsuarioDeServidorToLocal(context, this);
                             Toast.makeText(context, "Correo actualizado con exito", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Se ha enviado un correo de verificación a tu nuevo correo electronico", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(context, ActivityNavigation.class));
                             finish();
                         } else {

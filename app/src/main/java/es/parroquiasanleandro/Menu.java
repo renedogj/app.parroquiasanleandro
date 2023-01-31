@@ -193,10 +193,9 @@ public class Menu {
                 .commit();
     }
 
-    public static MenuItem addCerrarSesion(NavigationView navView) {
+    public static void addCerrarSesion(NavigationView navView) {
         MenuItem menuItem = navView.getMenu().add(0, CERRAR_SESION, 0, "Cerrar Sesion");
         menuItem.setIcon(R.drawable.ic_logout);
-        return menuItem;
     }
 
     public static void asignarIconosMenu(int itemId) {

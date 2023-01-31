@@ -396,6 +396,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> parametros = new HashMap<>();
+                parametros.put("idUsuario", usuario.getId());
                 parametros.put("idAviso", idAviso);
                 return parametros;
             }

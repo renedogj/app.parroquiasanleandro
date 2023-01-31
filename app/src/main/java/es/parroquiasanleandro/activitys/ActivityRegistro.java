@@ -105,6 +105,7 @@ public class ActivityRegistro extends AppCompatActivity {
                     JSONObject jsonObject = jsonResult.getJSONObject("usuario");
                     Usuario usuario = new Usuario(jsonObject);
                     usuario.guardarUsuarioEnLocal(context);
+                    Toast.makeText(context, "Se ha enviado un correo de verificación a tu correo electronico", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(context, ActivityNavigation.class));
                     finish();
                 } else {

@@ -89,6 +89,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
                         JSONObject jsonObject = jsonResult.getJSONObject("usuario");
                         Usuario usuario = new Usuario(jsonObject);
                         usuario.guardarUsuarioEnLocal(context);
+                        if(!usuario.emailVerificado){
+                            Toast.makeText(context, "Tu correo electronico no está verificado, verificalo para mayor seguridad", Toast.LENGTH_LONG).show();
+                        }
                         startActivity(new Intent(context, ActivityNavigation.class));
                         finish();
                     } else {
