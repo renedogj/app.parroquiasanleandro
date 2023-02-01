@@ -95,7 +95,6 @@ public class ActivityRegistro extends AppCompatActivity {
         parametros.put("nombre", nombre);
         parametros.put("email", email);
         parametros.put("password", password);
-        Url.a(context, parametros);
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.registrarse, result -> {

@@ -1,11 +1,16 @@
 package es.parroquiasanleandro.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +57,11 @@ public class FragmentInicio extends Fragment {
     private RecyclerView rvAvisosSemana;
     private TextView tvAvisosSemanales;
     private RecyclerView rvMenu;
+    private ImageView imgFacebook;
+    private ImageView imgYoutube;
+    private ImageView imgInstagram;
+    private ImageView imgTwitter;
+    private ImageView imgEnlace;
 
     List<Aviso> avisos;
     List<MenuOption> menuOptionList;
@@ -70,6 +80,7 @@ public class FragmentInicio extends Fragment {
         viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
     }
 
+    @SuppressLint("IntentReset")
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_inicio, container, false);
 
@@ -77,6 +88,11 @@ public class FragmentInicio extends Fragment {
         tvAvisosSemanales = view.findViewById(R.id.tvAvisosSemanales);
         rvAvisosSemana = view.findViewById(R.id.rvAvisosSemana);
         rvMenu = view.findViewById(R.id.rvMenu);
+        imgFacebook = view.findViewById(R.id.imgFacebook);
+        imgYoutube = view.findViewById(R.id.imgYoutube);
+        imgInstagram = view.findViewById(R.id.imgInstagram);
+        imgTwitter = view.findViewById(R.id.imgTwitter);
+        imgEnlace = view.findViewById(R.id.imgEnlace);
 
         rvAvisosSemana.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -95,6 +111,64 @@ public class FragmentInicio extends Fragment {
         rvMenu.setAdapter(menuIncioAdaptador);
 
         obtenerCitaBiblica(Url.obtenerCitaBliblica);
+
+        imgFacebook.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.facebook.com/parroquiasanleandro");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.facebook.katana");
+
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                //No encontró la aplicación, abre la versión web.
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/parroquiasanleandro")));
+            }
+        });
+
+        imgYoutube.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.youtube.com/ParroquiaSanLeandro");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.google.android.youtube");
+
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                //No encontró la aplicación, abre la versión web.
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/ParroquiaSanLeandro")));
+            }
+        });
+
+        imgInstagram.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://instagram.com/_u/psanleandro");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setPackage("com.instagram.android");
+
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                //No encontró la aplicación, abre la versión web.
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://instagram.com/psanleandro")));
+            }
+        });
+
+        imgTwitter.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://twitter.com/psanleandro");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            intent.setType("application/twitter");
+
+            try {
+                startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                //No encontró la aplicación, abre la versión web.
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/psanleandro")));
+            }
+        });
+
+        imgEnlace.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.parroquiasanleandro.es/");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
 
         return view;
     }

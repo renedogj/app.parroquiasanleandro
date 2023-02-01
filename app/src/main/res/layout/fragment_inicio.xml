@@ -78,6 +78,85 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="40dp" />
+
+            <LinearLayout
+                android:id="@+id/lnlytRRSS"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Space
+                    style="@style/spaces_2_1_1"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/imgFacebook"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    app:srcCompat="@drawable/facebook" />
+
+                <View
+                    android:id="@+id/dividerRRSS1"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gris" />
+
+                <ImageView
+                    android:id="@+id/imgYoutube"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    app:srcCompat="@drawable/logo_youtube" />
+
+                <View
+                    android:id="@+id/dividerRRSS2"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gris" />
+
+                <ImageView
+                    android:id="@+id/imgInstagram"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    app:srcCompat="@drawable/logo_instagram" />
+
+                <View
+                    android:id="@+id/dividerRRSS3"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gris" />
+
+                <ImageView
+                    android:id="@+id/imgTwitter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    app:srcCompat="@drawable/logo_twitter" />
+
+                <View
+                    android:id="@+id/dividerRRSS4"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gris" />
+
+                <ImageView
+                    android:id="@+id/imgEnlace"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:padding="3dp"
+                    app:srcCompat="@drawable/enlace" />
+
+                <Space
+                    style="@style/spaces_2_1_1"
+                    android:layout_weight="1" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

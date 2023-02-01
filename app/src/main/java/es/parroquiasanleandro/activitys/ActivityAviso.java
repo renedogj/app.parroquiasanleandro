@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -56,6 +58,7 @@ public class ActivityAviso extends AppCompatActivity {
     private Aviso aviso = new Aviso();
     private Usuario usuario;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +108,7 @@ public class ActivityAviso extends AppCompatActivity {
             Intent intent = new Intent(context, ActivityWebView.class);
             intent.putExtra("url", aviso.url);
             startActivity(intent);
+            //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(aviso.url)));
         });
 
         bttnArchivos.setOnClickListener(v -> {
