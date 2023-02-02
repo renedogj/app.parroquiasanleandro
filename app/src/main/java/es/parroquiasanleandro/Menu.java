@@ -26,7 +26,7 @@ public class Menu {
     public static final String INICIO = "Parroquia San Leandro";
     public static final String AVISOS = "Avisos";
     public static final String HORARIO = "Horario";
-    public static final String INFORMACION = "Informacion";
+    public static final String INFORMACION = "Información";
     public static final String PERFIL = "Perfil";
     public static final String CALENDARIO = "Calendario";
     public static final String MERCADILLO = "Mercadillo";

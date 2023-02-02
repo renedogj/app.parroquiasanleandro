@@ -29,7 +29,7 @@
                         style="@style/size_1_2"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="Laborables y visperas"
+                        android:text="Laborables y vísperas"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -143,7 +143,7 @@
 
                         <TextView
                             style="@style/tvHorario"
-                            android:text="9:00 - 21:00" />
+                            android:text="8:30 - 21:00" />
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
             </LinearLayout>
