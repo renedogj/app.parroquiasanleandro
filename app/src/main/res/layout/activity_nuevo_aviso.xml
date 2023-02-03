@@ -166,6 +166,25 @@
                 android:layout_weight="1"
                 android:background="?android:attr/listDivider" />
 
+            <!--<TextView
+                android:id="@+id/tvArchivo"
+                style="@style/size_1_2"
+                android:background="@color/transparente"
+                android:ems="10"
+                android:gravity="start|top"
+                android:hint="Añade una archivo"
+                android:paddingStart="20dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="10dp"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider" />-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
