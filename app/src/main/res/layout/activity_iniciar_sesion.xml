@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
@@ -86,39 +86,39 @@
             <TextView
                 android:id="@+id/tvContraseñaOlvidada"
                 style="@style/size_1_2"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:ems="10"
-                android:text="¿Has olvidado tu contraseña?"
-                android:textAlignment="center" />
+                android:text="¡He olvidado mi contraseña!"
+                android:textAlignment="center"
+                android:textColor="@color/azul" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayoutRegistrarse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="2dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvNoTengoCuenta"
-                style="@style/size_2_2"
+                style="@style/size_1_2"
                 android:layout_weight="1"
-                android:gravity="right"
+                android:textAlignment="center"
                 android:text="¿Aun no tienes cuenta? " />
 
             <Space
                 android:layout_width="3dp"
                 android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/tvRegistrarse"
+            <Button
+                android:id="@+id/btnRegistrarse"
                 style="@style/size_2_2"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="Registrarse"
-                android:textColor="@color/azul" />
+                android:layout_margin="2dp"
+                android:layout_gravity="center"
+                android:text="Registrarse"/>
         </LinearLayout>
 
         <!--<LinearLayout

@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,6 +28,7 @@ import java.util.Map;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
+import es.parroquiasanleandro.utils.Comprobaciones;
 
 public class ActivityInicarSesion extends AppCompatActivity {
     private final Context context = ActivityInicarSesion.this;
@@ -39,7 +40,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private EditText etContraseña;
     private ImageButton imgButtonShowPassword;
     private Button bttnIniciarSesion;
-    private LinearLayout linearLayoutRegistrarse;
+    //private LinearLayout linearLayoutRegistrarse;
+    private Button btnRegistrarse;
+    private TextView tvContraseñaOlvidada;
 
     private ActionBar actionBar;
 
@@ -53,7 +56,9 @@ public class ActivityInicarSesion extends AppCompatActivity {
         etContraseña = findViewById(R.id.etContraseña);
         imgButtonShowPassword = findViewById(R.id.imgBtnShowPassword);
         bttnIniciarSesion = findViewById(R.id.btnIniciarSesion);
-        linearLayoutRegistrarse = findViewById(R.id.linearLayoutRegistrarse);
+        //linearLayoutRegistrarse = findViewById(R.id.linearLayoutRegistrarse);
+        tvContraseñaOlvidada = findViewById(R.id.tvContraseñaOlvidada);
+        btnRegistrarse = findViewById(R.id.btnRegistrarse);
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -71,7 +76,26 @@ public class ActivityInicarSesion extends AppCompatActivity {
 
         bttnIniciarSesion.setOnClickListener(v -> iniciarSesion());
 
-        linearLayoutRegistrarse.setOnClickListener(v -> {
+        tvContraseñaOlvidada.setOnClickListener(v -> {
+            String email = etCorreoElectronico.getText().toString().trim();
+            if(Comprobaciones.comprobarCorreo(context,email)){
+                Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.enviarEmailCambiarPassword, result -> {
+                    Toast.makeText(context, "Se ha enviado un correo de recuperación de contraseña", Toast.LENGTH_SHORT).show();
+                }, error -> {
+                    Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> parametros = new HashMap<>();
+                        parametros.put("email",email);
+                        return parametros;
+                    }
+                });
+            }
+        });
+
+        btnRegistrarse.setOnClickListener(v -> {
             startActivity(new Intent(context, ActivityRegistro.class));
             finish();
         });
@@ -80,7 +104,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private void iniciarSesion() {
         String email = etCorreoElectronico.getText().toString().trim();
         String password = etContraseña.getText().toString().trim();
-        if (!email.equals("") && !password.equals("")) {
+        if (Comprobaciones.comprobarCorreo(context,email) && !password.equals("")) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             requestQueue.add(new StringRequest(Request.Method.POST, Url.iniciarSesion, result -> {
                 try {
