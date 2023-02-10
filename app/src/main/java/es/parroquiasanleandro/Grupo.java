@@ -30,7 +30,7 @@ public class Grupo {
     public static final String GRUPOS = "GRUPOS";
     public static final String SUSCRIPCIONES = "suscripciones";
     public static final String ID_PADRE = "A";
-    public static final String NOMBRE_PADRE = "General";
+    public static final String NOMBRE_PADRE = "Avisos generales";
     public static final String ID = "id";
     public static final String NOMBRE = "nombre";
     public static final String COLOR = "color";
@@ -83,6 +83,10 @@ public class Grupo {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public static Grupo getGrupoPadre(){
+        return new Grupo(ID_PADRE,NOMBRE_PADRE);
     }
 
     public static Grupo[] convertirGrupos(JSONArray jsonArrayGrupos) {
@@ -149,6 +153,19 @@ public class Grupo {
     public boolean isGrupoGuardado(Usuario usuario) {
         for (Grupo grupoAux : usuario.getGruposSeguidos()) {
             if (grupoAux.id.equals(id) && grupoAux.nombre.equals(nombre)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isGrupoAdministrado(Usuario usuario) {
+        Log.d("Grupo id",id);
+        Log.d("Grupo nombre",nombre);
+        for (Grupo grupoAux : usuario.getGruposAdministrados()) {
+            Log.d("Grupo administrado", grupoAux.id + " " + grupoAux.nombre);
+            if (grupoAux.id.equals(id) && grupoAux.nombre.equals(nombre)) {
+                Log.d("Grupo administrado true", grupoAux.id + " " + grupoAux.nombre);
                 return true;
             }
         }

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import es.parroquiasanleandro.fragments.FragmentAdministracion;
 import es.parroquiasanleandro.fragments.FragmentAvisosParroquiales;
 import es.parroquiasanleandro.fragments.FragmentCalendario;
 import es.parroquiasanleandro.fragments.FragmentGrupos;
@@ -55,6 +56,7 @@ public class MenuOption {
         menuItemMap.put(Menu.FRAGMENT_CALENDARIO, new MenuOption(Menu.CALENDARIO, Menu.FRAGMENT_CALENDARIO, R.drawable.ic_calendar, FragmentCalendario.class));
         menuItemMap.put(Menu.FRAGMENT_MERCADILLO, new MenuOption(Menu.MERCADILLO, Menu.FRAGMENT_MERCADILLO, R.drawable.ic_mercadillo, FragmentMercadillo.class));
         menuItemMap.put(Menu.FRAGMENT_INFORMACION, new MenuOption(Menu.INFORMACION, Menu.FRAGMENT_INFORMACION, R.drawable.ic_informacion, FragmentInformacion.class));
+        menuItemMap.put(Menu.FRAGMENT_ADMINISTRACION, new MenuOption(Menu.ADMINISTRACION, Menu.FRAGMENT_ADMINISTRACION, R.drawable.ic_app, FragmentAdministracion.class));
         return menuItemMap;
     }
 

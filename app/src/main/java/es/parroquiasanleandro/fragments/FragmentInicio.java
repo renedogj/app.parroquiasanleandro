@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 import es.parroquiasanleandro.Aviso;
+import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.MenuOption;
 import es.parroquiasanleandro.R;
@@ -106,6 +108,18 @@ public class FragmentInicio extends Fragment {
         menuOptionList = MenuOption.obtenerListMenuOptions();
 
         usuario = Usuario.recuperarUsuarioLocal(context);
+
+        if(usuario.esAdministrador){
+            Log.d("AAAAAAA","1");
+            if(Grupo.getGrupoPadre().isGrupoAdministrado(usuario)){
+                Log.d("AAAAAAA","2");
+                menuOptionList.add(new MenuOption(Menu.ADMINISTRACION, Menu.FRAGMENT_ADMINISTRACION, R.drawable.ic_app, FragmentAdministracion.class));
+            }else{
+                Log.d("AAAAAAA","3");
+            }
+        }else{
+            Log.d("AAAAAAA","4");
+        }
 
         MenuIncioAdaptador menuIncioAdaptador = new MenuIncioAdaptador(context, activity, menuOptionList, Menu.FRAGMENT_INICIO);
         rvMenu.setAdapter(menuIncioAdaptador);
