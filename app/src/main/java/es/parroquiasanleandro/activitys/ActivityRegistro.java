@@ -98,6 +98,7 @@ public class ActivityRegistro extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.registrarse, result -> {
+            result = result.replace("true{\"", "{\"");
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if (!jsonResult.getBoolean("error")) {
@@ -119,6 +120,7 @@ public class ActivityRegistro extends AppCompatActivity {
                     }
                 }
             } catch (JSONException e) {
+                Toast.makeText(context, "Se ha producido un error", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }, error -> {
