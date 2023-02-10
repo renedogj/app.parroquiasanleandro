@@ -2,7 +2,6 @@ package es.parroquiasanleandro.adaptadores;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,7 +79,6 @@ public class MenuIncioAdaptador extends RecyclerView.Adapter<MenuIncioAdaptador.
             ivImagenMenu.setContentDescription(menuOption.nombre);
 
             cardMenu.setOnClickListener(v -> {
-                Log.e("MENNU OPTION", menuOption.id + " " + menuOption.nombre);
                 Menu.seleccionarFragmentMenuId(menuOption.id, idFragmentActual, usuario, activity, context);
             });
         }

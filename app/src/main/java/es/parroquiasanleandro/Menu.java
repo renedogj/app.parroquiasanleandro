@@ -3,7 +3,6 @@ package es.parroquiasanleandro;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -60,15 +59,12 @@ public class Menu {
 
     public static void seleccionarFragmentMenuId(int idFragment, int idFragmentActual, Usuario usuario, Activity activity, Context context) {
         MenuOption menuOption = menuOptionMap.get(idFragment);
-        Log.e("MENNU 63", idFragment + " ");
         if (menuOption != null && idFragmentActual != menuOption.id) {
-            Log.e("MENNU 65", menuOption.id + " " + menuOption.nombre);
             if (menuOption.nombre.equals(Menu.PERFIL)) {
                 iniciarFragmentPerfil(usuario, activity, context);
             } else if (menuOption.nombre.equals(Menu.GRUPOS)) {
                 iniciarFragmentGrupos(usuario, activity, context);
             } else {
-                Log.e("MENNU 71", menuOption.id + " " + menuOption.nombre);
                 iniciarFragmentEstandar(menuOption);
             }
             asignarIconosMenu(menuOption.id);

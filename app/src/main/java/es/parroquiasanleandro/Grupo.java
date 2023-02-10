@@ -160,12 +160,8 @@ public class Grupo {
     }
 
     public boolean isGrupoAdministrado(Usuario usuario) {
-        Log.d("Grupo id",id);
-        Log.d("Grupo nombre",nombre);
         for (Grupo grupoAux : usuario.getGruposAdministrados()) {
-            Log.d("Grupo administrado", grupoAux.id + " " + grupoAux.nombre);
             if (grupoAux.id.equals(id) && grupoAux.nombre.equals(nombre)) {
-                Log.d("Grupo administrado true", grupoAux.id + " " + grupoAux.nombre);
                 return true;
             }
         }

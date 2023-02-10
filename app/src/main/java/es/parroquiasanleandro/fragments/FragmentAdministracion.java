@@ -1,7 +1,6 @@
 package es.parroquiasanleandro.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ public class FragmentAdministracion extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
-        Log.e("FRAGMENT ADMINISTRACIOn","AZ>aaaaaaaaaaaaaa");
     }
 
     @Override
