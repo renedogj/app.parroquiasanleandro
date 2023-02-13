@@ -75,9 +75,9 @@ public class ActivityRegistro extends AppCompatActivity {
         etComprobarPassword = findViewById(R.id.etComprobarContraseña);
         //lnlytFechaNacimiento = findViewById(R.id.lnlytFechaNacimiento);
         tvFechaNacimiento = findViewById(R.id.tvFechaNacimiento);
-        etDia = findViewById(R.id.etDia);
-        etMes = findViewById(R.id.etMes);
-        etAño = findViewById(R.id.etAño);
+        etDia = findViewById(R.id.etDiaNacimiento);
+        etMes = findViewById(R.id.etMesNacimiento);
+        etAño = findViewById(R.id.etAñoNacimiento);
         checkboxPoliticaPrivacidad = findViewById(R.id.checkboxPoliticaPrivacidad);
         tvPoliticaPrivacidad = findViewById(R.id.tvPoliticaPrivacidad);
         lnlytAutorizacionPaterna = findViewById(R.id.lnlytAutorizacionPaterna);
@@ -92,9 +92,9 @@ public class ActivityRegistro extends AppCompatActivity {
 
         fechaActual = Fecha.FechaActual();
 
-        etDia.setText(fechaActual.dia);
-        etMes.setText(fechaActual.mes.getNumeroMes());
-        etAño.setText(fechaActual.año);
+        etDia.setText(Fecha.formatearNumero(fechaActual.dia));
+        etMes.setText(Fecha.formatearNumero(fechaActual.mes.getNumeroMes()));
+        etAño.setText(fechaActual.año + "");
 
         imgBtnShowPassword.setOnClickListener(view1 -> {
             ActivityInicarSesion.changeShowPassword(etPassword, imgBtnShowPassword);
@@ -182,6 +182,7 @@ public class ActivityRegistro extends AppCompatActivity {
                 parametros.put("nombre", nombre);
                 parametros.put("email", email);
                 parametros.put("password", password);
+                parametros.put("fechaNacimiento", obtenerFechaNacimiento().toString(Fecha.FormatosFecha.dd_MM_aaaa));
                 return parametros;
             }
         });
