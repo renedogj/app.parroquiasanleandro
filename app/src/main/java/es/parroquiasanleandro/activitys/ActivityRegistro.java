@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
@@ -29,6 +32,8 @@ import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.utils.Comprobaciones;
+import es.renedogj.fecha.Fecha;
+import es.renedogj.fecha.Mes;
 
 public class ActivityRegistro extends AppCompatActivity {
     private final Context context = ActivityRegistro.this;
@@ -38,6 +43,14 @@ public class ActivityRegistro extends AppCompatActivity {
     private EditText etPassword;
     private ImageButton imgBtnShowPassword;
     private EditText etComprobarPassword;
+    //private LinearLayout lnlytFechaNacimiento;
+    private TextView tvFechaNacimiento;
+    private EditText etDia;
+    private EditText etMes;
+    private EditText etAño;
+    private CheckBox checkboxPoliticaPrivacidad;
+    private TextView tvPoliticaPrivacidad;
+    private LinearLayout lnlytAutorizacionPaterna;
     private Button bttnRegistrarse;
     private LinearLayout linearLayoutIniciarSesion;
 
@@ -47,6 +60,8 @@ public class ActivityRegistro extends AppCompatActivity {
     private String email;
     private String password;
     private String comprobarPassword;
+
+    private Fecha fechaActual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +73,14 @@ public class ActivityRegistro extends AppCompatActivity {
         imgBtnShowPassword = findViewById(R.id.imgBtnShowPassword);
         etPassword = findViewById(R.id.etContraseña);
         etComprobarPassword = findViewById(R.id.etComprobarContraseña);
+        //lnlytFechaNacimiento = findViewById(R.id.lnlytFechaNacimiento);
+        tvFechaNacimiento = findViewById(R.id.tvFechaNacimiento);
+        etDia = findViewById(R.id.etDia);
+        etMes = findViewById(R.id.etMes);
+        etAño = findViewById(R.id.etAño);
+        checkboxPoliticaPrivacidad = findViewById(R.id.checkboxPoliticaPrivacidad);
+        tvPoliticaPrivacidad = findViewById(R.id.tvPoliticaPrivacidad);
+        lnlytAutorizacionPaterna = findViewById(R.id.lnlytAutorizacionPaterna);
         bttnRegistrarse = findViewById(R.id.btnRegistrarse);
         linearLayoutIniciarSesion = findViewById(R.id.linearLayoutIniciarSesion);
 
@@ -66,6 +89,12 @@ public class ActivityRegistro extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setTitle("Registrarse");
         }
+
+        fechaActual = Fecha.FechaActual();
+
+        etDia.setText(fechaActual.dia);
+        etMes.setText(fechaActual.mes.getNumeroMes());
+        etAño.setText(fechaActual.año);
 
         imgBtnShowPassword.setOnClickListener(view1 -> {
             ActivityInicarSesion.changeShowPassword(etPassword, imgBtnShowPassword);
@@ -80,8 +109,28 @@ public class ActivityRegistro extends AppCompatActivity {
             if (Comprobaciones.comprobarNombre(context, nombre) &&
                     Comprobaciones.comprobarCorreo(context, email) &&
                     Comprobaciones.comprobarPassword(context, password, comprobarPassword)) {
-                registrarUsuario();
+                if (!necesitaAutoriazacionPaterna()) {
+                    if (checkboxPoliticaPrivacidad.isChecked()) {
+                        registrarUsuario();
+                    } else {
+                        Toast.makeText(context, "Es necesario aceptar las politicas de privacidad", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    lnlytAutorizacionPaterna.setVisibility(View.VISIBLE);
+                    Toast.makeText(context, "Necesitas autorización paterna", Toast.LENGTH_SHORT).show();
+                }
             }
+        });
+
+        etDia.setOnClickListener(v -> comprobarFechaNacimiento());
+        etMes.setOnClickListener(v -> comprobarFechaNacimiento());
+        etAño.setOnClickListener(v -> comprobarFechaNacimiento());
+
+        tvPoliticaPrivacidad.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivityWebView.class);
+            intent.putExtra("url", Url.urlPoliticaPrivacidad);
+            startActivity(intent);
+            finish();
         });
 
         linearLayoutIniciarSesion.setOnClickListener(v -> {
@@ -136,6 +185,27 @@ public class ActivityRegistro extends AppCompatActivity {
                 return parametros;
             }
         });
+    }
+
+    public Fecha obtenerFechaNacimiento() {
+        int dia = Integer.parseInt(etDia.getText().toString());
+        Mes mes = Mes.values()[Integer.parseInt(etMes.getText().toString())];
+        int año = Integer.parseInt(etAño.getText().toString());
+
+        return new Fecha(dia, mes, año);
+    }
+
+    public boolean necesitaAutoriazacionPaterna() {
+        Fecha fechaNacimieto = obtenerFechaNacimiento();
+        return !Fecha.diferenciaFechaMayorQueAnnos(fechaNacimieto, fechaActual, 16);
+    }
+
+    public void comprobarFechaNacimiento() {
+        if (necesitaAutoriazacionPaterna()) {
+            lnlytAutorizacionPaterna.setVisibility(View.VISIBLE);
+        } else {
+            lnlytAutorizacionPaterna.setVisibility(View.GONE);
+        }
     }
 
     @Override

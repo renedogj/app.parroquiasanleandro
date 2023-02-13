@@ -93,6 +93,99 @@
                 android:hint="Vuelve a escribir la contraseña"
                 android:inputType="textPassword" />
 
+            <LinearLayout
+                android:id="@+id/lnlytFechaNacimiento"
+                style="@style/lnly_1_2_h">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Fecha de nacimiento"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    android:ems="10"/>
+                <Space
+                    style="@style/spaces_2_1_1"/>
+
+                <LinearLayout
+                    style="@style/lnly_2_2_h">
+                    <EditText
+                        android:id="@+id/etDia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="10"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"/>
+                    <EditText
+                        android:id="@+id/etMes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="02"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/"/>
+                    <EditText
+                        android:id="@+id/etAño"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:text="2023"/>
+                </LinearLayout>
+                <!--<TextView
+                    android:id="@+id/tvFechaNacimiento"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:text=""
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:textSize="16sp"
+                    android:ems="10"/>-->
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/lnly_1_2_h">
+                <CheckBox
+                    android:id="@+id/checkboxPoliticaPrivacidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Acepto la "/>
+                <TextView
+                    android:id="@+id/tvPoliticaPrivacidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/azul"
+                    android:text="politica de privacidad"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnlytAutorizacionPaterna"
+                style="@style/lnly_1_2_h">
+                <CheckBox
+                    android:id="@+id/checkboxAutorizacionPaterna"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="No tengo más de 16 años pero tengo autorización paterna para usar esta aplicación"/>
+            </LinearLayout>
+
+
             <Button
                 android:id="@+id/btnRegistrarse"
                 android:layout_width="match_parent"

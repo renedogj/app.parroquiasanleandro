@@ -1,6 +1,7 @@
 package es.parroquiasanleandro.activitys;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,9 +12,14 @@ import android.webkit.WebViewClient;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.parroquiasanleandro.R;
+import es.parroquiasanleandro.Url;
 
 public class ActivityWebView extends AppCompatActivity {
+    private final Context context = ActivityWebView.this;
+
     private WebView webView;
+
+    private String url;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -21,7 +27,7 @@ public class ActivityWebView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
 
-        String url = getIntent().getStringExtra("url");
+        url = getIntent().getStringExtra("url");
 
         webView = findViewById(R.id.webview);
 
@@ -40,12 +46,21 @@ public class ActivityWebView extends AppCompatActivity {
             }
         });
         webView.setSoundEffectsEnabled(true);
-
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        onBackPressed();
+        if(!url.equals(Url.urlPoliticaPrivacidad)){
+            onBackPressed();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(url.equals(Url.urlPoliticaPrivacidad)){
+            startActivity(new Intent(context, ActivityRegistro.class));
+        }
     }
 }
