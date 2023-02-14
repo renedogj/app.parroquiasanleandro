@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -45,6 +48,7 @@ public class Usuario {
     private Grupo[] gruposSeguidos;
     public boolean esAdministrador;
     private Grupo[] gruposAdministrados;
+    public long idPoliticaPrivacidad;
 
     /*Constructors*/
     public Usuario() {
@@ -66,11 +70,11 @@ public class Usuario {
         this.nombre = jsonUsuario.getString("nombre");
         this.email = jsonUsuario.getString("email");
         this.gruposSeguidos = Grupo.convertirGrupos(jsonUsuario.getJSONArray("grupos"));
-        this.fechaNacimiento = Fecha.stringToFecha(jsonUsuario.getString("fecha_nacimiento"),Fecha.FormatosFecha.aaaa_MM_dd);
+        this.fechaNacimiento = Fecha.stringToFecha(jsonUsuario.getString("fecha_nacimiento"), Fecha.FormatosFecha.aaaa_MM_dd);
         String stringFecha = jsonUsuario.getString("fecha_nacimiento");
-        if(!stringFecha.equals("null") && !stringFecha.equals("0000-00-00")){
+        if (!stringFecha.equals("null") && !stringFecha.equals("0000-00-00")) {
             this.fechaNacimiento = Fecha.stringToFecha(stringFecha, Fecha.FormatosFecha.aaaa_MM_dd);
-        }else{
+        } else {
             this.fechaNacimiento = null;
         }
         this.fotoPerfil = jsonUsuario.getString("foto_perfil");
@@ -80,6 +84,7 @@ public class Usuario {
         if (esAdministrador) {
             this.gruposAdministrados = Grupo.convertirGrupos(jsonUsuario.getJSONArray("gruposAdministrados"));
         }
+        this.idPoliticaPrivacidad = jsonUsuario.getLong("politica_privacidad");
     }
 
     /*Getters*/
@@ -128,7 +133,6 @@ public class Usuario {
         if (usuario.get().id != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             requestQueue.add(new StringRequest(Request.Method.POST, Url.actualizarUsuario, result -> {
-                ;
                 try {
                     JSONObject jsonResult = new JSONObject(result);
                     if (!jsonResult.getBoolean("error")) {
@@ -171,13 +175,13 @@ public class Usuario {
         }
         if (gruposAdministrados != null && gruposAdministrados.length != 0) {
             Grupo.guardarGruposAdministradosEnLocal(context, gruposAdministrados);
-        }else{
+        } else {
             Grupo.guardarGruposAdministradosEnLocal(context, new Grupo[0]);
         }
         editor.putString(ID, id);
         editor.putString(NOMBRE, nombre);
         editor.putString(EMAIL, email);
-        if(fechaNacimiento != null){
+        if (fechaNacimiento != null) {
             editor.putString(FECHA_NACIMIENTO, fechaNacimiento.toString(Fecha.FormatosFecha.aaaa_MM_dd));
         }
         //editor.putString("fotoPerfil",user.getPhotoUrl());
@@ -195,9 +199,9 @@ public class Usuario {
         usuario.email = sharedPreferences.getString(EMAIL, null);
 
         String stringFecha = sharedPreferences.getString(FECHA_NACIMIENTO, null);
-        if(stringFecha != null){
-            usuario.fechaNacimiento = Fecha.stringToFecha(stringFecha,Fecha.FormatosFecha.aaaa_MM_dd);
-        }else{
+        if (stringFecha != null) {
+            usuario.fechaNacimiento = Fecha.stringToFecha(stringFecha, Fecha.FormatosFecha.aaaa_MM_dd);
+        } else {
             usuario.fechaNacimiento = null;
         }
         //usuario.numeroTelefono = sharedPreferences.getString(NUMERO_TELEFONO, null);
@@ -231,5 +235,38 @@ public class Usuario {
             }
         }
         return false;
+    }
+
+    public static long getIdPoliticaPrivacidadActual(Context context) {
+        AtomicReference<Long> idPoliticaPrivacidad = new AtomicReference<>();
+        if (idPoliticaPrivacidad.get() != null) {
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            requestQueue.add(new JsonObjectRequest(Request.Method.GET, Url.informacionJson, null, (Response.Listener<JSONObject>) result -> {
+                try {
+                    idPoliticaPrivacidad.set(result.getLong("politicaPrivacidad"));
+                } catch (JSONException e) {
+                    Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }, (Response.ErrorListener) error -> {
+                Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            }));
+        }
+        return idPoliticaPrivacidad.get();
+    }
+
+    public void aceptarPoliticaPrivacidad(Context context){
+        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.actualizarUsuario, result -> {
+            Log.d("RESULT",result);
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idUsuario", id);
+                return parametros;
+            }
+        });
     }
 }

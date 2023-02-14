@@ -5,19 +5,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.Usuario;
 
 public class ActivityWebView extends AppCompatActivity {
     private final Context context = ActivityWebView.this;
 
     private WebView webView;
+    private LinearLayout lnlytAceptarPoliticas;
+    private TextView tvCancelar;
+    private Button btnAceptar;
 
     private String url;
 
@@ -30,6 +40,9 @@ public class ActivityWebView extends AppCompatActivity {
         url = getIntent().getStringExtra("url");
 
         webView = findViewById(R.id.webview);
+        lnlytAceptarPoliticas = findViewById(R.id.lnlytAceptarPoliticas);
+        tvCancelar = findViewById(R.id.tvCancelar);
+        btnAceptar = findViewById(R.id.btnAceptar);
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setAllowContentAccess(true);
@@ -46,6 +59,25 @@ public class ActivityWebView extends AppCompatActivity {
             }
         });
         webView.setSoundEffectsEnabled(true);
+
+        if(url.equals(Url.urlPoliticaPrivacidad)){
+            lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
+
+            tvCancelar.setOnClickListener(v -> {
+                ActivityNavigation.navView.getMenu().getItem(Menu.CERRAR_SESION).setVisible(false);
+                Usuario.borrarUsuarioLocal(context);
+                Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(context, ActivityNavigation.class));
+                finish();
+            });
+
+            btnAceptar.setOnClickListener(v -> {
+                Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+                usuario.aceptarPoliticaPrivacidad(context);
+                startActivity(new Intent(context, ActivityNavigation.class));
+                finish();
+            });
+        }
     }
 
     @Override

@@ -87,10 +87,16 @@ public class ActivityNavigation extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         Grupo.actualizarGruposServidorToLocal(context);
 
+        long idPoliticaPrivacidad = Usuario.getIdPoliticaPrivacidadActual(context);
+
         Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context, this);
 
         if (usuario.getId() != null) {
             Menu.addCerrarSesion(navView);
+
+            if(idPoliticaPrivacidad > usuario.idPoliticaPrivacidad){
+
+            }
         }
 
         linearLayoutInicio.setOnClickListener(v -> {
