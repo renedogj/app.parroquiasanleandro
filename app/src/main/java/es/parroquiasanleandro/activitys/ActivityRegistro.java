@@ -109,15 +109,16 @@ public class ActivityRegistro extends AppCompatActivity {
             if (Comprobaciones.comprobarNombre(context, nombre) &&
                     Comprobaciones.comprobarCorreo(context, email) &&
                     Comprobaciones.comprobarPassword(context, password, comprobarPassword)) {
-                if (!necesitaAutoriazacionPaterna()) {
-                    if (checkboxPoliticaPrivacidad.isChecked()) {
+
+                if (checkboxPoliticaPrivacidad.isChecked()) {
+                    if (!necesitaAutoriazacionPaterna()) {
                         registrarUsuario();
                     } else {
-                        Toast.makeText(context, "Es necesario aceptar las politicas de privacidad", Toast.LENGTH_SHORT).show();
+                        lnlytAutorizacionPaterna.setVisibility(View.VISIBLE);
+                        Toast.makeText(context, "Necesitas autorización paterna", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    lnlytAutorizacionPaterna.setVisibility(View.VISIBLE);
-                    Toast.makeText(context, "Necesitas autorización paterna", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Es necesario aceptar las politicas de privacidad", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -148,6 +149,7 @@ public class ActivityRegistro extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.registrarse, result -> {
             result = result.replace("true{\"", "{\"");
+            Log.e("RESULT",result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if (!jsonResult.getBoolean("error")) {
@@ -182,7 +184,7 @@ public class ActivityRegistro extends AppCompatActivity {
                 parametros.put("nombre", nombre);
                 parametros.put("email", email);
                 parametros.put("password", password);
-                parametros.put("fechaNacimiento", obtenerFechaNacimiento().toString(Fecha.FormatosFecha.dd_MM_aaaa));
+                parametros.put("fechaNacimiento", obtenerFechaNacimiento().toString(Fecha.FormatosFecha.aaaa_MM_dd));
                 return parametros;
             }
         });

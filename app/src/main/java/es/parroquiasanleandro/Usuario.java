@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import es.parroquiasanleandro.activitys.ActivityNavigation;
+import es.renedogj.fecha.Fecha;
 
 public class Usuario {
     public static final String USUARIOS = "Usuarios";
@@ -29,7 +30,7 @@ public class Usuario {
     public static final String ID = "uid";
     public static final String NOMBRE = "nombre";
     public static final String EMAIL = "email";
-    public static final String MILLIS_FECHA_NACIMIENTO = "millisfechaNacimiento";
+    public static final String FECHA_NACIMIENTO = "fechaNacimiento";
     public static final String NUMERO_TELEFONO = "numeroTelefono";
     public static final String EMAIL_VERIFIED = "emailVerified";
     public static final String ES_ADMINISTRADOR = "esAdministrador";
@@ -38,7 +39,7 @@ public class Usuario {
     public String nombre;
     public String email;
     //public String numeroTelefono;
-    public long fechaNacimiento;
+    public Fecha fechaNacimiento;
     public String fotoPerfil;
     public boolean emailVerificado;
     private Grupo[] gruposSeguidos;
@@ -54,18 +55,24 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario(String nombre, String email, String numeroTelefono) {
+    /*public Usuario(String nombre, String email, String numeroTelefono) {
         this.nombre = nombre;
         this.email = email;
         //this.numeroTelefono = numeroTelefono;
-    }
+    }*/
 
     public Usuario(JSONObject jsonUsuario) throws JSONException {
         this.id = jsonUsuario.getString("id");
         this.nombre = jsonUsuario.getString("nombre");
         this.email = jsonUsuario.getString("email");
         this.gruposSeguidos = Grupo.convertirGrupos(jsonUsuario.getJSONArray("grupos"));
-        this.fechaNacimiento = jsonUsuario.getLong("fecha_nacimiento");
+        this.fechaNacimiento = Fecha.stringToFecha(jsonUsuario.getString("fecha_nacimiento"),Fecha.FormatosFecha.aaaa_MM_dd);
+        String stringFecha = jsonUsuario.getString("fecha_nacimiento");
+        if(!stringFecha.equals("null") && !stringFecha.equals("0000-00-00")){
+            this.fechaNacimiento = Fecha.stringToFecha(stringFecha, Fecha.FormatosFecha.aaaa_MM_dd);
+        }else{
+            this.fechaNacimiento = null;
+        }
         this.fotoPerfil = jsonUsuario.getString("foto_perfil");
         //this.numeroTelefono = jsonUsuario.getString("telefono");
         this.emailVerificado = (jsonUsuario.getInt("email_verificado") == 1);
@@ -170,7 +177,9 @@ public class Usuario {
         editor.putString(ID, id);
         editor.putString(NOMBRE, nombre);
         editor.putString(EMAIL, email);
-        editor.putLong(MILLIS_FECHA_NACIMIENTO, fechaNacimiento);
+        if(fechaNacimiento != null){
+            editor.putString(FECHA_NACIMIENTO, fechaNacimiento.toString(Fecha.FormatosFecha.aaaa_MM_dd));
+        }
         //editor.putString("fotoPerfil",user.getPhotoUrl());
         //editor.putString(NUMERO_TELEFONO, numeroTelefono);
         editor.putBoolean(EMAIL_VERIFIED, emailVerificado);
@@ -184,7 +193,13 @@ public class Usuario {
         usuario.id = sharedPreferences.getString(ID, null);
         usuario.nombre = sharedPreferences.getString(NOMBRE, null);
         usuario.email = sharedPreferences.getString(EMAIL, null);
-        usuario.fechaNacimiento = sharedPreferences.getLong(MILLIS_FECHA_NACIMIENTO, 0);
+
+        String stringFecha = sharedPreferences.getString(FECHA_NACIMIENTO, null);
+        if(stringFecha != null){
+            usuario.fechaNacimiento = Fecha.stringToFecha(stringFecha,Fecha.FormatosFecha.aaaa_MM_dd);
+        }else{
+            usuario.fechaNacimiento = null;
+        }
         //usuario.numeroTelefono = sharedPreferences.getString(NUMERO_TELEFONO, null);
         usuario.gruposSeguidos = Grupo.recuperarGruposSeguidosDeLocal(context);
         usuario.emailVerificado = sharedPreferences.getBoolean(EMAIL_VERIFIED, false);

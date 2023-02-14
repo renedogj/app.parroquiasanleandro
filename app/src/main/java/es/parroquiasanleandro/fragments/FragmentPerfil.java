@@ -87,9 +87,8 @@ public class FragmentPerfil extends Fragment {
         tvNombreUsuario.setText(usuario.nombre);
         tvEmail.setText(usuario.email);
 
-        if (usuario.fechaNacimiento != 0) {
-            Fecha fechaNacimiento = Fecha.toFecha(usuario.fechaNacimiento);
-            tvFechaNacimiento.setText(fechaNacimiento.toString(Fecha.FormatosFecha.dd_MMMM_aaaa));
+        if (usuario.fechaNacimiento != null) {
+            tvFechaNacimiento.setText(usuario.fechaNacimiento.toString(Fecha.FormatosFecha.dd_MMMM_aaaa));
         } else {
             tvFechaNacimiento.setText("No tienes guardada una fecha de nacimiento");
         }
