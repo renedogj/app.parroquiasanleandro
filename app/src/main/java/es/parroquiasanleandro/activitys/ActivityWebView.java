@@ -1,6 +1,7 @@
 package es.parroquiasanleandro.activitys;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -64,8 +65,15 @@ public class ActivityWebView extends AppCompatActivity {
                 lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
 
                 tvCancelar.setOnClickListener(v -> {
-                    Usuario.cerrarSesion(context);
-                    finish();
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("No acepto las politicas de privacidad");
+                    alertDialog.setMessage("Al no aceptar las politicas de privacidad se cerrará sesión de la aplicación pero no se elimininará la cuenta");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setPositiveButton("De acuerdo", (dialog, whichButton) -> {
+                        Usuario.cerrarSesion(context);
+                        finish();
+                    });
+                    alertDialog.setNegativeButton(android.R.string.no, null).show();
                 });
 
                 btnAceptar.setOnClickListener(v -> {
