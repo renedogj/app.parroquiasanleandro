@@ -256,11 +256,18 @@ public class Usuario {
     }
 
     public void aceptarPoliticaPrivacidad(Context context){
-        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.actualizarUsuario, result -> {
+        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.aceptarPoliticaPrivacidad, result -> {
             Log.d("RESULT",result);
-        }, error -> {
-            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-        }) {
+            try {
+                JSONObject jsonResult = new JSONObject(result);
+                if (jsonResult.getBoolean("error")) {
+                    Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }, error -> Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> parametros = new HashMap<>();
@@ -268,5 +275,12 @@ public class Usuario {
                 return parametros;
             }
         });
+    }
+
+    public static void cerrarSesion(Context context){
+        ActivityNavigation.navView.getMenu().getItem(Menu.CERRAR_SESION).setVisible(false);
+        Usuario.borrarUsuarioLocal(context);
+        Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
+        context.startActivity(new Intent(context, ActivityNavigation.class));
     }
 }

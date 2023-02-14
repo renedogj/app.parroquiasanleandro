@@ -12,11 +12,9 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
@@ -64,10 +62,7 @@ public class ActivityWebView extends AppCompatActivity {
             lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
 
             tvCancelar.setOnClickListener(v -> {
-                ActivityNavigation.navView.getMenu().getItem(Menu.CERRAR_SESION).setVisible(false);
-                Usuario.borrarUsuarioLocal(context);
-                Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(context, ActivityNavigation.class));
+                Usuario.cerrarSesion(context);
                 finish();
             });
 

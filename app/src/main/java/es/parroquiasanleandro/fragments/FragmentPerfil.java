@@ -158,10 +158,7 @@ public class FragmentPerfil extends Fragment {
         });
 
         lnlytCerrarSesion.setOnClickListener(v -> {
-            ActivityNavigation.navView.getMenu().getItem(Menu.CERRAR_SESION).setVisible(false);
-            Usuario.borrarUsuarioLocal(context);
-            Toast.makeText(context, "Se ha cerrado sesión", Toast.LENGTH_SHORT).show();
-            context.startActivity(new Intent(context, ActivityNavigation.class));
+            Usuario.cerrarSesion(context);
             requireActivity().finish();
         });
 
