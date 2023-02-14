@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import es.parroquiasanleandro.activitys.ActivityNavigation;
+import es.parroquiasanleandro.activitys.ActivityWebView;
 import es.renedogj.fecha.Fecha;
 
 public class Usuario {
@@ -37,6 +38,7 @@ public class Usuario {
     public static final String NUMERO_TELEFONO = "numeroTelefono";
     public static final String EMAIL_VERIFIED = "emailVerified";
     public static final String ES_ADMINISTRADOR = "esAdministrador";
+    public static final String ID_POLITICA_PRIVACIDAD = "idPoliticaPrivacidad";
 
     private String id;
     public String nombre;
@@ -70,7 +72,7 @@ public class Usuario {
         this.nombre = jsonUsuario.getString("nombre");
         this.email = jsonUsuario.getString("email");
         this.gruposSeguidos = Grupo.convertirGrupos(jsonUsuario.getJSONArray("grupos"));
-        this.fechaNacimiento = Fecha.stringToFecha(jsonUsuario.getString("fecha_nacimiento"), Fecha.FormatosFecha.aaaa_MM_dd);
+        //this.fechaNacimiento = Fecha.stringToFecha(jsonUsuario.getString("fecha_nacimiento"), Fecha.FormatosFecha.aaaa_MM_dd);
         String stringFecha = jsonUsuario.getString("fecha_nacimiento");
         if (!stringFecha.equals("null") && !stringFecha.equals("0000-00-00")) {
             this.fechaNacimiento = Fecha.stringToFecha(stringFecha, Fecha.FormatosFecha.aaaa_MM_dd);
@@ -129,16 +131,18 @@ public class Usuario {
     }
 
     public static Usuario actualizarUsuarioDeServidorToLocal(Context context, Activity activity) {
-        AtomicReference<Usuario> usuario = new AtomicReference<>(Usuario.recuperarUsuarioLocal(context));
-        if (usuario.get().id != null) {
+        AtomicReference<Usuario> atRefUsuario = new AtomicReference<>(Usuario.recuperarUsuarioLocal(context));
+        if (atRefUsuario.get().id != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             requestQueue.add(new StringRequest(Request.Method.POST, Url.actualizarUsuario, result -> {
                 try {
                     JSONObject jsonResult = new JSONObject(result);
                     if (!jsonResult.getBoolean("error")) {
                         JSONObject jsonObject = jsonResult.getJSONObject("usuario");
-                        usuario.set(new Usuario(jsonObject));
-                        usuario.get().guardarUsuarioEnLocal(context);
+                        Usuario usuario = new Usuario(jsonObject);
+                        usuario.comprobarPoliticaDePrivacidad(context,activity);
+                        atRefUsuario.set(usuario);
+                        atRefUsuario.get().guardarUsuarioEnLocal(context);
                     } else {
                         Usuario.borrarUsuarioLocal(context);
                         context.startActivity(new Intent(context, ActivityNavigation.class));
@@ -154,12 +158,58 @@ public class Usuario {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> parametros = new HashMap<>();
-                    parametros.put("idUsuario", usuario.get().id);
+                    parametros.put("idUsuario", atRefUsuario.get().id);
                     return parametros;
                 }
             });
         }
-        return usuario.get();
+        return atRefUsuario.get();
+    }
+
+    public void comprobarPoliticaDePrivacidad(Context context, Activity activity) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(new JsonObjectRequest(Request.Method.GET, Url.informacionJson, null, (Response.Listener<JSONObject>) result -> {
+            try {
+                long idPoliticaPrivacidad = result.getLong("politicaPrivacidad");
+                if (this.getId() != null) {
+                    if (idPoliticaPrivacidad > this.idPoliticaPrivacidad) {
+                        Intent intent = new Intent(context, ActivityWebView.class);
+                        intent.putExtra("url", Url.urlPoliticaPrivacidad);
+                        context.startActivity(intent);
+                        activity.finish();
+                    }
+                }
+            } catch (JSONException e) {
+                Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }, (Response.ErrorListener) error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }));
+    }
+
+    public void aceptarPoliticaPrivacidad(Context context, Activity activity){
+        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.aceptarPoliticaPrivacidad, result -> {
+            try {
+                JSONObject jsonResult = new JSONObject(result);
+                if (!jsonResult.getBoolean("error")) {
+                    context.startActivity(new Intent(context, ActivityNavigation.class));
+                    activity.finish();
+                }else{
+                    Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad 1", Toast.LENGTH_SHORT).show();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad 2", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
+        }, error -> Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show()) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idUsuario", id);
+                return parametros;
+            }
+        });
     }
 
     public void guardarUsuarioEnLocal(Context context) {
@@ -188,6 +238,7 @@ public class Usuario {
         //editor.putString(NUMERO_TELEFONO, numeroTelefono);
         editor.putBoolean(EMAIL_VERIFIED, emailVerificado);
         editor.putBoolean(ES_ADMINISTRADOR, esAdministrador);
+        editor.putLong(ID_POLITICA_PRIVACIDAD, idPoliticaPrivacidad);
         editor.apply();
     }
 
@@ -211,6 +262,7 @@ public class Usuario {
         if (usuario.esAdministrador) {
             usuario.gruposAdministrados = Grupo.recuperarGruposAdministradosDeLocal(context);
         }
+        usuario.idPoliticaPrivacidad = sharedPreferences.getLong(ID_POLITICA_PRIVACIDAD, 0);
         return usuario;
     }
 
@@ -235,46 +287,6 @@ public class Usuario {
             }
         }
         return false;
-    }
-
-    public static long getIdPoliticaPrivacidadActual(Context context) {
-        AtomicReference<Long> idPoliticaPrivacidad = new AtomicReference<>();
-        if (idPoliticaPrivacidad.get() != null) {
-            RequestQueue requestQueue = Volley.newRequestQueue(context);
-            requestQueue.add(new JsonObjectRequest(Request.Method.GET, Url.informacionJson, null, (Response.Listener<JSONObject>) result -> {
-                try {
-                    idPoliticaPrivacidad.set(result.getLong("politicaPrivacidad"));
-                } catch (JSONException e) {
-                    Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
-                }
-            }, (Response.ErrorListener) error -> {
-                Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-            }));
-        }
-        return idPoliticaPrivacidad.get();
-    }
-
-    public void aceptarPoliticaPrivacidad(Context context){
-        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.aceptarPoliticaPrivacidad, result -> {
-            Log.d("RESULT",result);
-            try {
-                JSONObject jsonResult = new JSONObject(result);
-                if (jsonResult.getBoolean("error")) {
-                    Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad", Toast.LENGTH_SHORT).show();
-                }
-            } catch (JSONException e) {
-                Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad", Toast.LENGTH_SHORT).show();
-                e.printStackTrace();
-            }
-        }, error -> Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show()) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("idUsuario", id);
-                return parametros;
-            }
-        });
     }
 
     public static void cerrarSesion(Context context){

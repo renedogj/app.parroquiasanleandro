@@ -1,7 +1,6 @@
 package es.parroquiasanleandro.activitys;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -88,19 +87,11 @@ public class ActivityNavigation extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         Grupo.actualizarGruposServidorToLocal(context);
 
-        long idPoliticaPrivacidad = Usuario.getIdPoliticaPrivacidadActual(context);
 
         Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context, this);
 
         if (usuario.getId() != null) {
             Menu.addCerrarSesion(navView);
-
-            if(idPoliticaPrivacidad > usuario.idPoliticaPrivacidad){
-                Intent intent = new Intent(context, ActivityWebView.class);
-                intent.putExtra("url", Url.urlPoliticaPrivacidad);
-                startActivity(intent);
-                finish();
-            }
         }
 
         linearLayoutInicio.setOnClickListener(v -> {

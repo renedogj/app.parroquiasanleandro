@@ -59,19 +59,19 @@ public class ActivityWebView extends AppCompatActivity {
         webView.setSoundEffectsEnabled(true);
 
         if(url.equals(Url.urlPoliticaPrivacidad)){
-            lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
+            Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+            if(usuario.getId() != null){
+                lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
 
-            tvCancelar.setOnClickListener(v -> {
-                Usuario.cerrarSesion(context);
-                finish();
-            });
+                tvCancelar.setOnClickListener(v -> {
+                    Usuario.cerrarSesion(context);
+                    finish();
+                });
 
-            btnAceptar.setOnClickListener(v -> {
-                Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-                usuario.aceptarPoliticaPrivacidad(context);
-                startActivity(new Intent(context, ActivityNavigation.class));
-                finish();
-            });
+                btnAceptar.setOnClickListener(v -> {
+                    usuario.aceptarPoliticaPrivacidad(context,this);
+                });
+            }
         }
     }
 
