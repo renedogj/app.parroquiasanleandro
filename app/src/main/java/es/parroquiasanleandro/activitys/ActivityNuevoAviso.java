@@ -429,6 +429,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
         Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.eliminarAviso, result -> {
             progressDialog.dismiss();
+            Log.e("RESULT",result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if (!jsonResult.getBoolean("error")) {
@@ -459,7 +460,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SELECT_FILE_REQUEST_CODE) {
+        //if (requestCode == SELECT_FILE_REQUEST_CODE) {
             /*Uri uriFile = data.getData();
             // Get the file path from the URI
             //filePath = getFilePathFromUri(uriFile);
@@ -469,9 +470,9 @@ public class ActivityNuevoAviso extends AppCompatActivity {
             tvArchivo.setText("Archivo selecionado con exito");
             Log.e("BIT MAPS",bitmaps.toString());
             Log.e("BIT MAPS",bitmaps.size() + "");*/
-        } else {
+        //} else {
             if (resultCode == ActivitySeleccionarImagen.SELECION_IMAGEN_GALERIA) {
-                if (requestCode == 1 && data != null && data.getData() != null) {
+                if (data != null && data.getData() != null) {
                     Uri uriImagen = data.getData();
                     try {
                         Bitmap bitmapImagen = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uriImagen);
@@ -493,7 +494,7 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
             tvAñadirImagen.setText("Cambiar imagen");
             ivImagenAviso.setPaddingRelative(25, 5, 25, 5);
-        }
+        //}
     }
 
     public List<Bitmap> getBitmapsFromPdf(Uri pdfUri) {
