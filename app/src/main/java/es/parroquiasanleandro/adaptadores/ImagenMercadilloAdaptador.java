@@ -22,10 +22,10 @@ import es.parroquiasanleandro.activitys.ActivityArticulo;
 
 public class ImagenMercadilloAdaptador extends RecyclerView.Adapter<ImagenMercadilloAdaptador.ViewHolder> {
     Context context;
-    int idArticulo;
+    String idArticulo;
     List<String> imagenes;
 
-    public ImagenMercadilloAdaptador(Context context, int idArticulo, List<String> imagenes) {
+    public ImagenMercadilloAdaptador(Context context, String idArticulo, List<String> imagenes) {
         this.context = context;
         this.idArticulo = idArticulo;
         this.imagenes = imagenes;
@@ -62,6 +62,7 @@ public class ImagenMercadilloAdaptador extends RecyclerView.Adapter<ImagenMercad
 
         public void asignarValores(String imagen) {
             Glide.with(context).load(Url.urlImagenesMercardillo + imagen).into(imageView);
+
             imageView.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ActivityArticulo.class);
                 intent.putExtra("idArticulo", idArticulo);

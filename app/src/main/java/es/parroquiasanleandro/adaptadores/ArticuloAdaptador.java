@@ -81,7 +81,7 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
 
             cardArticulo.setOnClickListener(v -> {
                 Intent intent = new Intent(context, ActivityArticulo.class);
-                intent.putExtra("idArticulo", articulo.id);
+                intent.putExtra("idArticulo", articulo.id + "");
                 context.startActivity(intent);
             });
         }
