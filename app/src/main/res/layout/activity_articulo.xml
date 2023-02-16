@@ -16,8 +16,7 @@
             android:layout_gravity="center"
             android:paddingTop="10dp"
             android:scrollbars="horizontal" />
-
-
+        
         <androidx.cardview.widget.CardView
             style="@style/size_1_1"
             android:layout_marginTop="15dp"
@@ -33,7 +32,7 @@
 
                 <TextView
                     android:id="@+id/tvNombreArticulo"
-                    style="@style/texto_1_2_Cl_bold"
+                    style="@style/txt_1_2_Cl_bold"
                     android:textAlignment="center"
                     android:textSize="22sp" />
 
@@ -49,12 +48,12 @@
                     android:padding="2dp">
 
                     <TextView
-                        style="@style/tv_2_2_Cl_16_bold"
+                        style="@style/txt_2_2_Cl_16_bold"
                         android:text="Precio: " />
 
                     <TextView
                         android:id="@+id/tvPrecio"
-                        style="@style/tv_2_2_Cl_16" />
+                        style="@style/txt_2_2_Cl_16" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -63,17 +62,17 @@
                     android:padding="2dp">
 
                     <TextView
-                        style="@style/tv_2_2_Cl_16_bold"
+                        style="@style/txt_2_2_Cl_16_bold"
                         android:text="Id del articulo: " />
 
                     <TextView
                         android:id="@+id/tvId"
-                        style="@style/tv_2_2_Cl_16" />
+                        style="@style/txt_2_2_Cl_16" />
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvDescripcion"
-                    style="@style/texto_2_2_Claro"
+                    style="@style/txt_2_2_Cl"
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
                     android:textSize="16sp" />

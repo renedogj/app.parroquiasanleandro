@@ -39,15 +39,15 @@
     </style>
 
     <!-- Styles colores de texto -->
-    <style name="texto_1_2_Claro" parent="size_1_2">
+    <style name="txt_1_2_Cl" parent="size_1_2">
         <item name="android:textColor">@color/blanco</item>
     </style>
 
-    <style name="texto_1_2_Cl_bold" parent="texto_1_2_Claro">
+    <style name="txt_1_2_Cl_bold" parent="txt_1_2_Cl">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="texto_2_2_Claro" parent="size_2_2">
+    <style name="txt_2_2_Cl" parent="size_2_2">
         <item name="android:textColor">@color/blanco</item>
     </style>
 
@@ -67,11 +67,11 @@
         <item name="android:textColor">@color/black</item>
     </style>-->
 
-    <style name="tv_2_2_Cl_16" parent="texto_2_2_Claro">
+    <style name="txt_2_2_Cl_16" parent="txt_2_2_Cl">
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="tv_2_2_Cl_16_bold" parent="texto_2_2_Claro">
+    <style name="txt_2_2_Cl_16_bold" parent="txt_2_2_Cl">
         <item name="android:textStyle">bold</item>
     </style>
 

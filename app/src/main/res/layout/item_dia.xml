@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/tvNumDia"
-            style="@style/texto_2_2_Claro"
+            style="@style/txt_2_2_Cl"
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="1dp"

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Styles cards-->
-    <style name="basicCard_1_2" parent="size_1_2">
+    <style name="basicCard_1_2_bl_r10_e3" parent="size_1_2">
         <item name="cardBackgroundColor">@color/blanco</item>
         <item name="cardCornerRadius">10dp</item>
         <item name="cardElevation">3dp</item>
     </style>
 
-    <style name="cardContenedoraHorario" parent="basicCard_1_2">
+    <style name="cardContenedoraHorario" parent="basicCard_1_2_bl_r10_e3">
         <item name="android:layout_marginStart">15dp</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:layout_marginEnd">15dp</item>
@@ -15,7 +15,7 @@
         <item name="cardBackgroundColor">@color/background_items</item>
     </style>
 
-    <style name="cardTituloHorario" parent="basicCard_1_2">
+    <style name="cardTituloHorario" parent="basicCard_1_2_bl_r10_e3">
         <item name="android:layout_marginBottom">5dp</item>
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
@@ -23,7 +23,7 @@
         <item name="cardBackgroundColor">@color/background_items_contraste</item>
     </style>
 
-    <style name="cardHorario" parent="basicCard_1_2">
+    <style name="cardHorario" parent="basicCard_1_2_bl_r10_e3">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginStart">4dp</item>
         <item name="android:layout_marginTop">8dp</item>
@@ -36,7 +36,7 @@
         <item name="android:layout_marginEnd">10dp</item>
     </style>
 
-    <style name="cardContenedoraPerfil" parent="basicCard_1_2">
+    <style name="cardContenedoraPerfil" parent="basicCard_1_2_bl_r10_e3">
         <!--<item name="android:layout_marginStart">6dp</item>
         <item name="android:layout_marginTop">6dp</item>
         <item name="android:layout_marginEnd">6dp</item>
@@ -46,7 +46,7 @@
         <item name="cardBackgroundColor">@color/background_items</item>
     </style>
 
-    <style name="CardActualizarInfo" parent="basicCard_1_2">
+    <style name="CardActualizarInfo" parent="basicCard_1_2_bl_r10_e3">
         <item name="android:layout_margin">10dp</item>
     </style>
 
