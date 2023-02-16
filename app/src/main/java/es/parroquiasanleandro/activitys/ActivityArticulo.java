@@ -3,9 +3,11 @@ package es.parroquiasanleandro.activitys;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -22,11 +24,16 @@ import java.util.Map;
 import es.parroquiasanleandro.Articulo;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.adaptadores.ImagenMercadilloAdaptador;
 
 public class ActivityArticulo extends AppCompatActivity {
     Context context = ActivityArticulo.this;
 
     private RecyclerView rvImagenesArticulo;
+    private TextView tvNombreArticulo;
+    private TextView tvId;
+    private TextView tvPrecio;
+    private TextView tvDescripcion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,15 @@ public class ActivityArticulo extends AppCompatActivity {
         setContentView(R.layout.activity_articulo);
 
         rvImagenesArticulo = findViewById(R.id.rvImagenesArticulo);
+        tvNombreArticulo = findViewById(R.id.tvNombreArticulo);
+        tvId = findViewById(R.id.tvId);
+        tvPrecio = findViewById(R.id.tvPrecio);
+        tvDescripcion = findViewById(R.id.tvDescripcion);
 
         String idArticulo = getIntent().getStringExtra("idArticulo");
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        rvImagenesArticulo.setLayoutManager(linearLayoutManager);
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerArticulo, result -> {
@@ -46,6 +60,15 @@ public class ActivityArticulo extends AppCompatActivity {
                 if(!articulo.mostrar) {
                     finish();
                 }
+
+                ImagenMercadilloAdaptador imagenMercadilloAdaptador = new ImagenMercadilloAdaptador(context, articulo.id, articulo.imagenes, false);
+                rvImagenesArticulo.setAdapter(imagenMercadilloAdaptador);
+
+                tvNombreArticulo.setText(articulo.nombre);
+                tvId.setText(articulo.id);
+                tvPrecio.setText(articulo.precio + " €");
+                tvDescripcion.setText(articulo.descripcion);
+
             } catch (JSONException e) {
                 Toast.makeText(context, "Se ha producido un error en el servidor al obtener el articulo", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();

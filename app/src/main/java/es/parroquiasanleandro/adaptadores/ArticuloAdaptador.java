@@ -65,7 +65,6 @@ public class ArticuloAdaptador extends RecyclerView.Adapter<ArticuloAdaptador.Vi
         }
 
         public void asignarValoresArticulo(Articulo articulo) {
-            rvImagenesArticulo.getLayoutParams().height = (int) (rvImagenesArticulo.getLayoutParams().width * 1.5f);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             rvImagenesArticulo.setLayoutManager(linearLayoutManager);
 

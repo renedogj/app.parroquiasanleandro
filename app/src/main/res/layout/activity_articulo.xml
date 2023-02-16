@@ -1,18 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/size_1_1"
+    android:fillViewport="true"
+    app:cardBackgroundColor="@color/background_items"
     tools:context=".activitys.ActivityArticulo">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <LinearLayout style="@style/lnly_1_2_v">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvImagenesArticulo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="10dp"
+            android:scrollbars="horizontal" />
+
+
+        <androidx.cardview.widget.CardView
+            style="@style/size_1_1"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="-20dp"
+            app:cardBackgroundColor="@color/primary_color"
+            app:cardCornerRadius="25dp">
+
+
+            <LinearLayout
+                style="@style/lnly_1_2_v"
+                android:layout_marginBottom="20dp"
+                android:padding="30dp">
+
+                <TextView
+                    android:id="@+id/tvNombreArticulo"
+                    style="@style/texto_1_2_Cl_bold"
+                    android:textAlignment="center"
+                    android:textSize="22sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_margin="10dp"
+                    android:background="@color/negro" />
+
+                <LinearLayout
+                    style="@style/lnly_1_2_h"
+                    android:layout_marginTop="10dp"
+                    android:padding="2dp">
+
+                    <TextView
+                        style="@style/tv_2_2_Cl_16_bold"
+                        android:text="Precio: " />
+
+                    <TextView
+                        android:id="@+id/tvPrecio"
+                        style="@style/tv_2_2_Cl_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/lnly_1_2_h"
+                    android:layout_marginTop="10dp"
+                    android:padding="2dp">
+
+                    <TextView
+                        style="@style/tv_2_2_Cl_16_bold"
+                        android:text="Id del articulo: " />
+
+                    <TextView
+                        android:id="@+id/tvId"
+                        style="@style/tv_2_2_Cl_16" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvDescripcion"
+                    style="@style/texto_2_2_Claro"
+                    android:layout_marginTop="10dp"
+                    android:padding="2dp"
+                    android:textSize="16sp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
 </ScrollView>

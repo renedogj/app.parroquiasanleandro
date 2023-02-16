@@ -43,6 +43,10 @@
         <item name="android:textColor">@color/blanco</item>
     </style>
 
+    <style name="texto_1_2_Cl_bold" parent="texto_1_2_Claro">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="texto_2_2_Claro" parent="size_2_2">
         <item name="android:textColor">@color/blanco</item>
     </style>
@@ -62,6 +66,14 @@
     <style name="texto_2_1_Oscuro" parent="size_2_1">
         <item name="android:textColor">@color/black</item>
     </style>-->
+
+    <style name="tv_2_2_Cl_16" parent="texto_2_2_Claro">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="tv_2_2_Cl_16_bold" parent="texto_2_2_Claro">
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <!--Styles imagenes-->
     <style name="imgMenuNavigation">

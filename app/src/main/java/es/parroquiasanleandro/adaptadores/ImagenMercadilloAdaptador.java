@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -24,11 +25,19 @@ public class ImagenMercadilloAdaptador extends RecyclerView.Adapter<ImagenMercad
     Context context;
     String idArticulo;
     List<String> imagenes;
+    boolean isListadoArticulos = true;
 
     public ImagenMercadilloAdaptador(Context context, String idArticulo, List<String> imagenes) {
         this.context = context;
         this.idArticulo = idArticulo;
         this.imagenes = imagenes;
+    }
+
+    public ImagenMercadilloAdaptador(Context context, String idArticulo, List<String> imagenes, boolean isListadoArticulos) {
+        this.context = context;
+        this.idArticulo = idArticulo;
+        this.imagenes = imagenes;
+        this.isListadoArticulos = isListadoArticulos;
     }
 
     @NonNull
@@ -53,22 +62,29 @@ public class ImagenMercadilloAdaptador extends RecyclerView.Adapter<ImagenMercad
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
+        private CardView cardImagenArticulo;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView);
+            cardImagenArticulo = itemView.findViewById(R.id.cardImagenArticulo);
+
+            if(!isListadoArticulos){
+                cardImagenArticulo.setRadius(50);
+            }
         }
 
         public void asignarValores(String imagen) {
             Glide.with(context).load(Url.urlImagenesMercardillo + imagen).into(imageView);
 
-            imageView.setOnClickListener(v -> {
-                Intent intent = new Intent(context, ActivityArticulo.class);
-                intent.putExtra("idArticulo", idArticulo);
-                context.startActivity(intent);
-            });
-
+            if(isListadoArticulos){
+                imageView.setOnClickListener(v -> {
+                    Intent intent = new Intent(context, ActivityArticulo.class);
+                    intent.putExtra("idArticulo", idArticulo);
+                    context.startActivity(intent);
+                });
+            }
         }
     }
 }
