@@ -35,7 +35,7 @@ public class ImagenMercadilloAdaptador extends RecyclerView.Adapter<ImagenMercad
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_imagen, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_imagen_articulo, parent, false);
         return new ImagenMercadilloAdaptador.ViewHolder(view);
     }
 
