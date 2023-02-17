@@ -36,7 +36,7 @@
         <item name="android:layout_marginEnd">10dp</item>
     </style>
 
-    <style name="cardContenedoraPerfil" parent="basicCard_1_2_bl_r10_e3">
+    <style name="cardContenedora" parent="basicCard_1_2_bl_r10_e3">
         <!--<item name="android:layout_marginStart">6dp</item>
         <item name="android:layout_marginTop">6dp</item>
         <item name="android:layout_marginEnd">6dp</item>

@@ -70,11 +70,11 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
+                <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                     <LinearLayout
                         android:id="@+id/linearLayoutEmail"
-                        style="@style/lnlytCardPerfil">
+                        style="@style/lnlytCardPerfil_1_2_v">
 
                         <TextView
                             style="@style/tvTituloPerfil"
@@ -128,9 +128,9 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
+                <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
-                    <LinearLayout style="@style/lnlytCardPerfil">
+                    <LinearLayout style="@style/lnlytCardPerfil_1_2_v">
 
                         <LinearLayout
                             android:id="@+id/linearLayoutGrupos"
@@ -158,11 +158,11 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
+                <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                     <LinearLayout
                         android:id="@+id/lnlytFechaNacimiento"
-                        style="@style/lnlytCardPerfil">
+                        style="@style/lnlytCardPerfil_1_2_v">
 
                         <TextView
                             style="@style/tvTituloPerfil"
@@ -193,11 +193,32 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
+                <androidx.cardview.widget.CardView style="@style/cardContenedora">
+
+                    <LinearLayout
+                        android:id="@+id/lnlytConfiguaracionYPrivacidad"
+                        style="@style/lnlytCardPerfil_1_2_v"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_vertical">
+
+                            <TextView
+                                style="@style/tvTituloPerfil"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:text="Configuración y privacidad" />
+
+                            <TextView
+                                style="@style/tvFlecha"
+                                android:layout_margin="0dp"
+                                android:text=" >" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                     <LinearLayout
                         android:id="@+id/lnlytCambiarContraseña"
-                        style="@style/lnlytCardPerfil">
+                        style="@style/lnlytCardPerfil_1_2_v">
 
                         <LinearLayout
                             style="@style/lnly_1_2_h"
@@ -217,11 +238,11 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
+                <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                     <LinearLayout
                         android:id="@+id/lnlytCerrarSesion"
-                        style="@style/lnlytCardPerfil">
+                        style="@style/lnlytCardPerfil_1_2_v">
 
                         <LinearLayout
                             style="@style/lnly_1_2_h"
@@ -241,11 +262,11 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <androidx.cardview.widget.CardView style="@style/cardContenedoraPerfil">
+                <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                     <LinearLayout
                         android:id="@+id/lnlytEliminarUsuario"
-                        style="@style/lnlytCardPerfil">
+                        style="@style/lnlytCardPerfil_1_2_v">
 
                         <LinearLayout
                             style="@style/lnly_1_2_h"

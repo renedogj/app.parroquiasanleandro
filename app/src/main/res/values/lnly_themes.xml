@@ -40,7 +40,7 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="lnlytCardPerfil" parent="lnly_1_2_v">
+    <style name="lnlytCardPerfil_1_2_v" parent="lnly_1_2_v">
         <item name="android:layout_marginStart">18dp</item>
         <item name="android:layout_marginTop">7dp</item>
         <item name="android:layout_marginEnd">18dp</item>
