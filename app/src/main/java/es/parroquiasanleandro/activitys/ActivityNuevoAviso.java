@@ -16,6 +16,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -139,6 +140,17 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.item_spinner_grupo, nombreGruposAdministrados);
         spinnerGrupo.setAdapter(adapter);
+        spinnerGrupo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                eliminarImagen();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                eliminarImagen();
+            }
+        });
 
         fechaInicio = Fecha.FechaActual();
         fechaFin = Fecha.FechaActual();
@@ -219,10 +231,11 @@ public class ActivityNuevoAviso extends AppCompatActivity {
 
 
         btnEliminarImagen.setOnClickListener(v -> {
-            imagenStringByte = null;
+            /*imagenStringByte = null;
             nombreImagen = null;
             Glide.with(context).clear(ivImagenAviso);
-            btnEliminarImagen.setVisibility(View.GONE);
+            btnEliminarImagen.setVisibility(View.GONE);*/
+            eliminarImagen();
         });
 
         /*tvArchivo.setOnClickListener(v -> {
@@ -564,4 +577,11 @@ public class ActivityNuevoAviso extends AppCompatActivity {
         }
         return filePath;
     }*/
+
+    private void eliminarImagen(){
+        imagenStringByte = null;
+        nombreImagen = null;
+        Glide.with(context).clear(ivImagenAviso);
+        btnEliminarImagen.setVisibility(View.GONE);
+    }
 }

@@ -68,6 +68,16 @@
                 android:layout_weight="1"
                 android:background="?android:attr/listDivider" />
 
+            <Spinner
+                android:id="@+id/spinnerGrupo"
+                style="@style/size_1_2"
+                android:padding="10dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="?android:attr/listDivider" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cntrtlytAñadirImagen"
@@ -128,17 +138,6 @@
                         android:textSize="14sp" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="?android:attr/listDivider" />
-
-            <Spinner
-                android:id="@+id/spinnerGrupo"
-                style="@style/size_1_2"
-                android:padding="10dp" />
 
             <View
                 android:layout_width="match_parent"
