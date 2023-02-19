@@ -70,6 +70,7 @@ public class FragmentInfoGrupo extends Fragment {
         usuario = Usuario.recuperarUsuarioLocal(context);
         grupos = Grupo.recuperarGruposDeLocal(context);
         grupo = Grupo.recuperarGrupoDeLocal(context, viewModel.getGrupoActual());
+
         if (grupo.equals(new Grupo())) {
             Toast.makeText(context, "Se ha producido un error al recuperar el grupo", Toast.LENGTH_SHORT).show();
             requireActivity().onBackPressed();
@@ -87,12 +88,9 @@ public class FragmentInfoGrupo extends Fragment {
             if (grupo.existenSubniveles(grupos)) {
                 tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                 tvMasGrupos.setVisibility(View.VISIBLE);
-                        /*tvMasGrupos.setOnClickListener(v -> {
-                                viewModel.setGrupoActual(grupo.id);
-                                viewModel.addIdGrupoActual();
-                                //GrupoAdaptador grupoAdaptador = new GrupoAdaptador(context, grupos, grupo.id, rvGrupos, viewModel);
-                                //rvGrupos.setAdapter(grupoAdaptador);
-                        });*/
+                tvMasGrupos.setOnClickListener(v -> {
+                    Menu.iniciarFragmentGrupos();
+                });
             } else {
                 tvMasGrupos.setVisibility(View.GONE);
             }
