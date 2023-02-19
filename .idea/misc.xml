@@ -3,29 +3,42 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable-anydpi/ic_perfil.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/bordes.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/drawable_hoy.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/eye_24.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/eye_crossed_24.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/fondo_parroquia.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/fondo_parroquia_dark.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_add.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_angulo_derecho.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_app.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_app_black.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_bell.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_bell_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_calendar.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_calendar_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_editar.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_grupos.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_grupos_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_home.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_informacion.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_informacion_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_instagram.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1375" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_launcher_logo_background.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_logoparroquia.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_logoparroquia_dark.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_logout.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_mercadillo.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_mercadillo_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_reloj.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_reloj_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_twitter.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_user.xml" value="0.3675" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_user_black.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_x.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/ic_youtube.xml" value="0.3675" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/drawable/usuarios-alt_24.xml" value="0.3675" />
