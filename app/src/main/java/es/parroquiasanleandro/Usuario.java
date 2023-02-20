@@ -167,6 +167,7 @@ public class Usuario {
                     if (idPoliticaPrivacidad > this.idPoliticaPrivacidad) {
                         Intent intent = new Intent(context, ActivityWebView.class);
                         intent.putExtra("url", Url.urlPoliticaPrivacidad);
+                        intent.putExtra("soloVisualizarPoliticas", false);
                         context.startActivity(intent);
                         activity.finish();
                     }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -29,6 +30,7 @@ public class ActivityWebView extends AppCompatActivity {
     private Button btnAceptar;
 
     private String url;
+    private boolean soloVisualizarPoliticas;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -37,6 +39,8 @@ public class ActivityWebView extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
 
         url = getIntent().getStringExtra("url");
+        soloVisualizarPoliticas = getIntent().getBooleanExtra("soloVisualizarPoliticas",true);
+        Log.e("soloVisualizarPoliticas",soloVisualizarPoliticas + "");
 
         webView = findViewById(R.id.webview);
         lnlytAceptarPoliticas = findViewById(R.id.lnlytAceptarPoliticas);
@@ -59,26 +63,28 @@ public class ActivityWebView extends AppCompatActivity {
         });
         webView.setSoundEffectsEnabled(true);
 
-        if(url.equals(Url.urlPoliticaPrivacidad)){
-            Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-            if(usuario.getId() != null){
-                lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
+        if(!soloVisualizarPoliticas){
+            if(url.equals(Url.urlPoliticaPrivacidad)){
+                Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+                if(usuario.getId() != null){
+                    lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
 
-                tvCancelar.setOnClickListener(v -> {
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                    alertDialog.setTitle("No acepto las politicas de privacidad");
-                    alertDialog.setMessage("Al no aceptar las politicas de privacidad se cerrará sesión de la aplicación pero no se elimininará la cuenta");
-                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-                    alertDialog.setPositiveButton("De acuerdo", (dialog, whichButton) -> {
-                        Usuario.cerrarSesion(context);
-                        finish();
+                    tvCancelar.setOnClickListener(v -> {
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                        alertDialog.setTitle("No acepto las politicas de privacidad");
+                        alertDialog.setMessage("Al no aceptar las politicas de privacidad se cerrará sesión de la aplicación pero no se elimininará la cuenta");
+                        alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                        alertDialog.setPositiveButton("De acuerdo", (dialog, whichButton) -> {
+                            Usuario.cerrarSesion(context);
+                            finish();
+                        });
+                        alertDialog.setNegativeButton(android.R.string.no, null).show();
                     });
-                    alertDialog.setNegativeButton(android.R.string.no, null).show();
-                });
 
-                btnAceptar.setOnClickListener(v -> {
-                    usuario.aceptarPoliticaPrivacidad(context,this);
-                });
+                    btnAceptar.setOnClickListener(v -> {
+                        usuario.aceptarPoliticaPrivacidad(context,this);
+                    });
+                }
             }
         }
     }
@@ -86,16 +92,20 @@ public class ActivityWebView extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if(!url.equals(Url.urlPoliticaPrivacidad)){
-            onBackPressed();
+        if(!soloVisualizarPoliticas){
+            if(!url.equals(Url.urlPoliticaPrivacidad)){
+                onBackPressed();
+            }
         }
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(url.equals(Url.urlPoliticaPrivacidad)){
-            startActivity(new Intent(context, ActivityRegistro.class));
+        if(!soloVisualizarPoliticas){
+            if(url.equals(Url.urlPoliticaPrivacidad)){
+                startActivity(new Intent(context, ActivityRegistro.class));
+            }
         }
     }
 }
