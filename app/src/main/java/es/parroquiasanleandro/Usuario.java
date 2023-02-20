@@ -25,6 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.activitys.ActivityWebView;
+import es.parroquiasanleandro.utils.VolleyCallBack;
 import es.renedogj.fecha.Fecha;
 
 public class Usuario {
@@ -122,7 +123,11 @@ public class Usuario {
         gruposSeguidos = listGrupos.toArray(new Grupo[0]);
     }
 
-    public static Usuario actualizarUsuarioDeServidorToLocal(Context context, Activity activity) {
+    public static Usuario actualizarUsuarioDeServidorToLocal(Context context, Activity activity){
+        return actualizarUsuarioDeServidorToLocal(context, activity, (isSuccess) -> {});
+    }
+
+    public static Usuario actualizarUsuarioDeServidorToLocal(Context context, Activity activity, final VolleyCallBack callBack) {
         AtomicReference<Usuario> atRefUsuario = new AtomicReference<>(Usuario.recuperarUsuarioLocal(context));
         if (atRefUsuario.get().id != null) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -135,14 +140,18 @@ public class Usuario {
                         usuario.comprobarPoliticaDePrivacidad(context,activity);
                         atRefUsuario.set(usuario);
                         atRefUsuario.get().guardarUsuarioEnLocal(context);
+                        callBack.onSuccess(true);
                     } else {
+                        Toast.makeText(context, "Se ha producido un error al actualizar la informacion del usuario", Toast.LENGTH_SHORT).show();
                         Usuario.borrarUsuarioLocal(context);
                         context.startActivity(new Intent(context, ActivityNavigation.class));
+                        callBack.onSuccess(false);
                         activity.finish();
                     }
                 } catch (JSONException e) {
                     Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                    callBack.onSuccess(false);
                 }
             }, error -> {
                 Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();

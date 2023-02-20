@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.activitys;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -77,17 +78,27 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
         etnuevoCorreoElectronico = findViewById(R.id.etnuevoCorreoElectronico);
         btnGuardarNuevoCorreo = findViewById(R.id.btnGuardarNuevoCorreo);
 
+        etnuevoCorreoElectronico.setText(usuario.email);
+
         btnGuardarNuevoCorreo.setOnClickListener(view1 -> {
             String nuevoEmail = etnuevoCorreoElectronico.getText().toString().trim();
             if (Comprobaciones.comprobarCorreo(context, nuevoEmail)) {
+                ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setMessage("Guardando nuevo email...");
+                progressDialog.show();
+
                 Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.cambiarCorreo, result -> {
                     try {
                         JSONObject jsonResult = new JSONObject(result);
                         if (!jsonResult.getBoolean("error")) {
-                            Usuario.actualizarUsuarioDeServidorToLocal(context, this);
-                            Toast.makeText(context, "Correo actualizado con exito", Toast.LENGTH_SHORT).show();
                             Toast.makeText(context, "Se ha enviado un correo de verificación a tu nuevo correo electronico", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
+                            Usuario.actualizarUsuarioDeServidorToLocal(context, this, (isSuccess) -> {
+                                if(isSuccess) {
+                                    Toast.makeText(context, "Correo actualizado con exito", Toast.LENGTH_SHORT).show();
+                                }
+                                progressDialog.dismiss();
+                                onBackPressed();
+                            });
                         } else {
                             JSONObject jsonErrorInfo = jsonResult.getJSONObject("errorInfo");
                             if (jsonErrorInfo.getInt("errorCode") == 23000 && jsonErrorInfo.getInt("code") == 1062) {
@@ -184,16 +195,24 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
         btnGuardarNuevoNombre.setOnClickListener(view1 -> {
             String nuevoNombre = etnuevoNombre.getText().toString().trim();
             if (Comprobaciones.comprobarNombre(context, nuevoNombre)) {
+                ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setMessage("Guardando nuevo nombre...");
+                progressDialog.show();
+
                 Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.cambiarNombre, result -> {
                     Log.d("Result", result);
                     try {
                         JSONObject jsonResult = new JSONObject(result);
                         if (!jsonResult.getBoolean("error")) {
-                            Usuario.actualizarUsuarioDeServidorToLocal(context, this);
-                            Toast.makeText(context, "Nombre actualizado con exito", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
+                            Usuario.actualizarUsuarioDeServidorToLocal(context, this, (isSuccess) -> {
+                                if(isSuccess){
+                                    Toast.makeText(context, "Nombre actualizado con exito", Toast.LENGTH_SHORT).show();
+                                }
+                                progressDialog.dismiss();
+                                onBackPressed();
+                            });
                         } else {
-                            Toast.makeText(context, "Se ha producido al actualizar el nombre", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, "Se ha producido un error al actualizar el nombre", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         Toast.makeText(context, "Se ha producido un error en el servidor al actualizar el nombre", Toast.LENGTH_SHORT).show();

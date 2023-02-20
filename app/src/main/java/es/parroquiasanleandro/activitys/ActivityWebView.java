@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -40,7 +39,6 @@ public class ActivityWebView extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
         soloVisualizarPoliticas = getIntent().getBooleanExtra("soloVisualizarPoliticas",true);
-        Log.e("soloVisualizarPoliticas",soloVisualizarPoliticas + "");
 
         webView = findViewById(R.id.webview);
         lnlytAceptarPoliticas = findViewById(R.id.lnlytAceptarPoliticas);
@@ -54,7 +52,6 @@ public class ActivityWebView extends AppCompatActivity {
 
         webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {
-            @SuppressWarnings("deprecation")
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
