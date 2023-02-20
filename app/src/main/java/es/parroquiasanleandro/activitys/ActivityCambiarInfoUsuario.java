@@ -37,11 +37,13 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
 
     private Usuario usuario;
 
+    private int tipoCambio;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int tipoCambio = getIntent().getIntExtra("tipoCambio", 0);
+        tipoCambio = getIntent().getIntExtra("tipoCambio", 0);
 
         usuario = Usuario.recuperarUsuarioLocal(context);
 
@@ -66,12 +68,6 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(context, ActivityNavigation.class));
-    }
-
     public void cambiarEmail() {
         EditText etnuevoCorreoElectronico;
         Button btnGuardarNuevoCorreo;
@@ -91,8 +87,7 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                             Usuario.actualizarUsuarioDeServidorToLocal(context, this);
                             Toast.makeText(context, "Correo actualizado con exito", Toast.LENGTH_SHORT).show();
                             Toast.makeText(context, "Se ha enviado un correo de verificación a tu nuevo correo electronico", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(context, ActivityNavigation.class));
-                            finish();
+                            onBackPressed();
                         } else {
                             JSONObject jsonErrorInfo = jsonResult.getJSONObject("errorInfo");
                             if (jsonErrorInfo.getInt("errorCode") == 23000 && jsonErrorInfo.getInt("code") == 1062) {
@@ -151,8 +146,7 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                         JSONObject jsonResult = new JSONObject(result);
                         if (!jsonResult.getBoolean("error")) {
                             Toast.makeText(context, "Contraseña actualizada con exito", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(context, ActivityNavigation.class));
-                            finish();
+                            onBackPressed();
                         } else {
                             Toast.makeText(context, "Se ha producido un error al actualizar la contraseña", Toast.LENGTH_SHORT).show();
                         }
@@ -185,6 +179,8 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
         etnuevoNombre = findViewById(R.id.etnuevoNombre);
         btnGuardarNuevoNombre = findViewById(R.id.btnGuardarNuevoNombre);
 
+        etnuevoNombre.setText(usuario.nombre);
+
         btnGuardarNuevoNombre.setOnClickListener(view1 -> {
             String nuevoNombre = etnuevoNombre.getText().toString().trim();
             if (Comprobaciones.comprobarNombre(context, nuevoNombre)) {
@@ -195,8 +191,7 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                         if (!jsonResult.getBoolean("error")) {
                             Usuario.actualizarUsuarioDeServidorToLocal(context, this);
                             Toast.makeText(context, "Nombre actualizado con exito", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(context, ActivityNavigation.class));
-                            finish();
+                            onBackPressed();
                         } else {
                             Toast.makeText(context, "Se ha producido al actualizar el nombre", Toast.LENGTH_SHORT).show();
                         }

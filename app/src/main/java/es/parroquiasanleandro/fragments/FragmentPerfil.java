@@ -1,9 +1,9 @@
 package es.parroquiasanleandro.fragments;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +32,7 @@ import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.activitys.ActivityCambiarInfoUsuario;
+import es.parroquiasanleandro.activitys.ActivityConfiguracion;
 import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.adaptadores.GrupoSencilloAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
@@ -46,15 +47,14 @@ public class FragmentPerfil extends Fragment {
     private TextView tvNombreUsuario;
     private TextView tvEmail;
     private LinearLayout lnlytEmail;
+    private LinearLayout lnlytVerificarEmail;
     private LinearLayout lnlytGrupos;
     private RecyclerView rvGruposUsuario;
     private LinearLayout lnlytFechaNacimiento;
     private TextView tvFechaNacimiento;
-    private LinearLayout lnlytCambiarContraseña;
-    private LinearLayout lnlytCerrarSesion;
-    private LinearLayout lnlytEliminarUsuario;
-    private LinearLayout lnlytVerificarEmail;
+    private LinearLayout lnlytConfiguaracionYPrivacidad;
 
+    private Usuario usuario;
 
     public FragmentPerfil() {
     }
@@ -78,45 +78,26 @@ public class FragmentPerfil extends Fragment {
         lnlytFechaNacimiento = view.findViewById(R.id.lnlytFechaNacimiento);
         rvGruposUsuario = view.findViewById(R.id.rvGruposUsuario);
         tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
-        lnlytCambiarContraseña = view.findViewById(R.id.lnlytCambiarContraseña);
-        lnlytCerrarSesion = view.findViewById(R.id.lnlytCerrarSesion);
-        lnlytEliminarUsuario = view.findViewById(R.id.lnlytEliminarUsuario);
+        lnlytConfiguaracionYPrivacidad = view.findViewById(R.id.lnlytConfiguaracionYPrivacidad);
         lnlytVerificarEmail = view.findViewById(R.id.lnlytVerificarEmail);
 
-        Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-        tvNombreUsuario.setText(usuario.nombre);
-        tvEmail.setText(usuario.email);
-
-        if (usuario.fechaNacimiento != null) {
-            tvFechaNacimiento.setText(usuario.fechaNacimiento.toString(Fecha.FormatosFecha.dd_MMMM_aaaa));
-        } else {
-            tvFechaNacimiento.setText("No tienes guardada una fecha de nacimiento");
-        }
-
-        if (usuario.fotoPerfil != null) {
-            Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
-        }
+        usuario = Usuario.recuperarUsuarioLocal(context);
 
         rvGruposUsuario.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
         rvGruposUsuario.setLayoutManager(linearLayoutManager);
 
-        GrupoSencilloAdaptador grupoSencilloAdaptador = new GrupoSencilloAdaptador(context, Arrays.asList(usuario.getGruposSeguidos()));
-        rvGruposUsuario.setAdapter(grupoSencilloAdaptador);
-
         lnlytNombre.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
             intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_NOMBRE);
             startActivity(intent);
-            requireActivity().finish();
         });
 
         lnlytEmail.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
             intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_EMAIL);
             startActivity(intent);
-            requireActivity().finish();
         });
 
         if (!usuario.emailVerificado) {
@@ -150,30 +131,9 @@ public class FragmentPerfil extends Fragment {
             requireActivity().finish();
         });
 
-        lnlytCambiarContraseña.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
-            intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_PASSWORD);
+        lnlytConfiguaracionYPrivacidad.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ActivityConfiguracion.class);
             startActivity(intent);
-            requireActivity().finish();
-        });
-
-        lnlytCerrarSesion.setOnClickListener(v -> {
-            Usuario.cerrarSesion(context);
-            requireActivity().finish();
-        });
-
-        lnlytEliminarUsuario.setOnClickListener(v -> {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-            alertDialog.setTitle("Eliminar Usuario");
-            alertDialog.setMessage("¿Estás seguro de que quieres eliminar tu usuario?");
-            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-            alertDialog.setPositiveButton("Eliminar", (dialog, whichButton) -> {
-                Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
-                intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.ELIMINAR_USUARIO);
-                startActivity(intent);
-                requireActivity().finish();
-            });
-            alertDialog.setNegativeButton(android.R.string.no, null).show();
         });
 
         return view;
@@ -185,5 +145,23 @@ public class FragmentPerfil extends Fragment {
         ActivityNavigation.actionBar.setTitle(Menu.PERFIL);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_PERFIL);
         viewModel.addIdFragmentActual();
+
+        usuario = Usuario.recuperarUsuarioLocal(context);
+        Log.e("USUARIO",usuario.nombre);
+        tvNombreUsuario.setText(usuario.nombre);
+        tvEmail.setText(usuario.email);
+
+        if (usuario.fechaNacimiento != null) {
+            tvFechaNacimiento.setText(usuario.fechaNacimiento.toString(Fecha.FormatosFecha.dd_MMMM_aaaa));
+        } else {
+            tvFechaNacimiento.setText("No tienes guardada una fecha de nacimiento");
+        }
+
+        if (usuario.fotoPerfil != null) {
+            Glide.with(context).load(usuario.fotoPerfil).into(ivFotoPerfil);
+        }
+
+        GrupoSencilloAdaptador grupoSencilloAdaptador = new GrupoSencilloAdaptador(context, Arrays.asList(usuario.getGruposSeguidos()));
+        rvGruposUsuario.setAdapter(grupoSencilloAdaptador);
     }
 }

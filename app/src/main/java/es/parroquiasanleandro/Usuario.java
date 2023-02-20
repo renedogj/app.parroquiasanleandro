@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -61,18 +60,11 @@ public class Usuario {
         this.email = email;
     }
 
-    /*public Usuario(String nombre, String email, String numeroTelefono) {
-        this.nombre = nombre;
-        this.email = email;
-        //this.numeroTelefono = numeroTelefono;
-    }*/
-
     public Usuario(JSONObject jsonUsuario) throws JSONException {
         this.id = jsonUsuario.getString("id");
         this.nombre = jsonUsuario.getString("nombre");
         this.email = jsonUsuario.getString("email");
         this.gruposSeguidos = Grupo.convertirGrupos(jsonUsuario.getJSONArray("grupos"));
-        //this.fechaNacimiento = Fecha.stringToFecha(jsonUsuario.getString("fecha_nacimiento"), Fecha.FormatosFecha.aaaa_MM_dd);
         String stringFecha = jsonUsuario.getString("fecha_nacimiento");
         if (!stringFecha.equals("null") && !stringFecha.equals("0000-00-00")) {
             this.fechaNacimiento = Fecha.stringToFecha(stringFecha, Fecha.FormatosFecha.aaaa_MM_dd);
@@ -183,7 +175,7 @@ public class Usuario {
                 Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-        }, (Response.ErrorListener) error -> {
+        }, error -> {
             Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }));
     }
