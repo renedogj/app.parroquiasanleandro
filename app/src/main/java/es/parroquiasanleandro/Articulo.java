@@ -15,7 +15,7 @@ public class Articulo {
     public boolean mostrar;
     public int disponibilidad;
     public List<String> imagenes;
-    public List<String> categorias;
+    public List<Categoria> categorias;
 
     public Articulo() {
     }
@@ -58,14 +58,17 @@ public class Articulo {
 
             JSONArray jsonArrayImagenes = jsonArticulo.getJSONArray("imagenes");
             articuloAux.imagenes = new ArrayList<>();
-            for (int j = 0; j < jsonArrayImagenes.length(); j++) {
-                articuloAux.imagenes.add(jsonArrayImagenes.getString(j));
+            for (int i = 0; i < jsonArrayImagenes.length(); i++) {
+                articuloAux.imagenes.add(jsonArrayImagenes.getString(i));
             }
 
             JSONArray jsonArrayCategorias = jsonArticulo.getJSONArray("categorias");
             articuloAux.categorias = new ArrayList<>();
-            for (int j = 0; j < jsonArrayCategorias.length(); j++) {
-                articuloAux.categorias.add(jsonArrayCategorias.getString(j));
+            String auxId, auxNombre;
+            for (int i = 0; i < jsonArrayCategorias.length(); i++) {
+                auxId = jsonArrayCategorias.getJSONObject(i).getString("id");
+                auxNombre = jsonArrayCategorias.getJSONObject(i).getString("nombre_categoria");
+                articuloAux.categorias.add(new Categoria(auxId, auxNombre));
             }
         } catch (JSONException e) {
             e.printStackTrace();

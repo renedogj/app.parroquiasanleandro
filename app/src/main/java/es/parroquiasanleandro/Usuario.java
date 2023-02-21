@@ -235,6 +235,8 @@ public class Usuario {
         editor.putString(EMAIL, email);
         if (fechaNacimiento != null) {
             editor.putString(FECHA_NACIMIENTO, fechaNacimiento.toString(Fecha.FormatosFecha.aaaa_MM_dd));
+        }else{
+            editor.putString(FECHA_NACIMIENTO, null);
         }
         //editor.putString("fotoPerfil",user.getPhotoUrl());
         //editor.putString(NUMERO_TELEFONO, numeroTelefono);
@@ -275,6 +277,7 @@ public class Usuario {
         editor.putString(ID, null);
         editor.putString(NOMBRE, null);
         editor.putString(EMAIL, null);
+        editor.putString(FECHA_NACIMIENTO, null);
         //editor.putString(NUMERO_TELEFONO, null);
         editor.apply();
         Grupo.vaciarTablasGruposSeguidosYAdministrados(context);

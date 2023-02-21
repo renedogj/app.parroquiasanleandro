@@ -24,6 +24,7 @@ import java.util.Map;
 import es.parroquiasanleandro.Articulo;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
+import es.parroquiasanleandro.adaptadores.CategoriaAdaptador;
 import es.parroquiasanleandro.adaptadores.ImagenMercadilloAdaptador;
 
 public class ActivityArticulo extends AppCompatActivity {
@@ -34,6 +35,7 @@ public class ActivityArticulo extends AppCompatActivity {
     private TextView tvId;
     private TextView tvPrecio;
     private TextView tvDescripcion;
+    private RecyclerView rvCategoriasArticulo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +47,48 @@ public class ActivityArticulo extends AppCompatActivity {
         tvId = findViewById(R.id.tvId);
         tvPrecio = findViewById(R.id.tvPrecio);
         tvDescripcion = findViewById(R.id.tvDescripcion);
+        rvCategoriasArticulo = findViewById(R.id.rvCategoriasArticulo);
 
         String idArticulo = getIntent().getStringExtra("idArticulo");
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        rvImagenesArticulo.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager lnlytManageImagenes = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        /*rvImagenesArticulo.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                /*CardView cardImagenArticulo = view.findViewById(R.id.cardImagenArticulo);
+
+                int rvImagenWidth = rvImagenesArticulo.getLayoutParams().width;
+                //cardImagenArticulo.getLayoutParams().width = (rvImagenWidth * 60) / 100;
+                //cardImagenArticulo.requestLayout();
+                int cardWidth = (rvImagenWidth * 60) / 100;
+                int cardMargin = ((rvImagenWidth * 5) / 100) / 2;*/
+
+                /*ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                        cardWidth,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );*/
+                //params.setMargins(cardMargin, 6, cardMargin, 0);
+                //cardImagenArticulo.setLayoutParams(params);
+
+                /*ViewGroup.MarginLayoutParams layoutParams =
+                        (ViewGroup.MarginLayoutParams) cardImagenArticulo.getLayoutParams();
+                layoutParams.width = -(rvImagenWidth * 900);
+                layoutParams.setMargins(cardMargin, 6, cardMargin, 0);
+                cardImagenArticulo.requestLayout();*/
+
+                //cardImagenArticulo = (rvImagenWidth * 60) / 100;
+                /*if (parent.getChildLayoutPosition(view) % 2 != 0) {
+                    outRect.top = 50;
+                    outRect.bottom = -50;
+                } else {
+                    outRect.top = 0;
+                }*/
+        //    }
+        //});
+        rvImagenesArticulo.setLayoutManager(lnlytManageImagenes);
+
+        LinearLayoutManager lnlytManageCategorias = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        rvCategoriasArticulo.setLayoutManager(lnlytManageCategorias);
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerArticulo, result -> {
@@ -64,10 +103,18 @@ public class ActivityArticulo extends AppCompatActivity {
                 ImagenMercadilloAdaptador imagenMercadilloAdaptador = new ImagenMercadilloAdaptador(context, articulo.id, articulo.imagenes, false);
                 rvImagenesArticulo.setAdapter(imagenMercadilloAdaptador);
 
+                //if(rvImagenesArticulo.getChildCount() > 2){
+                    //rvImagenesArticulo.scrollTo();
+                    //int height = rvImagenesArticulo.getLayoutParams().height;
+                //}
+
                 tvNombreArticulo.setText(articulo.nombre);
                 tvId.setText(articulo.id);
                 tvPrecio.setText(articulo.precio + " €");
                 tvDescripcion.setText(articulo.descripcion);
+
+                CategoriaAdaptador categoriaAdaptador = new CategoriaAdaptador(context, articulo.categorias);
+                rvCategoriasArticulo.setAdapter(categoriaAdaptador);
 
             } catch (JSONException e) {
                 Toast.makeText(context, "Se ha producido un error en el servidor al obtener el articulo", Toast.LENGTH_SHORT).show();

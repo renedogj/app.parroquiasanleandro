@@ -14,16 +14,15 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="10dp"
+            android:paddingTop="5dp"
             android:scrollbars="horizontal" />
 
         <androidx.cardview.widget.CardView
             style="@style/size_1_1"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="-20dp"
             app:cardBackgroundColor="@color/primary_color"
             app:cardCornerRadius="25dp">
-
 
             <LinearLayout
                 style="@style/lnly_1_2_v"
@@ -63,7 +62,7 @@
 
                     <TextView
                         style="@style/txt_2_2_Cl_16_bold"
-                        android:text="Id del articulo: " />
+                        android:text="Número de referencia: " />
 
                     <TextView
                         android:id="@+id/tvId"
@@ -76,6 +75,41 @@
                     android:layout_marginTop="10dp"
                     android:padding="2dp"
                     android:textSize="16sp" />
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:elevation="10dp"
+                    app:cardBackgroundColor="@color/background_items"
+                    app:cardCornerRadius="15dp">
+
+                    <LinearLayout
+                        style="@style/lnly_1_2_v"
+                        android:background="@color/background_items"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tvTituloCategorias"
+                            style="@style/size_1_2"
+                            android:padding="4dp"
+                            android:text="Categorías relacionadas"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+
+                        <View
+                            android:id="@+id/divider2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/listDivider" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvCategoriasArticulo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="5dp" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

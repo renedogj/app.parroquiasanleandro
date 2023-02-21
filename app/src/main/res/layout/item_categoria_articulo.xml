@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardCategoria"
+    style="@style/size_2_2"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginBottom="5dp"
+    app:cardBackgroundColor="@color/gris_claro"
+    app:cardCornerRadius="5dp">
+
+    <LinearLayout
+        android:id="@+id/lnlytCategoria"
+        style="@style/size_2_2"
+        android:orientation="horizontal"
+        android:paddingTop="6dp"
+        android:paddingStart="20dp"
+        android:paddingBottom="6dp"
+        android:paddingEnd="20dp"
+        >
+
+        <TextView
+            android:id="@+id/tvNombreCategoria"
+            style="@style/size_2_2"
+            android:padding="2dp"
+            android:layout_marginStart="2dp"
+            android:background="@color/gris_claro"
+            android:textColor="@color/negro"
+            android:textSize="14sp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
