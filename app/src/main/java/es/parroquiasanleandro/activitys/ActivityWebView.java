@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.parroquiasanleandro.R;
@@ -38,7 +41,7 @@ public class ActivityWebView extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
 
         url = getIntent().getStringExtra("url");
-        soloVisualizarPoliticas = getIntent().getBooleanExtra("soloVisualizarPoliticas",true);
+        soloVisualizarPoliticas = getIntent().getBooleanExtra("soloVisualizarPoliticas", true);
 
         webView = findViewById(R.id.webview);
         lnlytAceptarPoliticas = findViewById(R.id.lnlytAceptarPoliticas);
@@ -60,37 +63,49 @@ public class ActivityWebView extends AppCompatActivity {
         });
         webView.setSoundEffectsEnabled(true);
 
-        if(!soloVisualizarPoliticas){
-            if(url.equals(Url.urlPoliticaPrivacidad)){
-                Usuario usuario = Usuario.recuperarUsuarioLocal(context);
-                if(usuario.getId() != null){
-                    lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
+        if (url.equals(Url.urlPoliticaPrivacidad) && !soloVisualizarPoliticas) {
+            Usuario usuario = Usuario.recuperarUsuarioLocal(context);
+            if (usuario.getId() != null) {
+                lnlytAceptarPoliticas.setVisibility(View.VISIBLE);
 
-                    tvCancelar.setOnClickListener(v -> {
-                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
-                        alertDialog.setTitle("No acepto las politicas de privacidad");
-                        alertDialog.setMessage("Al no aceptar las politicas de privacidad se cerrará sesión de la aplicación pero no se elimininará la cuenta");
-                        alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-                        alertDialog.setPositiveButton("De acuerdo", (dialog, whichButton) -> {
-                            Usuario.cerrarSesion(context);
-                            finish();
-                        });
-                        alertDialog.setNegativeButton(android.R.string.no, null).show();
+                tvCancelar.setOnClickListener(v -> {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+                    alertDialog.setTitle("No acepto las politicas de privacidad");
+                    alertDialog.setMessage("Al no aceptar las politicas de privacidad se cerrará sesión de la aplicación pero no se elimininará la cuenta");
+                    alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                    alertDialog.setPositiveButton("De acuerdo", (dialog, whichButton) -> {
+                        Usuario.cerrarSesion(context);
+                        finish();
                     });
+                    alertDialog.setNegativeButton(android.R.string.no, null).show();
+                });
 
-                    btnAceptar.setOnClickListener(v -> {
-                        usuario.aceptarPoliticaPrivacidad(context,this);
-                    });
-                }
+                btnAceptar.setOnClickListener(v -> {
+                    usuario.aceptarPoliticaPrivacidad(context, this);
+                });
             }
         }
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.web_view_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.menuItemAbrirEnNavegador){
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onRestart() {
         super.onRestart();
-        if(!soloVisualizarPoliticas){
-            if(!url.equals(Url.urlPoliticaPrivacidad)){
+        if (!soloVisualizarPoliticas) {
+            if (!url.equals(Url.urlPoliticaPrivacidad)) {
                 onBackPressed();
             }
         }
@@ -99,8 +114,8 @@ public class ActivityWebView extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if(!soloVisualizarPoliticas){
-            if(url.equals(Url.urlPoliticaPrivacidad)){
+        if (!soloVisualizarPoliticas) {
+            if (url.equals(Url.urlPoliticaPrivacidad)) {
                 startActivity(new Intent(context, ActivityRegistro.class));
             }
         }

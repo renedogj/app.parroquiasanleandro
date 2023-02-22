@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menuItemAbrirEnNavegador"
+        android:icon="@drawable/ic_avion_de_papel"
+        android:title="Abrir en el navegador"
+        app:showAsAction="always" />
+</menu>

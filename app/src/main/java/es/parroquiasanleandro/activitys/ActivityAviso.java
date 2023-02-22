@@ -42,7 +42,6 @@ public class ActivityAviso extends AppCompatActivity {
     private ImageView ivImagenAviso;
     private FloatingActionButton btnEditar;
     private LinearLayout linearLayoutContenedorAviso;
-    private LinearLayout linearLayoutAviso;
     private TextView tvTituloAviso;
     private TextView tvFecha;
     private LinearLayout lnlytFechaInicio;
@@ -67,7 +66,6 @@ public class ActivityAviso extends AppCompatActivity {
         ivImagenAviso = findViewById(R.id.ivImagenAviso);
         btnEditar = findViewById(R.id.btnEditar);
         linearLayoutContenedorAviso = findViewById(R.id.linearLayoutContenedorAviso);
-        linearLayoutAviso = findViewById(R.id.linearLayoutAviso);
         tvTituloAviso = findViewById(R.id.tvTituloAviso);
         tvFecha = findViewById(R.id.tvFecha);
         lnlytFechaInicio = findViewById(R.id.lnlytFechaInicio);
@@ -108,7 +106,6 @@ public class ActivityAviso extends AppCompatActivity {
             Intent intent = new Intent(context, ActivityWebView.class);
             intent.putExtra("url", aviso.url);
             startActivity(intent);
-            //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(aviso.url)));
         });
 
         bttnArchivos.setOnClickListener(v -> {
