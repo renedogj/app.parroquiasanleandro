@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -63,9 +62,9 @@ public class CategoriaAdaptador extends RecyclerView.Adapter<CategoriaAdaptador.
         public void asignarValoresArticulo(Categoria categoria) {
             tvNombreCategoria.setText(categoria.getNombre());
 
-            lnlytCategoria.setOnClickListener(v -> {
+            /*lnlytCategoria.setOnClickListener(v -> {
                 Toast.makeText(context, categoria.getNombre(), Toast.LENGTH_SHORT).show();
-            });
+            });*/
 
             cardCategoria.setOnClickListener(v -> {
                 //Intent intent = new Intent(context, ActivityArticulo.class);

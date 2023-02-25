@@ -21,9 +21,12 @@ import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentInformacion extends Fragment {
+    public static final String NUM_TELEFONO_PARROQUIA = "915 18 36 52";
+
     private ItemViewModel viewModel;
 
     private TextView tvWeb;
+    private TextView tvTelefonoNumero;
     private ImageView imgFacebook;
     private ImageView imgYoutube;
     private ImageView imgInstagram;
@@ -43,6 +46,7 @@ public class FragmentInformacion extends Fragment {
         View view = inflater.inflate(R.layout.fragment_informacion, container, false);
 
         tvWeb = view.findViewById(R.id.tvWeb);
+        tvTelefonoNumero = view.findViewById(R.id.tvTelefonoNumero);
         imgFacebook = view.findViewById(R.id.imgFacebook);
         imgYoutube = view.findViewById(R.id.imgYoutube);
         imgInstagram = view.findViewById(R.id.imgInstagram);
@@ -50,6 +54,13 @@ public class FragmentInformacion extends Fragment {
         imgEnlace = view.findViewById(R.id.imgEnlace);
 
         tvWeb.setPaintFlags(tvWeb.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
+        tvTelefonoNumero.setText(NUM_TELEFONO_PARROQUIA);
+        tvTelefonoNumero.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:" + NUM_TELEFONO_PARROQUIA));
+            startActivity(intent);
+        });
 
         imgFacebook.setOnClickListener(v -> {
             Uri uri = Uri.parse("https://www.facebook.com/parroquiasanleandro");

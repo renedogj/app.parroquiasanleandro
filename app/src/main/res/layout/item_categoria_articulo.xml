@@ -14,18 +14,17 @@
         android:id="@+id/lnlytCategoria"
         style="@style/size_2_2"
         android:orientation="horizontal"
-        android:paddingTop="6dp"
         android:paddingStart="20dp"
-        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
         android:paddingEnd="20dp"
-        >
+        android:paddingBottom="6dp">
 
         <TextView
             android:id="@+id/tvNombreCategoria"
             style="@style/size_2_2"
-            android:padding="2dp"
             android:layout_marginStart="2dp"
             android:background="@color/gris_claro"
+            android:padding="2dp"
             android:textColor="@color/negro"
             android:textSize="14sp" />
     </LinearLayout>

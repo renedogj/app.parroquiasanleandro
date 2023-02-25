@@ -95,7 +95,7 @@ public class ActivityWebView extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.menuItemAbrirEnNavegador){
+        if (item.getItemId() == R.id.menuItemAbrirEnNavegador) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         }
         return super.onOptionsItemSelected(item);

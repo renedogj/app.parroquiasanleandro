@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menuItemAbrirEnNavegador"
-        android:icon="@drawable/ic_avion_de_papel"
+        android:icon="@drawable/enlace"
         android:title="Abrir en el navegador"
         app:showAsAction="always" />
 </menu>
