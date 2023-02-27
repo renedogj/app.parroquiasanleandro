@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,8 @@ public class FragmentInformacion extends Fragment {
 
     private TextView tvWeb;
     private TextView tvTelefonoNumero;
+    private ImageView ivImagenMapaParroquia;
+    private Button bttnComoLlegar;
     private ImageView imgFacebook;
     private ImageView imgYoutube;
     private ImageView imgInstagram;
@@ -47,6 +50,8 @@ public class FragmentInformacion extends Fragment {
 
         tvWeb = view.findViewById(R.id.tvWeb);
         tvTelefonoNumero = view.findViewById(R.id.tvTelefonoNumero);
+        ivImagenMapaParroquia = view.findViewById(R.id.ivImagenMapaParroquia);
+        bttnComoLlegar = view.findViewById(R.id.bttnComoLlegar);
         imgFacebook = view.findViewById(R.id.imgFacebook);
         imgYoutube = view.findViewById(R.id.imgYoutube);
         imgInstagram = view.findViewById(R.id.imgInstagram);
@@ -60,6 +65,24 @@ public class FragmentInformacion extends Fragment {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + NUM_TELEFONO_PARROQUIA));
             startActivity(intent);
+        });
+
+        ivImagenMapaParroquia.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.google.es/maps/place/Parroquia+San+Leandro/@40.4027845,-3.7572996,22z");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            if (mapIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }
+        });
+
+        bttnComoLlegar.setOnClickListener(v -> {
+            Uri uri = Uri.parse("http://maps.google.com/maps?daddr=C. de Escalona, 59, 28024 Madrid");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            if (mapIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }
         });
 
         imgFacebook.setOnClickListener(v -> {

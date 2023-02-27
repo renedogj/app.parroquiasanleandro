@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/lnly_1_1_v">
 
-    <androidx.fragment.app.FragmentContainerView
+    <!--<androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container_view"
         android:name="es.parroquiasanleandro.fragments.FragmentMaps"
         style="@style/size_1_2"
-        android:elevation="20dp" />
+        android:elevation="20dp" />-->
 
     <ScrollView style="@style/size_1_1">
 
         <LinearLayout style="@style/lnly_1_2_v">
 
-            <LinearLayout
+            <!--<LinearLayout
                 style="@style/lnly_1_2_h"
-                android:background="@color/background_items">
+                android:background="@color/background_items">-->
                 <!--<androidx.cardview.widget.CardView
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/card_view"
@@ -31,13 +31,23 @@
                     app:layout_constraintTop_toTopOf="@id/bttnComoLlegar"
                     card_view:cardCornerRadius="5dp">-->
 
-                <androidx.fragment.app.FragmentContainerView
+                <!--<androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fragment_ubicacion_parroquia"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/background_items" />
+                    android:background="@color/background_items" />-->
                 <!--</androidx.cardview.widget.CardView>-->
-            </LinearLayout>
+            <!--</LinearLayout>-->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/ivImagenMapaParroquia"
+                    android:layout_width="match_parent"
+                    android:layout_height="270dp"
+                    app:srcCompat="@drawable/map_parroquia_san_leandro" />
+            </androidx.cardview.widget.CardView>
 
             <Button
                 android:id="@+id/bttnComoLlegar"
