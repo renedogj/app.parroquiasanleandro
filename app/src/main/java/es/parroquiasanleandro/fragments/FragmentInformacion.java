@@ -23,11 +23,14 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class FragmentInformacion extends Fragment {
     public static final String NUM_TELEFONO_PARROQUIA = "915 18 36 52";
+    public static final String EMAIL_PARROQUIA = "parroquiadesanleandro@gmail.com";
 
     private ItemViewModel viewModel;
 
     private TextView tvWeb;
     private TextView tvTelefonoNumero;
+    private TextView tvDireccion;
+    private TextView tvEmail;
     private ImageView ivImagenMapaParroquia;
     private Button bttnComoLlegar;
     private ImageView imgFacebook;
@@ -50,6 +53,8 @@ public class FragmentInformacion extends Fragment {
 
         tvWeb = view.findViewById(R.id.tvWeb);
         tvTelefonoNumero = view.findViewById(R.id.tvTelefonoNumero);
+        tvDireccion = view.findViewById(R.id.tvDireccion);
+        tvEmail = view.findViewById(R.id.tvEmail);
         ivImagenMapaParroquia = view.findViewById(R.id.ivImagenMapaParroquia);
         bttnComoLlegar = view.findViewById(R.id.bttnComoLlegar);
         imgFacebook = view.findViewById(R.id.imgFacebook);
@@ -61,6 +66,7 @@ public class FragmentInformacion extends Fragment {
         tvWeb.setPaintFlags(tvWeb.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         tvTelefonoNumero.setText(NUM_TELEFONO_PARROQUIA);
+        tvEmail.setText(EMAIL_PARROQUIA);
         tvTelefonoNumero.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + NUM_TELEFONO_PARROQUIA));
@@ -83,6 +89,28 @@ public class FragmentInformacion extends Fragment {
             if (mapIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
                 startActivity(mapIntent);
             }
+        });
+
+        tvDireccion.setOnClickListener(v -> {
+            Uri uri = Uri.parse("http://maps.google.com/maps?daddr=C. de Escalona, 59, 28024 Madrid");
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, uri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            if (mapIntent.resolveActivity(requireActivity().getPackageManager()) != null) {
+                startActivity(mapIntent);
+            }
+        });
+
+        tvWeb.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.parroquiasanleandro.es/");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
+
+        tvEmail.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL,  new String[]{EMAIL_PARROQUIA});
+            startActivity(Intent.createChooser(intent, "Enviar email"));
         });
 
         imgFacebook.setOnClickListener(v -> {
