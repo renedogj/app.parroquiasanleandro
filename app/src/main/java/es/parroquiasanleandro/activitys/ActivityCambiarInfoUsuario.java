@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.activitys;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +28,8 @@ import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
 import es.parroquiasanleandro.utils.Comprobaciones;
+import es.renedogj.fecha.Fecha;
+import es.renedogj.fecha.Mes;
 
 public class ActivityCambiarInfoUsuario extends AppCompatActivity {
     public static final int CAMBIAR_EMAIL = 1;
@@ -39,6 +43,8 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
     private Usuario usuario;
 
     private int tipoCambio;
+
+    private Fecha auxfecha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,14 +219,20 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                             });
                         } else {
                             Toast.makeText(context, "Se ha producido un error al actualizar el nombre", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            onBackPressed();
                         }
                     } catch (JSONException e) {
                         Toast.makeText(context, "Se ha producido un error en el servidor al actualizar el nombre", Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
+                        progressDialog.dismiss();
+                        onBackPressed();
                     }
                 }, error -> {
                     Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
                     error.printStackTrace();
+                    progressDialog.dismiss();
+                    onBackPressed();
                 }) {
                     @Override
                     protected Map<String, String> getParams() {
@@ -235,7 +247,74 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
     }
 
     public void cambiarFecha() {
+        TextView tvNuevaFecha;
+        Button btnGuardarNuevoFecha;
 
+        setContentView(R.layout.view_cambiar_fecha_nacimiento);
+
+        tvNuevaFecha = findViewById(R.id.tvNuevaFecha);
+        btnGuardarNuevoFecha = findViewById(R.id.btnGuardarNuevoFecha);
+
+        if(usuario.fechaNacimiento != null){
+            auxfecha = usuario.fechaNacimiento.clone();
+        }else{
+            auxfecha = Fecha.FechaActual();
+        }
+
+        tvNuevaFecha.setText(auxfecha.toString(Fecha.FormatosFecha.d_MMMM_aaaa));
+
+        tvNuevaFecha.setOnClickListener(v -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(context, (view, year, month, dayOfMonth) -> {
+                usuario.fechaNacimiento = new Fecha(dayOfMonth, Mes.values()[month], year);
+                auxfecha = usuario.fechaNacimiento.clone();
+                tvNuevaFecha.setText(auxfecha.toString(Fecha.FormatosFecha.d_MMMM_aaaa));
+            }, auxfecha.año, auxfecha.mes.getNumeroMes() - 1, auxfecha.dia);
+            datePickerDialog.show();
+        });
+
+        btnGuardarNuevoFecha.setOnClickListener(v -> {
+                ProgressDialog progressDialog = new ProgressDialog(context);
+                progressDialog.setMessage("Guardando fecha de nacimiento...");
+                progressDialog.show();
+
+                Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.cambiarFechaNacimiento, result -> {
+                    Log.d("Result", result);
+                    try {
+                        JSONObject jsonResult = new JSONObject(result);
+                        if (!jsonResult.getBoolean("error")) {
+                            Usuario.actualizarUsuarioDeServidorToLocal(context, this, (isSuccess) -> {
+                                if(isSuccess){
+                                    Toast.makeText(context, "Fecha de nacimiento actualizado con exito", Toast.LENGTH_SHORT).show();
+                                }
+                                progressDialog.dismiss();
+                                onBackPressed();
+                            });
+                        } else {
+                            Toast.makeText(context, "Se ha producido un error al actualizar la fecha de nacimiento", Toast.LENGTH_SHORT).show();
+                            progressDialog.dismiss();
+                            onBackPressed();
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(context, "Se ha producido un error en el servidor al actualizar la fecha de nacimiento", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                        progressDialog.dismiss();
+                        onBackPressed();
+                    }
+                }, error -> {
+                    Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+                    error.printStackTrace();
+                    progressDialog.dismiss();
+                    onBackPressed();
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> parametros = new HashMap<>();
+                        parametros.put("idUsuario", usuario.getId());
+                        parametros.put("fechaNacimiento", usuario.fechaNacimiento.toString(Fecha.FormatosFecha.aaaa_MM_dd));
+                        return parametros;
+                    }
+                });
+        });
     }
 
     public void eliminarUsuario(){

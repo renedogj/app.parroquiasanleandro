@@ -30,6 +30,7 @@
                 style="@style/size_1_2"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
+                android:textStyle="bold"
                 android:text="Introduce un nuevo nombre:"
                 android:textSize="16sp" />
 

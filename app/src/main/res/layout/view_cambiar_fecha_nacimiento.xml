@@ -28,26 +28,27 @@
 
             <TextView
                 style="@style/size_1_2"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textStyle="bold"
-                android:text="Introduce un nuevo correo electronico:"
+                android:text="Actualizar fecha:"
                 android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/etnuevoCorreoElectronico"
+            <TextView
+                android:id="@+id/tvNuevaFecha"
                 style="@style/size_1_2"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:ems="10"
-                android:hint="ejemplo@gmail.com"
-                android:inputType="textEmailAddress"
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/btnGuardarNuevoCorreo"
+                android:id="@+id/btnGuardarNuevoFecha"
                 style="@style/size_1_2"
                 android:text="Guardar" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

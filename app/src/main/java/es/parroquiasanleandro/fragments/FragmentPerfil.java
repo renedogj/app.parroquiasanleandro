@@ -127,7 +127,6 @@ public class FragmentPerfil extends Fragment {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
             intent.putExtra("tipoCambio", ActivityCambiarInfoUsuario.CAMBIAR_FECHA);
             startActivity(intent);
-            requireActivity().finish();
         });
 
         lnlytConfiguaracionYPrivacidad.setOnClickListener(v -> {
