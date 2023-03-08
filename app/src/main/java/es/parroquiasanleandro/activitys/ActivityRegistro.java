@@ -51,6 +51,7 @@ public class ActivityRegistro extends AppCompatActivity {
     private CheckBox checkboxPoliticaPrivacidad;
     private TextView tvPoliticaPrivacidad;
     private LinearLayout lnlytAutorizacionPaterna;
+    private CheckBox checkboxAutorizacionPaterna;
     private Button bttnRegistrarse;
     private LinearLayout linearLayoutIniciarSesion;
 
@@ -81,6 +82,7 @@ public class ActivityRegistro extends AppCompatActivity {
         checkboxPoliticaPrivacidad = findViewById(R.id.checkboxPoliticaPrivacidad);
         tvPoliticaPrivacidad = findViewById(R.id.tvPoliticaPrivacidad);
         lnlytAutorizacionPaterna = findViewById(R.id.lnlytAutorizacionPaterna);
+        checkboxAutorizacionPaterna = findViewById(R.id.checkboxAutorizacionPaterna);
         bttnRegistrarse = findViewById(R.id.btnRegistrarse);
         linearLayoutIniciarSesion = findViewById(R.id.linearLayoutIniciarSesion);
 
@@ -115,7 +117,11 @@ public class ActivityRegistro extends AppCompatActivity {
                         registrarUsuario();
                     } else {
                         lnlytAutorizacionPaterna.setVisibility(View.VISIBLE);
-                        Toast.makeText(context, "Necesitas autorización paterna", Toast.LENGTH_SHORT).show();
+                        if(checkboxAutorizacionPaterna.isChecked()){
+                            registrarUsuario();
+                        }else{
+                            Toast.makeText(context, "Necesitas autorización paterna", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     Toast.makeText(context, "Es necesario aceptar las politicas de privacidad", Toast.LENGTH_SHORT).show();

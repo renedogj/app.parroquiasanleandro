@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -248,12 +251,16 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
 
     public void cambiarFecha() {
         TextView tvNuevaFecha;
-        Button btnGuardarNuevoFecha;
+        Button btnGuardarNuevaFecha;
+        LinearLayout lnlytAutorizacionPaterna;
+        CheckBox checkboxAutorizacionPaterna;
 
         setContentView(R.layout.view_cambiar_fecha_nacimiento);
 
         tvNuevaFecha = findViewById(R.id.tvNuevaFecha);
-        btnGuardarNuevoFecha = findViewById(R.id.btnGuardarNuevoFecha);
+        btnGuardarNuevaFecha = findViewById(R.id.btnGuardarNuevaFecha);
+        lnlytAutorizacionPaterna = findViewById(R.id.lnlytAutorizacionPaterna);
+        checkboxAutorizacionPaterna = findViewById(R.id.checkboxAutorizacionPaterna);
 
         if(usuario.fechaNacimiento != null){
             auxfecha = usuario.fechaNacimiento.clone();
@@ -268,52 +275,26 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                 usuario.fechaNacimiento = new Fecha(dayOfMonth, Mes.values()[month], year);
                 auxfecha = usuario.fechaNacimiento.clone();
                 tvNuevaFecha.setText(auxfecha.toString(Fecha.FormatosFecha.d_MMMM_aaaa));
+                if(!Fecha.diferenciaFechaMayorQueAnnos(auxfecha, Fecha.FechaActual(), 16)){
+                    lnlytAutorizacionPaterna.setVisibility(View.VISIBLE);
+                } else {
+                    lnlytAutorizacionPaterna.setVisibility(View.GONE);
+                }
             }, auxfecha.año, auxfecha.mes.getNumeroMes() - 1, auxfecha.dia);
             datePickerDialog.show();
         });
 
-        btnGuardarNuevoFecha.setOnClickListener(v -> {
-                ProgressDialog progressDialog = new ProgressDialog(context);
-                progressDialog.setMessage("Guardando fecha de nacimiento...");
-                progressDialog.show();
-
-                Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.cambiarFechaNacimiento, result -> {
-                    Log.d("Result", result);
-                    try {
-                        JSONObject jsonResult = new JSONObject(result);
-                        if (!jsonResult.getBoolean("error")) {
-                            Usuario.actualizarUsuarioDeServidorToLocal(context, this, (isSuccess) -> {
-                                if(isSuccess){
-                                    Toast.makeText(context, "Fecha de nacimiento actualizado con exito", Toast.LENGTH_SHORT).show();
-                                }
-                                progressDialog.dismiss();
-                                onBackPressed();
-                            });
-                        } else {
-                            Toast.makeText(context, "Se ha producido un error al actualizar la fecha de nacimiento", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                            onBackPressed();
-                        }
-                    } catch (JSONException e) {
-                        Toast.makeText(context, "Se ha producido un error en el servidor al actualizar la fecha de nacimiento", Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                        progressDialog.dismiss();
-                        onBackPressed();
-                    }
-                }, error -> {
-                    Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-                    error.printStackTrace();
-                    progressDialog.dismiss();
-                    onBackPressed();
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> parametros = new HashMap<>();
-                        parametros.put("idUsuario", usuario.getId());
-                        parametros.put("fechaNacimiento", usuario.fechaNacimiento.toString(Fecha.FormatosFecha.aaaa_MM_dd));
-                        return parametros;
-                    }
-                });
+        btnGuardarNuevaFecha.setOnClickListener(v -> {
+            if (Fecha.diferenciaFechaMayorQueAnnos(auxfecha, Fecha.FechaActual(), 16)) {
+                guardarFechaNacimiento();
+            } else {
+                lnlytAutorizacionPaterna.setVisibility(View.VISIBLE);
+                if(checkboxAutorizacionPaterna.isChecked()){
+                    guardarFechaNacimiento();
+                }else{
+                    Toast.makeText(context, "Si tienes menos de 16 años necesitas autorización paterna para utilizar esta aplicación", Toast.LENGTH_SHORT).show();
+                }
+            }
         });
     }
 
@@ -351,6 +332,50 @@ public class ActivityCambiarInfoUsuario extends AppCompatActivity {
                     return parametros;
                 }
             });
+        });
+    }
+
+    public void guardarFechaNacimiento(){
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Guardando fecha de nacimiento...");
+        progressDialog.show();
+
+        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.cambiarFechaNacimiento, result -> {
+            Log.d("Result", result);
+            try {
+                JSONObject jsonResult = new JSONObject(result);
+                if (!jsonResult.getBoolean("error")) {
+                    Usuario.actualizarUsuarioDeServidorToLocal(context, this, (isSuccess) -> {
+                        if(isSuccess){
+                            Toast.makeText(context, "Fecha de nacimiento actualizado con exito", Toast.LENGTH_SHORT).show();
+                        }
+                        progressDialog.dismiss();
+                        onBackPressed();
+                    });
+                } else {
+                    Toast.makeText(context, "Se ha producido un error al actualizar la fecha de nacimiento", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    onBackPressed();
+                }
+            } catch (JSONException e) {
+                Toast.makeText(context, "Se ha producido un error en el servidor al actualizar la fecha de nacimiento", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+                progressDialog.dismiss();
+                onBackPressed();
+            }
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            error.printStackTrace();
+            progressDialog.dismiss();
+            onBackPressed();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idUsuario", usuario.getId());
+                parametros.put("fechaNacimiento", usuario.fechaNacimiento.toString(Fecha.FormatosFecha.aaaa_MM_dd));
+                return parametros;
+            }
         });
     }
 }
