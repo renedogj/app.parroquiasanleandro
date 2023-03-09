@@ -1,8 +1,11 @@
 package es.parroquiasanleandro.activitys;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ public class ActivityArticulo extends AppCompatActivity {
     private TextView tvPrecio;
     private TextView tvDescripcion;
     private RecyclerView rvCategoriasArticulo;
+    private LinearLayout irAlMercadilloWeb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class ActivityArticulo extends AppCompatActivity {
         tvPrecio = findViewById(R.id.tvPrecio);
         tvDescripcion = findViewById(R.id.tvDescripcion);
         rvCategoriasArticulo = findViewById(R.id.rvCategoriasArticulo);
+        irAlMercadilloWeb = findViewById(R.id.irAlMercadilloWeb);
 
         String idArticulo = getIntent().getStringExtra("idArticulo");
 
@@ -132,6 +137,12 @@ public class ActivityArticulo extends AppCompatActivity {
                 parametros.put("idArticulo", idArticulo);
                 return parametros;
             }
+        });
+
+        irAlMercadilloWeb.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.mercadillo.parroquiasanleandro.es/");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
         });
     }
 }

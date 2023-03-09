@@ -85,7 +85,7 @@ public class ActivityAviso extends AppCompatActivity {
         actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setTitle("Iniciar sesión");
+            actionBar.setTitle("Aviso");
         }
 
         if (usuario.getId() != null) {
