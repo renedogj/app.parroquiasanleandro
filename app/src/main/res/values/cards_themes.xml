@@ -56,6 +56,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_weight">8</item>
         <item name="android:background">@color/blanco</item>
+        <item name="android:padding">3dp</item>
         <item name="cardCornerRadius">20dp</item>
     </style>
 </resources>

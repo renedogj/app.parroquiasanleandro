@@ -77,7 +77,10 @@
                 android:id="@+id/rvMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="40dp" />
+                android:paddingStart="35dp"
+                android:paddingTop="40dp"
+                android:paddingEnd="35dp"
+                android:paddingBottom="40dp" />
 
             <LinearLayout
                 android:id="@+id/lnlytRRSS"

@@ -1,47 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/lnly_1_1_v">
-
-    <!--<androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragment_container_view"
-        android:name="es.parroquiasanleandro.fragments.FragmentMaps"
-        style="@style/size_1_2"
-        android:elevation="20dp" />-->
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ScrollView style="@style/size_1_1">
 
         <LinearLayout style="@style/lnly_1_2_v">
 
-            <!--<LinearLayout
-                style="@style/lnly_1_2_h"
-                android:background="@color/background_items">-->
-                <!--<androidx.cardview.widget.CardView
-                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/card_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/bttnComoLlegar"
-                    card_view:cardCornerRadius="5dp">-->
-
-                <!--<androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fragment_ubicacion_parroquia"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background_items" />-->
-                <!--</androidx.cardview.widget.CardView>-->
-            <!--</LinearLayout>-->
-
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ImageView
                     android:id="@+id/ivImagenMapaParroquia"
                     android:layout_width="match_parent"
@@ -58,119 +29,57 @@
                 android:padding="10dp"
                 android:text="Como llegar" />
 
-            <LinearLayout
-                style="@style/lnly_1_2_h"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:paddingLeft="10dp">
+            <LinearLayout style="@style/lnlyInformacion_1_2_v_m10_m20_m0_ps10">
 
                 <TextView
                     android:id="@+id/tvTelefonoTexto"
-                    style="@style/size_2_2"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="Telefono de contacto:  "
-                    android:textAlignment="center"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    style="@style/tvInfo_titulo"
+                    android:text="Telefono de contacto:  " />
 
                 <TextView
                     android:id="@+id/tvTelefonoNumero"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:textAlignment="center"
-                    android:textSize="17sp" />
+                    style="@style/tvInfo_informacion" />
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/lnly_1_2_h"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:paddingLeft="10dp">
+            <LinearLayout style="@style/lnlyInformacion_1_2_v_m10_m20_m0_ps10">
 
                 <TextView
                     android:id="@+id/tvDireccionTexto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="Dirección: "
-                    android:textAlignment="center"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    style="@style/tvInfo_titulo"
+                    android:text="Dirección: " />
 
                 <TextView
                     android:id="@+id/tvDireccion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="C. de Escalona, 59, 28024 Madrid "
-                    android:textAlignment="center"
-                    android:textSize="16sp" />
+                    style="@style/tvInfo_informacion"
+                    android:text="C. de Escalona, 59, 28024 Madrid " />
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/lnly_1_2_h"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:paddingLeft="10dp">
+            <LinearLayout style="@style/lnlyInformacion_1_2_v_m10_m20_m0_ps10">
 
                 <TextView
                     android:id="@+id/tvWebTexto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="Página web: "
-                    android:textAlignment="center"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    style="@style/tvInfo_titulo"
+                    android:text="Página web: " />
 
                 <TextView
                     android:id="@+id/tvWeb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
+                    style="@style/tvInfo_informacion"
                     android:text="parroquiasanleandro.es"
-                    android:textAlignment="center"
-                    android:textColor="@color/azul"
-                    android:textSize="16sp" />
+                    android:textColor="@color/azul" />
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/lnly_1_2_h"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
-                android:paddingLeft="10dp">
+            <LinearLayout style="@style/lnlyInformacion_1_2_v_m10_m20_m0_ps10">
 
                 <TextView
                     android:id="@+id/tvEmailTexto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text="Email: "
-                    android:textAlignment="center"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    style="@style/tvInfo_titulo"
+                    android:text="Email: " />
 
                 <TextView
                     android:id="@+id/tvEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:text=""
+                    style="@style/tvInfo_informacion"
                     android:textColor="@color/azul"
-                    android:textSize="16sp" />
+                    android:textSize="16.5sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -193,7 +102,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    app:srcCompat="@drawable/logo_facebook" />
+                    app:srcCompat="@drawable/logo_facebook"
+                    android:contentDescription="Facebook" />
 
                 <View
                     android:id="@+id/dividerRRSS1"
@@ -206,7 +116,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    app:srcCompat="@drawable/logo_youtube" />
+                    app:srcCompat="@drawable/logo_youtube"
+                    android:contentDescription="Youtube" />
 
                 <View
                     android:id="@+id/dividerRRSS2"
@@ -219,7 +130,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    app:srcCompat="@drawable/logo_instagram" />
+                    app:srcCompat="@drawable/logo_instagram"
+                    android:contentDescription="Instagram" />
 
                 <View
                     android:id="@+id/dividerRRSS3"
@@ -232,7 +144,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    app:srcCompat="@drawable/logo_twitter" />
+                    app:srcCompat="@drawable/logo_twitter"
+                    android:contentDescription="Twitter" />
 
                 <View
                     android:id="@+id/dividerRRSS4"
@@ -246,7 +159,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:padding="3dp"
-                    app:srcCompat="@drawable/enlace" />
+                    app:srcCompat="@drawable/enlace"
+                    android:contentDescription="Pagina web" />
 
                 <Space
                     style="@style/spaces_2_1_1"

@@ -64,7 +64,19 @@
         <item name="android:background">@drawable/bordes</item>
         <item name="android:gravity">center</item>
         <item name="android:text">Seguir</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Información -->
+    <style name="tvInfo_informacion" parent="size_2_2">
+        <item name="android:textSize">17sp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="tvInfo_titulo" parent="size_2_2">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">10dp</item>
     </style>
 </resources>

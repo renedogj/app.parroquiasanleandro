@@ -20,6 +20,9 @@
     <style name="lnly_1_1_v" parent="size_1_1">
         <item name="android:orientation">vertical</item>
     </style>
+    <style name="lnly_2_2_v" parent="size_2_2">
+        <item name="android:orientation">vertical</item>
+    </style>
 
     <style name="lnlytItemMenuNavigation" parent="lnly_1_2_v">
         <item name="android:layout_weight">1</item>
@@ -46,5 +49,13 @@
         <item name="android:layout_marginEnd">18dp</item>
         <item name="android:layout_marginBottom">7dp</item>
         <item name="android:background">@color/background_items</item>
+    </style>
+
+    <style name="lnlyInformacion_1_2_v_m10_m20_m0_ps10" parent="lnly_1_2_v">
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:paddingStart">10dp</item>
     </style>
 </resources>
