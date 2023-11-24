@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -65,7 +64,7 @@
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_confirmar_password.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_grupos.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_horario.xml" value="0.36102564102564105" />
-        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_info_grupo.xml" value="0.36102564102564105" />
+        <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_info_grupo.xml" value="0.25" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_informacion.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_informacion_parroquial.xml" value="0.36666666666666664" />
         <entry key="..\:/Parroquia/app.parroquiansanleandro/app/src/main/res/layout/fragment_inicio.xml" value="0.36666666666666664" />
@@ -101,7 +100,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -1,15 +1,23 @@
 package es.parroquiasanleandro.activitys;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
@@ -27,6 +35,7 @@ import java.util.List;
 
 import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.Menu;
+import es.parroquiasanleandro.NotificacionSL;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
@@ -36,6 +45,7 @@ import es.parroquiasanleandro.utils.ItemViewModel;
 
 public class ActivityNavigation extends AppCompatActivity {
     private final Context context = ActivityNavigation.this;
+    private final Activity activity = ActivityNavigation.this;
 
     private LinearLayout linearLayoutInicio;
     private LinearLayout linearLayoutAvisos;
@@ -72,6 +82,17 @@ public class ActivityNavigation extends AppCompatActivity {
         navView = findViewById(R.id.navView);
         drawerLayout = findViewById(R.id.drawerLayout);
 
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM},999);
+            }else{
+                Log.d("PermisoNotificaciones", "No se han pedido permisos");
+                crearCanalYProgramarNotificacion();
+            }
+        }else{
+            crearCanalYProgramarNotificacion();
+        }
+
         viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
 
         actionBar = getSupportActionBar();
@@ -86,7 +107,6 @@ public class ActivityNavigation extends AppCompatActivity {
 
         fragmentManager = getSupportFragmentManager();
         Grupo.actualizarGruposServidorToLocal(context);
-
 
         Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context, this);
 
@@ -131,7 +151,7 @@ public class ActivityNavigation extends AppCompatActivity {
 
     //Función que se ejecuta al selecionar una opción del menú
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -208,5 +228,20 @@ public class ActivityNavigation extends AppCompatActivity {
                 super.onBackPressed();
             }
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 999 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            crearCanalYProgramarNotificacion();
+        }else{
+            Log.d("PermisosNotificaciones", "No se han dado permisos para enviar notificaciones");
+        }
+    }
+
+    public void crearCanalYProgramarNotificacion() {
+        NotificacionSL.crearCanal(context, NotificacionSL.CANAL_GENERAL);
+        NotificacionSL.programarNotificacion(context, NotificacionSL.CANAL_GENERAL,432000000L , true);//259200000L // --> 3d //86400000L --> 1d //3600000L --> 1H //432000000L --> 5d
     }
 }

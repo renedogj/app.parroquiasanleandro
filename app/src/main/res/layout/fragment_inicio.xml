@@ -57,7 +57,7 @@
                         android:layout_marginTop="1dp"
                         android:layout_marginBottom="1dp"
                         android:gravity="center"
-                        android:text="Avisos Semanales"
+                        android:text="Avisos de los próximos 7 días"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 

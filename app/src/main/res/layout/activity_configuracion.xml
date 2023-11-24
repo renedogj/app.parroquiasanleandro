@@ -150,6 +150,27 @@
             <!--<androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                 <LinearLayout
+                    android:id="@+id/lnlytIrNotificaciones"
+                    style="@style/lnlytCardPerfil_1_2_v"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/tvTituloPerfil"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="Notificaciones" />
+
+                    <TextView
+                        style="@style/tvFlecha"
+                        android:layout_margin="0dp"
+                        android:text=" >" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>-->
+
+            <!--<androidx.cardview.widget.CardView style="@style/cardContenedora">
+
+                <LinearLayout
                     android:id="@+id/lnlytContactanos"
                     style="@style/lnlytCardPerfil_1_2_v"
                     android:layout_gravity="center_vertical"

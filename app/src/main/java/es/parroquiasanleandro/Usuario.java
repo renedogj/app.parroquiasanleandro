@@ -124,7 +124,11 @@ public class Usuario {
     }
 
     public static Usuario actualizarUsuarioDeServidorToLocal(Context context, Activity activity){
-        return actualizarUsuarioDeServidorToLocal(context, activity, (isSuccess) -> {});
+        return actualizarUsuarioDeServidorToLocal(context, activity, (isSuccess) -> {
+            if(!isSuccess){
+                Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public static Usuario actualizarUsuarioDeServidorToLocal(Context context, Activity activity, final VolleyCallBack callBack) {
@@ -142,14 +146,12 @@ public class Usuario {
                         atRefUsuario.get().guardarUsuarioEnLocal(context);
                         callBack.onSuccess(true);
                     } else {
-                        Toast.makeText(context, "Se ha producido un error al actualizar la informacion del usuario", Toast.LENGTH_SHORT).show();
                         Usuario.borrarUsuarioLocal(context);
                         context.startActivity(new Intent(context, ActivityNavigation.class));
                         callBack.onSuccess(false);
                         activity.finish();
                     }
                 } catch (JSONException e) {
-                    Toast.makeText(context, "Se ha producido un error al recuperar la información del Usuario", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                     callBack.onSuccess(false);
                 }

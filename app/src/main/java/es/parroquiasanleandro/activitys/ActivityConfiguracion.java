@@ -1,5 +1,6 @@
 package es.parroquiasanleandro.activitys;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,12 +20,15 @@ public class ActivityConfiguracion extends AppCompatActivity {
     private LinearLayout lnlytConfiguaracionYPrivacidad;
     private LinearLayout lnlytIrConfiguaracion;
     private LinearLayout lnlytIrPrivacidad;
+    private LinearLayout lnlytPoliticaPrivacidad;
+//    private LinearLayout lnlytIrNotificaciones;
     private LinearLayout lnlytConfiguaracion;
     private LinearLayout lnlytCambiarContraseña;
     private LinearLayout lnlytCerrarSesion;
     private LinearLayout lnlytEliminarUsuario;
     private LinearLayout lnlytPrivacidad;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,8 @@ public class ActivityConfiguracion extends AppCompatActivity {
         lnlytConfiguaracion = findViewById(R.id.lnlytConfiguaracion);
         lnlytIrPrivacidad = findViewById(R.id.lnlytIrPrivacidad);
         lnlytPrivacidad = findViewById(R.id.lnlytPrivacidad);
+        lnlytPoliticaPrivacidad = findViewById(R.id.lnlytPoliticaPrivacidad);
+//        lnlytIrNotificaciones = findViewById(R.id.lnlytIrNotificaciones);
         lnlytCambiarContraseña = findViewById(R.id.lnlytCambiarContraseña);
         lnlytCerrarSesion = findViewById(R.id.lnlytCerrarSesion);
         lnlytEliminarUsuario = findViewById(R.id.lnlytEliminarUsuario);
@@ -50,6 +56,10 @@ public class ActivityConfiguracion extends AppCompatActivity {
             lnlytConfiguaracion.setVisibility(View.GONE);
             lnlytPrivacidad.setVisibility(View.VISIBLE);
         });
+
+        /*lnlytIrNotificaciones.setOnClickListener(view -> {
+
+        });*/
 
         lnlytCambiarContraseña.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
@@ -76,7 +86,7 @@ public class ActivityConfiguracion extends AppCompatActivity {
             alertDialog.setNegativeButton(android.R.string.no, null).show();
         });
 
-        lnlytPrivacidad.setOnClickListener(v -> {
+        lnlytPoliticaPrivacidad.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityWebView.class);
             intent.putExtra("url", Url.urlPoliticaPrivacidad);
             startActivity(intent);

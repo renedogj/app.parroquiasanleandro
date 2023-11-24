@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -192,6 +193,7 @@ public class FragmentInicio extends Fragment {
         Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, url, response -> {
             tvCitaBiblica.setText(response);
         }, error -> {
+            Log.e("Error Cita Biblica", error.getMessage());
             Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
         }) {
             @Override
@@ -217,7 +219,7 @@ public class FragmentInicio extends Fragment {
             rvAvisosSemana.setAdapter(avisoAdaptador);
         } else {
             rvAvisosSemana.setVisibility(View.GONE);
-            tvAvisosSemanales.setText("No hay ningún aviso esta semana");
+            tvAvisosSemanales.setText("No hay avisos para los proximos 7 días");
             tvAvisosSemanales.getLayoutParams().height = 220;
         }
     }
