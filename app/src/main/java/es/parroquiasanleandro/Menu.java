@@ -19,7 +19,6 @@ import es.parroquiasanleandro.fragments.FragmentGrupos;
 import es.parroquiasanleandro.fragments.FragmentHorario;
 import es.parroquiasanleandro.fragments.FragmentInfoGrupo;
 import es.parroquiasanleandro.fragments.FragmentInicio;
-import es.parroquiasanleandro.fragments.FragmentMercadillo;
 import es.parroquiasanleandro.fragments.FragmentPerfil;
 
 public class Menu {
@@ -29,7 +28,6 @@ public class Menu {
     public static final String INFORMACION = "Información";
     public static final String PERFIL = "Perfil";
     public static final String CALENDARIO = "Calendario";
-    public static final String MERCADILLO = "Mercadillo";
     public static final String GRUPOS = "Mis grupos";
     public static final String ADMINISTRACION = "Administracion";
 
@@ -40,7 +38,6 @@ public class Menu {
     public static final int FRAGMENT_INFORMACION = R.id.nav_fragment_informacion;
     public static final int FRAGMENT_PERFIL = R.id.nav_fragment_perfil;
     public static final int FRAGMENT_CALENDARIO = R.id.nav_fragment_calendario;
-    public static final int FRAGMENT_MERCADILLO = R.id.nav_fragment_mercadillo;
     public static final int FRAGMENT_GRUPOS = R.id.nav_fragment_grupos;
     public static final int FRAGMENT_ADMINISTRACION = 3;
     public static final int FRAGMENT_INFO_GRUPO = 2;
@@ -142,16 +139,6 @@ public class Menu {
         ActivityNavigation.actionBar.setTitle(CALENDARIO);
     }
 
-    public static void iniciarFragmentMercadillo() {
-        ActivityNavigation.fragmentManager.beginTransaction()
-                .setReorderingAllowed(true)
-                .replace(R.id.fragment_container, FragmentMercadillo.class, null)
-                .addToBackStack(null)
-                .commit();
-
-        ActivityNavigation.actionBar.setTitle(MERCADILLO);
-    }
-
     public static void iniciarFragmentGrupos(Usuario usuario, Activity activity, Context context) {
         if (usuario.getId() != null) {
             ActivityNavigation.fragmentManager.beginTransaction()
@@ -211,7 +198,6 @@ public class Menu {
                 {FRAGMENT_AVISOS, R.drawable.ic_bell, R.drawable.ic_bell_black},
                 {FRAGMENT_HORARIO, R.drawable.ic_reloj, R.drawable.ic_reloj_black},
                 {FRAGMENT_CALENDARIO, R.drawable.ic_calendar, R.drawable.ic_calendar_black},
-                {FRAGMENT_MERCADILLO, R.drawable.ic_mercadillo, R.drawable.ic_mercadillo_black},
                 {FRAGMENT_INFORMACION, R.drawable.ic_informacion, R.drawable.ic_informacion_black},
                 {FRAGMENT_GRUPOS, R.drawable.ic_grupos, R.drawable.ic_grupos_black},
                 {FRAGMENT_PERFIL, R.drawable.ic_user, R.drawable.ic_user_black},

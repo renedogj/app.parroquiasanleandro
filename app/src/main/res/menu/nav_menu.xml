@@ -21,10 +21,6 @@
         android:icon="@drawable/ic_app"
         android:title="Información" />
     <item
-        android:id="@+id/nav_fragment_mercadillo"
-        android:icon="@drawable/ic_mercadillo"
-        android:title="Mercadillo" />
-    <item
         android:id="@+id/nav_fragment_grupos"
         android:icon="@drawable/ic_grupos"
         android:title="Mis Grupos" />
