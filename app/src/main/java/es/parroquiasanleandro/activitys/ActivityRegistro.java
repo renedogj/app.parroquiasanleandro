@@ -1,6 +1,5 @@
 package es.parroquiasanleandro.activitys;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -47,9 +47,6 @@ public class ActivityRegistro extends AppCompatActivity {
     private EditText etComprobarPassword;
     private LinearLayout lnlytFechaNacimiento;
     private TextView tvFechaNacimiento;
-    private EditText etDia;
-    private EditText etMes;
-    private EditText etAño;
     private CheckBox checkboxPoliticaPrivacidad;
     private TextView tvPoliticaPrivacidad;
     private LinearLayout lnlytAutorizacionPaterna;
@@ -64,10 +61,8 @@ public class ActivityRegistro extends AppCompatActivity {
     private String password;
     private String comprobarPassword;
 
-    private Fecha fechaActual;
     private Fecha fechaNacimiento;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +75,6 @@ public class ActivityRegistro extends AppCompatActivity {
         etComprobarPassword = findViewById(R.id.etComprobarContraseña);
         lnlytFechaNacimiento = findViewById(R.id.lnlytFechaNacimiento);
         tvFechaNacimiento = findViewById(R.id.tvFechaNacimiento);
-//        etDia = findViewById(R.id.etDiaNacimiento);
-//        etMes = findViewById(R.id.etMesNacimiento);
-//        etAño = findViewById(R.id.etAñoNacimiento);
         checkboxPoliticaPrivacidad = findViewById(R.id.checkboxPoliticaPrivacidad);
         tvPoliticaPrivacidad = findViewById(R.id.tvPoliticaPrivacidad);
         lnlytAutorizacionPaterna = findViewById(R.id.lnlytAutorizacionPaterna);
@@ -98,9 +90,6 @@ public class ActivityRegistro extends AppCompatActivity {
 
         fechaNacimiento = Fecha.FechaActual();
         tvFechaNacimiento.setText(fechaNacimiento.toString(Fecha.FormatosFecha.dd_MM_aaaa));
-//        etDia.setText(Fecha.formatearNumero(fechaActual.dia));
-//        etMes.setText(Fecha.formatearNumero(fechaActual.mes.getNumeroMes()));
-//        etAño.setText(fechaActual.año + "");
 
         imgBtnShowPassword.setOnClickListener(view1 -> {
             ActivityInicarSesion.changeShowPassword(etPassword, imgBtnShowPassword);
@@ -140,15 +129,11 @@ public class ActivityRegistro extends AppCompatActivity {
                 fechaNacimiento.año = year;
                 fechaNacimiento.actualizarDiaSemana();
                 tvFechaNacimiento.setText(fechaNacimiento.toString(Fecha.FormatosFecha.dd_MM_aaaa));
-//                actualizarFechaFin();
                 comprobarFechaNacimiento();
             }, fechaNacimiento.año, fechaNacimiento.mes.getNumeroMes() - 1, fechaNacimiento.dia);
             datePickerDialog.show();
         });
 
-//        etDia.setOnClickListener(v -> comprobarFechaNacimiento());
-//        etMes.setOnClickListener(v -> comprobarFechaNacimiento());
-//        etAño.setOnClickListener(v -> comprobarFechaNacimiento());
 
         tvPoliticaPrivacidad.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityWebView.class);
@@ -164,11 +149,6 @@ public class ActivityRegistro extends AppCompatActivity {
     }
 
     private void registrarUsuario() {
-        Map<String, String> parametros = new HashMap<>();
-        parametros.put("nombre", nombre);
-        parametros.put("email", email);
-        parametros.put("password", password);
-
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.registrarse, result -> {
             result = result.replace("true{\"", "{\"");
@@ -213,16 +193,7 @@ public class ActivityRegistro extends AppCompatActivity {
         });
     }
 
-/*    public Fecha obtenerFechaNacimiento() {
-        int dia = Integer.parseInt(etDia.getText().toString());
-        Mes mes = Mes.values()[Integer.parseInt(etMes.getText().toString())];
-        int año = Integer.parseInt(etAño.getText().toString());
-
-        return new Fecha(dia, mes, año);
-    }*/
-
     public boolean necesitaAutoriazacionPaterna() {
-//        Fecha fechaNacimieto = obtenerFechaNacimiento();
         return !Fecha.diferenciaFechaMayorQueAnnos(fechaNacimiento, Fecha.FechaActual(), 16);
     }
 
@@ -235,7 +206,7 @@ public class ActivityRegistro extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         onBackPressed();
         return super.onOptionsItemSelected(item);
     }

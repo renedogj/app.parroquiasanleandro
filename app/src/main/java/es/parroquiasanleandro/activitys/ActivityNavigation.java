@@ -235,8 +235,6 @@ public class ActivityNavigation extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 999 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
             crearCanalYProgramarNotificacion();
-        }else{
-            Log.d("PermisosNotificaciones", "No se han dado permisos para enviar notificaciones");
         }
     }
 

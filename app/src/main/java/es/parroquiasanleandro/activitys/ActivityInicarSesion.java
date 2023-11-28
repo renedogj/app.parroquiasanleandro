@@ -104,6 +104,7 @@ public class ActivityInicarSesion extends AppCompatActivity {
     private void iniciarSesion() {
         String email = etCorreoElectronico.getText().toString().trim();
         String password = etContraseña.getText().toString().trim();
+
         if (Comprobaciones.comprobarCorreo(context,email) && !password.equals("")) {
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             requestQueue.add(new StringRequest(Request.Method.POST, Url.iniciarSesion, result -> {

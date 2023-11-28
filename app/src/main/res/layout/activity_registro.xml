@@ -93,62 +93,6 @@
                 android:hint="Vuelve a escribir la contraseña"
                 android:inputType="textPassword" />
 
-            <!--<LinearLayout
-                android:id="@+id/lnlytFechaNacimiento"
-                style="@style/lnly_1_2_h"
-                android:gravity="end"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/tvFechaNacimiento"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-                    android:ems="10"
-                    android:gravity="center_vertical"
-                    android:padding="5dp"
-                    android:text="Fecha de nacimiento"
-                    android:textSize="16sp" />
-
-                <Space style="@style/spaces_2_1_1" />
-
-                <LinearLayout
-                    style="@style/lnly_2_2_h">
-
-                    <EditText
-                        android:id="@+id/etDiaNacimiento"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:inputType="number" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="/" />
-
-                    <EditText
-                        android:id="@+id/etMesNacimiento"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:inputType="number" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="/" />
-
-                    <EditText
-                        android:id="@+id/etAñoNacimiento"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:inputType="number" />
-                </LinearLayout>
-            </LinearLayout>-->
-
             <LinearLayout
                 android:id="@+id/lnlytFechaNacimiento"
                 style="@style/lnly_1_2_h"
