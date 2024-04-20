@@ -63,6 +63,5 @@ public class FragmentGrupos extends Fragment {
         ActivityNavigation.actionBar.setTitle(Menu.HORARIO);
         viewModel.setIdFragmentActual(Menu.FRAGMENT_GRUPOS);
         viewModel.addIdFragmentActual();
-
     }
 }

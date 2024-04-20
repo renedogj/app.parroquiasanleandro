@@ -150,7 +150,7 @@ public class Grupo {
         return null;
     }
 
-    public boolean isGrupoGuardado(Usuario usuario) {
+    public boolean isGrupoSeguido(Usuario usuario) {
         for (Grupo grupoAux : usuario.getGruposSeguidos()) {
             if (grupoAux.id.equals(id) && grupoAux.nombre.equals(nombre)) {
                 return true;
@@ -188,7 +188,7 @@ public class Grupo {
         }
         for (Grupo grupoAux : grupos) {
             if (gruposId.contains(grupoAux.id)) {
-                if (!grupoAux.id.equals(id) && !grupoAux.isGrupoGuardado(usuario)) {
+                if (!grupoAux.id.equals(id) && !grupoAux.isGrupoSeguido(usuario)) {
                     grupoAux.seguirGrupo(context, usuario.getId());
                     usuario.addGrupo(grupoAux);
                 }
@@ -220,21 +220,14 @@ public class Grupo {
     public void modificarServidorSeguirEliminarGrupo(Context context, String idUsuario, boolean siguiendo) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.modificarSeguirEliminarSeguido, result -> {
+            Log.d("modificarServidorSeguirEliminarGrupo",result);
             try {
                 JSONObject jsonResult = new JSONObject(result);
                 if (jsonResult.getBoolean("error")) {
-                    if (siguiendo) {
-                        Toast.makeText(context, "Se ha producido un error al dejar de seguir la información del grupo", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "Se ha producido un error al seguir la información del grupo", Toast.LENGTH_SHORT).show();
-                    }
+                    mostrarErrorSeguirEliminarGrupo(context, siguiendo);
                 }
             } catch (JSONException e) {
-                if (siguiendo) {
-                    Toast.makeText(context, "Se ha producido un error al dejar de seguir la información del grupo", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Se ha producido un error al seguir la información del grupo", Toast.LENGTH_SHORT).show();
-                }
+                mostrarErrorSeguirEliminarGrupo(context, siguiendo);
                 e.printStackTrace();
             }
         }, error -> {
@@ -249,6 +242,14 @@ public class Grupo {
                 return parametros;
             }
         });
+    }
+
+    private void mostrarErrorSeguirEliminarGrupo(Context context, Boolean siguiendo){
+        if (siguiendo) {
+            Toast.makeText(context, "Se ha producido un error al dejar de seguir la información del grupo", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Se ha producido un error al seguir la información del grupo", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static void actualizarGruposServidorToLocal(Context context) {

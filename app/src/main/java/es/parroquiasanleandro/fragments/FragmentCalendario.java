@@ -162,10 +162,10 @@ public class FragmentCalendario extends Fragment {
             fechas.add(auxFecha);
         }
         tvNoHayAvisos.setText("");
-        obtenerAvisos();
+        obtenerAvisosCalendario();
     }
 
-    public void obtenerAvisos() {
+    public void obtenerAvisosCalendario() {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new StringRequest(Request.Method.POST, Url.obtenerAvisosCalendario, result -> {
             try {
@@ -176,10 +176,10 @@ public class FragmentCalendario extends Fragment {
                     DiaAdaptador diaAdaptador = new DiaAdaptador(context, fechas, avisos, fechaReferencia, this);
                     rvCalendario.setAdapter(diaAdaptador);
                 } else {
-                    Toast.makeText(context, "Correo o contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Se ha producido un error al obtener los avisos", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
-                Toast.makeText(context, "Se ha producido un error en el servidor al iniciar sesion", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Se ha producido un error al obtener los avisos", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }, error -> {

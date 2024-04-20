@@ -82,7 +82,7 @@ public class FragmentInfoGrupo extends Fragment {
             if (!grupo.texto.equals("null")) {
                 tvTextoGrupo.setText(grupo.texto);
             }
-            grupoGuardado = grupo.isGrupoGuardado(usuario);
+            grupoGuardado = grupo.isGrupoSeguido(usuario);
             checkGrupo(grupoGuardado);
 
             if (grupo.existenSubniveles(grupos)) {

@@ -24,12 +24,12 @@ import es.renedogj.fecha.Fecha;
 
 public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> {
     private final Context context;
-    private List<Fecha> fechas;
-    private List<Aviso> avisos;
-    private Fecha fechaReferencia;
+    private final List<Fecha> fechas;
+    private final List<Aviso> avisos;
+    private final Fecha fechaReferencia;
     public int diaSelecionado = -1;
-    private DiaAdaptador rvAdapterDia = this;
-    private FragmentCalendario fragmentCalendario;
+    private final DiaAdaptador rvAdapterDia = this;
+    public FragmentCalendario fragmentCalendario;
 
     public DiaAdaptador(Context context, List<Fecha> fechas, List<Aviso> avisos, Fecha fechaReferencia, FragmentCalendario fragmentCalendario) {
         this.context = context;
@@ -72,12 +72,12 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView cardDia;
-        private TextView tvNumDia;
-        private CardView cardAvisosDia;
-        private RecyclerView rvAvisosDia;
-        private LinearLayout linearLayoutDiaCalendario;
-        private View divider;
+        private final CardView cardDia;
+        private final TextView tvNumDia;
+        private final CardView cardAvisosDia;
+        private final RecyclerView rvAvisosDia;
+        private final LinearLayout linearLayoutDiaCalendario;
+        private final View divider;
 
         private Fecha fecha;
         List<Aviso> avisosDia = new ArrayList<>();
@@ -85,10 +85,10 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
         public ViewHolder(View itemView) {
             super(itemView);
             cardDia = itemView.findViewById(R.id.cardDia);
-            tvNumDia = itemView.findViewById(R.id.tvNumDia);
+            tvNumDia = itemView.findViewById(R.id.tvNumDia); //Texto de la fecha selecionada
             cardAvisosDia = itemView.findViewById(R.id.cardAvisosDia);
-            rvAvisosDia = itemView.findViewById(R.id.rvAvisosDia);
-            linearLayoutDiaCalendario = itemView.findViewById(R.id.linearLayoutDiaCalendario);
+            rvAvisosDia = itemView.findViewById(R.id.rvAvisosDia); //Rv con los avisos del día seleccionado
+            linearLayoutDiaCalendario = itemView.findViewById(R.id.linearLayoutDiaCalendario); //LnLy de cada día del calendario
             divider = itemView.findViewById(R.id.divider);
         }
 
@@ -116,13 +116,11 @@ public class DiaAdaptador extends RecyclerView.Adapter<DiaAdaptador.ViewHolder> 
             rvAvisosDia.setAdapter(avisoTituloAdaptador);
 
             cardDia.setOnClickListener(v -> {
-                diaSelecionado = getAdapterPosition();
-                notifyDataSetChanged();
+                mostrarAvisosDia();
             });
 
             cardAvisosDia.setOnClickListener(v -> {
-                diaSelecionado = getAdapterPosition();
-                notifyDataSetChanged();
+                mostrarAvisosDia();
             });
         }
 

@@ -42,9 +42,6 @@
             android:name=".activitys.ActivityWebView"
             android:exported="false" />
         <activity
-            android:name=".activitys.ActivityArticulo"
-            android:exported="false" />
-        <activity
             android:name=".activitys.ActivityCambiarInfoUsuario"
             android:exported="false" />
         <activity

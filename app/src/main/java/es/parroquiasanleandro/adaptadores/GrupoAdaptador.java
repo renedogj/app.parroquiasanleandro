@@ -3,6 +3,7 @@ package es.parroquiasanleandro.adaptadores;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +80,7 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
         private final ImageView imgGrupo;
 
         public Grupo grupo;
-        public boolean grupoGuardado;
+        public boolean grupoSeguido;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -99,8 +100,8 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             Glide.with(context).load(Url.obtenerImagenAviso + grupo.id + "/img/" + grupo.imagen).into(imgGrupo);
             tvNombreGrupo.setText(grupo.nombre);
 
-            grupoGuardado = grupo.isGrupoGuardado(usuario);
-            checkGrupo(grupoGuardado);
+            grupoSeguido = grupo.isGrupoSeguido(usuario);
+            checkGrupo(grupoSeguido);
 
             if (grupo.existenSubniveles(grupos)) {
                 tvMasGrupos.setPaintFlags(tvMasGrupos.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -116,17 +117,20 @@ public class GrupoAdaptador extends RecyclerView.Adapter<GrupoAdaptador.ViewHold
             }
 
             cardGrupoBoton.setOnClickListener(v -> {
-                if (grupoGuardado) {
+                if (grupoSeguido) {
                     grupo.eliminarGrupoSeguido(context, usuario.getId());
-                    grupoGuardado = false;
+//                    grupoSeguido = false;
+                    Log.d("seguirGrupo","seguirGrupo " + grupoSeguido);
                     usuario.removeGrupo(grupo);
                 } else {
                     grupo.seguirGrupo(context, usuario.getId());
-                    grupoGuardado = true;
+                    Log.d("seguirGrupo","seguirGrupo " + grupoSeguido);
+//                    grupoSeguido = true;
                     usuario.addGrupo(grupo);
                     grupo.chekGruposPadre(context, grupos, usuario);
                 }
-                checkGrupo(grupoGuardado);
+                grupoSeguido = !grupoSeguido;
+                checkGrupo(grupoSeguido);
             });
 
             linearLayoutGrupo.setOnClickListener(v -> {
