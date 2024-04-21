@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,15 +19,13 @@ import es.parroquiasanleandro.R;
 
 public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdaptador.ViewHolder> {
 
-    private Context context;
-    private List<Aviso> avisosDia;
-    private DiaAdaptador rvAdapterDia;
-    private DiaAdaptador.ViewHolder diaAdaptadorViewHolder;
+    private final Context context;
+    private final List<Aviso> avisosDia;
+    private final DiaAdaptador.ViewHolder diaAdaptadorViewHolder;
 
-    public AvisoTituloAdaptador(Context context, List<Aviso> avisosDia, DiaAdaptador rvAdapterDia, DiaAdaptador.ViewHolder diaAdaptadorViewHolder) {
+    public AvisoTituloAdaptador(Context context, List<Aviso> avisosDia, DiaAdaptador.ViewHolder diaAdaptadorViewHolder) {
         this.context = context;
         this.avisosDia = avisosDia;
-        this.rvAdapterDia = rvAdapterDia;
         this.diaAdaptadorViewHolder = diaAdaptadorViewHolder;
     }
 
@@ -52,34 +49,20 @@ public class AvisoTituloAdaptador extends RecyclerView.Adapter<AvisoTituloAdapta
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private CardView cardTituloAviso;
-        private LinearLayout linearLayoutTituloAviso;
-        private TextView tvTituloAviso;
+        private final CardView cardTituloAviso;
+        private final TextView tvTituloAviso;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
             cardTituloAviso = itemView.findViewById(R.id.cardTituloAviso);
             tvTituloAviso = itemView.findViewById(R.id.tvTituloAviso);
-            linearLayoutTituloAviso = itemView.findViewById(R.id.linearLayoutTituloAviso);
         }
 
         public void asignarValores(Aviso aviso) {
             tvTituloAviso.setText(aviso.titulo);
-            linearLayoutTituloAviso.setBackgroundColor(aviso.obtenerColor(context));
 
             cardTituloAviso.setOnClickListener(v -> {
-//                rvAdapterDia.diaSelecionado = DiaAdaptadorViewHolder.getAdapterPosition();
-//                rvAdapterDia.notifyDataSetChanged();
-//                rvAdapterDia.fragmentCalendario.tvFechaSelecionada.setText("Avisos " + rvAdapterDia.fecha.toString(Fecha.FormatosFecha.EEEE_d_MMMM));
-//                AvisoAdaptador avisoAdaptador = new AvisoAdaptador(context, avisosDia);
-//                rvAdapterDia.fragmentCalendario.rvAvisosDiaSelecionado.setAdapter(avisoAdaptador);
-//                if (avisosDia.isEmpty()) {
-//                    rvAdapterDia.fragmentCalendario.tvNoHayAvisos.setText("No hay ningún aviso");
-//                } else {
-//                    rvAdapterDia.fragmentCalendario.tvNoHayAvisos.setText("");
-//                }
-
-                diaAdaptadorViewHolder.mostrarAvisosDia();
+                diaAdaptadorViewHolder.selecionarDia();
             });
         }
     }

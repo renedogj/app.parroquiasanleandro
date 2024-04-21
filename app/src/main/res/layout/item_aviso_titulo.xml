@@ -13,14 +13,19 @@
     <LinearLayout
         android:id="@+id/linearLayoutTituloAviso"
         style="@style/size_1_2"
+        android:background="@color/dark_primary_color"
         android:orientation="horizontal"
-        android:padding="2dp">
+        android:padding="1dp">
 
         <TextView
             android:id="@+id/tvTituloAviso"
-            android:layout_width="match_parent"
-            android:layout_height="12dp"
-            android:layout_marginStart="2dp"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:layout_weight="1"
+            android:layout_marginStart="3dp"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textAlignment="gravity"
             android:textColor="@color/blanco"
             android:textSize="10sp" />
     </LinearLayout>

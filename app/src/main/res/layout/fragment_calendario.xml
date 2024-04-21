@@ -58,7 +58,7 @@
 
             <LinearLayout
                 style="@style/lnly_1_2_h"
-                android:layout_marginBottom="2dp">
+                android:layout_marginBottom="3dp">
 
                 <TextView
                     style="@style/tvDiasSemanaCalendario"
@@ -95,10 +95,10 @@
                 android:paddingTop="0dp"
                 android:paddingBottom="5dp" />
 
-            <View
+            <!--<View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                android:background="?android:attr/listDivider" />-->
 
             <TextView
                 android:id="@+id/tvFechaSelecionada"

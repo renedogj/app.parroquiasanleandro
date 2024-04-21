@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="primary_color">@color/verde_agua</color>
+    <color name="dark_primary_color">#FF31666C</color>
     <color name="background_items">@color/blanco_2</color>
     <color name="background_items_contraste">@color/blanco</color>
 
