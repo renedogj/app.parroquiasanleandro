@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import es.parroquiasanleandro.Aviso;
 import es.parroquiasanleandro.Menu;
@@ -47,8 +49,12 @@ import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.adaptadores.AvisoAdaptador;
 import es.parroquiasanleandro.adaptadores.MenuIncioAdaptador;
 import es.parroquiasanleandro.utils.ItemViewModel;
+import es.renedogj.fecha.Fecha;
 
 public class FragmentInicio extends Fragment {
+    public static final String CITA_BIBLICA = "citaBiblica";
+    public static final String FECHA = "fecha";
+
     private Context context;
     private Activity activity;
 
@@ -117,7 +123,7 @@ public class FragmentInicio extends Fragment {
         MenuIncioAdaptador menuIncioAdaptador = new MenuIncioAdaptador(context, activity, menuOptionList, Menu.FRAGMENT_INICIO);
         rvMenu.setAdapter(menuIncioAdaptador);
 
-        obtenerCitaBiblica(Url.obtenerCitaBliblica);
+        obtenerCitaBiblica();
 
         imgFacebook.setOnClickListener(v -> {
             Uri uri = Uri.parse("https://www.facebook.com/parroquiasanleandro");
@@ -189,18 +195,39 @@ public class FragmentInicio extends Fragment {
         obtenerAvisosSemanales();
     }
 
-    public void obtenerCitaBiblica(String url) {
-        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, url, response -> {
-            tvCitaBiblica.setText(response);
-        }, error -> {
-            Log.e("Error Cita Biblica", error.getMessage());
-            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return super.getParams();
+    public void obtenerCitaBiblica() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(CITA_BIBLICA, Context.MODE_PRIVATE);
+
+        String sFecha = sharedPreferences.getString(FECHA, null);
+        String citaBiblica = null;
+
+        if(sFecha != null) {
+            Fecha fecha = Fecha.stringToFecha(sFecha, Fecha.FormatosFecha.aaaa_MM_dd);
+            if (fecha.esHoy()) {
+                citaBiblica = sharedPreferences.getString(CITA_BIBLICA, null);
             }
-        });
+        }
+
+        if(citaBiblica == null){
+            Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.obtenerCitaBliblica, response -> {
+                tvCitaBiblica.setText(response);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(FECHA, Fecha.FechaActual().toString(Fecha.FormatosFecha.aaaa_MM_dd));
+                editor.putString(CITA_BIBLICA, response);
+                editor.apply();
+            }, error -> {
+                Log.e("Error Cita Biblica", Objects.requireNonNull(error.getMessage()));
+                Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    return super.getParams();
+                }
+            });
+        }else{
+            tvCitaBiblica.setText(citaBiblica);
+        }
     }
 
     public void mostrarAvisosSemanales() {

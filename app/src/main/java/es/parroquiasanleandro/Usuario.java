@@ -255,9 +255,9 @@ public class Usuario {
         usuario.nombre = sharedPreferences.getString(NOMBRE, null);
         usuario.email = sharedPreferences.getString(EMAIL, null);
 
-        String stringFecha = sharedPreferences.getString(FECHA_NACIMIENTO, null);
-        if (stringFecha != null) {
-            usuario.fechaNacimiento = Fecha.stringToFecha(stringFecha, Fecha.FormatosFecha.aaaa_MM_dd);
+        String sFecha = sharedPreferences.getString(FECHA_NACIMIENTO, null);
+        if (sFecha != null) {
+            usuario.fechaNacimiento = Fecha.stringToFecha(sFecha, Fecha.FormatosFecha.aaaa_MM_dd);
         } else {
             usuario.fechaNacimiento = null;
         }
