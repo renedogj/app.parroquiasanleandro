@@ -14,4 +14,8 @@
 .cxx
 local.properties
 /keys
+<<<<<<< HEAD
 *.pem
+=======
+.pem
+>>>>>>> bb180c562abe9a4b8b300b29971267ff6549d9a0
