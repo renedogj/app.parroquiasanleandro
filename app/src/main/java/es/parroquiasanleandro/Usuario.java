@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -12,7 +15,11 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.chaquo.python.PyObject;
+import com.chaquo.python.Python;
+import com.chaquo.python.android.AndroidPlatform;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import es.parroquiasanleandro.activitys.ActivityNavigation;
 import es.parroquiasanleandro.activitys.ActivityWebView;
+import es.parroquiasanleandro.utils.Comprobaciones;
 import es.parroquiasanleandro.utils.VolleyCallBack;
 import es.renedogj.fecha.Fecha;
 
@@ -39,6 +47,8 @@ public class Usuario {
     public static final String EMAIL_VERIFIED = "emailVerified";
     public static final String ES_ADMINISTRADOR = "esAdministrador";
     public static final String ID_POLITICA_PRIVACIDAD = "idPoliticaPrivacidad";
+    public static final String INFORMACION = "informacion";
+    public static final String MODIFICACION_GRUPOS = "modificacionGrupos";
 
     private String id;
     public String nombre;
@@ -139,12 +149,15 @@ public class Usuario {
                 try {
                     JSONObject jsonResult = new JSONObject(result);
                     if (!jsonResult.getBoolean("error")) {
-                        JSONObject jsonObject = jsonResult.getJSONObject("usuario");
-                        Usuario usuario = new Usuario(jsonObject);
-                        usuario.comprobarPoliticaDePrivacidad(context,activity);
+                        Usuario usuario = new Usuario(jsonResult.getJSONObject("usuario"));
+
                         atRefUsuario.set(usuario);
                         atRefUsuario.get().guardarUsuarioEnLocal(context);
                         callBack.onSuccess(true);
+
+                        if (jsonResult.getBoolean("politicaPrivacidadAprobada")) {
+                            mostrarPoliticaDePrivacidad(context, activity);
+                        }
                     } else {
                         Usuario.borrarUsuarioLocal(context);
                         context.startActivity(new Intent(context, ActivityNavigation.class));
@@ -169,6 +182,88 @@ public class Usuario {
         return atRefUsuario.get();
     }
 
+    public static Usuario actualiarDatosUsuarioServidorToLocal(Context context, Activity activity) {
+        AtomicReference<Usuario> atRefUsuario = new AtomicReference<>(Usuario.recuperarUsuarioLocal(context));
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(INFORMACION, Context.MODE_PRIVATE);
+        long modificacionGrupos = sharedPreferences.getLong(MODIFICACION_GRUPOS, 0);
+
+        Log.d("Usuario", "Usuario id: " + atRefUsuario.get().id);
+
+        if (! Python.isStarted()) {
+            Python.start(new AndroidPlatform(context));
+        }
+
+        Python py = Python.getInstance();
+        PyObject rsaPyModule = py.getModule("rsa");
+        PyObject get_public_key = rsaPyModule.get("get_public_key");
+        PyObject encrypt_payload = rsaPyModule.get("encrypt_payload");
+        PyObject decrypt_result = rsaPyModule.get("decrypt_result");
+
+        String localPublicKey = String.valueOf(get_public_key.call());
+
+        String payload = "{\"idUsuario\":" + atRefUsuario.get().id + ",\"modGrupos\":" + modificacionGrupos + ",\"totp\":null,\"PbK\":\"" + localPublicKey + "\"}";
+        String encryptPayload = String.valueOf(encrypt_payload.call(payload));
+
+        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.actualizarDatos, result -> {
+            try {
+                String decryptedResult = String.valueOf(decrypt_result.call(result));
+
+                JSONObject jsonResult = new JSONObject(decryptedResult);
+                if (atRefUsuario.get().id != null) {
+                    if (!jsonResult.getBoolean("error")) {
+                        Usuario usuario = new Usuario(jsonResult.getJSONObject("usuario"));
+                        atRefUsuario.set(usuario);
+                        atRefUsuario.get().guardarUsuarioEnLocal(context);
+
+                        if (!jsonResult.getBoolean("politicaPrivacidadAprobada")) {
+                            mostrarPoliticaDePrivacidad(context, activity);
+                        }
+                    } else {
+                        Usuario.borrarUsuarioLocal(context);
+                        context.startActivity(new Intent(context, ActivityNavigation.class));
+                        activity.finish();
+                    }
+                }
+
+                JSONArray jsonArrayGrupos = jsonResult.getJSONArray("grupos");
+                Log.d("Python JSONArray", jsonArrayGrupos.toString());
+                if(jsonArrayGrupos.length() != 0){
+                    Grupo.guardarGruposEnLocal(context, jsonArrayGrupos);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong(MODIFICACION_GRUPOS, jsonResult.getLong("modificacionGrupos"));
+                    editor.apply();
+                }
+
+                try {
+                    String versionActual = context.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionName;
+                    if(Comprobaciones.checkVersion(versionActual, jsonResult.getString("minVersion"))){
+                        final String appPackageName = context.getPackageName();
+                        try {
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                        }
+                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("encryptedData", encryptPayload);
+                return parametros;
+            }
+        });
+        return atRefUsuario.get();
+    }
+
     public void comprobarPoliticaDePrivacidad(Context context, Activity activity) {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(new JsonObjectRequest(Request.Method.GET, Url.informacionJson, null, (Response.Listener<JSONObject>) result -> {
@@ -176,11 +271,12 @@ public class Usuario {
                 long idPoliticaPrivacidad = result.getLong("politicaPrivacidad");
                 if (this.getId() != null) {
                     if (idPoliticaPrivacidad > this.idPoliticaPrivacidad) {
-                        Intent intent = new Intent(context, ActivityWebView.class);
-                        intent.putExtra("url", Url.urlPoliticaPrivacidad);
-                        intent.putExtra("soloVisualizarPoliticas", false);
-                        context.startActivity(intent);
-                        activity.finish();
+//                        Intent intent = new Intent(context, ActivityWebView.class);
+//                        intent.putExtra("url", Url.urlPoliticaPrivacidad);
+//                        intent.putExtra("soloVisualizarPoliticas", false);
+//                        context.startActivity(intent);
+//                        activity.finish();
+                        mostrarPoliticaDePrivacidad(context, activity);
                     }
                 }
             } catch (JSONException e) {
@@ -192,6 +288,14 @@ public class Usuario {
         }));
     }
 
+    public static void mostrarPoliticaDePrivacidad (Context context, Activity activity){
+        Intent intent = new Intent(context, ActivityWebView.class);
+        intent.putExtra("url", Url.urlPoliticaPrivacidad);
+        intent.putExtra("soloVisualizarPoliticas", false);
+        context.startActivity(intent);
+        activity.finish();
+    }
+
     public void aceptarPoliticaPrivacidad(Context context, Activity activity){
         Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.aceptarPoliticaPrivacidad, result -> {
             try {
@@ -200,10 +304,10 @@ public class Usuario {
                     context.startActivity(new Intent(context, ActivityNavigation.class));
                     activity.finish();
                 }else{
-                    Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad 1", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
-                Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad 2", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Se ha producido un error al aceptar la politica de privacidad", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }, error -> Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show()) {
