@@ -109,11 +109,6 @@ public class ActivityNavigation extends AppCompatActivity {
 
         Usuario usuario = Usuario.actualiarDatosUsuarioServidorToLocal(context, this);
 
-//        Grupo.actualizarGruposServidorToLocal(context);
-
-//        Usuario usuario = Usuario.actualizarUsuarioDeServidorToLocal(context, this);
-
-
         if (usuario.getId() != null) {
             Menu.addCerrarSesion(navView);
         }
@@ -244,6 +239,6 @@ public class ActivityNavigation extends AppCompatActivity {
 
     public void crearCanalYProgramarNotificacion() {
         NotificacionSL.crearCanal(context, NotificacionSL.CANAL_GENERAL);
-        NotificacionSL.programarNotificacion(context, NotificacionSL.CANAL_GENERAL,432000000L , true);//259200000L // --> 3d //86400000L --> 1d //3600000L --> 1H //432000000L --> 5d
+        NotificacionSL.programarNotificacion(context, NotificacionSL.CANAL_GENERAL,259200000L , true);//259200000L // --> 3d //86400000L --> 1d //3600000L --> 1H //432000000L --> 5d
     }
 }

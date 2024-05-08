@@ -49,13 +49,11 @@ public class Comprobaciones {
 		}
 	}
 
-	public static boolean checkVersion(String versionActual, String versionNueva){
-		Log.d("VERSION ACTUAL", versionActual);
-		Log.d("VERSION NUEVA", versionNueva);
+	public static boolean checkAppVersion(String versionActual, String versionNueva){
 		boolean result = false;
 		int[] versiones = new int[6];
 		int i = 0, anterior = 0, orden = 0;
-		if(versionActual != null && versionNueva != null){
+		if(versionActual != null && !versionActual.equals("") && versionNueva != null && !versionNueva.equals("")){
 			try{
 				for(i = 0; i < 6; i++){
 					versiones[i] = 0;

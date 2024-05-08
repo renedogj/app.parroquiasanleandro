@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -188,9 +187,7 @@ public class Usuario {
         SharedPreferences sharedPreferences = context.getSharedPreferences(INFORMACION, Context.MODE_PRIVATE);
         long modificacionGrupos = sharedPreferences.getLong(MODIFICACION_GRUPOS, 0);
 
-        Log.d("Usuario", "Usuario id: " + atRefUsuario.get().id);
-
-        if (! Python.isStarted()) {
+        if (!Python.isStarted()) {
             Python.start(new AndroidPlatform(context));
         }
 
@@ -227,7 +224,6 @@ public class Usuario {
                 }
 
                 JSONArray jsonArrayGrupos = jsonResult.getJSONArray("grupos");
-                Log.d("Python JSONArray", jsonArrayGrupos.toString());
                 if(jsonArrayGrupos.length() != 0){
                     Grupo.guardarGruposEnLocal(context, jsonArrayGrupos);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -237,7 +233,7 @@ public class Usuario {
 
                 try {
                     String versionActual = context.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionName;
-                    if(Comprobaciones.checkVersion(versionActual, jsonResult.getString("minVersion"))){
+                    if(Comprobaciones.checkAppVersion(versionActual, jsonResult.getString("minVersion"))){
                         final String appPackageName = context.getPackageName();
                         try {
                             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
