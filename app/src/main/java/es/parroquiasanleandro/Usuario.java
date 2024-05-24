@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -14,9 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.chaquo.python.PyObject;
-import com.chaquo.python.Python;
-import com.chaquo.python.android.AndroidPlatform;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
 import es.parroquiasanleandro.activitys.ActivityNavigation;
@@ -187,76 +187,90 @@ public class Usuario {
         SharedPreferences sharedPreferences = context.getSharedPreferences(INFORMACION, Context.MODE_PRIVATE);
         long modificacionGrupos = sharedPreferences.getLong(MODIFICACION_GRUPOS, 0);
 
-        if (!Python.isStarted()) {
-            Python.start(new AndroidPlatform(context));
-        }
+        try {
+            RSA rsa = new RSA(context);
+            rsa.setPublicKeyString(Url.serverRSApublickey);
 
-        Python py = Python.getInstance();
-        PyObject rsaPyModule = py.getModule("rsa");
-        PyObject get_public_key = rsaPyModule.get("get_public_key");
-        PyObject encrypt_payload = rsaPyModule.get("encrypt_payload");
-        PyObject decrypt_result = rsaPyModule.get("decrypt_result");
+            RSA localRSA = new RSA(context);
+            localRSA.genKeyPair(2048);
+            String userPublicKey = Base64.encodeToString(localRSA.PublicKey.getEncoded(), Base64.DEFAULT);
 
-        String localPublicKey = String.valueOf(get_public_key.call());
 
-        String payload = "{\"idUsuario\":" + atRefUsuario.get().id + ",\"modGrupos\":" + modificacionGrupos + ",\"totp\":null,\"PbK\":\"" + localPublicKey + "\"}";
-        String encryptPayload = String.valueOf(encrypt_payload.call(payload));
+            String encryptUSerId =  rsa.encrypt(atRefUsuario.get().id);
+            String encrypPublicKey = rsa.encrypt(userPublicKey.substring(0,10));
 
-        Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.actualizarDatos, result -> {
-            try {
-                String decryptedResult = String.valueOf(decrypt_result.call(result));
 
-                JSONObject jsonResult = new JSONObject(decryptedResult);
-                if (atRefUsuario.get().id != null) {
-                    if (!jsonResult.getBoolean("error")) {
-                        Usuario usuario = new Usuario(jsonResult.getJSONObject("usuario"));
-                        atRefUsuario.set(usuario);
-                        atRefUsuario.get().guardarUsuarioEnLocal(context);
-
-                        if (!jsonResult.getBoolean("politicaPrivacidadAprobada")) {
-                            mostrarPoliticaDePrivacidad(context, activity);
-                        }
-                    } else {
-                        Usuario.borrarUsuarioLocal(context);
-                        context.startActivity(new Intent(context, ActivityNavigation.class));
-                        activity.finish();
-                    }
-                }
-
-                JSONArray jsonArrayGrupos = jsonResult.getJSONArray("grupos");
-                if(jsonArrayGrupos.length() != 0){
-                    Grupo.guardarGruposEnLocal(context, jsonArrayGrupos);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong(MODIFICACION_GRUPOS, jsonResult.getLong("modificacionGrupos"));
-                    editor.apply();
-                }
-
+            Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.actualizarDatos, result -> {
                 try {
-                    String versionActual = context.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionName;
-                    if(Comprobaciones.checkAppVersion(versionActual, jsonResult.getString("minVersion"))){
-                        final String appPackageName = context.getPackageName();
-                        try {
-                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                        } catch (android.content.ActivityNotFoundException anfe) {
-                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+
+                    JSONObject jsonResult = new JSONObject(result);
+                    JSONObject decryptedJson = localRSA.decriptJsonObject(jsonResult, new String[]{"id", "nombre", "email", "fecha_nacimiento"});
+
+                    // Comprobar usuario
+                    if (atRefUsuario.get().id != null) {
+                        if (!decryptedJson.getBoolean("error")) {
+                            Usuario usuario = new Usuario(decryptedJson.getJSONObject("usuario"));
+                            atRefUsuario.set(usuario);
+                            atRefUsuario.get().guardarUsuarioEnLocal(context);
+
+                            if (!decryptedJson.getBoolean("politicaPrivacidadAprobada")) {
+                                mostrarPoliticaDePrivacidad(context, activity);
+                            }
+                        } else {
+                            Usuario.borrarUsuarioLocal(context);
+                            context.startActivity(new Intent(context, ActivityNavigation.class));
+                            activity.finish();
                         }
                     }
-                } catch (PackageManager.NameNotFoundException e) {
+
+                    // Comprobar y guardar grupos
+                    JSONArray jsonArrayGrupos = decryptedJson.getJSONArray("grupos");
+                    if(jsonArrayGrupos.length() != 0){
+                        Grupo.guardarGruposEnLocal(context, jsonArrayGrupos);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putLong(MODIFICACION_GRUPOS, decryptedJson.getLong("modificacionGrupos"));
+                        editor.apply();
+                    }
+
+                    // Comprobar Versión
+                    try {
+                        String versionActual = context.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionName;
+                        if(Comprobaciones.checkAppVersion(versionActual, decryptedJson.getString("minVersion"))){
+                            final String appPackageName = context.getPackageName();
+                            try {
+                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                            } catch (android.content.ActivityNotFoundException anfe) {
+                                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                            }
+                        }
+                    } catch (PackageManager.NameNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                     throw new RuntimeException(e);
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }, error -> {
-            Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("encryptedData", encryptPayload);
-                return parametros;
-            }
-        });
+            }, error -> {
+                Toast.makeText(context, "Se ha producido un error al conectar con el servidor", Toast.LENGTH_SHORT).show();
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> parametros = new HashMap<>();
+                    parametros.put("idUsuario", encryptUSerId);
+                    parametros.put("modGrupos", String.valueOf(modificacionGrupos));
+                    parametros.put("totp", "null");
+                    parametros.put("pk1", encrypPublicKey);
+                    parametros.put("pk2", userPublicKey.substring(10));
+
+                    return parametros;
+                }
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("ERROR RSA", e.toString());
+            Log.e("ERROR RSA", Objects.requireNonNull(e.getMessage()));
+        }
         return atRefUsuario.get();
     }
 
