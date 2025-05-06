@@ -181,7 +181,7 @@ public class Usuario {
         return atRefUsuario.get();
     }
 
-    public static Usuario actualiarDatosUsuarioServidorToLocal(Context context, Activity activity) {
+    public static Usuario actualiarDatosUsuarioDelServidorToLocal(Context context, Activity activity) {
         AtomicReference<Usuario> atRefUsuario = new AtomicReference<>(Usuario.recuperarUsuarioLocal(context));
 
         SharedPreferences sharedPreferences = context.getSharedPreferences(INFORMACION, Context.MODE_PRIVATE);
@@ -195,14 +195,18 @@ public class Usuario {
             localRSA.genKeyPair(2048);
             String userPublicKey = Base64.encodeToString(localRSA.PublicKey.getEncoded(), Base64.DEFAULT);
 
+            String encryptUSerId;
+            if(atRefUsuario.get().id != null){
+                encryptUSerId =  rsa.encrypt(atRefUsuario.get().id);
+            }else{
+                encryptUSerId = "null";
+            }
 
-            String encryptUSerId =  rsa.encrypt(atRefUsuario.get().id);
             String encrypPublicKey = rsa.encrypt(userPublicKey.substring(0,10));
 
 
             Volley.newRequestQueue(context).add(new StringRequest(Request.Method.POST, Url.actualizarDatos, result -> {
                 try {
-
                     JSONObject jsonResult = new JSONObject(result);
                     JSONObject decryptedJson = localRSA.decriptJsonObject(jsonResult, new String[]{"id", "nombre", "email", "fecha_nacimiento"});
 
