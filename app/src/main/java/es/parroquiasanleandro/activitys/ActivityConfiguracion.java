@@ -1,5 +1,9 @@
 package es.parroquiasanleandro.activitys;
 
+import static es.parroquiasanleandro.NotificacionSL.NOTIFICATION_STATUS;
+import static es.parroquiasanleandro.NotificacionSL.NOT_RECORDATORIOS;
+import static es.parroquiasanleandro.NotificacionSL.NOT_RECORDATORIOS_VIBR;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -7,26 +11,42 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.switchmaterial.SwitchMaterial;
+
+import es.parroquiasanleandro.NotificacionSL;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
 
-public class ActivityConfiguracion extends AppCompatActivity {
+public class ActivityConfiguracion extends AppCompatActivity{
     Context context = ActivityConfiguracion.this;
 
-    private LinearLayout lnlytConfiguaracionYPrivacidad;
+    private LinearLayout lnlytMenuConfiguaracion;
     private LinearLayout lnlytIrConfiguaracion;
     private LinearLayout lnlytIrPrivacidad;
     private LinearLayout lnlytPoliticaPrivacidad;
-//    private LinearLayout lnlytIrNotificaciones;
+    private LinearLayout lnlytIrNotificaciones;
     private LinearLayout lnlytConfiguaracion;
     private LinearLayout lnlytCambiarContraseña;
     private LinearLayout lnlytCerrarSesion;
     private LinearLayout lnlytEliminarUsuario;
     private LinearLayout lnlytPrivacidad;
+
+    private LinearLayout lnlytNotificaciones;
+    private LinearLayout lnlytNotificacionesActivas;
+
+    private TextView tvStatusNotificaciones;
+    private String statusNotificaciones;
+
+    private TextView tvRecordatorios;
+    private SwitchMaterial switchRecordatorios;
+    private TextView tvVibrRecordatorios;
+    private SwitchMaterial switchVibrRecordatorios;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -34,32 +54,30 @@ public class ActivityConfiguracion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
 
-        lnlytConfiguaracionYPrivacidad = findViewById(R.id.lnlytConfiguaracionYPrivacidad);
+        lnlytMenuConfiguaracion = findViewById(R.id.lnlytMenuConfiguaracion);
         lnlytIrConfiguaracion = findViewById(R.id.lnlytIrConfiguaracion);
-        lnlytConfiguaracion = findViewById(R.id.lnlytConfiguaracion);
-        lnlytIrPrivacidad = findViewById(R.id.lnlytIrPrivacidad);
-        lnlytPrivacidad = findViewById(R.id.lnlytPrivacidad);
+//        lnlytIrPrivacidad = findViewById(R.id.lnlytIrPrivacidad);
+        lnlytIrNotificaciones = findViewById(R.id.lnlytIrNotificaciones);
         lnlytPoliticaPrivacidad = findViewById(R.id.lnlytPoliticaPrivacidad);
-//        lnlytIrNotificaciones = findViewById(R.id.lnlytIrNotificaciones);
+//        lnlytPrivacidad = findViewById(R.id.lnlytPrivacidad);
+        lnlytConfiguaracion = findViewById(R.id.lnlytConfiguracion);
         lnlytCambiarContraseña = findViewById(R.id.lnlytCambiarContraseña);
         lnlytCerrarSesion = findViewById(R.id.lnlytCerrarSesion);
         lnlytEliminarUsuario = findViewById(R.id.lnlytEliminarUsuario);
+        lnlytNotificaciones = findViewById(R.id.lnlytNotificaciones);
+        lnlytNotificacionesActivas = findViewById(R.id.lnlytNotificacionesActivas);
+        tvStatusNotificaciones = findViewById(R.id.tvStatusNotificaciones);
+        tvRecordatorios = findViewById(R.id.tvRecordatorios);
+        switchRecordatorios = findViewById(R.id.switchRecordatorios);
+        tvVibrRecordatorios = findViewById(R.id.tvVibrRecordatorios);
+        switchVibrRecordatorios = findViewById(R.id.switchVibrRecordatorios);
+
 
         lnlytIrConfiguaracion.setOnClickListener(v -> {
-            lnlytConfiguaracionYPrivacidad.setVisibility(View.GONE);
+            lnlytMenuConfiguaracion.setVisibility(View.GONE);
             lnlytConfiguaracion.setVisibility(View.VISIBLE);
             lnlytPrivacidad.setVisibility(View.GONE);
         });
-
-        lnlytIrPrivacidad.setOnClickListener(v -> {
-            lnlytConfiguaracionYPrivacidad.setVisibility(View.GONE);
-            lnlytConfiguaracion.setVisibility(View.GONE);
-            lnlytPrivacidad.setVisibility(View.VISIBLE);
-        });
-
-        /*lnlytIrNotificaciones.setOnClickListener(view -> {
-
-        });*/
 
         lnlytCambiarContraseña.setOnClickListener(v -> {
             Intent intent = new Intent(context, ActivityCambiarInfoUsuario.class);
@@ -91,16 +109,68 @@ public class ActivityConfiguracion extends AppCompatActivity {
             intent.putExtra("url", Url.urlPoliticaPrivacidad);
             startActivity(intent);
         });
+
+        lnlytIrNotificaciones.setOnClickListener(v -> {
+            lnlytMenuConfiguaracion.setVisibility(View.GONE);
+            lnlytNotificaciones.setVisibility(View.VISIBLE);
+
+            statusNotificaciones = NotificacionSL.getStringInfoNotification(context, NOTIFICATION_STATUS);
+            if(statusNotificaciones.equals("")){
+                statusNotificaciones = NotificacionSL.changeAllNotificationsStatus(context);
+            }
+            tvStatusNotificaciones.setText(statusNotificaciones);
+
+            lnlytNotificacionesActivas.setOnClickListener(view -> {
+                if(statusNotificaciones.equals(NotificacionSL.STATUS_ACTIVADAS)){
+                    MaterialAlertDialogBuilder materialAlertDialogBuilder = new MaterialAlertDialogBuilder(context);
+                    materialAlertDialogBuilder.setTitle("¿Seguro quieres desactivar las notificaciones?");
+
+                    materialAlertDialogBuilder.setPositiveButton("Desactivar", (dialog, which) -> {
+                        statusNotificaciones = NotificacionSL.changeAllNotificationsStatus(context);
+                        tvStatusNotificaciones.setText(statusNotificaciones);
+                    });
+
+                    materialAlertDialogBuilder.setNegativeButton("Cancelar", (dialog, which) -> {
+                        dialog.cancel();
+                    });
+                    materialAlertDialogBuilder.show();
+                }else if(statusNotificaciones.equals(NotificacionSL.STATUS_DESACTIVADAS)){
+                    statusNotificaciones = NotificacionSL.changeAllNotificationsStatus(context);
+                    tvStatusNotificaciones.setText(statusNotificaciones);
+                }
+            });
+            
+            switchRecordatorios.setChecked(NotificacionSL.getBooleanInfoNotification(context, NOT_RECORDATORIOS));
+            switchRecordatorios.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                NotificacionSL.changeInfoNotification(context, NOT_RECORDATORIOS, isChecked);
+                if(isChecked){
+                    tvRecordatorios.setText("Recordatorios activados");
+                }else {
+                    tvRecordatorios.setText("Recordatorios desactivados");
+                }
+            });
+
+            switchVibrRecordatorios.setChecked(NotificacionSL.getBooleanInfoNotification(context, NOT_RECORDATORIOS_VIBR));
+            switchVibrRecordatorios.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                NotificacionSL.changeInfoNotification(context, NOT_RECORDATORIOS_VIBR, isChecked);
+                if(isChecked){
+                    tvVibrRecordatorios.setText("Vibración activada");
+                }else {
+                    tvVibrRecordatorios.setText("Vibración desactivada");
+                }
+            });
+        });
     }
 
     @Override
     public void onBackPressed() {
-        if(lnlytConfiguaracionYPrivacidad.getVisibility() == View.VISIBLE){
+        if(lnlytMenuConfiguaracion.getVisibility() == View.VISIBLE){
             super.onBackPressed();
         }else{
-            lnlytConfiguaracionYPrivacidad.setVisibility(View.VISIBLE);
+            lnlytMenuConfiguaracion.setVisibility(View.VISIBLE);
             lnlytConfiguaracion.setVisibility(View.GONE);
             lnlytPrivacidad.setVisibility(View.GONE);
+            lnlytNotificaciones.setVisibility(View.GONE);
         }
     }
 }
