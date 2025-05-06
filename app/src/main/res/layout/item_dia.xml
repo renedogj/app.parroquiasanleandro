@@ -28,7 +28,7 @@
 
                 <LinearLayout
                     android:id="@+id/lnlyBgTvNumDia"
-                    style="@style/lnly_1_2_v"
+                    style="@style/lnlyt_1_2_v"
                     android:background="@color/blanco">
 
                     <TextView

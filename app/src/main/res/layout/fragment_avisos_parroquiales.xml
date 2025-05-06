@@ -19,7 +19,7 @@
             app:cardCornerRadius="0dp"
             app:cardElevation="4dp">
             <LinearLayout
-                style="@style/lnly_1_2_v"
+                style="@style/lnlyt_1_2_v"
                 android:padding="20dp"
                 android:paddingBottom="10dp">
 

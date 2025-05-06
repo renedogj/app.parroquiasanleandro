@@ -59,6 +59,10 @@
         <item name="android:fontFamily">@font/oswald_bold</item>
     </style>
 
+    <style name="tvFlechaConf" parent="tvFlecha">
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
     <!-- Grupos -->
     <style name="tvBotonSeguir" parent="size_1_1">
         <item name="android:background">@drawable/bordes</item>

@@ -5,11 +5,11 @@
     android:background="@color/blanco">
 
     <LinearLayout
-        style="@style/lnly_1_2_v">
+        style="@style/lnlyt_1_2_v">
 
         <LinearLayout
             android:id="@+id/linearLayoutFotoPerfil"
-            style="@style/lnly_1_2_h"
+            style="@style/lnlyt_1_2_h"
             android:background="@color/blanco">
 
             <Space
@@ -49,13 +49,13 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutContenedorAviso"
-                style="@style/lnly_1_2_v"
+                style="@style/lnlyt_1_2_v"
                 android:layout_marginBottom="30dp"
                 android:padding="10dp">
 
                 <LinearLayout
                     android:id="@+id/linearLayoutNombre"
-                    style="@style/lnly_1_2_h"
+                    style="@style/lnlyt_1_2_h"
                     android:layout_marginStart="18dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="18dp"
@@ -74,14 +74,14 @@
 
                     <LinearLayout
                         android:id="@+id/linearLayoutEmail"
-                        style="@style/lnlytCardPerfil_1_2_v">
+                        style="@style/lnlytCard_1_2_v">
 
                         <TextView
                             style="@style/tvTituloPerfil"
                             android:text="Mi correo electronico:" />
 
                         <LinearLayout
-                            style="@style/lnly_1_2_h"
+                            style="@style/lnlyt_1_2_h"
                             android:layout_marginTop="5dp">
 
                             <TextView
@@ -105,7 +105,7 @@
 
                         <LinearLayout
                             android:id="@+id/lnlytVerificarEmail"
-                            style="@style/lnly_1_2_h"
+                            style="@style/lnlyt_1_2_h"
                             android:layout_marginTop="5dp"
                             android:visibility="gone">
                             <TextView
@@ -130,11 +130,11 @@
 
                 <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
-                    <LinearLayout style="@style/lnlytCardPerfil_1_2_v">
+                    <LinearLayout style="@style/lnlytCard_1_2_v">
 
                         <LinearLayout
                             android:id="@+id/linearLayoutGrupos"
-                            style="@style/lnly_1_2_h">
+                            style="@style/lnlyt_1_2_h">
 
                             <TextView
                                 style="@style/tvTituloPerfil"
@@ -162,14 +162,14 @@
 
                     <LinearLayout
                         android:id="@+id/lnlytFechaNacimiento"
-                        style="@style/lnlytCardPerfil_1_2_v">
+                        style="@style/lnlytCard_1_2_v">
 
                         <TextView
                             style="@style/tvTituloPerfil"
                             android:text="Fecha de nacimiento:" />
 
                         <LinearLayout
-                            style="@style/lnly_1_2_h"
+                            style="@style/lnlyt_1_2_h"
                             android:layout_marginTop="5dp">
 
                             <TextView
@@ -196,8 +196,8 @@
                 <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                     <LinearLayout
-                        android:id="@+id/lnlytConfiguaracionYPrivacidad"
-                        style="@style/lnlytCardPerfil_1_2_v"
+                        android:id="@+id/lnlytMenuConfiguaracion"
+                        style="@style/lnlytCard_1_2_v"
                         android:orientation="horizontal"
                         android:layout_gravity="center_vertical">
 

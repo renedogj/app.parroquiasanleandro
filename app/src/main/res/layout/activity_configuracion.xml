@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/size_1_1"
     android:background="@color/blanco">
 
-    <LinearLayout style="@style/lnly_1_2_v">
+    <LinearLayout style="@style/lnlyt_1_2_v">
 
         <LinearLayout
-            android:id="@+id/lnlytConfiguaracionYPrivacidad"
-            style="@style/lnly_1_2_v">
+            android:id="@+id/lnlytMenuConfiguaracion"
+            style="@style/lnlyt_1_2_v">
 
             <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                 <LinearLayout
                     android:id="@+id/lnlytIrConfiguaracion"
-                    style="@style/lnlytCardPerfil_1_2_v"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
+                    style="@style/lnlytCard_1_2_h"
+                    android:layout_gravity="center_vertical">
 
                     <TextView
                         style="@style/tvTituloPerfil"
@@ -24,136 +24,17 @@
                         android:text="Tu cuenta" />
 
                     <TextView
-                        style="@style/tvFlecha"
-                        android:layout_margin="0dp"
+                        style="@style/tvFlechaConf"
                         android:text=" >" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView style="@style/cardContenedora">
-
-                <LinearLayout
-                    android:id="@+id/lnlytIrPrivacidad"
-                    style="@style/lnlytCardPerfil_1_2_v"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/tvTituloPerfil"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Privacidad" />
-
-                    <TextView
-                        style="@style/tvFlecha"
-                        android:layout_margin="0dp"
-                        android:text=" >" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lnlytConfiguaracion"
-            style="@style/lnly_1_2_v"
-            android:visibility="gone">
-
-            <androidx.cardview.widget.CardView style="@style/cardContenedora">
-
-                <LinearLayout
-                    android:id="@+id/lnlytCambiarContraseña"
-                    style="@style/lnlytCardPerfil_1_2_v"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/tvTituloPerfil"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Cambiar contraseña" />
-
-                    <TextView
-                        style="@style/tvFlecha"
-                        android:layout_margin="0dp"
-                        android:text=" >" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView style="@style/cardContenedora">
-
-                <LinearLayout
-                    android:id="@+id/lnlytCerrarSesion"
-                    style="@style/lnlytCardPerfil_1_2_v"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/tvTituloPerfil"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Cerrar sesion" />
-
-                    <TextView
-                        style="@style/tvFlecha"
-                        android:layout_margin="0dp"
-                        android:text=" >" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView style="@style/cardContenedora">
-
-                <LinearLayout
-                    android:id="@+id/lnlytEliminarUsuario"
-                    style="@style/lnlytCardPerfil_1_2_v"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/tvTituloPerfil"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Eliminar Usuario" />
-
-                    <TextView
-                        style="@style/tvFlecha"
-                        android:layout_margin="0dp"
-                        android:text=" >" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/lnlytPrivacidad"
-            style="@style/lnly_1_2_v"
-            android:visibility="gone">
-
-            <androidx.cardview.widget.CardView style="@style/cardContenedora">
-
-                <LinearLayout
-                    android:id="@+id/lnlytPoliticaPrivacidad"
-                    style="@style/lnlytCardPerfil_1_2_v"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/tvTituloPerfil"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:text="Politica privacidad" />
-
-                    <TextView
-                        style="@style/tvFlecha"
-                        android:layout_margin="0dp"
-                        android:text=" >" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!--<androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                 <LinearLayout
                     android:id="@+id/lnlytIrNotificaciones"
-                    style="@style/lnlytCardPerfil_1_2_v"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
+                    style="@style/lnlytCard_1_2_h"
+                    android:layout_gravity="center_vertical">
 
                     <TextView
                         style="@style/tvTituloPerfil"
@@ -162,32 +43,195 @@
                         android:text="Notificaciones" />
 
                     <TextView
-                        style="@style/tvFlecha"
-                        android:layout_margin="0dp"
+                        style="@style/tvFlechaConf"
                         android:text=" >" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>-->
+            </androidx.cardview.widget.CardView>
 
-            <!--<androidx.cardview.widget.CardView style="@style/cardContenedora">
+            <androidx.cardview.widget.CardView style="@style/cardContenedora">
 
                 <LinearLayout
-                    android:id="@+id/lnlytContactanos"
-                    style="@style/lnlytCardPerfil_1_2_v"
-                    android:layout_gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:id="@+id/lnlytPoliticaPrivacidad"
+                    style="@style/lnlytCard_1_2_h"
+                    android:layout_gravity="center_vertical">
 
                     <TextView
                         style="@style/tvTituloPerfil"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:text="Contactanos" />
+                        android:text="Politica privacidad" />
 
                     <TextView
-                        style="@style/tvFlecha"
-                        android:layout_margin="0dp"
+                        style="@style/tvFlechaConf"
                         android:text=" >" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>-->
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnlytConfiguracion"
+            style="@style/lnlyt_1_2_v"
+            android:visibility="gone">
+
+            <androidx.cardview.widget.CardView style="@style/cardContenedora">
+
+                <LinearLayout
+                    android:id="@+id/lnlytCambiarContraseña"
+                    style="@style/lnlytCard_1_2_h"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        style="@style/tvTituloPerfil"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="Cambiar contraseña" />
+
+                    <TextView
+                        style="@style/tvFlechaConf"
+                        android:text=" >" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/cardContenedora">
+
+                <LinearLayout
+                    android:id="@+id/lnlytCerrarSesion"
+                    style="@style/lnlytCard_1_2_h"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        style="@style/tvTituloPerfil"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="Cerrar sesion" />
+
+                    <TextView
+                        style="@style/tvFlechaConf"
+                        android:text=" >" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/cardContenedora">
+
+                <LinearLayout
+                    android:id="@+id/lnlytEliminarUsuario"
+                    style="@style/lnlytCard_1_2_h"
+                    android:layout_gravity="center_vertical">
+
+                    <TextView
+                        style="@style/tvTituloPerfil"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="Eliminar Usuario" />
+
+                    <TextView
+                        style="@style/tvFlechaConf"
+                        android:text=" >" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lnlytNotificaciones"
+            style="@style/lnlyt_1_2_v"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone">
+
+            <androidx.cardview.widget.CardView style="@style/cardContenedora">
+
+                <LinearLayout
+                    android:id="@+id/lnlytNotificacionesActivas"
+                    style="@style/lnlytCard_1_2_h"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="9dp"
+                    android:paddingBottom="9dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="Notificaciones"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvStatusNotificaciones"
+                        style="@style/size_2_2"
+                        android:layout_gravity="center"
+                        android:text="Activadas"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView style="@style/cardContenedora">
+
+                <LinearLayout style="@style/lnlytCard_1_2_v">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:text="Recordatorios"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:id="@+id/lnlytRecordatorios"
+                        style="@style/lnlyt_1_2_h"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvRecordatorios"
+                            style="@style/tvTituloPerfil"
+                            android:layout_width="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Recordatorios activados"
+                            android:textStyle="normal" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchRecordatorios"
+                            style="@style/tvFlechaConf"
+                            android:layout_height="0dp"
+                            android:checked="true"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lnlytRecordatoriosVibracion"
+                        style="@style/lnlyt_1_2_h"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvVibrRecordatorios"
+                            style="@style/tvTituloPerfil"
+                            android:layout_width="0dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="Vibración activada"
+                            android:textStyle="normal" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchVibrRecordatorios"
+                            style="@style/tvFlechaConf"
+                            android:layout_height="0dp"
+                            android:checked="true"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

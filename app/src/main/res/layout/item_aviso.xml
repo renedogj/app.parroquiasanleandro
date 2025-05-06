@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayoutContenedorAviso"
-        style="@style/lnly_1_2_h"
+        style="@style/lnlyt_1_2_h"
         android:padding="6dp">
 
         <androidx.cardview.widget.CardView
@@ -24,7 +24,7 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutAviso"
-                style="@style/lnly_1_2_h"
+                style="@style/lnlyt_1_2_h"
                 android:background="@color/background_items">
 
                 <LinearLayout

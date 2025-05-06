@@ -46,7 +46,7 @@
 
             <LinearLayout
                 android:id="@+id/lnlytAutorizacionPaterna"
-                style="@style/lnly_1_2_h"
+                style="@style/lnlyt_1_2_h"
                 android:visibility="gone">
                 <CheckBox
                     android:id="@+id/checkboxAutorizacionPaterna"

@@ -95,7 +95,7 @@
 
             <LinearLayout
                 android:id="@+id/lnlytFechaNacimiento"
-                style="@style/lnly_1_2_h"
+                style="@style/lnlyt_1_2_h"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_weight="1">
@@ -125,7 +125,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/lnly_1_2_h">
+                style="@style/lnlyt_1_2_h">
                 <CheckBox
                     android:id="@+id/checkboxPoliticaPrivacidad"
                     android:layout_width="wrap_content"
@@ -144,7 +144,7 @@
 
             <LinearLayout
                 android:id="@+id/lnlytAutorizacionPaterna"
-                style="@style/lnly_1_2_h"
+                style="@style/lnlyt_1_2_h"
                 android:visibility="gone">
                 <CheckBox
                     android:id="@+id/checkboxAutorizacionPaterna"

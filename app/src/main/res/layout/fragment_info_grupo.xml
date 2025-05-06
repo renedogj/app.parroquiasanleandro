@@ -18,7 +18,7 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutGrupo"
-                style="@style/lnly_1_2_v"
+                style="@style/lnlyt_1_2_v"
                 android:background="@color/background_items">
 
                 <androidx.cardview.widget.CardView

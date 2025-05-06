@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:id="@+id/linearLayoutContenedorGrupo"
-        style="@style/lnly_1_2_h"
+        style="@style/lnlyt_1_2_h"
         android:padding="6dp">
 
         <androidx.cardview.widget.CardView
@@ -22,7 +22,7 @@
 
             <LinearLayout
                 android:id="@+id/linearLayoutGrupo"
-                style="@style/lnly_1_2_h"
+                style="@style/lnlyt_1_2_h"
                 android:background="@color/background_items"
                 android:padding="8dp">
 

@@ -77,7 +77,7 @@ public class FragmentPerfil extends Fragment {
         lnlytFechaNacimiento = view.findViewById(R.id.lnlytFechaNacimiento);
         rvGruposUsuario = view.findViewById(R.id.rvGruposUsuario);
         tvFechaNacimiento = view.findViewById(R.id.tvFechaNacimiento);
-        lnlytConfiguaracionYPrivacidad = view.findViewById(R.id.lnlytConfiguaracionYPrivacidad);
+        lnlytConfiguaracionYPrivacidad = view.findViewById(R.id.lnlytMenuConfiguaracion);
         lnlytVerificarEmail = view.findViewById(R.id.lnlytVerificarEmail);
 
         usuario = Usuario.recuperarUsuarioLocal(context);

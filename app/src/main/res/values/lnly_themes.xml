@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Styles linearLayout-->
-    <style name="lnly_1_2_h" parent="size_1_2">
+    <style name="lnlyt_1_2_h" parent="size_1_2">
         <item name="android:orientation">horizontal</item>
     </style>
     <style name="lnly_1_1_h" parent="size_1_1">
@@ -14,7 +14,7 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
-    <style name="lnly_1_2_v" parent="size_1_2">
+    <style name="lnlyt_1_2_v" parent="size_1_2">
         <item name="android:orientation">vertical</item>
     </style>
     <style name="lnly_1_1_v" parent="size_1_1">
@@ -24,7 +24,7 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="lnlytItemMenuNavigation" parent="lnly_1_2_v">
+    <style name="lnlytItemMenuNavigation" parent="lnlyt_1_2_v">
         <item name="android:layout_weight">1</item>
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
@@ -43,7 +43,7 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="lnlytCardPerfil_1_2_v" parent="lnly_1_2_v">
+    <style name="lnlytCard_1_2_v" parent="lnlyt_1_2_v">
         <item name="android:layout_marginStart">18dp</item>
         <item name="android:layout_marginTop">7dp</item>
         <item name="android:layout_marginEnd">18dp</item>
@@ -51,7 +51,15 @@
         <item name="android:background">@color/background_items</item>
     </style>
 
-    <style name="lnlyInformacion_1_2_v_m10_m20_m0_ps10" parent="lnly_1_2_v">
+    <style name="lnlytCard_1_2_h" parent="lnlyt_1_2_h">
+        <item name="android:layout_marginStart">18dp</item>
+        <item name="android:layout_marginTop">7dp</item>
+        <item name="android:layout_marginEnd">18dp</item>
+        <item name="android:layout_marginBottom">7dp</item>
+        <item name="android:background">@color/background_items</item>
+    </style>
+
+    <style name="lnlyInformacion_1_2_v_m10_m20_m0_ps10" parent="lnlyt_1_2_v">
         <item name="android:layout_marginStart">20dp</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginEnd">20dp</item>
