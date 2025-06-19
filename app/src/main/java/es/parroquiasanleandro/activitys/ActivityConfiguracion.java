@@ -1,8 +1,8 @@
 package es.parroquiasanleandro.activitys;
 
 import static es.parroquiasanleandro.NotificacionSL.NOTIFICATION_STATUS;
-import static es.parroquiasanleandro.NotificacionSL.NOT_RECORDATORIOS;
-import static es.parroquiasanleandro.NotificacionSL.NOT_RECORDATORIOS_VIBR;
+import static es.parroquiasanleandro.NotificacionSL.NOTI_RECORDATORIOS;
+import static es.parroquiasanleandro.NotificacionSL.NOTI_RECORDATORIOS_VIBR;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -140,9 +140,9 @@ public class ActivityConfiguracion extends AppCompatActivity{
                 }
             });
             
-            switchRecordatorios.setChecked(NotificacionSL.getBooleanInfoNotification(context, NOT_RECORDATORIOS));
+            switchRecordatorios.setChecked(NotificacionSL.getBooleanInfoNotification(context, NOTI_RECORDATORIOS));
             switchRecordatorios.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                NotificacionSL.changeInfoNotification(context, NOT_RECORDATORIOS, isChecked);
+                NotificacionSL.changeInfoNotification(context, NOTI_RECORDATORIOS, isChecked);
                 if(isChecked){
                     tvRecordatorios.setText("Recordatorios activados");
                 }else {
@@ -150,9 +150,9 @@ public class ActivityConfiguracion extends AppCompatActivity{
                 }
             });
 
-            switchVibrRecordatorios.setChecked(NotificacionSL.getBooleanInfoNotification(context, NOT_RECORDATORIOS_VIBR));
+            switchVibrRecordatorios.setChecked(NotificacionSL.getBooleanInfoNotification(context, NOTI_RECORDATORIOS_VIBR));
             switchVibrRecordatorios.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                NotificacionSL.changeInfoNotification(context, NOT_RECORDATORIOS_VIBR, isChecked);
+                NotificacionSL.changeInfoNotification(context, NOTI_RECORDATORIOS_VIBR, isChecked);
                 if(isChecked){
                     tvVibrRecordatorios.setText("Vibración activada");
                 }else {

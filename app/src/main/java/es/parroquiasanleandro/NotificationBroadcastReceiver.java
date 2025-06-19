@@ -17,13 +17,14 @@ public class NotificationBroadcastReceiver extends BroadcastReceiver {
         String idCanal = intent.getStringExtra("idCanal");
 
         if (Objects.equals(idCanal, NotificacionSL.CANAL_GENERAL)) {
-            NotificacionSL notificacionSL = NotificacionSL.crearNotificacionSLRecordatorio();
+            NotificacionSL notificacionSL = NotificacionSL.crearNotificacionSLRecordatorio(context);
+
             Notification notification = notificacionSL.crearNotification(context);
 
             NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             manager.notify(notificacionSL.id, notification);
 
-            //NotificacionSL.programarNotificacion(context, NotificacionSL.CANAL_GENERAL, NotificacionSL.MILLIS_3_DIAS);
+            NotificacionSL.programarNotificacion(context, NotificacionSL.CANAL_GENERAL, NotificacionSL.MILLIS_10_DIAS);
         }
         //createSimpleNotification(context);
     }

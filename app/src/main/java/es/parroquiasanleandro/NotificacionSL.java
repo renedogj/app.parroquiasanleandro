@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 
@@ -18,20 +19,36 @@ import java.util.Calendar;
 import es.parroquiasanleandro.activitys.ActivityNavigation;
 
 public class NotificacionSL {
+    public static final String NOTIFICATION = "Notification";
+    public static final String NOTIFICATION_STATUS = "Notification_status";
+
+//    public static final boolean STATUS_ACTIVADA = true;
+//    public static final boolean STATUS_DESACTIVADA = false;
+    public static final String STATUS_ACTIVADAS = "Activadas";
+    public static final String STATUS_DESACTIVADAS = "Desactivadas";
+
+    public static final String NOTI_RECORDATORIOS = "notificacionRecordatorios";
+    public static final String NOTI_RECORDATORIOS_VIBR = "vibrRecordatorios";
+
 
     //IDs Canales notificaciones
     public static final String CANAL_GENERAL = "General";
     public static final String CANAL_AVISOS = "Avisos";
 
     //Int millisegundos de notificación
-    public static final int MILLIS_10_DIAS = 864000000;
-    public static final int MILLIS_3_DIAS = 259200000;
+    public static final long MILLIS_10_DIAS = 864000000L;
+    public static final long MILLIS_5_DIAS = 432000000L;
+    public static final long MILLIS_3_DIAS = 259200000L;
+    public static final long MILLIS_1_DIA = 86400000L;
+    public static final long MILLIS_1_HORA = 3600000L;
+    public static final long MILLIS_1_MIN = 60000L;
 
     public int id;
     public String idCanal;
     public String titulo;
     public String texto;
     public String textoGrande;
+    public boolean vibr;
     public Class<?> activity =  ActivityNavigation.class;
 //    public PendingIntent pendingIntent;
     //public String icono;
@@ -49,11 +66,12 @@ public class NotificacionSL {
         this.textoGrande = textoGrande;
     }
 
-    public NotificacionSL(int id, String idCanal, String titulo, String texto, Class<?> activity) {
+    public NotificacionSL(int id, String idCanal, String titulo, String texto, boolean vibr, Class<?> activity) {
         this.id = id;
         this.idCanal = idCanal;
         this.titulo = titulo;
         this.texto = texto;
+        this.vibr = vibr;
         this.activity = activity;
     }
 
@@ -72,15 +90,15 @@ public class NotificacionSL {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
 
-        //alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + notificarEn, notificarEn, pendingIntent);
-        //alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis(), notificarEn, pendingIntent);
-        //alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + notificarEn, pendingIntent);
+//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime() + notificarEn, notificarEn, pendingIntent);
+//        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + notificarEn, pendingIntent);
 
         if(isRepeting){
+//            alarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, Calendar.getInstance().getTimeInMillis() + notificarEn, notificarEn, pendingIntent);
             notificarEn += (long)(Math.random() * 7200000 + 600000);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + notificarEn,notificarEn, pendingIntent);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + notificarEn, notificarEn, pendingIntent);
         }else{
-//            int randomNum = (int)(Math.random() * 3600000 + 300000);
+            notificarEn += (int)(Math.random() * 3600000 + 300000);
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().getTimeInMillis() + notificarEn, pendingIntent);
         }
     }
@@ -91,18 +109,22 @@ public class NotificacionSL {
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-        return new NotificationCompat.Builder(context, idCanal)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, idCanal)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setSmallIcon(R.drawable.ic_logoparroquia_dark)
                 .setContentTitle(titulo)
                 .setContentText(texto)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(textoGrande))
-                //.setLights(Color.MAGENTA, 1000, 1000)x
-                //.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                //.setLights(Color.MAGENTA, 1000, 1000)
                 //.setDefaults(Notification.DEFAULT_ALL)
                 .setAutoCancel(true)
-                .setContentIntent(pendingIntent)
-                .build();
+                .setContentIntent(pendingIntent);
+
+        if(this.vibr){
+            notificationBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
+        }
+
+        return notificationBuilder.build();
     }
 
     public static void crearCanal(Context context, String idCanal) {
@@ -126,7 +148,62 @@ public class NotificacionSL {
         return notification;
     }
 
-    public static NotificacionSL crearNotificacionSLRecordatorio (){
-        return new NotificacionSL(10102300, CANAL_GENERAL, "¡Llevamos mucho sin verte!", "Puede que tengas nuevos avisos", ActivityNavigation.class);
+    public static NotificacionSL crearNotificacionSLRecordatorio (Context context){
+        return new NotificacionSL(
+                1,
+                CANAL_GENERAL,
+                "¡Llevamos mucho sin verte!",
+                "Puede que tengas nuevos avisos",
+                getBooleanInfoNotification(context, NOTI_RECORDATORIOS_VIBR),
+                ActivityNavigation.class
+        );
+    }
+
+    public static String changeAllNotificationsStatus(Context context) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(NOTIFICATION, Context.MODE_PRIVATE);
+        String notificationStatus = sharedPreferences.getString(NOTIFICATION_STATUS, "");
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if(notificationStatus.equals(STATUS_ACTIVADAS)) {
+            notificationStatus = STATUS_DESACTIVADAS;
+        }else if(notificationStatus.equals(STATUS_DESACTIVADAS)){
+            notificationStatus = STATUS_ACTIVADAS;
+        }else{
+            notificationStatus = STATUS_ACTIVADAS;
+        }
+        editor.putString(NOTIFICATION_STATUS, notificationStatus);
+        editor.apply();
+        return notificationStatus;
+    }
+
+//    public static String getNotificationStatus(Context context) {
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(NOTIFICATION, Context.MODE_PRIVATE);
+//        return sharedPreferences.getString(, STATUS_ACTIVADAS);
+//    }
+
+//    public static String get
+    public static String getStringInfoNotification(Context context, String key){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(NOTIFICATION, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(key, "");
+    }
+
+    public static boolean getBooleanInfoNotification(Context context, String key){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(NOTIFICATION, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(key, true);
+    }
+
+    public static void changeInfoNotification(Context context, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(NOTIFICATION, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(NOTIFICATION_STATUS, !sharedPreferences.getBoolean(key, true));
+        editor.apply();
+    }
+
+    public static void changeInfoNotification(Context context, String key, boolean value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(NOTIFICATION, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(key, value);
+        editor.apply();
     }
 }

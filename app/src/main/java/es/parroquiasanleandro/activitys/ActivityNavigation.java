@@ -1,8 +1,18 @@
 package es.parroquiasanleandro.activitys;
 
+import static es.parroquiasanleandro.NotificacionSL.CANAL_GENERAL;
+import static es.parroquiasanleandro.NotificacionSL.MILLIS_10_DIAS;
+import static es.parroquiasanleandro.NotificacionSL.NOTIFICATION_STATUS;
+import static es.parroquiasanleandro.NotificacionSL.NOTI_RECORDATORIOS;
+import static es.parroquiasanleandro.NotificacionSL.STATUS_ACTIVADAS;
+import static es.parroquiasanleandro.NotificacionSL.getBooleanInfoNotification;
+
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +46,7 @@ import java.util.List;
 import es.parroquiasanleandro.Grupo;
 import es.parroquiasanleandro.Menu;
 import es.parroquiasanleandro.NotificacionSL;
+import es.parroquiasanleandro.NotificationBroadcastReceiver;
 import es.parroquiasanleandro.R;
 import es.parroquiasanleandro.Url;
 import es.parroquiasanleandro.Usuario;
@@ -82,17 +93,34 @@ public class ActivityNavigation extends AppCompatActivity {
         navView = findViewById(R.id.navView);
         drawerLayout = findViewById(R.id.drawerLayout);
 
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM},999);
-            }else{
-                Log.d("PermisoNotificaciones", "No se han pedido permisos");
-                crearCanalYProgramarNotificacion();
-            }
-        }else{
-            crearCanalYProgramarNotificacion();
+        Usuario usuario = Usuario.actualiarDatosUsuarioDelServidorToLocal(context, this);
+
+        if(NotificacionSL.getStringInfoNotification(context, NOTIFICATION_STATUS).equals("")){
+            NotificacionSL.changeInfoNotification(context, NOTI_RECORDATORIOS, true);
         }
 
+        if(NotificacionSL.getStringInfoNotification(context, NOTIFICATION_STATUS).equals(STATUS_ACTIVADAS) && getBooleanInfoNotification(context, NOTI_RECORDATORIOS)) {
+            Toast.makeText(context, "Se va ha enviar recordatorio", Toast.LENGTH_SHORT).show();
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.SCHEDULE_EXACT_ALARM) != PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.SCHEDULE_EXACT_ALARM}, 999);
+                } else {
+                    Log.d("PermisoNotificaciones", "No se han pedido permisos");
+                    crearCanalYProgramarRecordatorio();
+                }
+            } else {
+                crearCanalYProgramarRecordatorio();
+            }
+        }else{
+            Toast.makeText(context, "No se va ha enviar recordatorio", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, NotificationBroadcastReceiver.class);
+            intent.putExtra("idCanal", CANAL_GENERAL);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);
+        }
         viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
 
         actionBar = getSupportActionBar();
@@ -106,8 +134,6 @@ public class ActivityNavigation extends AppCompatActivity {
         toggle.syncState();
 
         fragmentManager = getSupportFragmentManager();
-
-        Usuario usuario = Usuario.actualiarDatosUsuarioServidorToLocal(context, this);
 
         if (usuario.getId() != null) {
             Menu.addCerrarSesion(navView);
@@ -233,12 +259,12 @@ public class ActivityNavigation extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 999 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            crearCanalYProgramarNotificacion();
+            crearCanalYProgramarRecordatorio();
         }
     }
 
-    public void crearCanalYProgramarNotificacion() {
-        NotificacionSL.crearCanal(context, NotificacionSL.CANAL_GENERAL);
-        NotificacionSL.programarNotificacion(context, NotificacionSL.CANAL_GENERAL,259200000L , true);//259200000L // --> 3d //86400000L --> 1d //3600000L --> 1H //432000000L --> 5d
+    public void crearCanalYProgramarRecordatorio() {
+        NotificacionSL.crearCanal(context, CANAL_GENERAL);
+        NotificacionSL.programarNotificacion(context, CANAL_GENERAL, MILLIS_10_DIAS, true);
     }
 }
